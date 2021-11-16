@@ -8,6 +8,18 @@ from rest_framework.response import Response
 from rest_framework import status
 from . import serializers
 
+# import pyrebase
+
+# confign= {
+#   apiKey: "AIzaSyDh3yo3N73gphUTESELvEebBWt9iR0-VLE",
+#   authDomain: "shangkai-5444b.firebaseapp.com",
+#   projectId: "shangkai-5444b",
+#   storageBucket: "shangkai-5444b.appspot.com",
+#   messagingSenderId: "335717800456",
+#   appId: "1:335717800456:web:7d5c758e6d143f99ae4fbd",
+#   measurementId: "G-PYKG8H9HSW"
+# }
+
 """Model Package """
 from .models import (
    About_Us,

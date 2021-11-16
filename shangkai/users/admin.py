@@ -31,13 +31,13 @@ class NormalUserReg(admin.ModelAdmin):
 admin.site.register(Normal_UserReg, NormalUserReg)
 
 class BookingHotel(admin.ModelAdmin):
-    list_display = ["id", "user", "user_ip", "hotel_id", "room_id", "booking_status"]
+    list_display = ["id", "user", "user_ip", "hotel_id","hotel_bookid","check_in_date","check_in_time","check_out_date","check_out_time","guest_no","rooms","amount", "booking_status"]
 
 
 admin.site.register(Hotel_Booking, BookingHotel)
 
 class CabBooking(admin.ModelAdmin):
-    list_display = ["id", "user", "user_ip", "car_id", "start_time","start_from","end_trip","distance","booking_status"]
+    list_display = ["id", "user", "user_ip", "car_id","driver_id","cab_bookid","check_in_date","check_in_time","check_out_date","check_out_time","start_from","end_trip","distance","amount","no_guests", "booking_status"]
 
 
 admin.site.register(Cab_Booking, CabBooking)

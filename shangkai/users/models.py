@@ -37,12 +37,18 @@ class Hotel_Booking(models.Model):
         default=None,
         db_constraint=False,
     )
-    room_id = models.ForeignKey(
+    room_id = models.ManyToManyField(
         "clients.Room_Register",
-        on_delete=models.CASCADE,
-        default=None,
-        db_constraint=False,
+        related_name="hotel_rooms"
     )
+    hotel_bookid = models.CharField("hotel_bookid", null=True,default="0", max_length=255)
+    check_in_date = models.CharField("check_in_date", null=True,default="0",  max_length=255)
+    check_in_time = models.CharField("check_in_time", null=True, default="0", max_length=255)
+    check_out_date = models.CharField("check_out_date", null=True,default="0",  max_length=255)
+    check_out_time = models.CharField("check_out_time", null=True,default="0",  max_length=255)
+    guest_no = models.CharField("guests", null=True,default="0", max_length=255)
+    rooms = models.CharField("rooms", null=True,default="0", max_length=255)
+    amount = models.CharField("amount", null=True,default="0", max_length=255)
     booking_status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -66,10 +72,17 @@ class Cab_Booking(models.Model):
         default=None,
         db_constraint=False,
     )
-    start_time = models.TimeField("start_time", null=True, max_length=255)
+    driver_id = models.CharField("driver_id", null=True,default="0", max_length=255)
+    cab_bookid = models.CharField("cab_bookid", null=True,default="0", max_length=255)
+    check_in_date = models.CharField("check_in_date", null=True,default="0",  max_length=255)
+    check_in_time = models.CharField("check_in_time", null=True, default="0", max_length=255)
+    check_out_date = models.CharField("check_out_date", null=True,default="0",  max_length=255)
+    check_out_time = models.CharField("check_out_time", null=True,default="0",  max_length=255)
     start_from = models.CharField("start_from", null=True, max_length=255)
     end_trip = models.CharField("end_trip", null=True, max_length=255)
     distance = models.CharField("distance", null=True, max_length=255)
+    amount = models.CharField("amount", null=True, max_length=255)
+    no_guests = models.CharField("no_guests", null=True, max_length=255)
     booking_status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
