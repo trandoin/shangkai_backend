@@ -87,10 +87,10 @@ WSGI_APPLICATION = 'shangkai.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'shangkaidb',
-        'USER':'shangkai-db',
-        'PASSWORD':'shangkaipass-travel',
-        'HOST':'shangkai-identifier.cog4jorwkti6.ap-south-1.rds.amazonaws.com',
+        'NAME': 'travellanddb',
+        'USER':'shangtrando',
+        'PASSWORD':'travel-land',
+        'HOST':'database-identi.cog4jorwkti6.ap-south-1.rds.amazonaws.com',
         'PORT':'3306',
     }
 }
