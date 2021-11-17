@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-zzjfseaw#khg4nq$%j*&9z=y$lntt_wzd4y3$i^!*=!#un3d3!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -84,17 +84,6 @@ WSGI_APPLICATION = 'shangkai.wsgi.application'
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'shangkaidb',
-#         'USER':'shangkai-db',
-#         'PASSWORD':'shangkaipass-travel',
-#         'HOST':'shangkai-identifier.cog4jorwkti6.ap-south-1.rds.amazonaws.com',
-#         'PORT':'3306',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -105,6 +94,7 @@ DATABASES = {
         'PORT':'3306',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
