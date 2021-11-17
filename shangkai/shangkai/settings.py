@@ -91,6 +91,11 @@ DATABASES = {
         'USER':'shangtrando',
         'PASSWORD':'travel-land',
         'HOST':'database-identi.cog4jorwkti6.ap-south-1.rds.amazonaws.com',
+        "OPTIONS": {
+            "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+            "charset": "utf8mb4",
+            "use_unicode": True,
+        },
         'PORT':'3306',
     }
 }
