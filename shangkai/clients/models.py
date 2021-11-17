@@ -91,6 +91,12 @@ class Room_Register(models.Model):
 
 class Driver_Reg(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user = models.ForeignKey(
+        "clients.User_Register",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
     driver_id = models.CharField("driver_id", null=True, max_length=255)
     driver_name = models.CharField("driver_name", null=True, max_length=255)
     driver_address = models.CharField("driver_address", null=True, max_length=255)
@@ -115,6 +121,12 @@ class Driver_Reg(models.Model):
 
 class Cabs_Reg(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user = models.ForeignKey(
+        "clients.User_Register",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
     driver = models.ForeignKey(
         "clients.Driver_Reg",
         on_delete=models.CASCADE,
@@ -142,3 +154,26 @@ class Cabs_Reg(models.Model):
             "Car Registration",
             "Car Registration",
         )
+
+class Account_Details(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user = models.ForeignKey(
+        "clients.User_Register",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    acc_holder = models.CharField("acc_holder", null=True, max_length=255)
+    account_no = models.CharField("account_no", null=True, max_length=255)
+    bannk_name = models.CharField("bannk_name", null=True,  max_length=255)
+    bank_branch = models.CharField("bank_branch", null=True, max_length=255)
+    ifsc_code = models.CharField("ifsc_code", null=True, max_length=255)
+    bank_state = models.CharField("bank_state", null=True,  max_length=255)
+    pan_card = models.CharField("pan_card", null=True,  max_length=255)
+    status = models.CharField("status", null=True, default="0", max_length=255)
+
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Bank Details",
+            "Bank Details",
+        )        

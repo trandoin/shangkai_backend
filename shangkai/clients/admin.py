@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models import Q
 from django.utils.timezone import utc
 from .models import (
+    Account_Details,
     Cabs_Reg,
     Driver_Reg,
     Reg_Hotel,
@@ -84,6 +85,7 @@ admin.site.register(Room_Register, RoomRegister)
 class DriverRegistration(admin.ModelAdmin):
     list_display = [
         "id",
+        "user",
         "driver_id",
         "driver_name",
         "driver_address",
@@ -101,6 +103,7 @@ admin.site.register(Driver_Reg, DriverRegistration)
 class CarRegistration(admin.ModelAdmin):
     list_display = [
         "id",
+        "user",
         "driver",
         "car_code",
         "car_name",
@@ -116,6 +119,12 @@ class CarRegistration(admin.ModelAdmin):
     ]
 
 admin.site.register(Cabs_Reg, CarRegistration)
+
+class AccountDetails(admin.ModelAdmin):
+    list_display = ["id", "user", "acc_holder", "account_no","bannk_name","bank_branch","ifsc_code","bank_state","pan_card"]
+
+
+admin.site.register(Account_Details, AccountDetails)
 
 AdminSite.site_header = "Shangkai.in"
 AdminSite.site_title = "Administrator Panel"

@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models import Q
 from django.utils.timezone import utc
 from .models import (
+    Account_Details,
     Cab_Booking,
     Hotel_Booking,
     Normal_UserReg,
@@ -41,3 +42,9 @@ class CabBooking(admin.ModelAdmin):
 
 
 admin.site.register(Cab_Booking, CabBooking)
+
+class AccountDetails(admin.ModelAdmin):
+    list_display = ["id", "user", "acc_holder", "account_no","bannk_name","bank_branch","ifsc_code","bank_state","pan_card"]
+
+
+admin.site.register(Account_Details, AccountDetails)
