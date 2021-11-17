@@ -48,7 +48,7 @@ class Hotel_Booking(models.Model):
     check_out_time = models.CharField("check_out_time", null=True,default="0",  max_length=255)
     guest_no = models.CharField("guests", null=True,default="0", max_length=255)
     rooms = models.CharField("rooms", null=True,default="0", max_length=255)
-    amount = models.CharField("amount", null=True,default="0", max_length=255)
+    # amount_booking = models.CharField("amount_booking", null=True,default="0", max_length=255)
     booking_status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -81,7 +81,7 @@ class Cab_Booking(models.Model):
     start_from = models.CharField("start_from", null=True, max_length=255)
     end_trip = models.CharField("end_trip", null=True, max_length=255)
     distance = models.CharField("distance", null=True, max_length=255)
-    amount = models.CharField("amount", null=True, max_length=255)
+    # amount_booking = models.CharField("amount", null=True, max_length=255)
     no_guests = models.CharField("no_guests", null=True, max_length=255)
     booking_status = models.CharField("status", null=True, default="0", max_length=255)
 
