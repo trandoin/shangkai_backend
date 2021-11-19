@@ -14,6 +14,8 @@ from .models import (
     Reg_Hotel,
     User_Register,
     Room_Register,
+    Driver_Reg,
+    Cabs_Reg,
 )
 
 
@@ -94,6 +96,8 @@ class HotelRegistrationViewSet(viewsets.ViewSet):
         hotel_code = request.POST.get("hotel_code", None)
         hotel_name = request.POST.get("hotel_name", None)
         hotel_address = request.POST.get("hotel_address", None)
+        hotel_city = request.POST.get("hotel_city", None)
+        hotel_state = request.POST.get("hotel_state", None)
         geo_location = request.POST.get("geo_location", None)
         pin_code = request.POST.get("pin_code", None)
         room_rates = request.POST.get("room_rates", None)
@@ -114,6 +118,8 @@ class HotelRegistrationViewSet(viewsets.ViewSet):
             hotel_code=hotel_code,
             hotel_name=hotel_name,
             hotel_address=hotel_address,
+            hotel_city=hotel_city,
+            hotel_state=hotel_state,
             geo_location=geo_location,
             pin_code=pin_code,
             room_rates=room_rates,
@@ -230,3 +236,89 @@ def create(self, request):
             Room_Register.objects.filter(id=users_inst.id), many=True
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
+
+class DriverRegistrationViewSet(viewsets.ViewSet):
+    def list(self, request):
+
+        try:
+            sm_driver = Driver_Reg.objects.all()
+            driver_data_dic = serializers.DriverRegisterSerializer(sm_driver, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        for i in range(0, len(driver_data_dic.data)):
+            created_user_id = driver_data_dic.data[i].get("user")
+            try:
+                user_inst = User_Register.objects.get(id=created_user_id)
+
+                driver_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "user_id": user_inst.user_id,
+                            "user_name": user_inst.name,
+                        }
+                    }
+                )
+            except:
+                driver_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted Account"}}
+                )
+
+        return Response(driver_data_dic.data, status=status.HTTP_200_OK)
+
+class CabRegistrationViewSet(viewsets.ViewSet):
+    def list(self, request):
+
+        try:
+            sm_cabs = Cabs_Reg.objects.all()
+            cabs_data_dic = serializers.CabRegisterSerializer(sm_cabs, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        for i in range(0, len(cabs_data_dic.data)):
+            created_user_id = cabs_data_dic.data[i].get("user")
+            try:
+                user_inst = User_Register.objects.get(id=created_user_id)
+
+                cabs_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "user_id": user_inst.user_id,
+                            "user_name": user_inst.name,
+                        }
+                    }
+                )
+            except:
+                cabs_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted Account"}}
+                )
+            created_driver = cabs_data_dic.data[i].get("driver")
+            try:
+                hotel_inst = Driver_Reg.objects.get(id=created_driver)
+
+                cabs_data_dic.data[i].update(
+                    {
+                        "driver": {
+                            "id": hotel_inst.id,
+                            "driver_id": hotel_inst.driver_id,
+                            "driver_name": hotel_inst.driver_name,
+                            "driver_mobile": hotel_inst.driver_mobile,
+                        }
+                    }
+                )
+            except:
+                cabs_data_dic.data[i].update(
+                    {
+                        "driver": {
+                            "id": created_driver,
+                            "message": "Deleted ",
+                        }
+                    }
+                )
+        return Response(cabs_data_dic.data, status=status.HTTP_200_OK)

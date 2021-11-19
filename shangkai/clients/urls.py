@@ -5,13 +5,25 @@ from . import views
 
 router = DefaultRouter()
 
-# # """"HOTELS"""
+
 router.register("client_register", views.UserRegisterViewSet, basename="ClientsRegister")
+
+# # """"HOTELS"""
+
 router.register(
     "hotel_registration", views.HotelRegistrationViewSet, basename="HotelRegistration"
 )
 router.register(
     "room_registration", views.RoomRegistrationViewSet, basename="RoomRegistration"
+)
+
+##### CABS #####
+router.register(
+    "driver_registration", views.DriverRegistrationViewSet, basename="DriverRegistration"
+)
+
+router.register(
+    "cab_registration", views.CabRegistrationViewSet, basename="CabRegistration"
 )
 
 
