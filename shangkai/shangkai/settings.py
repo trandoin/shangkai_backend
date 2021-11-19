@@ -78,24 +78,23 @@ WSGI_APPLICATION = 'shangkai.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'geomagn2_travellanddb',
-#         'USER':'geomagn2_shangtrando',
-#         'PASSWORD':'travel-land',
-#         'HOST':'47.9.67.11',
-#         'PORT':'3306',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'shangkai_db',
+        'USER':'shangkai',
+        'PASSWORD':'shangkaipass',
+        'HOST':'mysql-dbms.cog4jorwkti6.ap-south-1.rds.amazonaws.com',
+        'PORT':'3306',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
