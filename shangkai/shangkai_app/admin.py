@@ -35,7 +35,7 @@ class HotspotCategory(admin.ModelAdmin):
 admin.site.register(Hotspot_Category, HotspotCategory)
 
 class HotSpots(admin.ModelAdmin):
-    list_display = ["id","title","sub_title","city","state","pin_code","geo_location","amenites","history","about","images","entry_fee","parking_fee","category","tags"]
+    list_display = ["id","title","sub_title","city","state","pin_code","geo_location","amenites","history","about","images","entry_fee","parking_fee","category","rating","tags"]
 
 
 admin.site.register(Hot_Spots,HotSpots)

@@ -53,7 +53,7 @@ class Hot_Spots(models.Model):
     entry_fee = models.CharField("entry_fee", null=True, max_length=2000)
     parking_fee = models.CharField("parking_fee", null=True, max_length=2000)
     category = models.ForeignKey("shangkai_app.Hotspot_Category", on_delete=models.CASCADE,default=None)
-    rating = models.ManyToManyField("users.Normal_UserReg",null=True,related_name="user_rating")
+    rating = models.CharField("rating",null=True, max_length=2000)
     tags = models.TextField("tags", null=True, max_length=2000)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
