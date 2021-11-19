@@ -140,6 +140,9 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 33f829d44fb03eaf81487d0a73fdfbc853d82b62
 # The URL to use when referring to static files (where they will be served from)
 # STATIC_URL = '/static/'
 
@@ -158,6 +161,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_DIR,'static')
 STATIC_URL = '/static/'
+<<<<<<< HEAD
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 =======
@@ -168,3 +172,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # STATIC_ROOT = os.path.join(PROJECT_DIR,'static')
 STATIC_URL = '/static/'
 >>>>>>> bac369cd4cca56a5af1027878ad387dd35689edb
+=======
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+>>>>>>> 33f829d44fb03eaf81487d0a73fdfbc853d82b62
