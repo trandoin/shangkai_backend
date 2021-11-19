@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/geomagn2/
+    - export DEPLOYPATH=/home/geomagn2/public_html
     - /bin/cp * $DEPLOYPATH
