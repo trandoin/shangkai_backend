@@ -6,7 +6,6 @@ from clients.models import (
    Reg_Hotel,
    Room_Register,
    Cabs_Reg,
-   Cabs_Reg,
 )
 
 class Normal_UserReg(models.Model):
@@ -29,7 +28,7 @@ class Normal_UserReg(models.Model):
         )
 
 
-class Hotel_Booking(models.Model):
+class User_Hotel_Booking(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "users.Normal_UserReg",
@@ -64,7 +63,7 @@ class Hotel_Booking(models.Model):
             "Hotel Booking",
         )
 
-class Cab_Booking(models.Model):
+class User_Cab_Booking(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "users.Normal_UserReg",
@@ -98,7 +97,7 @@ class Cab_Booking(models.Model):
             "Cab Booking",
         )
 
-class Account_Details(models.Model):
+class User_Account_Details(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "users.Normal_UserReg",
