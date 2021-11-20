@@ -7,7 +7,7 @@ router = DefaultRouter()
 
 # # """"BOOKINGS"""
 router.register("user_register", views.UserRegisterViewSet, basename="NormalUsersRegister")
-router.register("hotel_booking", views.HotelBookingViewSet, basename="HotelBooking")
+# router.register("hotel_booking", views.HotelBookingViewSet, basename="HotelBooking")
 
 
 urlpatterns = [

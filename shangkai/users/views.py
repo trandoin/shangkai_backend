@@ -9,7 +9,7 @@ from . import serializers
 """Model Package """
 from .models import (
     Normal_UserReg,
-    Hotel_Booking,
+    # Hotel_Booking,
     # User_Booking,
 )
 
@@ -29,15 +29,15 @@ class UserRegisterViewSet(viewsets.ViewSet):
             )
         return Response(users_data_dic.data, status=status.HTTP_200_OK)
 
-class HotelBookingViewSet(viewsets.ViewSet):
-    def list(self, request):
+# class HotelBookingViewSet(viewsets.ViewSet):
+#     def list(self, request):
 
-        try:
-            sm_hotel = Hotel_Booking.objects.all()
-            hotel_data_dic = serializers.HotelBookingSerializer(sm_hotel, many=True)
-        except:
-            return Response(
-                {"message": "Sorry No data found !"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-        return Response(hotel_data_dic.data, status=status.HTTP_200_OK)        
+#         try:
+#             sm_hotel = Hotel_Booking.objects.all()
+#             hotel_data_dic = serializers.HotelBookingSerializer(sm_hotel, many=True)
+#         except:
+#             return Response(
+#                 {"message": "Sorry No data found !"},
+#                 status=status.HTTP_400_BAD_REQUEST,
+#             )
+#         return Response(hotel_data_dic.data, status=status.HTTP_200_OK)        
