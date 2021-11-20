@@ -10,7 +10,7 @@ class User_Register(models.Model):
     email = models.EmailField("email", null=True, max_length=255)
     mobile = models.CharField("mobile", null=True, max_length=255)
     password = models.CharField("password", null=True, max_length=255)
-    user_type = models.CharField("user_type",deafult="0", max_length=255)
+    user_type = models.CharField("user_type",null=True,deafult="0", max_length=255)
     image = models.FileField(
         "image", null=True, default="user_avatar.jpg", max_length=255
     )
