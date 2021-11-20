@@ -2,6 +2,13 @@ from datetime import datetime
 from django.db import models
 from django.utils import timezone
 
+from clients.models import (
+   Reg_Hotel,
+   Room_Register,
+   Cabs_Reg,
+   Cabs_Reg,
+)
+
 class Normal_UserReg(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user_id = models.CharField("user_id", null=True, max_length=255)
