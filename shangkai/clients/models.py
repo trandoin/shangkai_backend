@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.db import models
+from django.utils import timezone
 
 
 class User_Register(models.Model):
