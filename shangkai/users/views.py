@@ -8,9 +8,10 @@ from . import serializers
 
 """Model Package """
 from .models import (
+    User_Account_Details,
+    User_Cab_Booking,
+    User_Hotel_Booking,
     Normal_UserReg,
-    # Hotel_Booking,
-    # User_Booking,
 )
 
 
@@ -29,15 +30,42 @@ class UserRegisterViewSet(viewsets.ViewSet):
             )
         return Response(users_data_dic.data, status=status.HTTP_200_OK)
 
-# class HotelBookingViewSet(viewsets.ViewSet):
-#     def list(self, request):
+class HotelBookingViewSet(viewsets.ViewSet):
+    def list(self, request):
 
-#         try:
-#             sm_hotel = Hotel_Booking.objects.all()
-#             hotel_data_dic = serializers.HotelBookingSerializer(sm_hotel, many=True)
-#         except:
-#             return Response(
-#                 {"message": "Sorry No data found !"},
-#                 status=status.HTTP_400_BAD_REQUEST,
-#             )
-#         return Response(hotel_data_dic.data, status=status.HTTP_200_OK)        
+        try:
+            sm_hotel = User_Hotel_Booking.objects.all()
+            hotel_data_dic = serializers.HotelBookingSerializer(sm_hotel, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(hotel_data_dic.data, status=status.HTTP_200_OK)  
+
+
+class CabBookingViewSet(viewsets.ViewSet):
+    def list(self, request):
+
+        try:
+            sm_hotel = User_Cab_Booking.objects.all()
+            hotel_data_dic = serializers.CabBookingSerializer(sm_hotel, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(hotel_data_dic.data, status=status.HTTP_200_OK)  
+
+class AccounDetailsBookingViewSet(viewsets.ViewSet):
+    def list(self, request):
+
+        try:
+            sm_hotel = User_Account_Details.objects.all()
+            hotel_data_dic = serializers.AccountDetailsBookingSerializer(sm_hotel, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(hotel_data_dic.data, status=status.HTTP_200_OK)                        
