@@ -8,22 +8,15 @@ from rest_framework.response import Response
 from rest_framework import status
 from . import serializers
 
-# import pyrebase
-
-# confign= {
-#   apiKey: "AIzaSyDh3yo3N73gphUTESELvEebBWt9iR0-VLE",
-#   authDomain: "shangkai-5444b.firebaseapp.com",
-#   projectId: "shangkai-5444b",
-#   storageBucket: "shangkai-5444b.appspot.com",
-#   messagingSenderId: "335717800456",
-#   appId: "1:335717800456:web:7d5c758e6d143f99ae4fbd",
-#   measurementId: "G-PYKG8H9HSW"
-# }
 
 """Model Package """
 from .models import (
    About_Us,
    Footer_Copyright,
+   Hotspot_Category,
+   Hot_Spots,
+   Comments_All,
+   Payment_Transaction,
 )
 
 
@@ -52,3 +45,55 @@ class FooterViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(footer_data_dic.data, status=status.HTTP_200_OK)
+
+class HotspotCategoryViewSet(viewsets.ViewSet):
+    def list(self, request):
+
+        try:
+            sm_hotspots_cat = Hotspot_Category.objects.filter(status="1")
+            hotspots_cat_data_dic = serializers.HotspotCategorySerializer(sm_hotspots_cat, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(hotspots_cat_data_dic.data, status=status.HTTP_200_OK)
+
+class HotSpotsViewSet(viewsets.ViewSet):
+    def list(self, request):
+
+        try:
+            sm_hotspots = Hot_Spots.objects.filter(status="1")
+            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(hotspots_data_dic.data, status=status.HTTP_200_OK)
+
+class CommentsAllViewSet(viewsets.ViewSet):
+    def list(self, request):
+
+        try:
+            sm_comments_all = Comments_All.objects.filter(status="1")
+            comments_all_data_dic = serializers.CommentsAllSerializer(sm_comments_all, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(comments_all_data_dic.data, status=status.HTTP_200_OK)
+
+class PaymentTransactionViewSet(viewsets.ViewSet):
+    def list(self, request):
+
+        try:
+            sm_payment_tra = Payment_Transaction.objects.filter(status="1")
+            payment_tra_data_dic = serializers.PaymentTransactionAllSerializer(sm_payment_tra, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(payment_tra_data_dic.data, status=status.HTTP_200_OK)
