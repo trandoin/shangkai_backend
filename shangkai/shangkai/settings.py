@@ -136,14 +136,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_DIR,'static')
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
 
 
+STATIC_URL = "/static/"
+
+# default static files settings for PythonAnywhere.
+# see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
 MEDIA_ROOT = "/home/ubuntu/travel-env/shangkai_backend/shangkai"
 MEDIA_URL = "/media/"
 STATIC_ROOT = "/home/ubuntu/travel-env/shangkai_backend/shangkai"
 STATIC_URL = "/static/"
 
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
 
 
@@ -152,16 +158,44 @@ STATIC_URL = "/static/"
 AWS_S3_ACCESS_KEY_ID = 'AKIAV2GHTWDIQTC6MNI4'
 AWS_S3_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'shangkai-s3-bucket'
+AWS_QUERYSTRING_AUTH = False
 AWS_S3_SIGNATURE_VERSION = "s3v4"
 AWS_S3_REGION_NAME = "ap-south-1"
 AWS_S3_FILE_OVERWRITE = False
-AWS_QUERYSTRING_AUTH = False
+AWS_DEFAULT_ACL = "public-read"
+AWS_S3_VERIFY = True
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": "max-age=2592000",
+}
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# def post_upload_path(instance,filename):
+#     return "social_media/post/{0}/{1}".format(instance.id,filename)
+# upload_to=post_upload_path
 
+
+# STATIC_URL = "/static/"
+
+# # default static files settings for PythonAnywhere.
+# # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
+# MEDIA_ROOT = "/home/readingright/rr-django-backend/media"
+# MEDIA_URL = "/media/"
+# STATIC_ROOT = "/home/readingright/rr-django-backend/static"
+# STATIC_URL = "/static/"
+
+# # AWS
+# AWS_ACCESS_KEY_ID = "AKIA6NSLTULB2ITXS45F"
+# AWS_SECRET_ACCESS_KEY = "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"
+# AWS_STORAGE_BUCKET_NAME = "readingright-media"
+# AWS_S3_SIGNATURE_VERSION = "s3v4"
+# AWS_S3_REGION_NAME = "ap-south-1"
+# AWS_S3_FILE_OVERWRITE = False
+# AWS_DEFAULT_ACL = "public-read"
+# AWS_S3_VERIFY = True
+# AWS_QUERYSTRING_AUTH = False
+# AWS_S3_OBJECT_PARAMETERS = {
+#     "CacheControl": "max-age=2592000",
+# }
 # DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 # CORS_ALLOW_ALL_ORIGINS = True
-
-
