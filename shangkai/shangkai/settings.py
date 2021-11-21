@@ -138,8 +138,8 @@ PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_DIR,'static')
 STATIC_URL = '/static/'
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
 
 
@@ -148,5 +148,17 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 AWS_S3_ACCESS_KEY_ID = 'AKIAV2GHTWDIQTC6MNI4'
 AWS_S3_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'shangkai-s3-bucket'
+AWS_S3_SIGNATURE_VERSION = "s3v4"
+AWS_S3_REGION_NAME = "ap-south-1"
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = "public-read"
+AWS_S3_VERIFY = True
 AWS_QUERYSTRING_AUTH = False
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": "max-age=2592000",
+
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+CORS_ALLOW_ALL_ORIGINS = True
+
 
