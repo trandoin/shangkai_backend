@@ -148,7 +148,14 @@ PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_DIR,'static')
 STATIC_URL = 'home/ubuntu/travel-env/static/'
 
-
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+
+###### AWS S3 ####
+
+AWS_S3_ACCESS_KEY_ID = 'AKIAV2GHTWDIQTC6MNI4'
+AWS_S3_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'shangkai-s3-bucket'
+AWS_QUERYSTRING_AUTH = False
 
