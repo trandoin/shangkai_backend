@@ -155,7 +155,7 @@ AWS_DEFAULT_ACL = "public-read"
 AWS_S3_VERIFY = True
 AWS_QUERYSTRING_AUTH = False
 AWS_S3_OBJECT_PARAMETERS = {
-    "CacheControl": "max-age=2592000",
+    "CacheControl": "max-age=2592000"
 
 # DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
