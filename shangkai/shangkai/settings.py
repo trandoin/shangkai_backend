@@ -139,9 +139,9 @@ STATIC_ROOT = os.path.join(PROJECT_DIR,'static')
 STATIC_URL = '/static/'
 
 
-MEDIA_ROOT = "/home/travel_env/shangkai_backend/media"
+MEDIA_ROOT = "/home/ubuntu/travel-env/shangkai_backend/shangkai"
 MEDIA_URL = "/media/"
-STATIC_ROOT = "/home/travel_env/shangkai_backend/static"
+STATIC_ROOT = "/home/ubuntu/travel-env/shangkai_backend/shangkai"
 STATIC_URL = "/static/"
 
 # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
