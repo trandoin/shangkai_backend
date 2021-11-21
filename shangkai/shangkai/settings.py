@@ -167,7 +167,7 @@ AWS_S3_VERIFY = True
 AWS_S3_OBJECT_PARAMETERS = {
     "CacheControl": "max-age=2592000",
 }
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+# DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 # def post_upload_path(instance,filename):
 #     return "social_media/post/{0}/{1}".format(instance.id,filename)
