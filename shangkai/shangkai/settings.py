@@ -143,9 +143,9 @@ STATIC_URL = "/static/"
 
 # default static files settings for PythonAnywhere.
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
-MEDIA_ROOT = "/home/ubuntu/travel-env/shangkai_backend/shangkai"
+MEDIA_ROOT = "/home/ubuntu/travel-env/shangkai_backend/shangkai/media"
 MEDIA_URL = "/media/"
-STATIC_ROOT = "/home/ubuntu/travel-env/shangkai_backend/shangkai"
+STATIC_ROOT = "/home/ubuntu/travel-env/shangkai_backend/shangkai/static"
 STATIC_URL = "/static/"
 
 # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
