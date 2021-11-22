@@ -49,7 +49,7 @@ class Hot_Spots(models.Model):
     history = models.CharField("history", null=True,  max_length=255)
     about = models.TextField("about", null=True, max_length=2000)
     images = models.FileField(
-        "images", null=True, default="images.jpg", max_length=255
+        "images",upload_to="hotspots/", default="hotspots/images.jpg", max_length=255
     )
     entry_fee = models.CharField("entry_fee", null=True, max_length=2000)
     parking_fee = models.CharField("parking_fee", null=True, max_length=2000)

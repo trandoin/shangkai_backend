@@ -13,7 +13,7 @@ class User_Register(models.Model):
     password = models.CharField("password", null=True, max_length=255)
     user_type = models.CharField("user_type",null=True,default="0", max_length=255)
     image = models.FileField(
-        "image", null=True, default="user_avatar.jpg", max_length=255
+        "image", null=True, upload_to="clients/", default="clients/user_avatar.jpg", max_length=255
     )
     status = models.CharField("status", null=True, default="0", max_length=255)
 
@@ -43,7 +43,7 @@ class Reg_Hotel(models.Model):
     hotel_facilites = models.TextField("facilites", null=True, max_length=5000)
     max_guests_limit = models.CharField("limits", null=True, max_length=255)
     hotel_images = models.FileField(
-        "images", null=True, default="hotel_image.jpg", max_length=255
+        "images", null=True,upload_to="hotels/", default="hotels/hotel_image.jpg", max_length=255
     )
     status = models.CharField("status", null=True, default="0", max_length=255)
 
@@ -80,7 +80,7 @@ class Room_Register(models.Model):
     tags = models.TextField("tags", null=True, max_length=255)
     extra_services = models.TextField("extra_services", null=True, max_length=255)
     room_images = models.FileField(
-        "images", null=True, default="room_image.jpg", max_length=255
+        "images", null=True,upload_to="rooms/", default="rooms/room_image.jpg", max_length=255
     )
     states = models.CharField("status", null=True, default="0", max_length=255)
 
@@ -107,10 +107,10 @@ class Driver_Reg(models.Model):
     working_hours = models.CharField("working_hours", null=True, max_length=255)
     licence_no = models.CharField("licence_no", null=True, max_length=255)
     driver_doc = models.FileField(
-        "driver_doc", null=True, default="driver_avatar.jpg", upload_to='drivers/', max_length=255
+        "driver_doc", null=True,upload_to="driver_doc/", default="driver_doc/driver_avatar.jpg", upload_to='drivers/', max_length=255
     )
     picture = models.FileField(
-        "picture", null=True, default="driver_avatar.jpg", max_length=255
+        "picture", null=True,upload_to="driver_images/", default="driver_images/driver_avatar.jpg", max_length=255
     )
     status = models.CharField("status", null=True, default="0", max_length=255)
 
@@ -143,10 +143,10 @@ class Cabs_Reg(models.Model):
     pickup_point = models.CharField("pickup_point", null=True, max_length=255)
     car_rating = models.CharField("car_rating", null=True, max_length=255)
     car_doc = models.FileField(
-        "car_doc", null=True, default="car_doc.jpg", upload_to='cab_doc/', max_length=255
+        "car_doc", null=True,upload_doc="car_doc/", default="car_doc/car_doc.jpg", upload_to='cab_doc/', max_length=255
     )
     car_images = models.FileField(
-        "car_images", null=True, default="car_image.jpg",upload_to='cab_image/', max_length=255
+        "car_images", null=True,upload_to="car_images/", default="car_images/car_image.jpg",upload_to='cab_image/', max_length=255
     )
     status = models.CharField("status", null=True, default="0", max_length=255)
 
