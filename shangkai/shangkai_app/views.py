@@ -19,6 +19,12 @@ from .models import (
    Payment_Transaction,
 )
 
+"""Model Package """
+from users.models import (
+    Normal_UserReg,
+   
+)
+
 
 class AboutUsViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -84,6 +90,36 @@ class CommentsAllViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(comments_all_data_dic.data, status=status.HTTP_200_OK)
+
+
+    def create(self, request):
+
+        user_id = request.POST.get("user_id", None)
+        post_id = request.POST.get("post_id", None)
+        comments = request.POST.get("comments", None)
+        comment_type = request.POST.get("comment_type", None)
+
+        try:
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+        except:
+
+            return Response(
+                {"message": "No user found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        users_inst = Comments_All.objects.create(
+            user=user_inst,
+            post_id=post_id,
+            comments=comments,
+            comment_type=comment_type,
+
+        )
+        users_inst.save()
+
+        users_data = serializers.CommentsAllSerializer(
+            Comments_All.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
 
 class PaymentTransactionViewSet(viewsets.ViewSet):
     def list(self, request):
