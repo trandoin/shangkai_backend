@@ -36,6 +36,32 @@ class UserRegisterViewSet(viewsets.ViewSet):
             )
         return Response(users_data_dic.data, status=status.HTTP_200_OK)
 
+    def create(self, request):
+
+        user_id = request.POST.get("user_id", None)
+        user_ip = request.POST.get("user_ip", None)
+        name = request.POST.get("name", None)
+        email = request.POST.get("email", None)
+        mobile = request.POST.get("mobile", None)
+        password = request.POST.get("password", None)
+        image = request.POST.get("image", None)
+
+        users_inst = Normal_UserReg.objects.create(
+            user_id=user_inst,
+            user_ip=user_ip,
+            name=name,
+            email=email,
+            mobile=mobile,
+            password=password,
+            image=image,
+        )
+        users_inst.save()
+
+        users_data = serializers.NormalUserRegisterSerializer(
+            Normal_UserReg.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)    
+
 class HotelBookingViewSet(viewsets.ViewSet):
     def list(self, request):
 
