@@ -208,6 +208,7 @@ def create(self, request):
 
         try:
             user_inst = User_Register.objects.get(id=user_id)
+            hotel_inst = Reg_Hotel.objects.get(id=hotel_id)
         except:
 
             return Response(
@@ -216,7 +217,7 @@ def create(self, request):
             )
         users_inst = Room_Register.objects.create(
             user=user_inst,
-            hotel_id=hotel_id,
+            hotel_id=hotel_inst,
             room_id=room_id,
             room_type=room_type,
             bed_type=bed_type,
