@@ -217,7 +217,7 @@ class CabBookingViewSet(viewsets.ViewSet):
                 cabs_data_dic.data[i].update(
                     {"user": {"id": created_user_id, "message": "Deleted Account"}}
                 )
-            created_cab_id = cabs_data_dic.data[i].get("car_id")
+            created_cab_id = cabs_data_dic.data[i].get("cab_id")
             try:
                 cab_inst = Cabs_Reg.objects.get(id=created_cab_id)
 
