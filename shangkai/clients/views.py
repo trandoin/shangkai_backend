@@ -208,7 +208,7 @@ def create(self, request):
 
         try:
             user_inst = User_Register.objects.get(id=user_id)
-            hotel_inst = Reg_Hotel.objects.get(id=hotel_id)
+            hotel_inst = Reg_Hotel.objects.get(hotel_id=hotel_id)
         except:
 
             return Response(
