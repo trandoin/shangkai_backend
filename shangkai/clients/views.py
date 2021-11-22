@@ -189,54 +189,54 @@ class RoomRegistrationViewSet(viewsets.ViewSet):
                 )
         return Response(users_data_dic.data, status=status.HTTP_200_OK)
 
-def create(self, request):
+    def create(self, request):
 
-        user_id = request.POST.get("user_id", None)
-        hotel_id = request.POST.get("hotel_id", None)
-        room_id = request.POST.get("room_id", None)
-        room_type = request.POST.get("room_type", None)
-        bed_type = request.POST.get("bed_type", None)
-        totel_beds = request.POST.get("totel_beds", None)
-        room_rates = request.POST.get("room_rates", None)
-        room_facilites = request.POST.get("room_facilites", None)
-        max_guests_limit = request.POST.get("max_guests_limit", None)
-        no_rooms = request.POST.get("no_rooms", None)
-        rating = request.POST.get("rating", None)
-        tags = request.POST.get("tags", None)
-        extra_services = request.POST.get("extra_services", None)
-        room_images = request.POST.get("room_images", None)
+            user_id = request.POST.get("user_id", None)
+            hotel_id = request.POST.get("hotel_id", None)
+            room_id = request.POST.get("room_id", None)
+            room_type = request.POST.get("room_type", None)
+            bed_type = request.POST.get("bed_type", None)
+            totel_beds = request.POST.get("totel_beds", None)
+            room_rates = request.POST.get("room_rates", None)
+            room_facilites = request.POST.get("room_facilites", None)
+            max_guests_limit = request.POST.get("max_guests_limit", None)
+            no_rooms = request.POST.get("no_rooms", None)
+            rating = request.POST.get("rating", None)
+            tags = request.POST.get("tags", None)
+            extra_services = request.POST.get("extra_services", None)
+            room_images = request.POST.get("room_images", None)
 
-        try:
-            user_inst = User_Register.objects.get(id=user_id)
-            hotel_inst = Reg_Hotel.objects.get(hotel_id=hotel_id)
-        except:
+            try:
+                user_inst = User_Register.objects.get(id=user_id)
+                hotel_inst = Reg_Hotel.objects.get(hotel_id=hotel_id)
+            except:
 
-            return Response(
-                {"message": "No user found !"},
-                status=status.HTTP_400_BAD_REQUEST,
+                return Response(
+                    {"message": "No user found !"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            users_inst = Room_Register.objects.create(
+                user=user_inst,
+                hotel_id=hotel_inst,
+                room_id=room_id,
+                room_type=room_type,
+                bed_type=bed_type,
+                totel_beds=totel_beds,
+                room_rates=room_rates,
+                room_facilites=room_facilites,
+                max_guests_limit=max_guests_limit,
+                no_rooms=no_rooms,
+                tags=tags,
+                rating=rating,
+                extra_services=extra_services,
+                room_images=room_images,
             )
-        users_inst = Room_Register.objects.create(
-            user=user_inst,
-            hotel_id=hotel_inst,
-            room_id=room_id,
-            room_type=room_type,
-            bed_type=bed_type,
-            totel_beds=totel_beds,
-            room_rates=room_rates,
-            room_facilites=room_facilites,
-            max_guests_limit=max_guests_limit,
-            no_rooms=no_rooms,
-            tags=tags,
-            rating=rating,
-            extra_services=extra_services,
-            room_images=room_images,
-        )
-        users_inst.save()
+            users_inst.save()
 
-        users_data = serializers.RoomRegisterSerializer(
-            Room_Register.objects.filter(id=users_inst.id), many=True
-        )
-        return Response(users_data.data[0], status=status.HTTP_200_OK)
+            users_data = serializers.RoomRegisterSerializer(
+                Room_Register.objects.filter(id=users_inst.id), many=True
+            )
+            return Response(users_data.data[0], status=status.HTTP_200_OK)
 
 class DriverRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
