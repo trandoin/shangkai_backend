@@ -18,6 +18,7 @@ from clients.models import (
     Cabs_Reg,
     Reg_Hotel,
     Room_Register,
+    Driver_Reg,
 )
 
 
