@@ -10,6 +10,7 @@ from clients.models import (
    Reg_Hotel,
    Room_Register,
    Cabs_Reg,
+   Driver_Reg,
 )
 
 class Normal_UserReg(models.Model):
@@ -83,7 +84,12 @@ class User_Cab_Booking(models.Model):
         default=None,
         db_constraint=False,
     )
-    driver_id = models.CharField("driver_id", null=True,default="0", max_length=255)
+    driver_id = models.ForeignKey(
+        "clients.Driver_Reg",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
     cab_bookid = models.CharField("cab_bookid", null=True,default="0", max_length=255)
     check_in_date = models.CharField("check_in_date", null=True,default="0",  max_length=255)
     check_in_time = models.CharField("check_in_time", null=True, default="0", max_length=255)

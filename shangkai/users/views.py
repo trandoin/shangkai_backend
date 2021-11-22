@@ -221,6 +221,7 @@ class CabBookingViewSet(viewsets.ViewSet):
         try:
             user_inst = Normal_UserReg.objects.get(id=user_id)
             car_inst = Cabs_Reg.objects.get(id=car_id)
+            driver_inst = Driver_Reg.objects.get(id=driver_id)
         except:
 
             return Response(
@@ -232,7 +233,7 @@ class CabBookingViewSet(viewsets.ViewSet):
             user_id=user_inst,
             user_ip=user_ip,
             car_id=car_inst,
-            driver_id=driver_id,
+            driver_id=driver_inst,
             cab_bookid=cab_bookid,
             check_in_date=check_in_date,
             check_in_time=check_in_time,
