@@ -322,19 +322,19 @@ class AccounDetailsBookingViewSet(viewsets.ViewSet):
 
         try:
             sm_hotel = User_Account_Details.objects.all()
-            hotel_data_dic = serializers.AccountDetailsBookingSerializer(sm_hotel, many=True)
+            account_data_dic = serializers.AccountDetailsBookingSerializer(sm_hotel, many=True)
         except:
             return Response(
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        for i in range(0, len(users_data_dic.data)):
-            created_user_id = users_data_dic.data[i].get("user")
+        for i in range(0, len(account_data_dic.data)):
+            created_user_id = account_data_dic.data[i].get("user")
             try:
                 user_inst = Normal_UserReg.objects.get(id=created_user_id)
 
-                users_data_dic.data[i].update(
+                account_data_dic.data[i].update(
                     {
                         "user": {
                             "id": user_inst.id,
@@ -345,11 +345,11 @@ class AccounDetailsBookingViewSet(viewsets.ViewSet):
                     }
                 )
             except:
-                users_data_dic.data[i].update(
+                account_data_dic.data[i].update(
                     {"user": {"id": created_user_id, "message": "Deleted Account"}}
                 )   
 
-        return Response(hotel_data_dic.data, status=status.HTTP_200_OK)
+        return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
 
