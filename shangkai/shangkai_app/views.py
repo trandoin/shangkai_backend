@@ -89,6 +89,25 @@ class CommentsAllViewSet(viewsets.ViewSet):
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+        for i in range(0, len(comments_all_data_dic.data)):
+            created_user_id = comments_all_data_dic.data[i].get("user")
+            try:
+                user_inst = Normal_UserReg.objects.get(id=created_user_id)
+
+                comments_all_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "user_id": user_inst.user_id,
+                            "user_name": user_inst.name,
+                        }
+                    }
+                )
+            except:
+                comments_all_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted Account"}}
+                )    
         return Response(comments_all_data_dic.data, status=status.HTTP_200_OK)
 
 
