@@ -366,3 +366,48 @@ class CabRegistrationViewSet(viewsets.ViewSet):
                     }
                 )
         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+
+        user_id = request.POST.get("user_id", None)
+        driver_id = request.POST.get("driver_id", None)
+        car_code = request.POST.get("car_code", None)
+        car_name = request.POST.get("car_name", None)
+        car_type = request.POST.get("car_type", None)
+        capacity = request.POST.get("capacity", None)
+        vehicle_no = request.POST.get("vehicle_no", None)
+        car_mou = request.POST.get("room_facilites", None)
+        pickup_point = request.POST.get("pickup_point", None)
+        car_rating = request.POST.get("car_rating", None)
+        car_doc = request.POST.get("car_doc", None)
+        car_images = request.POST.get("car_images", None)
+
+        try:
+            user_inst = User_Register.objects.get(id=user_id)
+            driver_inst = Driver_Reg.objects.get(id=driver_id)
+        except:
+
+            return Response(
+                {"message": "No user found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        users_inst = Cabs_Reg.objects.create(
+            user=user_inst,
+            driver=driver_inst,
+            car_code=car_code,
+            car_name=car_name,
+            car_type=car_type,
+            capacity=capacity,
+            vehicle_no=vehicle_no,
+            car_mou=car_mou,
+            pickup_point=pickup_point,
+            car_rating=car_rating,
+            car_doc=car_doc,
+            car_images=car_images,
+        )
+        users_inst.save()
+
+        users_data = serializers.CabRegisterSerializer(
+            Cabs_Reg.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)    
