@@ -14,6 +14,10 @@ from .models import (
     Normal_UserReg,
 )
 
+from clients.models import (
+    Cabs_Reg,
+)
+
 
 class UserRegisterViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -55,7 +59,58 @@ class CabBookingViewSet(viewsets.ViewSet):
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        return Response(hotel_data_dic.data, status=status.HTTP_200_OK)  
+        return Response(hotel_data_dic.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+
+        user_id = request.POST.get("user_id", None)
+        user_ip = request.POST.get("user_ip", None)
+        car_id = request.POST.get("car_id", None)
+        driver_id = request.POST.get("driver_id", None)
+        cab_bookid = request.POST.get("cab_bookid", None)
+        check_in_date = request.POST.get("check_in_date", None)
+        check_in_time = request.POST.get("check_in_time", None)
+        check_out_date = request.POST.get("check_out_date", None)
+        check_out_time = request.POST.get("check_out_time", None)
+        start_from = request.POST.get("start_from", None)
+        end_trip = request.POST.get("end_trip", None)
+        distance = request.POST.get("distance", None)
+        amount_booking = request.POST.get("amount_booking", None)
+        no_guests = request.POST.get("no_guests", None)
+
+        try:
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+            car_inst = Cabs_Reg.objects.get(id=car_id)
+        except:
+
+            return Response(
+                {"message": "No user found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        users_inst = User_Cab_Booking.objects.create(
+            user_id=user_inst,
+            user_ip=user_ip,
+            car_id=car_inst,
+            account_no=account_no,
+            driver_id=driver_id,
+            cab_bookid=cab_bookid,
+            check_in_date=check_in_date,
+            check_in_time=check_in_time,
+            check_out_date=check_out_date,
+            check_out_time=check_out_time,
+            start_from=start_from,
+            end_trip=end_trip,
+            distance=distance,
+            amount_booking=amount_booking,
+            no_guests=no_guests,
+        )
+        users_inst.save()
+
+        users_data = serializers.CabBookingSerializer(
+            User_Cab_Booking.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)       
 
 class AccounDetailsBookingViewSet(viewsets.ViewSet):
     def list(self, request):
