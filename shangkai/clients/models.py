@@ -146,7 +146,7 @@ class Cabs_Reg(models.Model):
         "car_doc", null=True,upload_doc="car_doc/", default="car_doc/car_doc.jpg", upload_to='cab_doc/', max_length=255
     )
     car_images = models.FileField(
-        "car_images", null=True,upload_to="car_images/", default="car_images/car_image.jpg",upload_to='cab_image/', max_length=255
+        "car_images", null=True,upload_to="car_images/", default="car_images/car_image.jpg", max_length=255
     )
     status = models.CharField("status", null=True, default="0", max_length=255)
 
