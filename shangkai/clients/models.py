@@ -107,7 +107,7 @@ class Driver_Reg(models.Model):
     working_hours = models.CharField("working_hours", null=True, max_length=255)
     licence_no = models.CharField("licence_no", null=True, max_length=255)
     driver_doc = models.FileField(
-        "driver_doc", null=True,upload_to="driver_doc/", default="driver_doc/driver_avatar.jpg", upload_to='drivers/', max_length=255
+        "driver_doc", null=True,upload_to="driver_doc/", default="driver_doc/driver_avatar.jpg", max_length=255
     )
     picture = models.FileField(
         "picture", null=True,upload_to="driver_images/", default="driver_images/driver_avatar.jpg", max_length=255
