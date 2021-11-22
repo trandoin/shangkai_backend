@@ -47,9 +47,10 @@ class User_Hotel_Booking(models.Model):
         default=None,
         db_constraint=False,
     )
-    room_id = models.ManyToManyField(
-        "clients.Room_Register",
-        related_name="hotel_rooms"
+    room_id = models.ForeignKey(
+        "clients.Room_Register",on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
     )
     hotel_bookid = models.CharField("hotel_bookid", null=True,default="0", max_length=255)
     check_in_date = models.CharField("check_in_date", null=True,default="0",  max_length=255)
