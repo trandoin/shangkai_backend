@@ -148,17 +148,17 @@ STATIC_URL = '/static/'
 # STATIC_ROOT = "/home/ubuntu/travel-env/shangkai_backend/shangkai/static"
 # STATIC_URL = "/static/"
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
 # DEFAULT_FILE_STORAGE = 'spread.storage_backends.MediaStorage'
 
 ###### AWS S3 ####
 
-AWS_S3_ACCESS_KEY_ID = 'AKIAV2GHTWDIQTC6MNI4'
-AWS_S3_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'shangkai-s3-bucket'
-AWS_QUERYSTRING_AUTH = False
+# AWS_S3_ACCESS_KEY_ID = 'AKIAV2GHTWDIQTC6MNI4'
+# AWS_S3_SECRET_ACCESS_KEY = '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'
+# AWS_STORAGE_BUCKET_NAME = 'shangkai-s3-bucket'
+# AWS_QUERYSTRING_AUTH = False
 # AWS_S3_SIGNATURE_VERSION = "s3v4"
 # AWS_S3_REGION_NAME = "ap-south-1"
 # AWS_S3_FILE_OVERWRITE = False
@@ -169,3 +169,13 @@ AWS_QUERYSTRING_AUTH = False
 # }
 
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/3.2/howto/static-files/
+
+# STATIC_URL = '/static/'
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
