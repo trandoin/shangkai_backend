@@ -270,6 +270,49 @@ class DriverRegistrationViewSet(viewsets.ViewSet):
 
         return Response(driver_data_dic.data, status=status.HTTP_200_OK)
 
+
+    def create(self, request):
+
+        user_id = request.POST.get("user_id", None)
+        driver_id = request.POST.get("driver_id", None)
+        driver_name = request.POST.get("driver_name", None)
+        driver_address = request.POST.get("driver_address", None)
+        driver_mobile = request.POST.get("driver_mobile", None)
+        driver_email = request.POST.get("driver_email", None)
+        languages = request.POST.get("languages", None)
+        working_hours = request.POST.get("room_facilites", None)
+        licence_no = request.POST.get("licence_no", None)
+        driver_doc = request.POST.get("driver_doc", None)
+        picture = request.POST.get("picture", None)
+
+        try:
+            user_inst = User_Register.objects.get(id=user_id)
+        except:
+
+            return Response(
+                {"message": "No user found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        users_inst = Driver_Reg.objects.create(
+            user=user_inst,
+            driver_id=driver_id,
+            driver_name=driver_name,
+            driver_address=driver_address,
+            driver_mobile=driver_mobile,
+            driver_email=driver_email,
+            languages=languages,
+            working_hours=working_hours,
+            licence_no=licence_no,
+            driver_doc=driver_doc,
+            picture=picture,
+        )
+        users_inst.save()
+
+        users_data = serializers.DriverRegisterSerializer(
+            Driver_Reg.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
+
 class CabRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
 
