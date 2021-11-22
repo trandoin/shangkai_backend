@@ -2,8 +2,8 @@ from datetime import datetime
 from django.db import models
 from django.utils import timezone
 
-def post_upload_path(instance,filename):
-    return "media/".format(instance.id,filename)
+# def post_upload_path(instance,filename):
+#     return "media/".format(instance.id,filename)
 # upload_to=post_upload_path
 
 from clients.models import (
@@ -21,7 +21,7 @@ class Normal_UserReg(models.Model):
     mobile = models.CharField("mobile", null=True, max_length=255)
     password = models.CharField("password", null=True, max_length=255)
     image = models.FileField(
-        "image", null=True, upload_to=post_upload_path, max_length=255
+        "image", null=True, upload_to='media/', max_length=255
     )
     status = models.CharField("status", null=True, default="0", max_length=255)
 
