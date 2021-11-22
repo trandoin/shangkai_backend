@@ -16,6 +16,8 @@ from .models import (
 
 from clients.models import (
     Cabs_Reg,
+    Reg_Hotel,
+    Room_Register,
 )
 
 
@@ -45,7 +47,54 @@ class HotelBookingViewSet(viewsets.ViewSet):
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        return Response(hotel_data_dic.data, status=status.HTTP_200_OK)  
+        return Response(hotel_data_dic.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+
+        user_id = request.POST.get("user_id", None)
+        user_ip = request.POST.get("user_ip", None)
+        hotel_id = request.POST.get("hotel_id", None)
+        room_id = request.POST.get("room_id", None)
+        hotel_bookid = request.POST.get("hotel_bookid", None)
+        check_in_date = request.POST.get("check_in_date", None)
+        check_in_time = request.POST.get("check_in_time", None)
+        check_out_date = request.POST.get("check_out_date", None)
+        check_out_time = request.POST.get("check_out_time", None)
+        guest_no = request.POST.get("guest_no", None)
+        rooms = request.POST.get("rooms", None)
+        amount_booking = request.POST.get("amount_booking", None)
+
+        try:
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+            hotel_inst = Reg_Hotel.objects.get(id=hotel_id)
+            room_inst = Room_Register.objects.get(id=room_id)
+        except:
+
+            return Response(
+                {"message": "No user found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        users_inst = User_Cab_Booking.objects.create(
+            user_id=user_inst,
+            user_ip=user_ip,
+            hotel_id=hotel_inst,
+            room_id=room_inst,
+            hotel_bookid=hotel_bookid,
+            check_in_date=check_in_date,
+            check_in_time=check_in_time,
+            check_out_date=check_out_date,
+            check_out_time=check_out_time,
+            guest_no=guest_no,
+            rooms=rooms,
+            amount_booking=amount_booking,
+        )
+        users_inst.save()
+
+        users_data = serializers.CabBookingSerializer(
+            User_Cab_Booking.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)      
 
 
 class CabBookingViewSet(viewsets.ViewSet):
