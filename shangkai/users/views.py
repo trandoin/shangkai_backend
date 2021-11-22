@@ -101,7 +101,7 @@ class HotelBookingViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        users_inst = User_Cab_Booking.objects.create(
+        users_inst = User_Hotel_Booking.objects.create(
             user_id=user_inst,
             user_ip=user_ip,
             hotel_id=hotel_inst,
@@ -117,8 +117,8 @@ class HotelBookingViewSet(viewsets.ViewSet):
         )
         users_inst.save()
 
-        users_data = serializers.CabBookingSerializer(
-            User_Cab_Booking.objects.filter(id=users_inst.id), many=True
+        users_data = serializers.HotelBookingSerializer(
+            User_Hotel_Booking.objects.filter(id=users_inst.id), many=True
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)      
 
