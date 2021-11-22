@@ -47,7 +47,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         image = request.POST.get("image", None)
 
         users_inst = Normal_UserReg.objects.create(
-            user_id=user_inst,
+            user_id=user_id,
             user_ip=user_ip,
             name=name,
             email=email,
