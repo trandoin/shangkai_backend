@@ -92,7 +92,6 @@ class CabBookingViewSet(viewsets.ViewSet):
             user_id=user_inst,
             user_ip=user_ip,
             car_id=car_inst,
-            account_no=account_no,
             driver_id=driver_id,
             cab_bookid=cab_bookid,
             check_in_date=check_in_date,
