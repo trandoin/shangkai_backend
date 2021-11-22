@@ -217,13 +217,13 @@ class CabBookingViewSet(viewsets.ViewSet):
                 cabs_data_dic.data[i].update(
                     {"user": {"id": created_user_id, "message": "Deleted Account"}}
                 )
-            created_cab_id = cabs_data_dic.data[i].get("cab_id")
+            created_cab_id = cabs_data_dic.data[i].get("car_id")
             try:
                 cab_inst = Cabs_Reg.objects.get(id=created_cab_id)
 
                 cabs_data_dic.data[i].update(
                     {
-                        "cab_id": {
+                        "car_id": {
                             "id": cab_inst.id,
                             "car_code": cab_inst.car_code,
                             "car_name": cab_inst.car_name,
@@ -234,7 +234,7 @@ class CabBookingViewSet(viewsets.ViewSet):
             except:
                 cabs_data_dic.data[i].update(
                     {
-                        "cab_id": {
+                        "car_id": {
                             "id": created_cab_id,
                             "message": "Deleted cab",
                         }
