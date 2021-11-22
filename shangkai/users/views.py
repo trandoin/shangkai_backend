@@ -73,6 +73,71 @@ class HotelBookingViewSet(viewsets.ViewSet):
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+        for i in range(0, len(hotel_data_dic.data)):
+            created_user_id = hotel_data_dic.data[i].get("user")
+            try:
+                user_inst = Normal_UserReg.objects.get(id=created_user_id)
+
+                hotel_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "user_id": user_inst.user_id,
+                            "user_name": user_inst.name,
+                        }
+                    }
+                )
+            except:
+                hotel_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted Account"}}
+                )
+            created_hotel_id = hotel_data_dic.data[i].get("hotel_id")
+            try:
+                hotel_inst = Reg_Hotel.objects.get(id=created_hotel_id)
+
+                hotel_data_dic.data[i].update(
+                    {
+                        "hotel_id": {
+                            "id": hotel_inst.id,
+                            "hotel_code": hotel_inst.hotel_code,
+                            "hotel_name": hotel_inst.hotel_name,
+                            "geo_location": hotel_inst.geo_location,
+                        }
+                    }
+                )
+            except:
+                hotel_data_dic.data[i].update(
+                    {
+                        "hotel_id": {
+                            "id": created_hotel_id,
+                            "message": "Deleted Hotel",
+                        }
+                    }
+                )
+            created_room_id = hotel_data_dic.data[i].get("room_id")
+            try:
+                room_inst = Room_Register.objects.get(id=created_room_id)
+
+                hotel_data_dic.data[i].update(
+                    {
+                        "room_id": {
+                            "id": room_inst.id,
+                            "room_id": room_inst.room_id,
+                            "room_type": room_inst.room_type,
+                            "bed_type": room_inst.bed_type,
+                        }
+                    }
+                )
+            except:
+                hotel_data_dic.data[i].update(
+                    {
+                        "room_id": {
+                            "id": created_room_id,
+                            "message": "Deleted room",
+                        }
+                    }
+                )
+            
         return Response(hotel_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
