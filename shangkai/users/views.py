@@ -193,13 +193,77 @@ class CabBookingViewSet(viewsets.ViewSet):
 
         try:
             sm_hotel = User_Cab_Booking.objects.all()
-            hotel_data_dic = serializers.CabBookingSerializer(sm_hotel, many=True)
+            cabs_data_dic = serializers.CabBookingSerializer(sm_hotel, many=True)
         except:
             return Response(
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        return Response(hotel_data_dic.data, status=status.HTTP_200_OK)
+        for i in range(0, len(cabs_data_dic.data)):
+            created_user_id = cabs_data_dic.data[i].get("user")
+            try:
+                user_inst = Normal_UserReg.objects.get(id=created_user_id)
+
+                cabs_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "user_id": user_inst.user_id,
+                            "user_name": user_inst.name,
+                        }
+                    }
+                )
+            except:
+                cabs_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted Account"}}
+                )
+            created_cab_id = cabs_data_dic.data[i].get("car_id")
+            try:
+                cab_inst = Cabs_Reg.objects.get(id=created_cab_id)
+
+                cabs_data_dic.data[i].update(
+                    {
+                        "cab_id": {
+                            "id": cab_inst.id,
+                            "car_code": cab_inst.car_code,
+                            "car_name": cab_inst.car_name,
+                            "vehicle_no": cab_inst.vehicle_no,
+                        }
+                    }
+                )
+            except:
+                cabs_data_dic.data[i].update(
+                    {
+                        "cab_id": {
+                            "id": created_cab_id,
+                            "message": "Deleted cab",
+                        }
+                    }
+                )
+            created_driver_id = cabs_data_dic.data[i].get("driver_id")
+            try:
+                driver_inst = Driver_Reg.objects.get(id=created_driver_id)
+
+                cabs_data_dic.data[i].update(
+                    {
+                        "driver_id": {
+                            "id": driver_inst.id,
+                            "driver_name": driver_inst.driver_name,
+                            "driver_mobile": driver_inst.driver_mobile,
+                            "driver_email": driver_inst.driver_email,
+                        }
+                    }
+                )
+            except:
+                cabs_data_dic.data[i].update(
+                    {
+                        "driver_id": {
+                            "id": created_driver_id,
+                            "message": "Deleted Driver",
+                        }
+                    }
+                )    
+        return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
 
