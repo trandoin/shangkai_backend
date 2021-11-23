@@ -29,6 +29,12 @@ class Footer_Copyright(models.Model):
 class Hotspot_Category(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     title = models.CharField("title", null=True, max_length=1000)
+    sub_title = models.CharField("sub_title", null=True, max_length=1000)
+    tagline = models.TextField("tagline", null=True, max_length=1000)
+    rating = models.CharField("rating", null=True, max_length=1000)
+    images = models.FileField(
+        "images",upload_to="hotspots_cat/", default="hotspots_cat/images.jpg", max_length=255
+    )
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
