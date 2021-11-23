@@ -3,7 +3,7 @@ from django.db import models
 from django.utils import timezone
 
 from users.models import (
-    Normal_UserReg
+    Normal_UserReg,
 )
 
 class About_Us(models.Model):

@@ -10,7 +10,7 @@ from clients.models import (
    Reg_Hotel,
    Room_Register,
    Cabs_Reg,
-   Driver_Reg
+   Driver_Reg,
 )
 
 class Normal_UserReg(models.Model):
