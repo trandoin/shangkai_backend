@@ -41,7 +41,17 @@ class Hotspot_Category(models.Model):
         verbose_name, verbose_name_plural = (
             "Hotspot Category",
             "Hotspot Category",
-        )    
+        )
+class Hotel_Category(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    title = models.CharField("title", null=True, max_length=1000)
+    status = models.CharField("status", null=True, default="0", max_length=255)
+
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Hotel Category",
+            "Hotel Category",
+        )            
 
 class Hot_Spots(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)

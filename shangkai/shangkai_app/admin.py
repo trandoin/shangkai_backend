@@ -11,6 +11,7 @@ from .models import (
     Hot_Spots,
     Hotspot_Category,
     Payment_Transaction,
+    Hotel_Category,
 )
 
 #Register your models here.
@@ -33,6 +34,11 @@ class HotspotCategory(admin.ModelAdmin):
 
 
 admin.site.register(Hotspot_Category, HotspotCategory)
+
+class HotelCategory(admin.ModelAdmin):
+    list_display = ["id","title"]
+
+admin.site.register(Hotel_Category, HotelCategory)
 
 class HotSpots(admin.ModelAdmin):
     list_display = ["id","title","sub_title","city","state","pin_code","geo_location","amenites","history","about","images","entry_fee","parking_fee","category","rating","tags"]

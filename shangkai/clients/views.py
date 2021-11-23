@@ -18,6 +18,10 @@ from .models import (
     Cabs_Reg,
 )
 
+from shangkai_app.models import (
+    Hotel_Category,
+)
+
 
 class UserRegisterViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -94,6 +98,7 @@ class HotelRegistrationViewSet(viewsets.ViewSet):
 
         user_id = request.POST.get("user_id", None)
         hotel_code = request.POST.get("hotel_code", None)
+        hotel_cat = request.POST.get("hotel_cat", None)
         hotel_name = request.POST.get("hotel_name", None)
         hotel_address = request.POST.get("hotel_address", None)
         hotel_city = request.POST.get("hotel_city", None)
@@ -107,6 +112,8 @@ class HotelRegistrationViewSet(viewsets.ViewSet):
 
         try:
             user_inst = User_Register.objects.get(id=user_id)
+            hotel_cat_inst = Hotel_Category.objects.get(id=hotel_cat)
+
         except:
 
             return Response(
@@ -115,6 +122,7 @@ class HotelRegistrationViewSet(viewsets.ViewSet):
             )
         users_inst = Reg_Hotel.objects.create(
             user=user_inst,
+            hotel_cat=hotel_cat_inst,
             hotel_code=hotel_code,
             hotel_name=hotel_name,
             hotel_address=hotel_address,

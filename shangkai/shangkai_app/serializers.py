@@ -6,6 +6,7 @@ from .models import (
    Hot_Spots,
    Comments_All,
    Payment_Transaction,
+   Hotel_Category,
    
 )
 
@@ -23,7 +24,12 @@ class FooterSerializer(ModelSerializer):
 class HotspotCategorySerializer(ModelSerializer):
     class Meta:
         model = Hotspot_Category
-        fields = "__all__"   
+        fields = "__all__"  
+
+class HotelCategorySerializer(ModelSerializer):
+    class Meta:
+        model = Hotel_Category
+        fields = "__all__"  
 
 class HotSpotsSerializer(ModelSerializer):
     class Meta:
