@@ -10,7 +10,7 @@ from . import serializers
 from .models import (
     User_Account_Details,
     User_Cab_Booking,
-    # User_Hotel_Booking,
+    User_Hotel_Booking,
     Normal_UserReg,
 )
 
