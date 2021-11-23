@@ -2,9 +2,10 @@ from datetime import datetime
 from django.db import models
 from django.utils import timezone
 
-# from shangkai_app.models import (
-#    Hotel_Category,
-# )
+
+from shangkai_app.models import (
+    Hotel_Category,
+)
 
 class User_Register(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
@@ -35,12 +36,12 @@ class Reg_Hotel(models.Model):
         default=None,
         db_constraint=False,
     )
-    #hotel_cat = models.ForeignKey(
-    #     "shangkai_app.Hotel_Category",
-    #     on_delete=models.CASCADE,
-    #     default=None,
-    #     db_constraint=False,
-    # )
+    hotel_cat = models.ForeignKey(
+        "shangkai_app.Hotel_Category",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
     hotel_code = models.CharField("hotel_id", null=True, max_length=255)
     hotel_name = models.CharField("hotel_name", null=True, max_length=255)
     hotel_address = models.TextField("hotel_address", null=True, max_length=1000)
