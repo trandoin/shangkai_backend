@@ -40,7 +40,6 @@ class HotelRegister(admin.ModelAdmin):
     list_display = [
         "id",
         "user",
-        "hotel_cat",
         "hotel_code",
         "hotel_name",
         "hotel_address",
