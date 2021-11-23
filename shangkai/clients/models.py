@@ -3,9 +3,9 @@ from django.db import models
 from django.utils import timezone
 
 
-from shangkai_app.models import (
-    Hotel_Category,
-)
+# from shangkai_app.models import (
+#     Hotel_Category,
+# )
 
 class User_Register(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
