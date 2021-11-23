@@ -7,10 +7,10 @@ from django.utils import timezone
 # upload_to=post_upload_path
 
 from clients.models import (
-   Reg_Hotel,
-   Room_Register,
-   Cabs_Reg,
-   Driver_Reg,
+    Cabs_Reg,
+    Reg_Hotel,
+    Room_Register,
+    Driver_Reg,
 )
 
 class Normal_UserReg(models.Model):
