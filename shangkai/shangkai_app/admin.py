@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.utils.timezone import utc
 from .models import (
     About_Us,
-    # Comments_All,
+    Comments_All,
     Footer_Copyright,
     Hot_Spots,
     Hotspot_Category,
@@ -44,13 +44,13 @@ class HotSpots(admin.ModelAdmin):
     list_display = ["id","title","sub_title","city","state","pin_code","geo_location","amenites","history","about","images","entry_fee","parking_fee","category","rating","tags"]
 
 
-# admin.site.register(Hot_Spots,HotSpots)
+admin.site.register(Hot_Spots,HotSpots)
 
-# class CommentsAll(admin.ModelAdmin):
-#     list_display = ["id","user","post_id","comments","comment_type"]
+class CommentsAll(admin.ModelAdmin):
+    list_display = ["id","user","post_id","comments","comment_type"]
 
 
-# admin.site.register(Comments_All,CommentsAll)
+admin.site.register(Comments_All,CommentsAll)
 
 class PaymentTransaction(admin.ModelAdmin):
     list_display = ["id","user_id","transaction_id","transaction_type_id"]

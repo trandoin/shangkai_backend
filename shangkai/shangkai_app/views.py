@@ -15,7 +15,7 @@ from .models import (
    Footer_Copyright,
    Hotspot_Category,
    Hot_Spots,
-#    Comments_All,
+   Comments_All,
    Payment_Transaction,
 )
 
@@ -78,67 +78,67 @@ class HotSpotsViewSet(viewsets.ViewSet):
             )
         return Response(hotspots_data_dic.data, status=status.HTTP_200_OK)
 
-# class CommentsAllViewSet(viewsets.ViewSet):
-#     def list(self, request):
+class CommentsAllViewSet(viewsets.ViewSet):
+    def list(self, request):
 
-#         try:
-#             sm_comments_all = Comments_All.objects.filter(status="1")
-#             comments_all_data_dic = serializers.CommentsAllSerializer(sm_comments_all, many=True)
-#         except:
-#             return Response(
-#                 {"message": "Sorry No data found !"},
-#                 status=status.HTTP_400_BAD_REQUEST,
-#             )
+        try:
+            sm_comments_all = Comments_All.objects.filter(status="1")
+            comments_all_data_dic = serializers.CommentsAllSerializer(sm_comments_all, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
-#         for i in range(0, len(comments_all_data_dic.data)):
-#             created_user_id = comments_all_data_dic.data[i].get("user")
-#             try:
-#                 user_inst = Normal_UserReg.objects.get(id=created_user_id)
+        for i in range(0, len(comments_all_data_dic.data)):
+            created_user_id = comments_all_data_dic.data[i].get("user")
+            try:
+                user_inst = Normal_UserReg.objects.get(id=created_user_id)
 
-#                 comments_all_data_dic.data[i].update(
-#                     {
-#                         "user": {
-#                             "id": user_inst.id,
-#                             "user_id": user_inst.user_id,
-#                             "user_name": user_inst.name,
-#                         }
-#                     }
-#                 )
-#             except:
-#                 comments_all_data_dic.data[i].update(
-#                     {"user": {"id": created_user_id, "message": "Deleted Account"}}
-#                 )    
-#         return Response(comments_all_data_dic.data, status=status.HTTP_200_OK)
+                comments_all_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "user_id": user_inst.user_id,
+                            "user_name": user_inst.name,
+                        }
+                    }
+                )
+            except:
+                comments_all_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted Account"}}
+                )    
+        return Response(comments_all_data_dic.data, status=status.HTTP_200_OK)
 
 
-#     def create(self, request):
+    def create(self, request):
 
-#         user_id = request.POST.get("user_id", None)
-#         post_id = request.POST.get("post_id", None)
-#         comments = request.POST.get("comments", None)
-#         comment_type = request.POST.get("comment_type", None)
+        user_id = request.POST.get("user_id", None)
+        post_id = request.POST.get("post_id", None)
+        comments = request.POST.get("comments", None)
+        comment_type = request.POST.get("comment_type", None)
 
-#         try:
-#             user_inst = Normal_UserReg.objects.get(id=user_id)
-#         except:
+        try:
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+        except:
 
-#             return Response(
-#                 {"message": "No user found !"},
-#                 status=status.HTTP_400_BAD_REQUEST,
-#             )
-#         users_inst = Comments_All.objects.create(
-#             user=user_inst,
-#             post_id=post_id,
-#             comments=comments,
-#             comment_type=comment_type,
+            return Response(
+                {"message": "No user found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        users_inst = Comments_All.objects.create(
+            user=user_inst,
+            post_id=post_id,
+            comments=comments,
+            comment_type=comment_type,
 
-#         )
-#         users_inst.save()
+        )
+        users_inst.save()
 
-#         users_data = serializers.CommentsAllSerializer(
-#             Comments_All.objects.filter(id=users_inst.id), many=True
-#         )
-#         return Response(users_data.data[0], status=status.HTTP_200_OK)
+        users_data = serializers.CommentsAllSerializer(
+            Comments_All.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
 
 class PaymentTransactionViewSet(viewsets.ViewSet):
     def list(self, request):

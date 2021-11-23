@@ -7,8 +7,8 @@ from django.utils import timezone
 # upload_to=post_upload_path
 
 from clients.models import (
-#    Reg_Hotel,
-#    Room_Register,
+   Reg_Hotel,
+   Room_Register,
    Cabs_Reg,
    Driver_Reg,
 )
@@ -33,41 +33,41 @@ class Normal_UserReg(models.Model):
         )
 
 
-# class User_Hotel_Booking(models.Model):
-#     datetime = models.DateTimeField("Created At", auto_now_add=True)
-#     user = models.ForeignKey(
-#         "users.Normal_UserReg",
-#         on_delete=models.CASCADE,
-#         default=None,
-#         db_constraint=False,
-#     )
-#     user_ip = models.CharField("user_ip", null=True, max_length=255)
-#     hotel_id = models.ForeignKey(
-#         "clients.Reg_Hotel",
-#         on_delete=models.CASCADE,
-#         default=None,
-#         db_constraint=False,
-#     )
-#     room_id = models.ForeignKey(
-#         "clients.Room_Register",on_delete=models.CASCADE,
-#         default=None,
-#         db_constraint=False,
-#     )
-#     hotel_bookid = models.CharField("hotel_bookid", null=True,default="0", max_length=255)
-#     check_in_date = models.CharField("check_in_date", null=True,default="0",  max_length=255)
-#     check_in_time = models.CharField("check_in_time", null=True, default="0", max_length=255)
-#     check_out_date = models.CharField("check_out_date", null=True,default="0",  max_length=255)
-#     check_out_time = models.CharField("check_out_time", null=True,default="0",  max_length=255)
-#     guest_no = models.CharField("guests", null=True,default="0", max_length=255)
-#     rooms = models.CharField("rooms", null=True,default="0", max_length=255)
-#     amount_booking = models.CharField("amount_booking", null=True,default="0", max_length=255)
-#     booking_status = models.CharField("status", null=True, default="0", max_length=255)
+class User_Hotel_Booking(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user = models.ForeignKey(
+        "users.Normal_UserReg",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    user_ip = models.CharField("user_ip", null=True, max_length=255)
+    hotel_id = models.ForeignKey(
+        "clients.Reg_Hotel",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    room_id = models.ForeignKey(
+        "clients.Room_Register",on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    hotel_bookid = models.CharField("hotel_bookid", null=True,default="0", max_length=255)
+    check_in_date = models.CharField("check_in_date", null=True,default="0",  max_length=255)
+    check_in_time = models.CharField("check_in_time", null=True, default="0", max_length=255)
+    check_out_date = models.CharField("check_out_date", null=True,default="0",  max_length=255)
+    check_out_time = models.CharField("check_out_time", null=True,default="0",  max_length=255)
+    guest_no = models.CharField("guests", null=True,default="0", max_length=255)
+    rooms = models.CharField("rooms", null=True,default="0", max_length=255)
+    amount_booking = models.CharField("amount_booking", null=True,default="0", max_length=255)
+    booking_status = models.CharField("status", null=True, default="0", max_length=255)
 
-#     class Meta:
-#         verbose_name, verbose_name_plural = (
-#             "Hotel Booking",
-#             "Hotel Booking",
-#         )
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Hotel Booking",
+            "Hotel Booking",
+        )
 
 class User_Cab_Booking(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)

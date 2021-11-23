@@ -2,10 +2,10 @@ from datetime import datetime
 from django.db import models
 from django.utils import timezone
 
-# from users.models import (
+from users.models import (
 
-#     Normal_UserReg,
-# )
+    Normal_UserReg,
+)
 
 class About_Us(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
@@ -82,19 +82,19 @@ class Hot_Spots(models.Model):
             "Hotspots",
         )           
 
-# class Comments_All(models.Model):
-#     datetime = models.DateTimeField("Created At", auto_now_add=True)
-#     user = models.ForeignKey("users.Normal_UserReg",on_delete=models.CASCADE,default=None)
-#     post_id = models.CharField("post_id", null=True, max_length=255)
-#     comments = models.CharField("comments", null=True, max_length=2000)
-#     comment_type = models.CharField("comment_type", null=True, max_length=255)
-#     status = models.CharField("status", null=True, default="0", max_length=255)
+class Comments_All(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user = models.ForeignKey("users.Normal_UserReg",on_delete=models.CASCADE,default=None)
+    post_id = models.CharField("post_id", null=True, max_length=255)
+    comments = models.CharField("comments", null=True, max_length=2000)
+    comment_type = models.CharField("comment_type", null=True, max_length=255)
+    status = models.CharField("status", null=True, default="0", max_length=255)
 
-#     class Meta:
-#         verbose_name, verbose_name_plural = (
-#             "Comments",
-#             "Comments",
-#         )
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Comments",
+            "Comments",
+        )
         
 # payment transaction
 

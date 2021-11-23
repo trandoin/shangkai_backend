@@ -5,7 +5,7 @@ from django.utils import timezone
 from .models import (
     User_Account_Details,
     User_Cab_Booking,
-    # User_Hotel_Booking,
+    User_Hotel_Booking,
     Normal_UserReg,
 )
 
@@ -27,11 +27,11 @@ class NormalUserReg(admin.ModelAdmin):
 
 admin.site.register(Normal_UserReg, NormalUserReg)
 
-# class BookingHotel(admin.ModelAdmin):
-#     list_display = ["id","user","user_ip","hotel_id","hotel_bookid","check_in_date","check_in_time","check_out_date","check_out_time","guest_no","rooms","amount_booking"]
+class BookingHotel(admin.ModelAdmin):
+    list_display = ["id","user","user_ip","hotel_id","hotel_bookid","check_in_date","check_in_time","check_out_date","check_out_time","guest_no","rooms","amount_booking"]
 
 
-# admin.site.register(User_Hotel_Booking, BookingHotel)
+admin.site.register(User_Hotel_Booking, BookingHotel)
 
 class CabBooking(admin.ModelAdmin):
     list_display = ["id","user","user_ip","car_id","driver_id","cab_bookid","check_in_date","check_in_time","check_out_date","check_out_time","start_from","end_trip","distance","amount_booking","no_guests"]

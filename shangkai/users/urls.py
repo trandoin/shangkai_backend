@@ -10,7 +10,7 @@ router.register("user_register", views.UserRegisterViewSet, basename="NormalUser
 router.register("account_details", views.AccounDetailsBookingViewSet, basename="AccounDetailsBooking")
 
 # # """"BOOKINGS"""
-# router.register("hotel_booking", views.HotelBookingViewSet, basename="HotelBooking")
+router.register("hotel_booking", views.HotelBookingViewSet, basename="HotelBooking")
 router.register("cab_booking", views.CabBookingViewSet, basename="CabBooking")
 
 

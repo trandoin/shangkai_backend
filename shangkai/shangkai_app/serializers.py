@@ -4,9 +4,9 @@ from .models import (
    Footer_Copyright,
    Hotspot_Category,
    Hot_Spots,
-#    Comments_All,
+   Comments_All,
    Payment_Transaction,
-#    Hotel_Category,
+   Hotel_Category,
    
 )
 
@@ -26,20 +26,20 @@ class HotspotCategorySerializer(ModelSerializer):
         model = Hotspot_Category
         fields = "__all__"  
 
-# class HotelCategorySerializer(ModelSerializer):
-#     class Meta:
-#         model = Hotel_Category
-#         fields = "__all__"  
+class HotelCategorySerializer(ModelSerializer):
+    class Meta:
+        model = Hotel_Category
+        fields = "__all__"  
 
 class HotSpotsSerializer(ModelSerializer):
     class Meta:
         model = Hot_Spots
         fields = "__all__"  
 
-# class CommentsAllSerializer(ModelSerializer):
-#     class Meta:
-#         model = Comments_All
-#         fields = "__all__" 
+class CommentsAllSerializer(ModelSerializer):
+    class Meta:
+        model = Comments_All
+        fields = "__all__" 
 
 class PaymentTransactionAllSerializer(ModelSerializer):
     class Meta:
