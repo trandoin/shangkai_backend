@@ -8,8 +8,8 @@ from .models import (
     Account_Details,
     Cabs_Reg,
     Driver_Reg,
-    Reg_Hotel,
-    Room_Register,
+    # Reg_Hotel,
+    # Room_Register,
     User_Register,
 )
 
@@ -36,50 +36,50 @@ admin.site.register(User_Register, UserRegister)
 ##  ========= HOTELS ==========##
 
 
-class HotelRegister(admin.ModelAdmin):
-    list_display = [
-        "id",
-        "user",
-        "hotel_code",
-        "hotel_name",
-        "hotel_address",
-        "hotel_city",
-        "hotel_state",
-        "geo_location",
-        "pin_code",
-        "room_rates",
-        "hotel_facilites",
-        "max_guests_limit",
-        "hotel_images",
-        "status",
-    ]
+# class HotelRegister(admin.ModelAdmin):
+#     list_display = [
+#         "id",
+#         "user",
+#         "hotel_code",
+#         "hotel_name",
+#         "hotel_address",
+#         "hotel_city",
+#         "hotel_state",
+#         "geo_location",
+#         "pin_code",
+#         "room_rates",
+#         "hotel_facilites",
+#         "max_guests_limit",
+#         "hotel_images",
+#         "status",
+#     ]
 
 
-admin.site.register(Reg_Hotel, HotelRegister)
+# admin.site.register(Reg_Hotel, HotelRegister)
 
 
-class RoomRegister(admin.ModelAdmin):
-    list_display = [
-        "id",
-        "user",
-        "hotel_id",
-        "room_id",
-        "room_type",
-        "bed_type",
-        "totel_beds",
-        "room_rates",
-        "room_facilites",
-        "max_guests_limit",
-        "no_rooms",
-        "rating",
-        "tags",
-        "extra_services",
-        "room_images",
-        "states",
-    ]
+# class RoomRegister(admin.ModelAdmin):
+#     list_display = [
+#         "id",
+#         "user",
+#         "hotel_id",
+#         "room_id",
+#         "room_type",
+#         "bed_type",
+#         "totel_beds",
+#         "room_rates",
+#         "room_facilites",
+#         "max_guests_limit",
+#         "no_rooms",
+#         "rating",
+#         "tags",
+#         "extra_services",
+#         "room_images",
+#         "states",
+#     ]
 
 
-admin.site.register(Room_Register, RoomRegister)
+# admin.site.register(Room_Register, RoomRegister)
 
 
 class DriverRegistration(admin.ModelAdmin):
