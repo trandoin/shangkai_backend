@@ -4,7 +4,7 @@ from django.utils import timezone
 
 
 from shangkai_app.models import (
-    Hotel_Category,
+    Hotel_Category
 )
 
 class User_Register(models.Model):
