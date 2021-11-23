@@ -10,12 +10,12 @@ router.register("client_register", views.UserRegisterViewSet, basename="ClientsR
 
 # # """"HOTELS"""
 
-# router.register(
-#     "hotel_registration", views.HotelRegistrationViewSet, basename="HotelRegistration"
-# )
-# router.register(
-#     "room_registration", views.RoomRegistrationViewSet, basename="RoomRegistration"
-# )
+router.register(
+    "hotel_registration", views.HotelRegistrationViewSet, basename="HotelRegistration"
+)
+router.register(
+    "room_registration", views.RoomRegistrationViewSet, basename="RoomRegistration"
+)
 
 ##### CABS #####
 router.register(

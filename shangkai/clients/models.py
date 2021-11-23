@@ -64,41 +64,41 @@ class Reg_Hotel(models.Model):
         )
 
 
-# class Room_Register(models.Model):
-#     datetime = models.DateTimeField("Created At", auto_now_add=True)
-#     user = models.ForeignKey(
-#         "clients.User_Register",
-#         on_delete=models.CASCADE,
-#         default=None,
-#         db_constraint=False
-#     )
-#     hotel_id = models.ForeignKey(
-#         "clients.Reg_Hotel",
-#         on_delete=models.CASCADE,
-#         default=None,
-#         db_constraint=False
-#     )
-#     room_id = models.CharField("room_id", null=True, max_length=255)
-#     room_type = models.CharField("room_type", null=True, max_length=255)
-#     bed_type = models.TextField("bed_type", null=True, max_length=1000)
-#     totel_beds = models.CharField("totel_beds", null=True, max_length=255)
-#     room_rates = models.CharField("rates", null=True, max_length=255)
-#     room_facilites = models.TextField("facilites", null=True, max_length=5000)
-#     max_guests_limit = models.CharField("limits", null=True, max_length=255)
-#     no_rooms = models.CharField("no_of_rooms", null=True, max_length=255)
-#     rating = models.CharField("rating", null=True, max_length=255)
-#     tags = models.TextField("tags", null=True, max_length=255)
-#     extra_services = models.TextField("extra_services", null=True, max_length=255)
-#     room_images = models.FileField(
-#         "images", null=True,upload_to="rooms/", default="rooms/room_image.jpg", max_length=255
-#     )
-#     states = models.CharField("status", null=True, default="0", max_length=255)
+class Room_Register(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user = models.ForeignKey(
+        "clients.User_Register",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False
+    )
+    hotel_id = models.ForeignKey(
+        "clients.Reg_Hotel",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False
+    )
+    room_id = models.CharField("room_id", null=True, max_length=255)
+    room_type = models.CharField("room_type", null=True, max_length=255)
+    bed_type = models.TextField("bed_type", null=True, max_length=1000)
+    totel_beds = models.CharField("totel_beds", null=True, max_length=255)
+    room_rates = models.CharField("rates", null=True, max_length=255)
+    room_facilites = models.TextField("facilites", null=True, max_length=5000)
+    max_guests_limit = models.CharField("limits", null=True, max_length=255)
+    no_rooms = models.CharField("no_of_rooms", null=True, max_length=255)
+    rating = models.CharField("rating", null=True, max_length=255)
+    tags = models.TextField("tags", null=True, max_length=255)
+    extra_services = models.TextField("extra_services", null=True, max_length=255)
+    room_images = models.FileField(
+        "images", null=True,upload_to="rooms/", default="rooms/room_image.jpg", max_length=255
+    )
+    states = models.CharField("status", null=True, default="0", max_length=255)
 
-#     class Meta:
-#         verbose_name, verbose_name_plural = (
-#             "Room Registration",
-#             "Room Registration",
-#         )
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Room Registration",
+            "Room Registration",
+        )
 
 class Driver_Reg(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
