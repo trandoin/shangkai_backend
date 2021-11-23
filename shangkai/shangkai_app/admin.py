@@ -50,7 +50,7 @@ class HotSpots(admin.ModelAdmin):
 #     list_display = ["id","user","post_id","comments","comment_type"]
 
 
-admin.site.register(Comments_All,CommentsAll)
+# admin.site.register(Comments_All,CommentsAll)
 
 class PaymentTransaction(admin.ModelAdmin):
     list_display = ["id","user_id","transaction_id","transaction_type_id"]
