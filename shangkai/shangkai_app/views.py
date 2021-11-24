@@ -67,18 +67,18 @@ class HotspotCategoryViewSet(viewsets.ViewSet):
 
 class HotSpotsViewSet(viewsets.ViewSet):
     def list(self, request):
-        cat_id = request.POST.get("hotspot_cat_id", None)
+        # cat_id = request.POST.get("hotspot_cat_id", None)
 
-        try:
-            cat_inst = Hotspot_Category.objects.get(id=cat_id)
-        except:
+        # try:
+        #     cat_inst = Hotspot_Category.objects.get(id=cat_id)
+        # except:
 
-            return Response(
-                {"message": "Invalid request !"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        #     return Response(
+        #         {"message": "Invalid request !"},
+        #         status=status.HTTP_400_BAD_REQUEST,
+        #     )
         try:
-            sm_hotspots = Hot_Spots.objects.filter(hotel_cat=cat_inst)
+            sm_hotspots = Hot_Spots.objects.all()
             hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
         except:
             return Response(
