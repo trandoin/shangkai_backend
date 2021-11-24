@@ -29,12 +29,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "rest_framework",
     # "storages",
+    "corsheaders",
     "users",
     "clients",
     "shangkai_app",
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -168,6 +170,9 @@ STATIC_URL = '/home/ubuntu/travel-env/shangkai_backend/shangkai/static/'
 #     "CacheControl": "max-age=2592000",
 # }
 
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
