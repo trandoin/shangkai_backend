@@ -67,7 +67,7 @@ class HotelRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
 
         try:
-            sm_users = Reg_Hotel.objects.filter(status="0")
+            sm_users = Reg_Hotel.objects.all()
             users_data_dic = serializers.HotelRegisterSerializer(sm_users, many=True)
         except:
             return Response(
