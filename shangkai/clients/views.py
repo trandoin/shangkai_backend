@@ -75,7 +75,7 @@ class HotelRegistrationViewSet(viewsets.ViewSet):
         #         status=status.HTTP_400_BAD_REQUEST,
         #     )
         try:
-            sm_users = Reg_Hotel.objects.get(user=user_id)
+            sm_users = Reg_Hotel.objects.filter(user=user_id)
             users_data_dic = serializers.HotelRegisterSerializer(sm_users, many=True)
         except:
             return Response(
