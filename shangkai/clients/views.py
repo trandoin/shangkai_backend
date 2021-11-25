@@ -153,9 +153,11 @@ class HotelRegistrationViewSet(viewsets.ViewSet):
 
 class RoomRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
+        user_id = request.POST.get("user_id", None)
+        hotel_id = request.POST.get("hotel_id", None)
 
         try:
-            sm_users = Room_Register.objects.all()
+            sm_users = Room_Register.objects.filter(user=user_id,hotel_id=hotel_id)
             users_data_dic = serializers.RoomRegisterSerializer(sm_users, many=True)
         except:
             return Response(
