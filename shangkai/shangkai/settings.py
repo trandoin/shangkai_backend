@@ -171,7 +171,7 @@ STATIC_URL = '/home/ubuntu/travel-env/shangkai_backend/shangkai/static/'
 # }
 
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
+    'http://localhost:3000','https://shangkai.in','https:/panel.shangkai.in'
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
