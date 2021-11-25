@@ -333,9 +333,9 @@ class DriverRegistrationViewSet(viewsets.ViewSet):
 
 class CabRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
-
+        user_id = request.POST.get("user_id", None)
         try:
-            sm_cabs = Cabs_Reg.objects.all()
+            sm_cabs = Cabs_Reg.objects.filter(user=user_id)
             cabs_data_dic = serializers.CabRegisterSerializer(sm_cabs, many=True)
         except:
             return Response(
