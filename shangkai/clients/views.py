@@ -258,9 +258,9 @@ class RoomRegistrationViewSet(viewsets.ViewSet):
 
 class DriverRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
-
+        user_id = request.POST.get("user_id", None)
         try:
-            sm_driver = Driver_Reg.objects.all()
+            sm_driver = Driver_Reg.objects.filter(user=user_id)
             driver_data_dic = serializers.DriverRegisterSerializer(sm_driver, many=True)
         except:
             return Response(
