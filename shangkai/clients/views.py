@@ -66,16 +66,16 @@ class UserRegisterViewSet(viewsets.ViewSet):
 class HotelRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.POST.get("user_id", None)
-        try:
-            user_inst = User_Register.objects.get(id=user_id)
-        except:
+        # try:
+        #     user_inst = User_Register.objects.get(id=user_id)
+        # except:
 
-            return Response(
-                {"message": "No user found !"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        #     return Response(
+        #         {"message": "No user found !"},
+        #         status=status.HTTP_400_BAD_REQUEST,
+        #     )
         try:
-            sm_users = Reg_Hotel.objects.get(user=user_inst)
+            sm_users = Reg_Hotel.objects.get(user=user_id)
             users_data_dic = serializers.HotelRegisterSerializer(sm_users, many=True)
         except:
             return Response(
