@@ -67,18 +67,11 @@ class HotspotCategoryViewSet(viewsets.ViewSet):
 
 class HotSpotsViewSet(viewsets.ViewSet):
     def list(self, request):
-        # cat_id = request.POST.get("hotspot_cat_id", None)
-
-        # try:
-        #     cat_inst = Hotspot_Category.objects.get(id=cat_id)
-        # except:
-
-        #     return Response(
-        #         {"message": "Invalid request !"},
-        #         status=status.HTTP_400_BAD_REQUEST,
-        #     )
+        hotspot_cat = request.POST.get("hotspot_cat", None)
+        hotspot_city = request.POST.get("hotspot_city", None)
+        hotspot_price = request.POST.get("hotspot_price", None)
         try:
-            sm_hotspots = Hot_Spots.objects.all()
+            sm_hotspots = Hot_Spots.objects.filter(category=hotspot_cat,city=hotspot_city,entry_fee=hotspot_price)
             hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
         except:
             return Response(
