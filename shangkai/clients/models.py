@@ -27,6 +27,20 @@ class User_Register(models.Model):
             "Clients Registration",
         )
 
+class Client_login(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user_ip = models.CharField("user_ip", null=True, max_length=255)
+    email = models.EmailField("email", null=True, max_length=255)
+    password = models.CharField("password", null=True, max_length=255)
+    user_type = models.CharField("user_type",null=True,default="0", max_length=255)
+    status = models.CharField("status", null=True, default="0", max_length=255)
+
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Clients Login",
+            "Clients Login",
+        )
+
 
 class Reg_Hotel(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
