@@ -70,14 +70,33 @@ class HotSpotsViewSet(viewsets.ViewSet):
         hotspot_cat = request.POST.get("hotspot_cat", None)
         hotspot_city = request.POST.get("hotspot_city", None)
         hotspot_price = request.POST.get("hotspot_price", None)
-        try:
+
+        if hotspot_cat is not None and hotspot_city is not None and hotspot_price is not None :
             sm_hotspots = Hot_Spots.objects.filter(category=hotspot_cat,city=hotspot_city,entry_fee=hotspot_price)
             hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
-        except:
-            return Response(
-                {"message": "Sorry No data found !"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        elif hotspot_cat is not None and hotspot_city is not None :
+            sm_hotspots = Hot_Spots.objects.filter(category=hotspot_cat,city=hotspot_city)
+            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True) 
+        elif hotspot_city is not None and hotspot_price is not None :
+            sm_hotspots = Hot_Spots.objects.filter(city=hotspot_city,entry_fee=hotspot_price)
+            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
+        elif hotspot_cat is not None and hotspot_price is not None :
+            sm_hotspots = Hot_Spots.objects.filter(category=hotspot_cat,entry_fee=hotspot_price)
+            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)           
+        elif hotspot_cat is not None :
+            sm_hotspots = Hot_Spots.objects.filter(category=hotspot_cat)
+            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
+        elif hotspot_city is not None :
+            sm_hotspots = Hot_Spots.objects.filter(city=hotspot_city)
+            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
+        elif hotspot_price is not None :
+            sm_hotspots = Hot_Spots.objects.filter(entry_fee=hotspot_price)
+            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)           
+        else:
+            sm_hotspots = Hot_Spots.objects.all()
+            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
+
+
         return Response(hotspots_data_dic.data, status=status.HTTP_200_OK)
 
 class CommentsAllViewSet(viewsets.ViewSet):
