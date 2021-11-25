@@ -7,6 +7,7 @@ router = DefaultRouter()
 
 
 router.register("client_register", views.UserRegisterViewSet, basename="ClientsRegister")
+router.register("client_login", views.ClientloginViewSet, basename="ClientsLogin")
 
 # # """"HOTELS"""
 

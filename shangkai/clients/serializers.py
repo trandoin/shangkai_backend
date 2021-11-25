@@ -5,12 +5,18 @@ from .models import (
     User_Register,
     Driver_Reg,
     Cabs_Reg,
+    Client_login,
 )
 
 
 class UserRegisterSerializer(ModelSerializer):
     class Meta:
         model = User_Register
+        fields = "__all__"
+
+class ClientloginSerializer(ModelSerializer):
+    class Meta:
+        model = Client_login
         fields = "__all__"
 
 

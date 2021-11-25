@@ -16,6 +16,7 @@ from .models import (
     Room_Register,
     Driver_Reg,
     Cabs_Reg,
+    Client_login,
 )
 
 from shangkai_app.models import (
@@ -62,6 +63,40 @@ class UserRegisterViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+
+class ClientloginViewSet(viewsets.ViewSet):
+    def list(self, request):
+
+        try:
+            sm_users = Client_login.objects.all()
+            users_data_dic = serializers.ClientloginSerializer(sm_users, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(users_data_dic.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+
+        user_ip = request.POST.get("user_ip", None)
+        email = request.POST.get("email", None)
+        user_type = request.POST.get("user_type", None)
+        password = request.POST.get("password", None)
+        image = request.POST.get("image", None)
+
+        users_inst = Client_login.objects.create(
+            user_ip=user_ip,
+            email=email,
+            password=password,
+            user_type=user_type,
+        )
+        users_inst.save()
+
+        users_data = serializers.ClientloginSerializer(
+            Client_login.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
 
 class HotelRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
