@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "rest_framework",
-    # "storages",
+    "auth_travel",
     "corsheaders",
     "users",
     "clients",
