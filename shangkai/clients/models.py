@@ -27,6 +27,28 @@ class User_Register(models.Model):
             "Clients Registration",
         )
 
+
+# class client_token_authentication(models.Model):
+#     user = models.ForeignKey(
+#         "User_Register", on_delete=models.CASCADE, default=None, db_constraint=False
+#     )
+#     user_email = models.EmailField("Email", null=True, blank=True, unique=True)
+#     is_email_verified = models.BooleanField(
+#         "Email verification", null=True, blank=False, default=False
+#     )
+#     user_phonenumber = models.CharField(
+#         "Phone Number", max_length=12, null=True, default=None, unique=True
+#     )
+
+#     last_otp = models.IntegerField("Last OTP", max_length=20, null=True, default=None)
+#     last_otp_time = models.DateTimeField(
+#         "Last OTP time", default=datetime.datetime.now()
+#     )
+#     accessToken = models.TextField("Access Token", default=None, null=True, blank=True)
+#     refreshToken = models.TextField(
+#         "Refresh Token", default=None, null=True, blank=True
+#     )
+
 class Client_login(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user_ip = models.CharField("user_ip", null=True, max_length=255)
