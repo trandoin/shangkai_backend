@@ -175,7 +175,7 @@ CORS_ALLOW_CREDENTIALS = True  # to accept cookies via ajax request
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "token_authentication.authentication.SafeJWTAuthentication",
+        "auth_travel.authentication.SafeJWTAuthentication",
     ),
 }
 
