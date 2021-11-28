@@ -26,6 +26,11 @@ router.register(
 router.register(
     "cab_registration", views.CabRegistrationViewSet, basename="CabRegistration"
 )
+router.register(
+    "cab_search", views.CabSearchViewSet, basename="CabSearch"
+)
+
+
 
 
 urlpatterns = [
