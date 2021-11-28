@@ -471,11 +471,11 @@ class CabRegistrationViewSet(viewsets.ViewSet):
 class CabSearchViewSet(viewsets.ViewSet):
 
     def list(self, request):
-        cab_name = request.POST.get("cab_name", None)
-        checkin_date = request.POST.get("checkin_date", None)
-        checkout_date = request.POST.get("checkout_date", None)
-        from_location = request.POST.get("from_location", None)
-        destination = request.POST.get("destination", None)
+        cab_name = request.GET.get("cab_name", None)
+        checkin_date = request.GET.get("checkin_date", None)
+        checkout_date = request.GET.get("checkout_date", None)
+        from_location = request.GET.get("from_location", None)
+        destination = request.GET.get("destination", None)
         try:
             sm_cabs = Cabs_Reg.objects.filter(car_name=cab_name,checkin_date=checkin_date,checkout_date=checkout_date,pickup_point=from_location,destination=destination)
             cabs_data_dic = serializers.CabRegisterSerializer(sm_cabs, many=True)
