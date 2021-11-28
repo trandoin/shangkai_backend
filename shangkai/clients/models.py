@@ -42,7 +42,7 @@ class client_token_authentication(models.Model):
 
     last_otp = models.IntegerField("Last OTP", max_length=20, null=True, default=None)
     last_otp_time = models.DateTimeField(
-        "Last OTP time", default=datetime.datetime.now()
+        "Last OTP time", auto_now_add=True
     )
     accessToken = models.TextField("Access Token", default=None, null=True, blank=True)
     refreshToken = models.TextField(
