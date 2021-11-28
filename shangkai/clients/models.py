@@ -40,7 +40,7 @@ class client_token_authentication(models.Model):
         "Phone Number", max_length=12, null=True, default=None, unique=True
     )
 
-    last_otp = models.IntegerField("Last OTP", max_length=20, null=True, default=None)
+    last_otp = models.IntegerField("Last OTP", null=True, default=None)
     last_otp_time = models.DateTimeField(
         "Last OTP time", auto_now_add=True
     )
