@@ -188,6 +188,7 @@ class Cabs_Reg(models.Model):
     capacity = models.CharField("capacity", null=True, max_length=255)
     vehicle_no = models.CharField("vehicle_no", null=True, max_length=255)
     car_mou = models.CharField("car_mou", null=True, max_length=255)
+    car_fee = models.CharField("car_fee", null=True, max_length=255)
     pickup_point = models.CharField("pickup_point", null=True, max_length=255)
     destination = models.CharField("destination", null=True, max_length=255)
     checkin_date = models.CharField("checkin_date", null=True, max_length=255)
