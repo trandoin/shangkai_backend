@@ -170,6 +170,21 @@ STATIC_URL = '/home/ubuntu/travel-env/shangkai_backend/shangkai/static/'
 #     "CacheControl": "max-age=2592000",
 # }
 
+"""Start For Token Authentication """
+CORS_ALLOW_CREDENTIALS = True  # to accept cookies via ajax request
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "token_authentication.authentication.SafeJWTAuthentication",
+    ),
+}
+
+
+REFRESH_TOKEN_SECRET = "4l7$d1av+8vl1s9175svaazrf8f%$no1*810pz262(k7mnzi9k"
+
+""" END Token Authentication """
+
+
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000','https://shangkai.in','https://panel.shangkai.in','http://shangkai.in'
 ]
