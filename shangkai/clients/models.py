@@ -187,6 +187,9 @@ class Cabs_Reg(models.Model):
     vehicle_no = models.CharField("vehicle_no", null=True, max_length=255)
     car_mou = models.CharField("car_mou", null=True, max_length=255)
     pickup_point = models.CharField("pickup_point", null=True, max_length=255)
+    destination = models.CharField("destination", null=True, max_length=255)
+    checkin_date = models.CharField("checkin_date", null=True, max_length=255)
+    checkout_date = models.CharField("checkout_date", null=True, max_length=255)
     car_rating = models.CharField("car_rating", null=True, max_length=255)
     car_doc = models.FileField(
         "car_doc", null=True,upload_to="car_doc/", default="car_doc/car_doc.jpg", max_length=255

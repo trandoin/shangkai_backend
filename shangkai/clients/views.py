@@ -457,3 +457,26 @@ class CabRegistrationViewSet(viewsets.ViewSet):
             Cabs_Reg.objects.filter(id=users_inst.id), many=True
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)    
+
+
+
+###############      SEARCH BAR  #######################
+
+# class CabSearchViewSet(viewsets.ViewSet):
+
+#     def list(self, request):
+#         cab_name = request.POST.get("cab_name", None)
+#         checkin_date = request.POST.get("checkin_date", None)
+#         checkout_date = request.POST.get("checkout_date", None)
+#         from_location = request.POST.get("from_location", None)
+#         destination = request.POST.get("destination", None)
+#         try:
+#             sm_cabs = Cabs_Reg.objects.filter(car_name=user_id,)
+#             cabs_data_dic = serializers.CabRegisterSerializer(sm_cabs, many=True)
+#         except:
+#             return Response(
+#                 {"message": "Sorry No data found !"},
+#                 status=status.HTTP_400_BAD_REQUEST,
+#             )
+
+#         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
