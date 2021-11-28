@@ -88,10 +88,10 @@ class UserLoginViewSet(viewsets.ViewSet):
         # )
         # users_inst.save()
 
-        users_data = serializers.NormalUserRegisterSerializer(
-            Normal_UserReg.objects.filter(id=users_inst.id), many=True
-        )
-        return Response(users_data.data[0], status=status.HTTP_200_OK)
+        # users_data = serializers.NormalUserRegisterSerializer(
+        #     Normal_UserReg.objects.filter(id=users_inst), many=True
+        # )
+        return Response(users_data_dic.data, status=status.HTTP_200_OK)
 
 
 class HotelBookingViewSet(viewsets.ViewSet):
