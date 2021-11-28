@@ -6,6 +6,7 @@ from .models import (
     Driver_Reg,
     Cabs_Reg,
     Client_login,
+    client_token_authentication,
 )
 
 
@@ -19,6 +20,10 @@ class ClientloginSerializer(ModelSerializer):
         model = Client_login
         fields = "__all__"
 
+class clienttokenauthenticationSerializer(ModelSerializer):
+    class Meta:
+        model = client_token_authentication
+        fields = "__all__"
 
 class HotelRegisterSerializer(ModelSerializer):
     class Meta:

@@ -4,10 +4,10 @@ from . import views
 
 router=DefaultRouter()
 
-# router.register('profile',views.profile,basename='profile')
+router.register('profile',views.profile,basename='profile')
 
 
 urlpatterns = [
     path('',include(router.urls)),
-    # path('login/',views.login_view),
+    path('login/',views.login_view),
 ]
