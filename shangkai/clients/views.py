@@ -423,6 +423,7 @@ class CabRegistrationViewSet(viewsets.ViewSet):
         capacity = request.POST.get("capacity", None)
         vehicle_no = request.POST.get("vehicle_no", None)
         car_mou = request.POST.get("room_facilites", None)
+        car_fee = request.POST.get("car_fee", None)
         pickup_point = request.POST.get("pickup_point", None)
         destination = request.POST.get("destination", None)
         checkin_date = request.POST.get("checkin_date", None)
@@ -449,6 +450,7 @@ class CabRegistrationViewSet(viewsets.ViewSet):
             capacity=capacity,
             vehicle_no=vehicle_no,
             car_mou=car_mou,
+            car_fee=car_fee,
             pickup_point=pickup_point,
             destination=destination,
             checkin_date=checkin_date,
