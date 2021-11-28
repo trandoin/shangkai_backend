@@ -173,3 +173,23 @@ class PaymentTransactionViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(payment_tra_data_dic.data, status=status.HTTP_200_OK)
+
+
+#################  SEARCH HOTSPOTS ##########################   
+
+
+class HotSpotSearchViewSet(viewsets.ViewSet):
+
+    def list(self, request):
+        title = request.GET.get("title", None)
+        try:
+            sm_cabs = Hot_Spots.objects.filter(title=title)
+            cabs_data_dic = serializers.HotSpotsSerializer(sm_cabs, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No cab found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
+
