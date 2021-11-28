@@ -63,6 +63,37 @@ class UserRegisterViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)    
 
+class UserLoginViewSet(viewsets.ViewSet):
+
+    def create(self, request):
+
+        email = request.POST.get("email", None)
+        password = request.POST.get("password", None)
+
+        try:
+            users_inst = Normal_UserReg.objects.filter(email=email,password=password)
+            users_data_dic = serializers.NormalUserRegisterSerializer(
+                users_inst, many=True
+            )
+        except:
+            return Response(
+                {"message": "Invalid username & password !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # users_inst = Normal_UserReg.objects.create(
+        #     user_ip=user_ip,
+        #     email=email,
+        #     password=password,
+        # )
+        # users_inst.save()
+
+        users_data = serializers.NormalUserRegisterSerializer(
+            Normal_UserReg.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
+
+
 class HotelBookingViewSet(viewsets.ViewSet):
     def list(self, request):
 

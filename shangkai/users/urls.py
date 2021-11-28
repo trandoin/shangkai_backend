@@ -7,6 +7,7 @@ router = DefaultRouter()
 
 
 router.register("user_register", views.UserRegisterViewSet, basename="NormalUsersRegister")
+router.register("user_login", views.UserLoginViewSet, basename="NormalUsersLogin")
 router.register("account_details", views.AccounDetailsBookingViewSet, basename="AccounDetailsBooking")
 
 # # """"BOOKINGS"""
