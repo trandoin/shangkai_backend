@@ -34,7 +34,7 @@ class SafeJWTAuthentication(BaseAuthentication):
 
 
         user=client_token_authentication.objects.filter(user=payload['id']).first()
-        user_inst=user_details.objects.filter(id=payload['id']).first()
+        user_inst=User_Register.objects.filter(id=payload['id']).first()
         if (user is None) or (user_inst is None):
             raise exceptions.AuthenticationFailed('user not found')
 

@@ -38,7 +38,7 @@ def login_view(request):
 
 
 
-    user_inst=User_Register.objects.filter(user_phonenumber=phone_number)
+    user_inst=User_Register.objects.filter(mobile=phone_number)
     user= client_token_authentication.objects.filter(user_phonenumber=phone_number)
 
     if len(user_inst)==0 or len(user)==0:
