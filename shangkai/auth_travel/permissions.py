@@ -1,4 +1,4 @@
-from readingapp.models import user_details #,client_token_authentication
+from clients.models import User_Register #,client_token_authentication
 from rest_framework import permissions
 from .authentication import SafeJWTAuthentication
 
