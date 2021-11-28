@@ -424,6 +424,9 @@ class CabRegistrationViewSet(viewsets.ViewSet):
         vehicle_no = request.POST.get("vehicle_no", None)
         car_mou = request.POST.get("room_facilites", None)
         pickup_point = request.POST.get("pickup_point", None)
+        destination = request.POST.get("destination", None)
+        checkin_date = request.POST.get("checkin_date", None)
+        checkout_date = request.POST.get("checkout_date", None)
         car_rating = request.POST.get("car_rating", None)
         car_doc = request.POST.get("car_doc", None)
         car_images = request.POST.get("car_images", None)
@@ -447,6 +450,9 @@ class CabRegistrationViewSet(viewsets.ViewSet):
             vehicle_no=vehicle_no,
             car_mou=car_mou,
             pickup_point=pickup_point,
+            destination=destination,
+            checkin_date=checkin_date,
+            checkout_date=checkout_date,
             car_rating=car_rating,
             car_doc=car_doc,
             car_images=car_images,
@@ -462,21 +468,21 @@ class CabRegistrationViewSet(viewsets.ViewSet):
 
 ###############      SEARCH BAR  #######################
 
-# class CabSearchViewSet(viewsets.ViewSet):
+class CabSearchViewSet(viewsets.ViewSet):
 
-#     def list(self, request):
-#         cab_name = request.POST.get("cab_name", None)
-#         checkin_date = request.POST.get("checkin_date", None)
-#         checkout_date = request.POST.get("checkout_date", None)
-#         from_location = request.POST.get("from_location", None)
-#         destination = request.POST.get("destination", None)
-#         try:
-#             sm_cabs = Cabs_Reg.objects.filter(car_name=user_id,)
-#             cabs_data_dic = serializers.CabRegisterSerializer(sm_cabs, many=True)
-#         except:
-#             return Response(
-#                 {"message": "Sorry No data found !"},
-#                 status=status.HTTP_400_BAD_REQUEST,
-#             )
+    def list(self, request):
+        cab_name = request.POST.get("cab_name", None)
+        checkin_date = request.POST.get("checkin_date", None)
+        checkout_date = request.POST.get("checkout_date", None)
+        from_location = request.POST.get("from_location", None)
+        destination = request.POST.get("destination", None)
+        try:
+            sm_cabs = Cabs_Reg.objects.filter(car_name=cab_name,checkin_date=checkin_date,checkout_date=checkout_date,pickup_point=from_location,destination=destination)
+            cabs_data_dic = serializers.CabRegisterSerializer(sm_cabs, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No cab found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
-#         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
+        return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
