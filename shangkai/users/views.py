@@ -69,7 +69,14 @@ class UserLoginViewSet(viewsets.ViewSet):
 
         email = request.POST.get("email", None)
         password = request.POST.get("password", None)
-
+ 
+        if email is None and password is None : 
+            
+            return Response(
+                    {"message": "Enter username & password !"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+                    
         try:
             users_inst = Normal_UserReg.objects.filter(email=email,password=password)
             users_data_dic = serializers.NormalUserRegisterSerializer(
@@ -80,17 +87,6 @@ class UserLoginViewSet(viewsets.ViewSet):
                 {"message": "Invalid username & password !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
-        # users_inst = Normal_UserReg.objects.create(
-        #     user_ip=user_ip,
-        #     email=email,
-        #     password=password,
-        # )
-        # users_inst.save()
-
-        # users_data = serializers.NormalUserRegisterSerializer(
-        #     Normal_UserReg.objects.filter(id=users_inst), many=True
-        # )
         return Response(users_data_dic.data, status=status.HTTP_200_OK)
 
 

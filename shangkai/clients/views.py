@@ -65,14 +65,27 @@ class UserRegisterViewSet(viewsets.ViewSet):
 
 
 class ClientloginViewSet(viewsets.ViewSet):
-    def list(self, request):
+
+    def create(self, request):
+
+        email = request.POST.get("email", None)
+        password = request.POST.get("password", None)
+         
+        if email is None and password is None : 
+            
+            return Response(
+                    {"message": "Enter username & password !"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )    
 
         try:
-            sm_users = Client_login.objects.all()
-            users_data_dic = serializers.ClientloginSerializer(sm_users, many=True)
+            users_inst = User_Register.objects.filter(email=email,password=password)
+            users_data_dic = serializers.UserRegisterSerializer(
+                users_inst, many=True
+            )
         except:
             return Response(
-                {"message": "Sorry No data found !"},
+                {"message": "Invalid username & password !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(users_data_dic.data, status=status.HTTP_200_OK)
