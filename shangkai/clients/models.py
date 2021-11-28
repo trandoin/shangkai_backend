@@ -30,7 +30,7 @@ class User_Register(models.Model):
 
 class client_token_authentication(models.Model):
     user = models.ForeignKey(
-        "User_Register", on_delete=models.CASCADE, default=None, db_constraint=False
+        "clients.User_Register", on_delete=models.CASCADE, default=None, db_constraint=False
     )
     user_email = models.EmailField("Email", null=True, blank=True, unique=True)
     is_email_verified = models.BooleanField(
