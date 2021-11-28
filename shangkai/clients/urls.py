@@ -17,6 +17,9 @@ router.register(
 router.register(
     "room_registration", views.RoomRegistrationViewSet, basename="RoomRegistration"
 )
+router.register(
+    "room_search", views.RoomSearchViewSet, basename="RoomSearch"
+)
 
 ##### CABS #####
 router.register(

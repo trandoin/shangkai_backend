@@ -488,21 +488,19 @@ class CabSearchViewSet(viewsets.ViewSet):
         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
 
 
-# class RoomSearchViewSet(viewsets.ViewSet):
+class RoomSearchViewSet(viewsets.ViewSet):
 
-#     def list(self, request):
-#         room_type = request.GET.get("room_type", None)
-#         checkin_date = request.GET.get("checkin_date", None)
-#         checkout_date = request.GET.get("checkout_date", None)
-#         from_location = request.GET.get("from_location", None)
-#         destination = request.GET.get("destination", None)
-#         try:
-#             sm_cabs = Cabs_Reg.objects.filter(car_name=cab_name,checkin_date=checkin_date,checkout_date=checkout_date,pickup_point=from_location,destination=destination)
-#             cabs_data_dic = serializers.CabRegisterSerializer(sm_cabs, many=True)
-#         except:
-#             return Response(
-#                 {"message": "Sorry No cab found !"},
-#                 status=status.HTTP_400_BAD_REQUEST,
-#             )
+    def list(self, request):
+        room_type = request.GET.get("room_type", None)
+        checkin_date = request.GET.get("checkin_date", None)
+        checkout_date = request.GET.get("checkout_date", None)
+        try:
+            sm_cabs = Room_Register.objects.filter(room_type=room_type,checkin_date=checkin_date,checkout_date=checkout_date)
+            cabs_data_dic = serializers.RoomRegisterSerializer(sm_cabs, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No cab found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
-#         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
+        return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
