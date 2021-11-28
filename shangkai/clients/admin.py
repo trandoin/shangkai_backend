@@ -11,6 +11,7 @@ from .models import (
     Reg_Hotel,
     Room_Register,
     User_Register,
+    client_token_authentication,
 )
 
 # Register your models here.
@@ -31,6 +32,21 @@ class UserRegister(admin.ModelAdmin):
 
 
 admin.site.register(User_Register, UserRegister)
+
+
+class ClientTokenAuthentication(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "user",
+        "user_email",
+        "user_phonenumber",
+        "last_otp",
+        "accessToken",
+        "refreshToken",
+    ]
+
+
+admin.site.register(client_token_authentication, ClientTokenAuthentication)
 
 
 ##  ========= HOTELS ==========##
