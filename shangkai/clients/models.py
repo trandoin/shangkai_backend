@@ -122,6 +122,8 @@ class Room_Register(models.Model):
     room_facilites = models.TextField("facilites", null=True, max_length=5000)
     max_guests_limit = models.CharField("limits", null=True, max_length=255)
     no_rooms = models.CharField("no_of_rooms", null=True, max_length=255)
+    checkin_date = models.CharField("checkin_date", null=True, max_length=255)
+    checkout_date = models.CharField("checkout_date", null=True, max_length=255)
     rating = models.CharField("rating", null=True, max_length=255)
     tags = models.TextField("tags", null=True, max_length=255)
     extra_services = models.TextField("extra_services", null=True, max_length=255)
