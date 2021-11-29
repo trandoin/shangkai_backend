@@ -21,6 +21,9 @@ router.register(
     "room_search", views.RoomSearchViewSet, basename="RoomSearch"
 )
 router.register(
+    "room_get_byId", views.RoomGetByIdViewSet, basename="RoomGetById"
+)
+router.register(
     "get_hotel_by_id", views.GetHotelByCatIdViewSet, basename="GetHotelById"
 )
 
@@ -36,6 +39,10 @@ router.register(
 router.register(
     "cab_search", views.CabSearchViewSet, basename="CabSearch"
 )
+router.register(
+    "cab_getby_locations", views.CabGetByLocationViewSet, basename="CabGetByLocation"
+)
+
 
 
 

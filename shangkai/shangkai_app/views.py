@@ -183,15 +183,15 @@ class HotSpotSearchViewSet(viewsets.ViewSet):
     def list(self, request):
         title = request.GET.get("title", None)
         try:
-            sm_cabs = Hot_Spots.objects.filter(title=title)
-            cabs_data_dic = serializers.HotSpotsSerializer(sm_cabs, many=True)
+            sm_hotspots = Hot_Spots.objects.filter(title=title)
+            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
         except:
             return Response(
                 {"message": "Sorry No Hotspots found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
+        return Response(hotspots_data_dic.data, status=status.HTTP_200_OK)
 
 class HotSpotSearchByCatIdViewSet(viewsets.ViewSet):
 

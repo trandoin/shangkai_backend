@@ -489,6 +489,22 @@ class CabSearchViewSet(viewsets.ViewSet):
 
         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
 
+class CabGetByLocationViewSet(viewsets.ViewSet):
+
+    def list(self, request):
+        from_location = request.GET.get("from_location", None)
+        destination = request.GET.get("destination", None)
+        try:
+            sm_cabs = Cabs_Reg.objects.filter(pickup_point=from_location,destination=destination)
+            cabs_data_dic = serializers.CabRegisterSerializer(sm_cabs, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No cab found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return Response(cabs_data_dic.data, status=status.HTTP_200_OK)        
+
 
 class RoomSearchViewSet(viewsets.ViewSet):
 
@@ -523,6 +539,40 @@ class RoomSearchViewSet(viewsets.ViewSet):
                 room_data_dic.data[i].update(
                     {"hotel_id": {"id": created_hotel_id, "message": "No Hotel found"}}
                 )    
+        return Response(room_data_dic.data, status=status.HTTP_200_OK)
+
+class RoomGetByIdViewSet(viewsets.ViewSet):
+
+    def list(self, request):
+        room_id = request.GET.get("room_id", None)
+        try:
+            sm_rooms = Room_Register.objects.filter(id=room_id)
+            room_data_dic = serializers.RoomRegisterSerializer(sm_rooms, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        for i in range(0, len(room_data_dic.data)):
+            created_hotel_id = room_data_dic.data[i].get("hotel_id")
+            try:
+                hotel_inst = Reg_Hotel.objects.get(id=created_hotel_id)
+
+                room_data_dic.data[i].update(
+                    {
+                        "hotel_id": {
+                            "id": hotel_inst.id,
+                            "hotel_name": hotel_inst.hotel_name,
+                            "hotel_city": hotel_inst.hotel_city,
+                            "room_rates":hotel_inst.room_rates,
+                        }
+                    }
+                )
+            except:
+                room_data_dic.data[i].update(
+                    {"hotel_id": {"id": created_hotel_id, "message": "No Hotel found"}}
+                )     
+    
         return Response(room_data_dic.data, status=status.HTTP_200_OK)
 
 class GetHotelByCatIdViewSet(viewsets.ViewSet):
