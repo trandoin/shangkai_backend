@@ -20,6 +20,10 @@ router.register(
 router.register(
     "room_search", views.RoomSearchViewSet, basename="RoomSearch"
 )
+router.register(
+    "get_hotel_by_id", views.GetHotelByCatIdViewSet, basename="GetHotelById"
+)
+
 
 ##### CABS #####
 router.register(

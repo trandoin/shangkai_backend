@@ -506,3 +506,17 @@ class RoomSearchViewSet(viewsets.ViewSet):
             )
 
         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
+
+class GetHotelByCatIdViewSet(viewsets.ViewSet):
+    def list(self, request):
+        hotel_cat_id = request.POST.get("hotel_cat_id", None)
+
+        try:
+            sm_users = Reg_Hotel.objects.filter(hotel_cat=hotel_cat_id)
+            users_data_dic = serializers.HotelRegisterSerializer(sm_users, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(users_data_dic.data, status=status.HTTP_200_OK)        
