@@ -493,19 +493,37 @@ class CabSearchViewSet(viewsets.ViewSet):
 class RoomSearchViewSet(viewsets.ViewSet):
 
     def list(self, request):
-        room_type = request.GET.get("room_type", None)
+        hotel_city = request.GET.get("hotel_city", None)
         checkin_date = request.GET.get("checkin_date", None)
         checkout_date = request.GET.get("checkout_date", None)
         try:
-            sm_cabs = Room_Register.objects.filter(room_type=room_type,checkin_date=checkin_date,checkout_date=checkout_date)
-            cabs_data_dic = serializers.RoomRegisterSerializer(sm_cabs, many=True)
+            sm_rooms = Room_Register.objects.filter(checkin_date=checkin_date,checkout_date=checkout_date)
+            room_data_dic = serializers.RoomRegisterSerializer(sm_rooms, many=True)
         except:
             return Response(
-                {"message": "Sorry No cab found !"},
+                {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+        for i in range(0, len(room_data_dic.data)):
+            created_hotel_id = room_data_dic.data[i].get("hotel_id")
+            try:
+                hotel_inst = Reg_Hotel.objects.get(id=created_hotel_id)
 
-        return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
+                room_data_dic.data[i].update(
+                    {
+                        "hotel_id": {
+                            "id": hotel_inst.id,
+                            "hotel_name": hotel_inst.hotel_name,
+                            "hotel_city": hotel_inst.hotel_city,
+                            "room_rates":hotel_inst.room_rates,
+                        }
+                    }
+                )
+            except:
+                room_data_dic.data[i].update(
+                    {"hotel_id": {"id": created_hotel_id, "message": "No Hotel found"}}
+                )    
+        return Response(room_data_dic.data, status=status.HTTP_200_OK)
 
 class GetHotelByCatIdViewSet(viewsets.ViewSet):
     def list(self, request):
