@@ -26,9 +26,9 @@ from shangkai_app.models import (
 
 class UserRegisterViewSet(viewsets.ViewSet):
     def list(self, request):
-
+        user_id = request.POST.get("user_id", None)
         try:
-            sm_users = User_Register.objects.filter(status="0")
+            sm_users = User_Register.objects.filter(id=user_id)
             users_data_dic = serializers.UserRegisterSerializer(sm_users, many=True)
         except:
             return Response(
