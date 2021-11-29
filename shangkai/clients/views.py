@@ -507,7 +507,7 @@ class RoomSearchViewSet(viewsets.ViewSet):
         for i in range(0, len(room_data_dic.data)):
             created_hotel_id = room_data_dic.data[i].get("hotel_id")
             try:
-                hotel_inst = Reg_Hotel.objects.get(id=created_hotel_id)
+                hotel_inst = Reg_Hotel.objects.get(id=created_hotel_id,hotel_city=hotel_city)
 
                 room_data_dic.data[i].update(
                     {
