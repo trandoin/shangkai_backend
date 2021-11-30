@@ -286,7 +286,7 @@ class RoomRegistrationViewSet(viewsets.ViewSet):
 
 class DriverRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
-        user_id = request.POST.get("user_id", None)
+        user_id = request.GET.get("user_id", None)
         try:
             sm_driver = Driver_Reg.objects.filter(user=user_id)
             driver_data_dic = serializers.DriverRegisterSerializer(sm_driver, many=True)
@@ -361,7 +361,7 @@ class DriverRegistrationViewSet(viewsets.ViewSet):
 
 class CabRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
-        user_id = request.POST.get("user_id", None)
+        user_id = request.GET.get("user_id", None)
         try:
             sm_cabs = Cabs_Reg.objects.filter(user=user_id)
             cabs_data_dic = serializers.CabRegisterSerializer(sm_cabs, many=True)
