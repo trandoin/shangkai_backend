@@ -11,6 +11,7 @@ router.register("category_hotspots", views.HotspotCategoryViewSet, basename="Hot
 router.register("hot_spots", views.HotSpotsViewSet, basename="HotSpots")
 router.register("comments_all", views.CommentsAllViewSet, basename="CommentsAll")
 router.register("payment_tra", views.PaymentTransactionViewSet, basename="PaymentTransaction")
+router.register("hotel_category", views.HotelCategoryViewSet, basename="HotelCategory")
 router.register("hotspot_search", views.HotSpotSearchViewSet, basename="HotSpotsSearch")
 router.register("hotspot_search_bycategory", views.HotSpotSearchByCatIdViewSet, basename="HotSpotsSearchCategory")
 

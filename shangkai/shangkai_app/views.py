@@ -17,6 +17,7 @@ from .models import (
    Hot_Spots,
    Comments_All,
    Payment_Transaction,
+   Hotel_Category,
 )
 
 """Model Package """
@@ -51,6 +52,19 @@ class FooterViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(footer_data_dic.data, status=status.HTTP_200_OK)
+
+class HotelCategoryViewSet(viewsets.ViewSet):
+    def list(self, request):
+
+        try:
+            sm_hotspots_cat = Hotel_Category.objects.filter(status="1")
+            hotspots_cat_data_dic = serializers.HotelCategorySerializer(sm_hotspots_cat, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(hotspots_cat_data_dic.data, status=status.HTTP_200_OK)
 
 class HotspotCategoryViewSet(viewsets.ViewSet):
     def list(self, request):
