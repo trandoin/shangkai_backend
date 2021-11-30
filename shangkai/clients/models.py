@@ -89,7 +89,7 @@ class Reg_Hotel(models.Model):
     hotel_facilites = models.TextField("facilites", null=True, max_length=5000)
     max_guests_limit = models.CharField("limits", null=True, max_length=255)
     hotel_images = models.FileField(
-        "images", null=True,upload_to="hotels/", default="hotels/hotel_image.jpg", max_length=255
+        "images", null=True,default="hotels/hotel_image.jpg", max_length=255
     )
     status = models.CharField("status", null=True, default="0", max_length=255)
 
