@@ -93,7 +93,7 @@ class ClientloginViewSet(viewsets.ViewSet):
 
 class HotelRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
-        user_id = request.POST.get("user_id", None)
+        user_id = request.GET.get("user_id", None)
         # try:
         #     user_inst = User_Register.objects.get(id=user_id)
         # except:
