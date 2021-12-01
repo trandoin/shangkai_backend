@@ -13,6 +13,7 @@ from .models import (
     Payment_Transaction,
     Hotel_Category,
     My_Trips,
+    My_Trips_Days,
 )
 
 #Register your models here.
@@ -53,6 +54,12 @@ class MyTrips(admin.ModelAdmin):
 
 
 admin.site.register(My_Trips,MyTrips)
+
+class MyTripDays(admin.ModelAdmin):
+    list_display = ["id","description"]
+
+
+admin.site.register(My_Trips_Days,MyTripDays)
 
 class CommentsAll(admin.ModelAdmin):
     list_display = ["id","user","post_id","comments","comment_type"]

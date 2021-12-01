@@ -112,7 +112,17 @@ class My_Trips(models.Model):
             "My Trips",
             "My Trips",
         ) 
+class My_Trips_Days(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    my_trip = models.ForeignKey("shangkai_app.My_Trips",on_delete=models.CASCADE,default=None)
+    description = models.TextField("description", null=True,  max_length=255)
+    status = models.CharField("status", null=True, default="0", max_length=255)
 
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "My Trips days",
+            "My Trips Days",
+        ) 
 
 class Comments_All(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
