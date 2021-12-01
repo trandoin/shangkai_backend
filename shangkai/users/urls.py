@@ -16,6 +16,7 @@ router.register("cab_booking", views.CabBookingViewSet, basename="CabBooking")
 
 #### """"""""CART """"""""###
 router.register("hotel_cart", views.HotelCartViewSet, basename="HotelCart")
+router.register("cab_cart", views.CabCartViewSet, basename="CabCart")
 
 
 urlpatterns = [
