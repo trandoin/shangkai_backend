@@ -81,6 +81,39 @@ class Hot_Spots(models.Model):
             "Hotspots",
         )           
 
+class My_Trips(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    title = models.CharField("title", null=True,  max_length=255)
+    sub_title = models.CharField("sub_title", null=True,  max_length=255)
+    CATEGORY_CHOICES = (
+        ("General", "General"),
+        ("Schools/Colleges", "Schools/Colleges"),
+        ("Research", "Research"),
+    )
+    category = models.CharField(
+        "Category",
+        max_length=150,
+        choices=CATEGORY_CHOICES,
+        null=True,
+        blank=True,
+        default="General",
+    )
+    price = models.CharField("price", null=True,  max_length=255)
+    description = models.TextField("description", null=True,  max_length=255)
+    services = models.TextField("services", null=True,  max_length=255)
+    hotspots_id = models.ManyToManyField('shangkai_app.Hot_Spots', related_name="hotspots_name")
+    includes = models.TextField("includes", null=True,  max_length=255)
+    rules = models.CharField("rules", null=True,  max_length=255)
+    days_no = models.TextField("days_no", null=True, max_length=2000)
+    status = models.CharField("status", null=True, default="0", max_length=255)
+
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "My Trips",
+            "My Trips",
+        ) 
+
+
 class Comments_All(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey("users.Normal_UserReg",on_delete=models.CASCADE,default=None)
