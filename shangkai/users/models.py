@@ -12,6 +12,10 @@ from clients.models import (
     Room_Register,
     Driver_Reg,
 )
+# from shangkai_app.models import (
+#     Hotspot_Category,
+#     Hot_Spots,
+# )
 
 class Normal_UserReg(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
@@ -164,3 +168,70 @@ class User_Hotel_Cart(models.Model):
             "Hotel Cart",
             "Hotel Cart",
         )
+
+class User_Cab_Cart(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user = models.ForeignKey(
+        "users.Normal_UserReg",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    car_id = models.ForeignKey(
+        "clients.Cabs_Reg",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    driver_id = models.ForeignKey(
+        "clients.Driver_Reg",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    check_in_date = models.CharField("check_in_date", null=True,default="0",  max_length=255)
+    check_in_time = models.CharField("check_in_time", null=True, default="0", max_length=255)
+    check_out_date = models.CharField("check_out_date", null=True,default="0",  max_length=255)
+    check_out_time = models.CharField("check_out_time", null=True,default="0",  max_length=255)
+    start_from = models.CharField("start_from", null=True, max_length=255)
+    end_trip = models.CharField("end_trip", null=True, max_length=255)
+    distance = models.CharField("distance", null=True, max_length=255)
+    amount_booking = models.CharField("amount", null=True, max_length=255)
+    no_guests = models.CharField("no_guests", null=True, max_length=255)
+    booking_status = models.CharField("status", null=True, default="0", max_length=255)
+
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Cab Cart",
+            "Cab Cart",
+        )  
+
+# class User_Trip_Cart(models.Model):
+#     datetime = models.DateTimeField("Created At", auto_now_add=True)
+#     user = models.ForeignKey(
+#         "users.Normal_UserReg",
+#         on_delete=models.CASCADE,
+#         default=None,
+#         db_constraint=False,
+#     )
+#     hotspot_cat = models.ForeignKey(
+#         "shangkai_app.Hotspot_Category",
+#         on_delete=models.CASCADE,
+#         default=None,
+#         db_constraint=False,
+#     )
+#     hotspot_id = models.ForeignKey(
+#         "shangkai_app.Hot_Spots",
+#         on_delete=models.CASCADE,
+#         default=None,
+#         db_constraint=False,
+#     )
+#     amount_booking = models.CharField("amount", null=True, max_length=255)
+#     no_guests = models.CharField("no_guests", null=True, max_length=255)
+#     booking_status = models.CharField("status", null=True, default="0", max_length=255)
+
+#     class Meta:
+#         verbose_name, verbose_name_plural = (
+#             "Cab Cart",
+#             "Cab Cart",
+#         )               
