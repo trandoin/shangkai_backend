@@ -15,6 +15,8 @@ router.register("hotel_category", views.HotelCategoryViewSet, basename="HotelCat
 router.register("hotspot_search", views.HotSpotSearchViewSet, basename="HotSpotsSearch")
 router.register("hotspot_search_bycategory", views.HotSpotSearchByCatIdViewSet, basename="HotSpotsSearchCategory")
 
+##### """""""" MY TRIPS """"""""####
+router.register("my_trips", views.MyTripsViewSet, basename="MYTrips")
 
 urlpatterns = [
     path("", include(router.urls)),

@@ -7,6 +7,8 @@ from .models import (
    Comments_All,
    Payment_Transaction,
    Hotel_Category,
+   My_Trips,
+   My_Trips_Days,
    
 )
 
@@ -34,7 +36,17 @@ class HotelCategorySerializer(ModelSerializer):
 class HotSpotsSerializer(ModelSerializer):
     class Meta:
         model = Hot_Spots
-        fields = "__all__"  
+        fields = "__all__"
+
+class MyTripsSerializer(ModelSerializer):
+    class Meta:
+        model = My_Trips
+        fields = "__all__"
+
+class MyTripsDaysSerializer(ModelSerializer):
+    class Meta:
+        model = My_Trips_Days
+        fields = "__all__"
 
 class CommentsAllSerializer(ModelSerializer):
     class Meta:
