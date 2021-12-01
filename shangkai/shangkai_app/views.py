@@ -229,6 +229,40 @@ class MyTripsViewSet(viewsets.ViewSet):
                 )    
         return Response(mytrips_all_data_dic.data, status=status.HTTP_200_OK)
 
+    def create(self, request):
+
+        title = request.POST.get("title", None)
+        sub_title = request.POST.get("sub_title", None)
+        category = request.POST.get("category", None)
+        price = request.POST.get("price", None)
+        description = request.POST.get("description", None)
+        services = request.POST.get("services", None)
+        hotspots_id = request.POST.get("hotspots_id", None)
+        includes = request.POST.get("includes", None)
+        rules = request.POST.get("rules", None)
+        days_no = request.POST.get("days_no", None)
+
+
+        users_inst = My_Trips.objects.create(
+            title=title,
+            sub_title=sub_title,
+            category=category,
+            price=price,
+            description=description,
+            services=services,
+            hotspots_id=hotspots_id,
+            includes=includes,
+            rules=rules,
+
+
+        )
+        users_inst.save()
+
+        users_data = serializers.MyTripsSerializer(
+            My_Trips.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)    
+
 
 class CommentsAllViewSet(viewsets.ViewSet):
     def list(self, request):
