@@ -8,6 +8,7 @@ from .models import (
     User_Hotel_Booking,
     Normal_UserReg,
     User_Hotel_Cart,
+    User_Cab_Cart,
 )
 
 # Register your models here.
@@ -51,3 +52,9 @@ class AccountDetails(admin.ModelAdmin):
 
 
 admin.site.register(User_Account_Details, AccountDetails)
+
+class UserCabCart(admin.ModelAdmin):
+    list_display = ["id", "user", "car_id", "driver_id","check_in_date","check_in_time","check_out_date","check_out_time","start_from","end_trip","distance","amount_booking","no_guests"]
+
+
+admin.site.register(User_Cab_Cart, UserCabCart)
