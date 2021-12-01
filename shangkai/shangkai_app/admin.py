@@ -30,7 +30,7 @@ class FooterCopyright(admin.ModelAdmin):
 admin.site.register(Footer_Copyright, FooterCopyright)
 
 class HotspotCategory(admin.ModelAdmin):
-    list_display = ["id","title"]
+    list_display = ["id","title","sub_title","tagline","rating","images"]
 
 
 admin.site.register(Hotspot_Category, HotspotCategory)
