@@ -138,8 +138,6 @@ class MyTripsViewSet(viewsets.ViewSet):
                     {
                         "hotspots_id": {
                             "id": hotspots_inst.id,
-                            "title": hotspots_inst.title,
-                            "images": hotspots_inst.images,
                         }
                     }
                 )
