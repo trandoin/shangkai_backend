@@ -451,10 +451,8 @@ class HotelCartViewSet(viewsets.ViewSet):
 
         users_inst = User_Hotel_Cart.objects.create(
             user=user_inst,
-            user_ip=user_ip,
             hotel_id=hotel_inst,
             room_id=room_inst,
-            hotel_bookid=hotel_bookid,
             check_in_date=check_in_date,
             check_in_time=check_in_time,
             check_out_date=check_out_date,
