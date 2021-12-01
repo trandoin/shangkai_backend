@@ -149,7 +149,7 @@ class HotSpotsViewSet(viewsets.ViewSet):
         tags = request.POST.get("tags", None)
 
         try:
-            cat_inst = Hotspot_Category.objects.get(title=category)
+            cat_inst = Hotspot_Category.objects.get(id=category)
         except:
 
             return Response(
