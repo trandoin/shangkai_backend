@@ -242,6 +242,14 @@ class MyTripsViewSet(viewsets.ViewSet):
         rules = request.POST.get("rules", None)
         days_no = request.POST.get("days_no", None)
 
+        try:
+            hotspots_inst = Hot_Spots.objects.get(id=hotspots_id)
+        except:
+
+            return Response(
+                {"message": "No user found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         users_inst = My_Trips.objects.create(
             title=title,
@@ -250,7 +258,7 @@ class MyTripsViewSet(viewsets.ViewSet):
             price=price,
             description=description,
             services=services,
-            hotspots_id=hotspots_id,
+            hotspots_id=hotspots_inst,
             includes=includes,
             rules=rules,
 
