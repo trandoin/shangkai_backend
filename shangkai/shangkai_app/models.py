@@ -34,7 +34,7 @@ class Hotspot_Category(models.Model):
     tagline = models.TextField("tagline", null=True, max_length=1000)
     rating = models.CharField("rating", null=True, max_length=1000)
     images = models.FileField(
-        "images",upload_to="hotspots_cat/", default="hotspots_cat/images.jpg", max_length=255
+        "images", max_length=255
     )
     status = models.CharField("status", null=True, default="0", max_length=255)
 
