@@ -186,7 +186,7 @@ REFRESH_TOKEN_SECRET = "4l7$d1av+8vl1s9175svaazrf8f%$no1*810pz262(k7mnzi9k"
 
 
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000','https://shangkai.in','https://panel.shangkai.in','http://shangkai.in'
+    'http://localhost:3000','https://shangkai.in','https://panel.shangkai.in','http://panel.shangkai.in','http://shangkai.in'
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
