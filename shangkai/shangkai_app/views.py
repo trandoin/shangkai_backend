@@ -115,6 +115,58 @@ class HotSpotsViewSet(viewsets.ViewSet):
 
         return Response(hotspots_data_dic.data, status=status.HTTP_200_OK)
 
+    def create(self, request):
+
+        title = request.POST.get("title", None)
+        sub_title = request.POST.get("sub_title", None)
+        city = request.POST.get("city", None)
+        state = request.POST.get("state", None)
+        pin_code = request.POST.get("pin_code", None)
+        geo_location = request.POST.get("geo_location", None)
+        amenites = request.POST.get("amenites", None)
+        history = request.POST.get("history", None)
+        about = request.POST.get("about", None)
+        images = request.POST.get("images", None)
+        entry_fee = request.POST.get("entry_fee", None)
+        parking_fee = request.POST.get("parking_fee", None)
+        category = request.POST.get("category_id", None)
+        rating = request.POST.get("rating", None)
+        tags = request.POST.get("tags", None)
+
+        try:
+            cat_inst = Hotspot_Category.objects.get(category=category)
+        except:
+
+            return Response(
+                {"message": "No Category found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        users_inst = Hot_Spots.objects.create(
+            title=title,
+            sub_title=sub_title,
+            city=city,
+            state=state,
+            pin_code=pin_code,
+            geo_location=geo_location,
+            amenites=amenites,
+            history=history,
+            about=about,
+            images=images,
+            entry_fee=entry_fee,
+            parking_fee=parking_fee,
+            category= cat_inst,
+            rating=rating,
+            tags=tags,
+
+        )
+        users_inst.save()
+
+        users_data = serializers.HotSpotsSerializer(
+            Hot_Spots.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)    
+
 ####  """""""" MY TRIPS """"""""######
 
 class MyTripsViewSet(viewsets.ViewSet):
