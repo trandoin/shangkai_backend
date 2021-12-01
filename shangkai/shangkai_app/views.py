@@ -243,7 +243,7 @@ class MyTripsViewSet(viewsets.ViewSet):
         days_no = request.POST.get("days_no", None)
 
         try:
-            hotspots_inst = Hot_Spots.objects.filter(hotspots_id=hotspots_id)
+            hotspots_inst = Hot_Spots.objects.get(id=hotspots_id)
         except:
 
             return Response(
