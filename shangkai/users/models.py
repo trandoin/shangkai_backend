@@ -130,3 +130,37 @@ class User_Account_Details(models.Model):
             "Bank Details",
             "Bank Details",
         )
+
+class User_Hotel_Cart(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user = models.ForeignKey(
+        "users.Normal_UserReg",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    hotel_id = models.ForeignKey(
+        "clients.Reg_Hotel",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    room_id = models.ForeignKey(
+        "clients.Room_Register",on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    check_in_date = models.CharField("check_in_date", null=True,default="0",  max_length=255)
+    check_in_time = models.CharField("check_in_time", null=True, default="0", max_length=255)
+    check_out_date = models.CharField("check_out_date", null=True,default="0",  max_length=255)
+    check_out_time = models.CharField("check_out_time", null=True,default="0",  max_length=255)
+    guest_no = models.CharField("guests", null=True,default="0", max_length=255)
+    rooms = models.CharField("rooms", null=True,default="0", max_length=255)
+    amount_booking = models.CharField("amount_booking", null=True,default="0", max_length=255)
+    booking_status = models.CharField("status", null=True, default="0", max_length=255)
+
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Hotel Cart",
+            "Hotel Cart",
+        )
