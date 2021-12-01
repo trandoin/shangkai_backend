@@ -310,6 +310,8 @@ class HotSpotSearchViewSet(viewsets.ViewSet):
             sm_hotspots = Hot_Spots.objects.all()
             hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
 
+        return Response(hotspots_data_dic.data, status=status.HTTP_200_OK)    
+
 class HotSpotSearchByCatIdViewSet(viewsets.ViewSet):
 
     def list(self, request):
