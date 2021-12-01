@@ -120,31 +120,33 @@ class HotSpotsViewSet(viewsets.ViewSet):
 class MyTripsViewSet(viewsets.ViewSet):
     def list(self, request):
 
-        sm_mytrips_all = My_Trips.objects.all()
-        mytrips_all_data_dic = serializers.MyTripsSerializer(sm_mytrips_all, many=True)
+        try:
+            sm_mytrips_all = My_Trips.objects.all()
+            mytrips_all_data_dic = serializers.MyTripsSerializer(sm_mytrips_all, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         for i in range(0, len(mytrips_all_data_dic.data)):
             created_hotspots_id = mytrips_all_data_dic.data[i].get("hotspots_id")
-            # try:
-            #     hotspots_inst = Hot_Spots.objects.get(id=created_hotspots_id)
+            try:
+                hotspots_inst = Hot_Spots.objects.get(id=created_hotspots_id)
 
-            #     mytrips_all_data_dic.data[i].update(
-            #         {
-            #             "hotspots_id": {
-            #                 "id": hotspots_inst.id,
-            #                 "title": hotspots_inst.title,
-            #                 "images": hotspots_inst.images,
-            #             }
-            #         }
-            #     )
-            # except:
-            #     mytrips_all_data_dic.data[i].update(
-            #         {"hotspots_id": {"id": created_hotspots_id, "message": "No HotSpots Found !"}}
-            #     )  
-            likes_user = Hot_Spots.objects.filter(id__in=mytrips_all_data_dic)
-            for j in likes_user:
-                hotspots.append({"id": j.id, "user_name": j.title})
-
-            mytrips_all_data_dic.data[i].update({"likes": hotspots})      
+                mytrips_all_data_dic.data[i].update(
+                    {
+                        "hotspots_id": {
+                            "id": hotspots_inst.id,
+                            "title": hotspots_inst.title,
+                            "images": hotspots_inst.images,
+                        }
+                    }
+                )
+            except:
+                mytrips_all_data_dic.data[i].update(
+                    {"hotspots_id": {"id": created_hotspots_id, "message": "No HotSpots Found !"}}
+                )    
         return Response(mytrips_all_data_dic.data, status=status.HTTP_200_OK)
 
 
