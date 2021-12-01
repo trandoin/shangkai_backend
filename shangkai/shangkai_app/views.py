@@ -271,6 +271,45 @@ class MyTripsViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)    
 
+class MyTripsDaysViewSet(viewsets.ViewSet):
+    def list(self, request):
+        my_trip = request.GET.get("my_trip", None)
+        try:
+            sm_mytrips_all = My_Trips_Days.objects.filter(my_trip=my_trip)
+            mytripsdays_all_data_dic = serializers.MyTripsDaysSerializer(sm_mytrips_all, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+    
+        return Response(mytripsdays_all_data_dic.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+
+        my_trip = request.POST.get("my_trip", None)
+        description = request.POST.get("description", None)
+
+        try:
+            my_trips_inst = My_Trips.objects.get(id=my_trip)
+        except:
+
+            return Response(
+                {"message": "No HotSpots found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        mytrips_days_inst = My_Trips_Days.objects.create(
+            my_trip=my_trips_inst,
+            description=description,
+
+        )
+        mytrips_days_inst.save()
+
+        mytrips_days_data = serializers.MyTripsDaysSerializer(
+            My_Trips_Days.objects.filter(id=mytrips_days_inst.id), many=True
+        )
+        return Response(mytrips_days_data.data[0], status=status.HTTP_200_OK)
 
 class CommentsAllViewSet(viewsets.ViewSet):
     def list(self, request):
