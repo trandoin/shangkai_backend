@@ -80,7 +80,22 @@ class HotspotCategoryViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(hotspots_cat_data_dic.data, status=status.HTTP_200_OK)
+    
+    def create(self, request):
 
+        title = request.POST.get("title", None)
+
+        users_inst = Hotel_Category.objects.create(
+            title=title,
+
+        )
+        users_inst.save()
+
+        users_data = serializers.HotelCategorySerializer(
+            Hotel_Category.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
+        
 class HotSpotsViewSet(viewsets.ViewSet):
     def list(self, request):
         hotspot_cat = request.POST.get("hotspot_cat", None)
