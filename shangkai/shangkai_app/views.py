@@ -72,7 +72,7 @@ class HotspotCategoryViewSet(viewsets.ViewSet):
     def list(self, request):
 
         try:
-            sm_hotspots_cat = Hotspot_Category.objects.filter(status="1")
+            sm_hotspots_cat = Hotspot_Category.objects.all()
             hotspots_cat_data_dic = serializers.HotspotCategorySerializer(sm_hotspots_cat, many=True)
         except:
             return Response(
@@ -149,7 +149,7 @@ class HotSpotsViewSet(viewsets.ViewSet):
         tags = request.POST.get("tags", None)
 
         try:
-            cat_inst = Hotspot_Category.objects.get(category=category)
+            cat_inst = Hotspot_Category.objects.get(title=category)
         except:
 
             return Response(
