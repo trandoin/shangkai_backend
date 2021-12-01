@@ -577,7 +577,7 @@ class RoomGetByIdViewSet(viewsets.ViewSet):
 
 class GetHotelByCatIdViewSet(viewsets.ViewSet):
     def list(self, request):
-        hotel_cat_id = request.POST.get("hotel_cat_id", None)
+        hotel_cat_id = request.GET.get("hotel_cat_id", None)
 
         try:
             sm_users = Reg_Hotel.objects.filter(hotel_cat=hotel_cat_id)
