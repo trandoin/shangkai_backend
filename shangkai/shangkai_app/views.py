@@ -247,7 +247,7 @@ class MyTripsViewSet(viewsets.ViewSet):
         except:
 
             return Response(
-                {"message": "No user found !"},
+                {"message": "No HotSpots found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
