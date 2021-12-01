@@ -59,7 +59,7 @@ class HotelCategoryViewSet(viewsets.ViewSet):
     def list(self, request):
 
         try:
-            sm_hotspots_cat = Hotel_Category.objects.filter(status="1")
+            sm_hotspots_cat = Hotel_Category.objects.all()
             hotspots_cat_data_dic = serializers.HotelCategorySerializer(sm_hotspots_cat, many=True)
         except:
             return Response(
@@ -67,6 +67,21 @@ class HotelCategoryViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(hotspots_cat_data_dic.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+
+        title = request.POST.get("title", None)
+
+        hotels_inst = Hotel_Category.objects.create(
+            title=title,
+
+        )
+        hotels_inst.save()
+
+        hotels_data = serializers.HotspotCategorySerializer(
+            Hotel_Category.objects.filter(id=hotels_inst.id), many=True
+        )
+        return Response(hotels_data.data[0], status=status.HTTP_200_OK)    
 
 class HotspotCategoryViewSet(viewsets.ViewSet):
     def list(self, request):
