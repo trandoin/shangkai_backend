@@ -14,6 +14,9 @@ router.register("account_details", views.AccounDetailsBookingViewSet, basename="
 router.register("hotel_booking", views.HotelBookingViewSet, basename="HotelBooking")
 router.register("cab_booking", views.CabBookingViewSet, basename="CabBooking")
 
+#### """"""""CART """"""""###
+router.register("hotel_cart", views.HotelCartViewSet, basename="HotelCart")
+
 
 urlpatterns = [
     path("", include(router.urls)),
