@@ -78,7 +78,7 @@ class HotelCategoryViewSet(viewsets.ViewSet):
         )
         hotels_inst.save()
 
-        hotels_data = serializers.HotspotCategorySerializer(
+        hotels_data = serializers.HotelCategorySerializer(
             Hotel_Category.objects.filter(id=hotels_inst.id), many=True
         )
         return Response(hotels_data.data[0], status=status.HTTP_200_OK)    
