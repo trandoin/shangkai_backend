@@ -120,15 +120,8 @@ class HotSpotsViewSet(viewsets.ViewSet):
 class MyTripsViewSet(viewsets.ViewSet):
     def list(self, request):
 
-        try:
-            sm_mytrips_all = My_Trips.objects.all()
-            mytrips_all_data_dic = serializers.MyTripsSerializer(sm_mytrips_all, many=True)
-        except:
-            return Response(
-                {"message": "Sorry No data found !"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
+        sm_mytrips_all = My_Trips.objects.all()
+        mytrips_all_data_dic = serializers.MyTripsSerializer(sm_mytrips_all, many=True)
         for i in range(0, len(mytrips_all_data_dic.data)):
             created_hotspots_id = mytrips_all_data_dic.data[i].get("hotspots_id")
             # try:
