@@ -12,6 +12,7 @@ from .models import (
     Hotspot_Category,
     Payment_Transaction,
     Hotel_Category,
+    My_Trips,
 )
 
 #Register your models here.
@@ -45,6 +46,13 @@ class HotSpots(admin.ModelAdmin):
 
 
 admin.site.register(Hot_Spots,HotSpots)
+
+
+class MyTrips(admin.ModelAdmin):
+    list_display = ["id","title","sub_title","category","price","description","services","includes","rules"]
+
+
+admin.site.register(My_Trips,MyTrips)
 
 class CommentsAll(admin.ModelAdmin):
     list_display = ["id","user","post_id","comments","comment_type"]
