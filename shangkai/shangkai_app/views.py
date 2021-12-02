@@ -103,19 +103,19 @@ class HotspotCategoryViewSet(viewsets.ViewSet):
         tagline = request.POST.get("tagline", None)
         images = request.POST.get("images", None)
 
-        users_inst = Hotspot_Category.objects.create(
+        hotspots_cat_inst = Hotspot_Category.objects.create(
             title=title,
             sub_title=sub_title,
             tagline=tagline,
             images=images,
 
         )
-        users_inst.save()
+        hotspots_cat_inst.save()
 
-        users_data = serializers.HotspotCategorySerializer(
-            Hotspot_Category.objects.filter(id=users_inst.id), many=True
+        hotspots_cat_data = serializers.HotspotCategorySerializer(
+            Hotspot_Category.objects.filter(id=hotspots_cat_inst.id), many=True
         )
-        return Response(users_data.data[0], status=status.HTTP_200_OK)
+        return Response(hotspots_cat_data.data[0], status=status.HTTP_200_OK)
         
 class HotSpotsViewSet(viewsets.ViewSet):
     def list(self, request):
