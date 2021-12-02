@@ -257,7 +257,7 @@ class MyTripsViewSet(viewsets.ViewSet):
         #         status=status.HTTP_400_BAD_REQUEST,
         #     )
 
-        users_inst = My_Trips.objects.create(
+        trips_inst = My_Trips.objects.create(
             title=title,
             sub_title=sub_title,
             category=category,
@@ -270,12 +270,12 @@ class MyTripsViewSet(viewsets.ViewSet):
 
 
         )
-        users_inst.save()
+        trips_inst.save()
 
-        users_data = serializers.MyTripsSerializer(
-            My_Trips.objects.filter(id=users_inst.id), many=True
+        trips_data = serializers.MyTripsSerializer(
+            My_Trips.objects.filter(id=trips_inst.id), many=True
         )
-        return Response(users_data.data[0], status=status.HTTP_200_OK)    
+        return Response(trips_data.data, status=status.HTTP_200_OK)    
 
 class MyTripsDaysViewSet(viewsets.ViewSet):
     def list(self, request):
