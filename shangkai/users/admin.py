@@ -9,6 +9,7 @@ from .models import (
     Normal_UserReg,
     User_Hotel_Cart,
     User_Cab_Cart,
+    User_Hotel_Payment,
 )
 
 # Register your models here.
@@ -46,6 +47,12 @@ class CabBooking(admin.ModelAdmin):
 
 
 admin.site.register(User_Cab_Booking, CabBooking)
+
+class UserHotelPayment(admin.ModelAdmin):
+    list_display = ["id","user","hotel_cart","payment_id","payment_status"]
+
+
+admin.site.register(User_Hotel_Payment, UserHotelPayment)
 
 class AccountDetails(admin.ModelAdmin):
     list_display = ["id", "user", "acc_holder", "account_no","bannk_name","bank_branch","ifsc_code","bank_state","pan_card"]

@@ -14,6 +14,7 @@ from .models import (
     Normal_UserReg,
     User_Hotel_Cart,
     User_Cab_Cart,
+    User_Hotel_Payment,
 )
 
 from clients.models import (
@@ -549,6 +550,86 @@ class HotelCartViewSet(viewsets.ViewSet):
                 )
             
         return Response(hotel_data_dic.data, status=status.HTTP_200_OK)
+
+class HotelPaymentViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+        try:
+            sm_hotel = User_Hotel_Payment.objects.filter(user=user_id)
+            hotel_data_dic = serializers.UserHotelPaymentSerializer(sm_hotel, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        for i in range(0, len(hotel_data_dic.data)):
+            created_user_id = hotel_data_dic.data[i].get("user")
+            try:
+                user_inst = Normal_UserReg.objects.get(id=created_user_id)
+
+                hotel_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "user_id": user_inst.user_id,
+                            "user_name": user_inst.name,
+                        }
+                    }
+                )
+            except:
+                hotel_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted Account"}}
+                )
+            created_hotel_id = hotel_data_dic.data[i].get("hotel_cart")
+            try:
+                hotel_inst = Reg_Hotel.objects.get(id=created_hotel_id)
+
+                hotel_data_dic.data[i].update(
+                    {
+                        "hotel_cart": {
+                            "id": hotel_inst.id,
+
+                        }
+                    }
+                )
+            except:
+                hotel_data_dic.data[i].update(
+                    {
+                        "hotel_id": {
+                            "id": created_hotel_id,
+                            "message": "Deleted Hotel Cart",
+                        }
+                    }
+                )
+            
+        return Response(hotel_data_dic.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+
+        user_id = request.POST.get("user_id", None)
+        hotel_cart_id = request.POST.get("hotel_cart_id", None)
+        payment_id = request.POST.get("payment_id", None)
+        try:
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+            hotel_cart_inst = User_Hotel_Cart.objects.get(hotel_cart=hotel_cart_id)
+        except:
+
+            return Response(
+                {"message": "Invalid Request !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        users_inst = User_Hotel_Payment.objects.create(
+            user=user_inst,
+            hotel_id=hotel_cart_inst,
+            payment_id=payment_id,
+        )
+        users_inst.save()
+
+        users_data = serializers.UserHotelPaymentSerializer(
+            User_Hotel_Payment.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
 
     def create(self, request):
 
