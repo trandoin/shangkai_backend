@@ -24,10 +24,7 @@ from clients.models import (
     Room_Register,
     Driver_Reg,
 )
-from clients.serializers import (
-    HotelRegisterSerializer,
-    RoomRegisterSerializer,
-)
+
 
 class UserRegisterViewSet(viewsets.ViewSet):
     def list(self, request):
