@@ -431,12 +431,13 @@ class CabRegistrationViewSet(viewsets.ViewSet):
         checkin_date = request.POST.get("checkin_date", None)
         checkout_date = request.POST.get("checkout_date", None)
         car_rating = request.POST.get("car_rating", None)
-        car_doc = request.POST.get("car_doc", None)
+        car_rc = request.POST.get("car_rc", None)
+        car_insurance = request.POST.get("car_insurance", None)
         car_images = request.POST.get("car_images", None)
 
         try:
-            user_inst = User_Register.objects.get(id=user_id)
-            driver_inst = Driver_Reg.objects.get(id=driver_id)
+            user_inst = User_Register.objects.get(user=user_id)
+            driver_inst = Driver_Reg.objects.get(driver=driver_id)
         except:
 
             return Response(
@@ -458,7 +459,8 @@ class CabRegistrationViewSet(viewsets.ViewSet):
             checkin_date=checkin_date,
             checkout_date=checkout_date,
             car_rating=car_rating,
-            car_doc=car_doc,
+            car_rc=car_rc,
+            car_insurance=car_insurance,
             car_images=car_images,
         )
         users_inst.save()

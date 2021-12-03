@@ -197,8 +197,11 @@ class Cabs_Reg(models.Model):
     checkin_date = models.CharField("checkin_date", null=True, max_length=255)
     checkout_date = models.CharField("checkout_date", null=True, max_length=255)
     car_rating = models.CharField("car_rating", null=True, max_length=255)
-    car_doc = models.FileField(
-        "car_doc", null=True, max_length=255
+    car_rc = models.FileField(
+        "car_rc", null=True, max_length=255
+    )
+    car_insurance = models.FileField(
+        "car_insurance", null=True, max_length=255
     )
     car_images = models.FileField(
         "car_images", null=True, max_length=255

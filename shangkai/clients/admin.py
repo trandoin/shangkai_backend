@@ -134,7 +134,8 @@ class CarRegistration(admin.ModelAdmin):
         "checkin_date",
         "checkout_date",
         "car_rating",
-        "car_doc",
+        "car_rc",
+        "car_insurance",
         "car_images",
         "status",
     ]
