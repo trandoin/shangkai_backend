@@ -248,6 +248,6 @@ class User_Trip_Cart(models.Model):
 
     class Meta:
         verbose_name, verbose_name_plural = (
-            "Cab Cart",
-            "Cab Cart",
+            "Trip Carts",
+            "Trip Carts",
         )               
