@@ -214,7 +214,7 @@ class User_Hotel_Payment(models.Model):
         default=None,
         db_constraint=False,
     )
-    hotel_cart = models.ForeignKey(
+    hotel_booking = models.ForeignKey(
         "users.User_Hotel_Booking",
         on_delete=models.CASCADE,
         default=None,

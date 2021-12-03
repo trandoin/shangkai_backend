@@ -49,7 +49,7 @@ class CabBooking(admin.ModelAdmin):
 admin.site.register(User_Cab_Booking, CabBooking)
 
 class UserHotelPayment(admin.ModelAdmin):
-    list_display = ["id","user","hotel_cart","payment_id","payment_status"]
+    list_display = ["id","user","hotel_booking","payment_id","payment_status"]
 
 
 admin.site.register(User_Hotel_Payment, UserHotelPayment)
