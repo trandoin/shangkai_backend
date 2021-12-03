@@ -50,7 +50,7 @@ admin.site.register(Hot_Spots,HotSpots)
 
 
 class MyTrips(admin.ModelAdmin):
-    list_display = ["id","title","sub_title","category","price","description","services","includes","rules","images"]
+    list_display = ["id","title","sub_title","category","price","description","services","includes","rules","days_no","start_trip","images"]
 
 
 admin.site.register(My_Trips,MyTrips)

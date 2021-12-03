@@ -105,6 +105,7 @@ class My_Trips(models.Model):
     includes = models.TextField("includes", null=True,  max_length=255)
     rules = models.TextField("rules", null=True,  max_length=255)
     days_no = models.TextField("days_no", null=True, max_length=2000)
+    start_trip = models.DateField("start_trip", null=True, max_length=2000)
     images = models.FileField(
         "images",upload_to="trips/",null=True, default="image.png", max_length=255
     )
