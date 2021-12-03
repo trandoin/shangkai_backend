@@ -229,32 +229,25 @@ class User_Hotel_Payment(models.Model):
             "User Hotel Payments",
         ) 
 
-# class User_Trip_Cart(models.Model):
-#     datetime = models.DateTimeField("Created At", auto_now_add=True)
-#     user = models.ForeignKey(
-#         "users.Normal_UserReg",
-#         on_delete=models.CASCADE,
-#         default=None,
-#         db_constraint=False,
-#     )
-#     hotspot_cat = models.ForeignKey(
-#         "shangkai_app.Hotspot_Category",
-#         on_delete=models.CASCADE,
-#         default=None,
-#         db_constraint=False,
-#     )
-#     hotspot_id = models.ForeignKey(
-#         "shangkai_app.Hot_Spots",
-#         on_delete=models.CASCADE,
-#         default=None,
-#         db_constraint=False,
-#     )
-#     amount_booking = models.CharField("amount", null=True, max_length=255)
-#     no_guests = models.CharField("no_guests", null=True, max_length=255)
-#     booking_status = models.CharField("status", null=True, default="0", max_length=255)
+class User_Trip_Cart(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user = models.ForeignKey(
+        "users.Normal_UserReg",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    trip_id = models.ForeignKey(
+        "shangkai_app.My_Trips",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    no_guests = models.CharField("no_guests", null=True, max_length=255)
+    trip_cart_status = models.CharField("status", null=True, default="0", max_length=255)
 
-#     class Meta:
-#         verbose_name, verbose_name_plural = (
-#             "Cab Cart",
-#             "Cab Cart",
-#         )               
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Cab Cart",
+            "Cab Cart",
+        )               
