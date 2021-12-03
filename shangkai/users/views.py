@@ -588,8 +588,8 @@ class HotelPaymentViewSet(viewsets.ViewSet):
                     {
                         "hotel_booking": {
                             "id": hotel_inst.id,
-                            "hotel_id": hotel_inst.hotel_id,
-                            "room_id":hotel_inst.room_id,
+                            # "hotel_id": hotel_inst.hotel_id,
+                            # "room_id":hotel_inst.room_id,
                             "hotel_bookid":hotel_inst.hotel_bookid,
                             "check_in_date":hotel_inst.check_in_date,
                             "check_in_time":hotel_inst.check_in_time,
@@ -598,7 +598,6 @@ class HotelPaymentViewSet(viewsets.ViewSet):
                             "guest_no":hotel_inst.guest_no,
                             "rooms":hotel_inst.rooms,
                             "amount_booking":hotel_inst.amount_booking,
-
 
                         }
                     }
