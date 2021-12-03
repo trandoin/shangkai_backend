@@ -247,6 +247,7 @@ class MyTripsViewSet(viewsets.ViewSet):
         includes = request.POST.get("includes", None)
         rules = request.POST.get("rules", None)
         days_no = request.POST.get("days_no", None)
+        start_trip = request.POST.get("start_trip_date", None)
 
         trips_inst = My_Trips.objects.create(
             title=title,
@@ -258,6 +259,7 @@ class MyTripsViewSet(viewsets.ViewSet):
             hotspots_id=hotspots_ids,
             includes=includes,
             rules=rules,
+            start_trip=start_trip,
         )
         trips_inst.save()
 
