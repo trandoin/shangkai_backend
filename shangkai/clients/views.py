@@ -436,8 +436,8 @@ class CabRegistrationViewSet(viewsets.ViewSet):
         car_images = request.POST.get("car_images", None)
 
         try:
-            user_inst = User_Register.objects.get(user=user_id)
-            driver_inst = Driver_Reg.objects.get(driver=driver_id)
+            user_inst = User_Register.objects.get(id=user_id)
+            driver_inst = Driver_Reg.objects.get(id=driver_id)
         except:
 
             return Response(
