@@ -631,7 +631,7 @@ class HotelPaymentViewSet(viewsets.ViewSet):
 
         users_inst = User_Hotel_Payment.objects.create(
             user=user_inst,
-            hotel_id=hotel_booking_inst,
+            hotel_booking=hotel_booking_inst,
             payment_id=payment_id,
         )
         users_inst.save()
