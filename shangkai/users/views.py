@@ -16,6 +16,7 @@ from .models import (
     User_Hotel_Cart,
     User_Cab_Cart,
     User_Hotel_Payment,
+    User_Trip_Cart,
 )
 
 from clients.models import (
@@ -23,6 +24,10 @@ from clients.models import (
     Reg_Hotel,
     Room_Register,
     Driver_Reg,
+)
+from shangkai_app.models import (
+    My_Trips,
+   
 )
 
 
@@ -639,6 +644,89 @@ class HotelPaymentViewSet(viewsets.ViewSet):
 
         users_data = serializers.UserHotelPaymentSerializer(
             User_Hotel_Payment.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
+
+
+############# """""""""" USER TRIPS """"""######
+
+class UserTripsCartViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+        try:
+            sm_hotel = User_Trip_Cart.objects.filter(user=user_id)
+            account_data_dic = serializers.UserTripCartSerializer(sm_hotel, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        for i in range(0, len(account_data_dic.data)):
+            created_user_id = account_data_dic.data[i].get("user")
+            try:
+                user_inst = Normal_UserReg.objects.get(id=created_user_id)
+
+                account_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "user_name": user_inst.name,
+                            "user_mobile": user_inst.mobile,
+                        }
+                    }
+                )
+            except:
+                account_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted Trip"}}
+                ) 
+            created_user_id = account_data_dic.data[i].get("trip_id")
+            try:
+                user_inst = My_Trips.objects.get(id=created_user_id)
+
+                account_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "trip_title": user_inst.title,
+                            "trip_category": user_inst.category,
+                            "trip_price":user_inst.price,
+                            
+                        }
+                    }
+                )
+            except:
+                account_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted Account"}}
+                )      
+
+        return Response(account_data_dic.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+
+        user_id = request.POST.get("user_id", None)
+        trip_id = request.POST.get("trip_id", None)
+        no_guests = request.POST.get("no_guests", None)
+
+        try:
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+            trip_inst = My_Trips.objects.get(id=trip_id)
+        except:
+
+            return Response(
+                {"message": "Invalid Request!"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        users_inst = User_Trip_Cart.objects.create(
+            user_id=user_id,
+            trip_id=trip_inst,
+            no_guests=no_guests,
+        )
+        users_inst.save()
+
+        users_data = serializers.UserTripCartSerializer(
+            User_Trip_Cart.objects.filter(id=users_inst.id), many=True
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 

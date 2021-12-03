@@ -7,6 +7,7 @@ from .models import (
     User_Hotel_Cart,
     User_Cab_Cart,
     User_Hotel_Payment,
+    User_Trip_Cart,
 )
 
 
@@ -39,6 +40,11 @@ class CabBookingSerializer(ModelSerializer):
 class CabCartSerializer(ModelSerializer):
     class Meta:
         model = User_Cab_Cart
+        fields = "__all__"
+
+class UserTripCartSerializer(ModelSerializer):
+    class Meta:
+        model = User_Trip_Cart
         fields = "__all__"
 
 
