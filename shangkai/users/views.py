@@ -17,6 +17,7 @@ from .models import (
     User_Cab_Cart,
     User_Hotel_Payment,
     User_Trip_Cart,
+    User_Cab_Payment,
 )
 
 from clients.models import (
@@ -647,6 +648,97 @@ class HotelPaymentViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+
+class CabPaymentViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+        try:
+            sm_cab_booking = User_Cab_Payment.objects.filter(user=user_id)
+            cab_booking_data_dic = serializers.UserCabPaymentSerializer(sm_cab_booking, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        for i in range(0, len(cab_booking_data_dic.data)):
+            created_user_id = cab_booking_data_dic.data[i].get("user")
+            try:
+                user_inst = Normal_UserReg.objects.get(id=created_user_id)
+
+                cab_booking_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "user_id": user_inst.user_id,
+                            "user_name": user_inst.name,
+                        }
+                    }
+                )
+            except:
+                cab_booking_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted Account"}}
+                )
+            created_cab_booking_id = cab_booking_data_dic.data[i].get("cab_booking")
+            try:
+                cab_booking_inst = User_Cab_Booking.objects.get(id=created_cab_booking_id)
+
+                cab_booking_data_dic.data[i].update(
+                    {
+                        "cab_booking": {
+                            "id": cab_booking_inst.id,
+                            # "cab_booking_id": cab_booking_inst.cab_booking_id,
+                            "cab_bookid":cab_booking_inst.cab_bookid,
+                            "car_id":cab_booking_inst.car_id,
+                            "driver_id":cab_booking_inst.driver_id,
+                            "check_in_date":cab_booking_inst.check_in_date,
+                            "check_in_time":cab_booking_inst.check_in_time,
+                            "check_out_date":cab_booking_inst.check_out_date,
+                            "check_out_time":cab_booking_inst.check_out_time,
+                            "end_trip":cab_booking_inst.end_trip,
+                            "amount_booking":cab_booking_inst.amount_booking,
+                            "no_guests":cab_booking_inst.no_guests,
+
+                        }
+                    }
+                )
+            except:
+                cab_booking_data_dic.data[i].update(
+                    {
+                        "cab_booking": {
+                            "id": created_cab_booking_id,
+                            "message": "Deleted Cab Booking",
+                        }
+                    }
+                )
+            
+        return Response(cab_booking_data_dic.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+
+        user_id = request.POST.get("user_id", None)
+        cab_booking = request.POST.get("cab_booking", None)
+        payment_id = request.POST.get("payment_id", None)
+        try:
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+            cab_booking_inst = User_Cab_Booking.objects.get(id=cab_booking)
+        except:
+
+            return Response(
+                {"message": "Invalid Request !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        users_inst = User_Cab_Payment.objects.create(
+            user=user_inst,
+            cab_booking=cab_booking_inst,
+            payment_id=payment_id,
+        )
+        users_inst.save()
+
+        users_data = serializers.UserCabPaymentSerializer(
+            User_Cab_Payment.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
 
 ############# """""""""" USER TRIPS """"""######
 

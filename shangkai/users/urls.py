@@ -21,6 +21,7 @@ router.register("trips_cart", views.UserTripsCartViewSet, basename="TripsCart")
 
 ############ """""""""" PAYMENT """"""""######
 router.register("hotel_payment", views.HotelPaymentViewSet, basename="HotelPayemnt")
+router.register("cab_payment", views.CabPaymentViewSet, basename="CabPayemnt")
 
 
 ################"""""""""" ADMIN """"""""""""""###########
