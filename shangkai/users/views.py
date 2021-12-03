@@ -686,10 +686,9 @@ class CabPaymentViewSet(viewsets.ViewSet):
                     {
                         "cab_booking": {
                             "id": cab_booking_inst.id,
-                            # "cab_booking_id": cab_booking_inst.cab_booking_id,
                             "cab_bookid":cab_booking_inst.cab_bookid,
-                            "car_id":cab_booking_inst.car_id,
-                            "driver_id":cab_booking_inst.driver_id,
+                            # "car_id":cab_booking_inst.car_id,
+                            # "driver_id":cab_booking_inst.driver_id,
                             "check_in_date":cab_booking_inst.check_in_date,
                             "check_in_time":cab_booking_inst.check_in_time,
                             "check_out_date":cab_booking_inst.check_out_date,
