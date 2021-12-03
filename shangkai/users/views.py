@@ -582,13 +582,23 @@ class HotelPaymentViewSet(viewsets.ViewSet):
                 )
             created_hotel_id = hotel_data_dic.data[i].get("hotel_booking")
             try:
-                hotel_inst = Reg_Hotel.objects.get(id=created_hotel_id)
+                hotel_inst = User_Hotel_Booking.objects.get(id=created_hotel_id)
 
                 hotel_data_dic.data[i].update(
                     {
                         "hotel_booking": {
                             "id": hotel_inst.id,
                             "hotel_id": hotel_inst.hotel_id,
+                            "room_id":hotel_inst.room_id,
+                            "hotel_bookid":hotel_inst.hotel_bookid,
+                            "check_in_date":hotel_inst.check_in_date,
+                            "check_in_time":hotel_inst.check_in_time,
+                            "check_out_date":hotel_inst.check_out_date,
+                            "check_out_time":hotel_inst.check_out_time,
+                            "guest_no":hotel_inst.guest_no,
+                            "rooms":hotel_inst.rooms,
+                            "amount_booking":hotel_inst.amount_booking,
+
 
                         }
                     }
@@ -598,7 +608,7 @@ class HotelPaymentViewSet(viewsets.ViewSet):
                     {
                         "hotel_booking": {
                             "id": created_hotel_id,
-                            "message": "Deleted Hotel Cart",
+                            "message": "Deleted Hotel Booking",
                         }
                     }
                 )
