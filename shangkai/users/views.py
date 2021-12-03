@@ -607,11 +607,11 @@ class HotelPaymentViewSet(viewsets.ViewSet):
     def create(self, request):
 
         user_id = request.POST.get("user_id", None)
-        hotel_cart_id = request.POST.get("hotel_cart_id", None)
+        hotel_booking_id = request.POST.get("hotel_booking_id", None)
         payment_id = request.POST.get("payment_id", None)
         try:
             user_inst = Normal_UserReg.objects.get(id=user_id)
-            hotel_cart_inst = User_Hotel_Cart.objects.get(hotel_cart=hotel_cart_id)
+            hotel_booking_inst = User_Hotel_Booking.objects.get(id=hotel_booking_id)
         except:
 
             return Response(
@@ -621,7 +621,7 @@ class HotelPaymentViewSet(viewsets.ViewSet):
 
         users_inst = User_Hotel_Payment.objects.create(
             user=user_inst,
-            hotel_id=hotel_cart_inst,
+            hotel_id=hotel_booking_inst,
             payment_id=payment_id,
         )
         users_inst.save()
