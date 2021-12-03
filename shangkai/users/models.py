@@ -229,6 +229,29 @@ class User_Hotel_Payment(models.Model):
             "User Hotel Payments",
         ) 
 
+class User_Cab_Payment(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user = models.ForeignKey(
+        "users.Normal_UserReg",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    cab_booking = models.ForeignKey(
+        "users.User_Cab_Booking",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    payment_id = models.CharField("payment_id", null=True, max_length=255)
+    payment_status = models.CharField("status", null=True, default="0", max_length=255)
+
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "User Cab Payments",
+            "User Cab Payments",
+        ) 
+
 class User_Trip_Cart(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(

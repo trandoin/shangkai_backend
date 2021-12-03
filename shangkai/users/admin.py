@@ -11,6 +11,7 @@ from .models import (
     User_Cab_Cart,
     User_Hotel_Payment,
     User_Trip_Cart,
+    User_Cab_Payment,
 )
 
 # Register your models here.
@@ -66,6 +67,12 @@ class UserCabCart(admin.ModelAdmin):
 
 
 admin.site.register(User_Cab_Cart, UserCabCart)
+
+class UserCabbookingPayment(admin.ModelAdmin):
+    list_display = ["id", "user", "cab_booking", "payment_id"]
+
+
+admin.site.register(User_Cab_Payment, UserCabbookingPayment)
 
 
 class UserTripCart(admin.ModelAdmin):
