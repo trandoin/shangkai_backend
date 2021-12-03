@@ -580,13 +580,13 @@ class HotelPaymentViewSet(viewsets.ViewSet):
                 hotel_data_dic.data[i].update(
                     {"user": {"id": created_user_id, "message": "Deleted Account"}}
                 )
-            created_hotel_id = hotel_data_dic.data[i].get("hotel_cart")
+            created_hotel_id = hotel_data_dic.data[i].get("hotel_booking")
             try:
                 hotel_inst = Reg_Hotel.objects.get(id=created_hotel_id)
 
                 hotel_data_dic.data[i].update(
                     {
-                        "hotel_cart": {
+                        "hotel_booking": {
                             "id": hotel_inst.id,
 
                         }
@@ -595,7 +595,7 @@ class HotelPaymentViewSet(viewsets.ViewSet):
             except:
                 hotel_data_dic.data[i].update(
                     {
-                        "hotel_id": {
+                        "hotel_booking": {
                             "id": created_hotel_id,
                             "message": "Deleted Hotel Cart",
                         }
