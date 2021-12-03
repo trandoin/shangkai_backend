@@ -248,15 +248,6 @@ class MyTripsViewSet(viewsets.ViewSet):
         rules = request.POST.get("rules", None)
         days_no = request.POST.get("days_no", None)
 
-        # try:
-        #     hotspots_inst = Hot_Spots.objects.get(id=hotspots_id)
-        # except:
-
-        #     return Response(
-        #         {"message": "No HotSpots found !"},
-        #         status=status.HTTP_400_BAD_REQUEST,
-        #     )
-
         trips_inst = My_Trips.objects.create(
             title=title,
             sub_title=sub_title,
@@ -267,8 +258,6 @@ class MyTripsViewSet(viewsets.ViewSet):
             hotspots_id=hotspots_ids,
             includes=includes,
             rules=rules,
-
-
         )
         trips_inst.save()
 
