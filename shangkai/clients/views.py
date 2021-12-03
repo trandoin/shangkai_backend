@@ -592,3 +592,110 @@ class GetHotelByCatIdViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(users_data_dic.data, status=status.HTTP_200_OK)        
+
+
+
+############ """""""" ADMIN """"""""""#########
+
+class GetClientslAllViewSet(viewsets.ViewSet):
+    def list(self, request):
+        try:
+            sm_users = User_Register.objects.all()
+            users_data_dic = serializers.UserRegisterSerializer(sm_users, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(users_data_dic.data, status=status.HTTP_200_OK)
+
+class GetHotelAllViewSet(viewsets.ViewSet):
+    def list(self, request):
+
+        try:
+            sm_users = Reg_Hotel.objects.all()
+            users_data_dic = serializers.HotelRegisterSerializer(sm_users, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(users_data_dic.data, status=status.HTTP_200_OK)
+
+class GetRoomALLViewSet(viewsets.ViewSet):
+
+    def list(self, request):
+        try:
+            sm_rooms = Room_Register.objects.all()
+            room_data_dic = serializers.RoomRegisterSerializer(sm_rooms, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        for i in range(0, len(room_data_dic.data)):
+            created_hotel_id = room_data_dic.data[i].get("hotel_id")
+            try:
+                hotel_inst = Reg_Hotel.objects.get(id=created_hotel_id)
+
+                room_data_dic.data[i].update(
+                    {
+                        "hotel_id": {
+                            "id": hotel_inst.id,
+                            "hotel_name": hotel_inst.hotel_name,
+                            "hotel_city": hotel_inst.hotel_city,
+                            "room_rates":hotel_inst.room_rates,
+                        }
+                    }
+                )
+            except:
+                room_data_dic.data[i].update(
+                    {"hotel_id": {"id": created_hotel_id, "message": "No Hotel found"}}
+                )     
+    
+        return Response(room_data_dic.data, status=status.HTTP_200_OK)        
+
+class GetCabAllViewSet(viewsets.ViewSet):
+
+    def list(self, request):
+        try:
+            sm_cabs = Cabs_Reg.objects.all()
+            cabs_data_dic = serializers.CabRegisterSerializer(sm_cabs, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No cab found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return Response(cabs_data_dic.data, status=status.HTTP_200_OK) 
+
+class GetDriverAllViewSet(viewsets.ViewSet):
+    def list(self, request):
+        try:
+            sm_driver = Driver_Reg.objects.all()
+            driver_data_dic = serializers.DriverRegisterSerializer(sm_driver, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        for i in range(0, len(driver_data_dic.data)):
+            created_user_id = driver_data_dic.data[i].get("user")
+            try:
+                user_inst = User_Register.objects.get(id=created_user_id)
+
+                driver_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "user_id": user_inst.user_id,
+                            "user_name": user_inst.name,
+                        }
+                    }
+                )
+            except:
+                driver_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted Account"}}
+                )
+
+        return Response(driver_data_dic.data, status=status.HTTP_200_OK)

@@ -45,6 +45,25 @@ router.register(
 
 
 
+############# """""""" ADMIN """"""""##########
+
+router.register(
+    "get_clients", views.GetClientslAllViewSet, basename="GetClientsAll"
+)
+router.register(
+    "get_hotels", views.GetHotelAllViewSet, basename="GetHotelAll"
+)
+router.register(
+    "get_rooms", views.GetRoomALLViewSet, basename="GetRoomALL"
+)
+router.register(
+    "get_cabs", views.GetCabAllViewSet, basename="GetCabAll"
+)
+router.register(
+    "get_drivers", views.GetDriverAllViewSet, basename="GetDriverAll"
+)
+
+
 
 
 urlpatterns = [
