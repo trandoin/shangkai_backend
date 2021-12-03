@@ -111,7 +111,8 @@ class DriverRegistration(admin.ModelAdmin):
         "languages",
         "working_hours",
         "licence_no",
-        "driver_doc",
+        "adhar_card",
+        "licence_doc",
         "picture",
     ]
 

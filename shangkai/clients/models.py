@@ -154,8 +154,11 @@ class Driver_Reg(models.Model):
     languages = models.CharField("languages", null=True, max_length=255)
     working_hours = models.CharField("working_hours", null=True, max_length=255)
     licence_no = models.CharField("licence_no", null=True, max_length=255)
-    driver_doc = models.FileField(
-        "driver_doc", null=True, max_length=255
+    adhar_card = models.FileField(
+        "addhar_card", null=True, max_length=255
+    )
+    licence_doc = models.FileField(
+        "licence_doc", null=True, max_length=255
     )
     picture = models.FileField(
         "picture", null=True, max_length=255

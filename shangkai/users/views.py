@@ -588,6 +588,7 @@ class HotelPaymentViewSet(viewsets.ViewSet):
                     {
                         "hotel_booking": {
                             "id": hotel_inst.id,
+                            "hotel_id": hotel_inst.hotel_id,
 
                         }
                     }

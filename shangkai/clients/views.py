@@ -328,7 +328,8 @@ class DriverRegistrationViewSet(viewsets.ViewSet):
         languages = request.POST.get("languages", None)
         working_hours = request.POST.get("room_facilites", None)
         licence_no = request.POST.get("licence_no", None)
-        driver_doc = request.POST.get("driver_doc", None)
+        adhar_card = request.POST.get("adhar_card", None)
+        licence_doc = request.POST.get("licence_doc", None)
         picture = request.POST.get("picture", None)
 
         try:
@@ -349,7 +350,8 @@ class DriverRegistrationViewSet(viewsets.ViewSet):
             languages=languages,
             working_hours=working_hours,
             licence_no=licence_no,
-            driver_doc=driver_doc,
+            adhar_card=adhar_card,
+            licence_doc=licence_doc,
             picture=picture,
         )
         users_inst.save()
