@@ -558,6 +558,47 @@ class HotelCartViewSet(viewsets.ViewSet):
             
         return Response(hotel_data_dic.data, status=status.HTTP_200_OK)
 
+    def create(self, request):
+
+        user_id = request.POST.get("user_id", None)
+        hotel_id = request.POST.get("hotel_id", None)
+        room_id = request.POST.get("room_id", None)
+        check_in_date = request.POST.get("check_in_date", None)
+        check_out_date = request.POST.get("check_out_date", None)
+        guest_no = request.POST.get("guest_no", None)
+        rooms = request.POST.get("rooms", None)
+        amount_booking = request.POST.get("amount_booking", None)
+        try:
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+            hotel_inst = Reg_Hotel.objects.get(id=hotel_id)
+            room_inst = Room_Register.objects.get(id=room_id)
+        except:
+
+            return Response(
+                {"message": "Invalid Request !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        hotel_cart_inst = User_Hotel_Cart.objects.create(
+            user=user_inst,
+            hotel_id=hotel_inst,
+            room_id=room_inst,
+            check_in_date=check_in_date,
+            check_out_date=check_out_date,
+            guest_no=guest_no,
+            rooms=rooms,
+            amount_booking=amount_booking, 
+            
+        )
+        hotel_cart_inst.save()
+
+        hotel_cart_data = serializers.UserHotelPaymentSerializer(
+            User_Hotel_Cart.objects.filter(id=hotel_cart_inst.id), many=True
+        )
+        return Response(hotel_cart_data.data[0], status=status.HTTP_200_OK)    
+
+
+
 class HotelPaymentViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.GET.get("user_id", None)
