@@ -543,7 +543,7 @@ class HotelCartViewSet(viewsets.ViewSet):
                             "room_id": room_inst.room_id,
                             "room_type": room_inst.room_type,
                             "bed_type": room_inst.bed_type,
-                            "room_images": room_inst.room_images,
+                            # "room_images": room_inst.room_images,
                         }
                     }
                 )
