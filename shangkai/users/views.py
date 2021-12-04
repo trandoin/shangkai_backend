@@ -592,7 +592,7 @@ class HotelCartViewSet(viewsets.ViewSet):
         )
         hotel_cart_inst.save()
 
-        hotel_cart_data = serializers.UserHotelPaymentSerializer(
+        hotel_cart_data = serializers.HotelCartSerializer(
             User_Hotel_Cart.objects.filter(id=hotel_cart_inst.id), many=True
         )
         return Response(hotel_cart_data.data[0], status=status.HTTP_200_OK)    
