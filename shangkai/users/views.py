@@ -802,7 +802,7 @@ class UserTripsCartViewSet(viewsets.ViewSet):
 
                 account_data_dic.data[i].update(
                     {
-                        "user": {
+                        "trip_id": {
                             "id": user_inst.id,
                             "trip_title": user_inst.title,
                             "trip_category": user_inst.category,
@@ -813,7 +813,7 @@ class UserTripsCartViewSet(viewsets.ViewSet):
                 )
             except:
                 account_data_dic.data[i].update(
-                    {"user": {"id": created_user_id, "message": "Deleted Account"}}
+                    {"trip_id": {"id": created_user_id, "message": "Deleted Trip"}}
                 )      
 
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
