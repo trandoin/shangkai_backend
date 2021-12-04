@@ -796,23 +796,6 @@ class UserTripsCartViewSet(viewsets.ViewSet):
             )
 
         for i in range(0, len(account_data_dic.data)):
-            created_user_id = account_data_dic.data[i].get("user")
-            try:
-                user_inst = Normal_UserReg.objects.get(id=created_user_id)
-
-                account_data_dic.data[i].update(
-                    {
-                        "user": {
-                            "id": user_inst.id,
-                            "user_name": user_inst.name,
-                            "user_mobile": user_inst.mobile,
-                        }
-                    }
-                )
-            except:
-                account_data_dic.data[i].update(
-                    {"user": {"id": created_user_id, "message": "Deleted Trip"}}
-                ) 
             created_user_id = account_data_dic.data[i].get("trip_id")
             try:
                 user_inst = My_Trips.objects.get(id=created_user_id)
