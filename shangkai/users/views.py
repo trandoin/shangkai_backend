@@ -34,9 +34,9 @@ from shangkai_app.models import (
 
 class UserRegisterViewSet(viewsets.ViewSet):
     def list(self, request):
-
+        user_id = request.GET.get("user_id", None)
         try:
-            sm_users = Normal_UserReg.objects.all()
+            sm_users = Normal_UserReg.objects.filter(id=user_id)
             users_data_dic = serializers.NormalUserRegisterSerializer(
                 sm_users, many=True
             )
