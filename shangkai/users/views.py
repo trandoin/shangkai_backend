@@ -474,6 +474,23 @@ class HotelBookingViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+    def destroy(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+        book_id = request.GET.get("book_id", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Please provide user_id"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        try:
+            scm_post_inst = User_Hotel_Booking.objects.filter(id=pk)
+            scm_post_inst.delete()
+            return Response(
+                {"message": "Hotel Booking Removed Successfully"}, status=status.HTTP_200_OK
+            )
+        except:
+            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
 
 class HotelPaymentViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -838,6 +855,24 @@ class CabBookingViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+    def destroy(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+        book_id = request.GET.get("book_id", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Please provide user_id"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        try:
+            scm_post_inst = User_Cab_Booking.objects.filter(id=pk)
+            scm_post_inst.delete()
+            return Response(
+                {"message": "Cab Booking Removed Successfully"}, status=status.HTTP_200_OK
+            )
+        except:
+            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
+
 
 class CabPaymentViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -1110,6 +1145,24 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+
+    def destroy(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+        book_id = request.GET.get("book_id", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Please provide user_id"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        try:
+            scm_post_inst = User_Trip_Booking.objects.filter(id=pk)
+            scm_post_inst.delete()
+            return Response(
+                {"message": "Trip Booking Removed Successfully"}, status=status.HTTP_200_OK
+            )
+        except:
+            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
 
 class TripPaymentViewSet(viewsets.ViewSet):
     def list(self, request):
