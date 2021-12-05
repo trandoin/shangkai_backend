@@ -977,7 +977,7 @@ class TripPaymentViewSet(viewsets.ViewSet):
         payment_id = request.POST.get("payment_id", None)
         try:
             user_inst = Normal_UserReg.objects.get(id=user_id)
-            trip_booking_inst = User_Trips_Payment.objects.get(id=trip_booking)
+            trip_booking_inst = User_Trip_Booking.objects.get(id=trip_booking)
         except:
 
             return Response(
