@@ -273,4 +273,29 @@ class User_Trip_Cart(models.Model):
         verbose_name, verbose_name_plural = (
             "Trip Carts",
             "Trip Carts",
-        )               
+        )  
+
+class User_Trip_Booking(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user = models.ForeignKey(
+        "users.Normal_UserReg",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    trip_id = models.ForeignKey(
+        "shangkai_app.My_Trips",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    no_guests = models.CharField("no_guests", null=True, max_length=255)
+    trip_ammount = models.CharField("trip_ammount", null=True, max_length=255)
+    trip_cart_status = models.CharField("status", null=True, default="0", max_length=255)
+
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Trip Booking",
+            "Trip Booking",
+        )         
+                     
