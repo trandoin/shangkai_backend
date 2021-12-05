@@ -913,10 +913,8 @@ class UserTripsCartViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         try:
-            scm_post_inst = User_Trip_Cart.objects.get(id=cart_id)
-            scm_post_dic = serializers.UserTripCartSerializer(scm_post_inst)
-            user_inst = Normal_UserReg.objects.get(id=user_id)
-            scm_post_inst.remove(user_inst)
+            scm_post_inst = User_Trip_Cart.objects.filter(id=pk)
+            scm_post_inst.delete()
             return Response(
                 {"message": "Successfully Cart Removed"}, status=status.HTTP_200_OK
             )
