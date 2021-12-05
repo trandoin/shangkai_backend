@@ -924,11 +924,11 @@ class UserTripsCartViewSet(viewsets.ViewSet):
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
-        user_id = request.GET.get("user_id", None)
+        # user_id = request.GET.get("user_id", None)
         pk = request.GET.get("cart_id", None)
         trip_cart_status = 1
 
-        if user_id is None:
+        if pk is None:
             return Response(
                 {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
             )
