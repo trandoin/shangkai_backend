@@ -49,6 +49,12 @@ router.register(
     basename="GetUsersCabBooking",
 )
 router.register(
+    "get_users_tripbooking",
+    views.UserTripsBookingViewSet,
+    basename="UserTripsBooking",
+)
+
+router.register(
     "get_users_cabcart", views.GetUsersCabCartViewSet, basename="GetusersCabCart"
 )
 router.register(

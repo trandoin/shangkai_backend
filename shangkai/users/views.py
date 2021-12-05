@@ -1643,6 +1643,41 @@ class GetUsersCabBookingViewSet(viewsets.ViewSet):
         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
 
 
+class UserTripsBookingViewSet(viewsets.ViewSet):
+    def list(self, request):
+        try:
+            sm_hotel = User_Trip_Booking.objects.all()
+            account_data_dic = serializers.UserTripBookingSerializer(
+                sm_hotel, many=True
+            )
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        for i in range(0, len(account_data_dic.data)):
+            created_user_id = account_data_dic.data[i].get("trip_id")
+            try:
+                user_inst = My_Trips.objects.get(id=created_user_id)
+
+                account_data_dic.data[i].update(
+                    {
+                        "trip_id": {
+                            "id": user_inst.id,
+                            "trip_title": user_inst.title,
+                            "trip_category": user_inst.category,
+                            "trip_price": user_inst.price,
+                        }
+                    }
+                )
+            except:
+                account_data_dic.data[i].update(
+                    {"trip_id": {"id": created_user_id, "message": "Deleted Trip"}}
+                )
+
+        return Response(account_data_dic.data, status=status.HTTP_200_OK)
+
 class GetUserTripsCartViewSet(viewsets.ViewSet):
     def list(self, request):
         try:
