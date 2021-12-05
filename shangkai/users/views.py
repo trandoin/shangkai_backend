@@ -950,7 +950,7 @@ class TripPaymentViewSet(viewsets.ViewSet):
                     {
                         "trip_booking": {
                             "id": trip_booking_inst.id,
-                            "trip_id":trip_booking_inst.trip_id,
+                            # "trip_id":trip_booking_inst.trip_id,
                             "no_guests":trip_booking_inst.no_guests,
                             "trip_ammount":trip_booking_inst.trip_ammount,
                             "trip_cart_status":trip_booking_inst.trip_cart_status,
