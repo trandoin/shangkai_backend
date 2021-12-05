@@ -85,9 +85,9 @@ class UserRegisterViewSet(viewsets.ViewSet):
         password = request.GET.get("password", None)
         image = request.GET.get("image", None)
 
-        if pk is None and user_id is None:
+        if user_id is None:
             return Response(
-                {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
+                {"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
             )
 
         try:
