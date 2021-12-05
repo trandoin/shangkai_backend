@@ -243,6 +243,24 @@ class HotelRegistrationViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+    def destroy(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+        hotel_id = request.GET.get("hotel_id", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Please provide user_id"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        try:
+            scm_post_inst = Reg_Hotel.objects.filter(id=pk)
+            scm_post_inst.delete()
+            return Response(
+                {"message": "Hotel Deleted Successfully"}, status=status.HTTP_200_OK
+            )
+        except:
+            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)        
+
 class RoomRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.GET.get("user_id", None)
@@ -393,6 +411,24 @@ class RoomRegistrationViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+    def destroy(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+        room_id = request.GET.get("room_id", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Please provide user_id"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        try:
+            scm_post_inst = Room_Register.objects.filter(id=pk)
+            scm_post_inst.delete()
+            return Response(
+                {"message": "Room Deleted Successfully"}, status=status.HTTP_200_OK
+            )
+        except:
+            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
+
 class DriverRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.GET.get("user_id", None)
@@ -512,6 +548,24 @@ class DriverRegistrationViewSet(viewsets.ViewSet):
                 {"message": "Something went to wrong ! Try again !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+    def destroy(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+        driver_id = request.GET.get("driver_id", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Please provide user_id"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        try:
+            scm_post_inst = Driver_Reg.objects.filter(id=pk)
+            scm_post_inst.delete()
+            return Response(
+                {"message": "Driver Deleted Successfully"}, status=status.HTTP_200_OK
+            )
+        except:
+            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
 
 
 class CabRegistrationViewSet(viewsets.ViewSet):
@@ -673,6 +727,24 @@ class CabRegistrationViewSet(viewsets.ViewSet):
                 {"message": "Something went to wrong ! Try again !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+    def destroy(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+        cab_id = request.GET.get("cab_id", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Please provide user_id"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        try:
+            scm_post_inst = Cabs_Reg.objects.filter(id=pk)
+            scm_post_inst.delete()
+            return Response(
+                {"message": "Cab Deleted Successfully"}, status=status.HTTP_200_OK
+            )
+        except:
+            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
 
 ###############      SEARCH BAR  #######################
 
