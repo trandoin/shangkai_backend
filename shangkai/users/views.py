@@ -19,6 +19,7 @@ from .models import (
     User_Trip_Cart,
     User_Cab_Payment,
     User_Trip_Booking,
+    User_Trips_Payment,
 )
 
 from clients.models import (
@@ -912,6 +913,89 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+class TripPaymentViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+        try:
+            sm_trip_booking = User_Trips_Payment.objects.filter(user=user_id)
+            trip_booking_data_dic = serializers.UserTripsPaymentSerializer(sm_trip_booking, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        for i in range(0, len(trip_booking_data_dic.data)):
+            created_user_id = trip_booking_data_dic.data[i].get("user")
+            try:
+                user_inst = Normal_UserReg.objects.get(id=created_user_id)
+
+                trip_booking_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "user_id": user_inst.user_id,
+                            "user_name": user_inst.name,
+                        }
+                    }
+                )
+            except:
+                trip_booking_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted Account"}}
+                )
+            created_trip_booking_id = trip_booking_data_dic.data[i].get("trip_booking")
+            try:
+                trip_booking_inst = User_Trip_Booking.objects.get(id=created_trip_booking_id)
+
+                trip_booking_data_dic.data[i].update(
+                    {
+                        "trip_booking": {
+                            "id": trip_booking_inst.id,
+                            "trip_id":trip_booking_inst.trip_id,
+                            "no_guests":trip_booking_inst.no_guests,
+                            "trip_ammount":trip_booking_inst.trip_ammount,
+                            "trip_cart_status":trip_booking_inst.trip_cart_status,
+
+                        }
+                    }
+                )
+            except:
+                trip_booking_data_dic.data[i].update(
+                    {
+                        "trip_booking": {
+                            "id": created_trip_booking_id,
+                            "message": "Deleted Trip Booking",
+                        }
+                    }
+                )
+            
+        return Response(trip_booking_data_dic.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+
+        user_id = request.POST.get("user_id", None)
+        trip_booking = request.POST.get("trip_booking", None)
+        payment_id = request.POST.get("payment_id", None)
+        try:
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+            trip_booking_inst = User_Trips_Payment.objects.get(id=trip_booking)
+        except:
+
+            return Response(
+                {"message": "Invalid Request !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        users_inst = User_Trips_Payment.objects.create(
+            user=user_inst,
+            trip_booking=trip_booking_inst,
+            payment_id=payment_id,
+        )
+        users_inst.save()
+
+        users_data = serializers.UserTripsPaymentSerializer(
+            User_Trips_Payment.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
 
 class AccounDetailsBookingViewSet(viewsets.ViewSet):
     def list(self, request):
