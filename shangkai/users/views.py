@@ -1426,6 +1426,32 @@ class GetUsersHotelBookingViewSet(viewsets.ViewSet):
 
         return Response(hotel_data_dic.data, status=status.HTTP_200_OK)
 
+    def update(self, request, pk=None):
+        book_id = request.GET.get("book_id", None)
+        booking_status = request.GET.get("status", None)
+
+        if pk is None :
+            return Response(
+                {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = User_Hotel_Booking.objects.get(id=pk)
+            post_inst.booking_status = booking_status
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Hotel Booking Updated Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
 
 class GetUsersHotelPaymentViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -1642,6 +1668,32 @@ class GetUsersCabBookingViewSet(viewsets.ViewSet):
                 )
         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
 
+    def update(self, request, pk=None):
+        book_id = request.GET.get("book_id", None)
+        booking_status = request.GET.get("status", None)
+
+        if pk is None :
+            return Response(
+                {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = User_Cab_Booking.objects.get(id=pk)
+            post_inst.booking_status = booking_status
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Cab Booking Updated Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
 
 class UserTripsBookingViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -1677,6 +1729,32 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
                 )
 
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
+
+    def update(self, request, pk=None):
+        book_id = request.GET.get("book_id", None)
+        trip_cart_status = request.GET.get("status", None)
+
+        if pk is None :
+            return Response(
+                {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = User_Trip_Booking.objects.get(id=pk)
+            post_inst.trip_cart_status = trip_cart_status
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Trip Booking Updated Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 class GetUserTripsCartViewSet(viewsets.ViewSet):
     def list(self, request):
