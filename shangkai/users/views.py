@@ -820,6 +820,26 @@ class UserTripsCartViewSet(viewsets.ViewSet):
 
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
+    def destroy(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+        cart_id = request.GET.get("cart_id", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Please provide user_id"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        try:
+            scm_post_inst = User_Trip_Cart.objects.get(id=post_id)
+            scm_post_dic = serializers.UserTripCartSerializer(scm_post_inst)
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+            scm_post_inst.trip_id.remove(user_inst)
+            return Response(
+                {"message": "Successfully Cart Removed"}, status=status.HTTP_200_OK
+            )
+        except:
+            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)    
+
     def create(self, request):
 
         user_id = request.POST.get("user_id", None)
@@ -1504,3 +1524,50 @@ class GetUserTripsCartViewSet(viewsets.ViewSet):
                 )      
 
         return Response(account_data_dic.data, status=status.HTTP_200_OK)             
+
+
+        # def update(self, request, pk=None):
+        # pk = tokenConversion(request)
+        # description = request.GET.get("description", None)
+
+        # if pk is None:
+        #     return Response(
+        #         {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
+        #     )
+
+        # try:
+        #     post_inst = SocialMediaPost.objects.get(id=pk)
+        #     post_inst.description = description
+        #     post_inst.is_edited = True
+        #     post_inst.save()
+
+        #     return Response(
+        #         {"message": "Post Updated Sucessfully", "data": post_data.data},
+        #         status=status.HTTP_200_OK,
+        #     )
+
+        # except:
+        #     return Response(
+        #         {"message": "Sorry No data found with this post id"},
+        #         status=status.HTTP_400_BAD_REQUEST,
+        #     )    
+
+        # def destroy(self, request, pk=None):
+        # pk = tokenConversion(request) 
+        # post_id = request.GET.get("post_id", None)
+
+        # if pk is None:
+        #     return Response(
+        #         {"message": "Please provide user_id"},
+        #         status=status.HTTP_400_BAD_REQUEST,
+        #     )
+        # try:
+        #     scm_post_inst = SocialMediaPost.objects.get(id=post_id)
+        #     scm_post_dic = serializers.SocialMediaPostSerializer(scm_post_inst)
+        #     user_inst = user_details.objects.get(id=pk)
+        #     scm_post_inst.likes.remove(user_inst)
+        #     return Response(
+        #         {"message": "Successfully unliked"}, status=status.HTTP_200_OK
+        #     )
+        # except:
+        #     return Response({"message": "Details not found"}, status=status.HTTP_200_OK)    
