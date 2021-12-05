@@ -37,6 +37,22 @@ class NormalUserReg(admin.ModelAdmin):
 admin.site.register(Normal_UserReg, NormalUserReg)
 
 
+class AccountDetails(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "user",
+        "acc_holder",
+        "account_no",
+        "bannk_name",
+        "bank_branch",
+        "ifsc_code",
+        "bank_state",
+        "pan_card",
+    ]
+
+
+admin.site.register(User_Account_Details, AccountDetails)
+
 ##################### """"""""" HOTELS """""""""""" ########################
 
 
@@ -77,8 +93,35 @@ class BookingHotel(admin.ModelAdmin):
 
 admin.site.register(User_Hotel_Booking, BookingHotel)
 
+
+class UserHotelPayment(admin.ModelAdmin):
+    list_display = ["id", "user", "hotel_booking", "payment_id", "payment_status"]
+
+
+admin.site.register(User_Hotel_Payment, UserHotelPayment)
+
 ##################### """"""""" CABS """""""""""" ########################
-##################### """"""""" TRIPS """""""""""" ########################
+
+
+class UserCabCart(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "user",
+        "car_id",
+        "driver_id",
+        "check_in_date",
+        "check_in_time",
+        "check_out_date",
+        "check_out_time",
+        "start_from",
+        "end_trip",
+        "distance",
+        "amount_booking",
+        "no_guests",
+    ]
+
+
+admin.site.register(User_Cab_Cart, UserCabCart)
 
 
 class CabBooking(admin.ModelAdmin):
@@ -104,56 +147,14 @@ class CabBooking(admin.ModelAdmin):
 admin.site.register(User_Cab_Booking, CabBooking)
 
 
-class UserHotelPayment(admin.ModelAdmin):
-    list_display = ["id", "user", "hotel_booking", "payment_id", "payment_status"]
-
-
-admin.site.register(User_Hotel_Payment, UserHotelPayment)
-
-
-class AccountDetails(admin.ModelAdmin):
-    list_display = [
-        "id",
-        "user",
-        "acc_holder",
-        "account_no",
-        "bannk_name",
-        "bank_branch",
-        "ifsc_code",
-        "bank_state",
-        "pan_card",
-    ]
-
-
-admin.site.register(User_Account_Details, AccountDetails)
-
-
-class UserCabCart(admin.ModelAdmin):
-    list_display = [
-        "id",
-        "user",
-        "car_id",
-        "driver_id",
-        "check_in_date",
-        "check_in_time",
-        "check_out_date",
-        "check_out_time",
-        "start_from",
-        "end_trip",
-        "distance",
-        "amount_booking",
-        "no_guests",
-    ]
-
-
-admin.site.register(User_Cab_Cart, UserCabCart)
-
-
 class UserCabbookingPayment(admin.ModelAdmin):
     list_display = ["id", "user", "cab_booking", "payment_id"]
 
 
 admin.site.register(User_Cab_Payment, UserCabbookingPayment)
+
+
+##################### """"""""" TRIPS """""""""""" ########################
 
 
 class UserTripCart(admin.ModelAdmin):

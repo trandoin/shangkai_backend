@@ -1,4 +1,5 @@
 from rest_framework.serializers import ModelSerializer
+
 from .models import (
     User_Account_Details,
     User_Cab_Booking,
@@ -13,10 +14,27 @@ from .models import (
     User_Trips_Payment,
 )
 
+########### """"""""" ACCOUNTS DETAILS """""""""""" #############
+
 
 class NormalUserRegisterSerializer(ModelSerializer):
     class Meta:
         model = Normal_UserReg
+        fields = "__all__"
+
+
+class AccountDetailsBookingSerializer(ModelSerializer):
+    class Meta:
+        model = User_Account_Details
+        fields = "__all__"
+
+
+########### """"""""" HOTELS """""""""""" #############
+
+
+class HotelCartSerializer(ModelSerializer):
+    class Meta:
+        model = User_Hotel_Cart
         fields = "__all__"
 
 
@@ -26,15 +44,18 @@ class HotelBookingSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class HotelCartSerializer(ModelSerializer):
-    class Meta:
-        model = User_Hotel_Cart
-        fields = "__all__"
-
-
 class UserHotelPaymentSerializer(ModelSerializer):
     class Meta:
         model = User_Hotel_Payment
+        fields = "__all__"
+
+
+########### """"""""" CABS """""""""""" #############
+
+
+class CabCartSerializer(ModelSerializer):
+    class Meta:
+        model = User_Cab_Cart
         fields = "__all__"
 
 
@@ -44,10 +65,13 @@ class CabBookingSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class CabCartSerializer(ModelSerializer):
+class UserCabPaymentSerializer(ModelSerializer):
     class Meta:
-        model = User_Cab_Cart
+        model = User_Cab_Payment
         fields = "__all__"
+
+
+########### """"""""" TRIPS """""""""""" #############
 
 
 class UserTripCartSerializer(ModelSerializer):
@@ -65,16 +89,4 @@ class UserTripBookingSerializer(ModelSerializer):
 class UserTripsPaymentSerializer(ModelSerializer):
     class Meta:
         model = User_Trips_Payment
-        fields = "__all__"
-
-
-class UserCabPaymentSerializer(ModelSerializer):
-    class Meta:
-        model = User_Cab_Payment
-        fields = "__all__"
-
-
-class AccountDetailsBookingSerializer(ModelSerializer):
-    class Meta:
-        model = User_Account_Details
         fields = "__all__"
