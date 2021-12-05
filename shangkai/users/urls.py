@@ -13,6 +13,8 @@ router.register("account_details", views.AccounDetailsBookingViewSet, basename="
 # # """"BOOKINGS"""
 router.register("hotel_booking", views.HotelBookingViewSet, basename="HotelBooking")
 router.register("cab_booking", views.CabBookingViewSet, basename="CabBooking")
+router.register("trip_booking", views.UserTripsBookingViewSet, basename="UserTripsBooking")
+
 
 #### """"""""CART """"""""###
 router.register("hotel_cart", views.HotelCartViewSet, basename="HotelCart")
