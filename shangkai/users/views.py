@@ -833,12 +833,39 @@ class UserTripsCartViewSet(viewsets.ViewSet):
             scm_post_inst = User_Trip_Cart.objects.get(id=post_id)
             scm_post_dic = serializers.UserTripCartSerializer(scm_post_inst)
             user_inst = Normal_UserReg.objects.get(id=user_id)
-            scm_post_inst.trip_id.remove(user_inst)
+            scm_post_inst.remove(user_inst)
             return Response(
                 {"message": "Successfully Cart Removed"}, status=status.HTTP_200_OK
             )
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)    
+
+    def update(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+        cart_id = request.GET.get("cart_id", None)
+        trip_cart_status = request.GET.get("trip_cart_status", None)
+
+        if cart_id is None:
+            return Response(
+                {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = User_Trip_Cart.objects.get(id=cart_id)
+            post_inst.trip_cart_status = trip_cart_status
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Cart Updated Sucessfully", "data": post_data.data},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Sorry No data found with this cart id"},
+                status=status.HTTP_400_BAD_REQUEST,
+            ) 
 
     def create(self, request):
 
