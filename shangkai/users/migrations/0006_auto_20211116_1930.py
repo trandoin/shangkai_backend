@@ -6,28 +6,36 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0005_auto_20211116_1927'),
+        ("users", "0005_auto_20211116_1927"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='hotel_booking',
-            name='check_in_date',
-            field=models.DateField(max_length=255, null=True, verbose_name='check_in_date'),
+            model_name="hotel_booking",
+            name="check_in_date",
+            field=models.DateField(
+                max_length=255, null=True, verbose_name="check_in_date"
+            ),
         ),
         migrations.AlterField(
-            model_name='hotel_booking',
-            name='check_in_time',
-            field=models.TimeField(max_length=255, null=True, verbose_name='check_in_time'),
+            model_name="hotel_booking",
+            name="check_in_time",
+            field=models.TimeField(
+                max_length=255, null=True, verbose_name="check_in_time"
+            ),
         ),
         migrations.AlterField(
-            model_name='hotel_booking',
-            name='check_out_date',
-            field=models.DateField(max_length=255, null=True, verbose_name='check_out_date'),
+            model_name="hotel_booking",
+            name="check_out_date",
+            field=models.DateField(
+                max_length=255, null=True, verbose_name="check_out_date"
+            ),
         ),
         migrations.AlterField(
-            model_name='hotel_booking',
-            name='check_out_time',
-            field=models.TimeField(max_length=255, null=True, verbose_name='check_out_time'),
+            model_name="hotel_booking",
+            name="check_out_time",
+            field=models.TimeField(
+                max_length=255, null=True, verbose_name="check_out_time"
+            ),
         ),
     ]

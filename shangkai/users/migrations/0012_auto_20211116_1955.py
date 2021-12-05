@@ -6,52 +6,64 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0011_rename_booking_id_hotel_booking_book_id'),
+        ("users", "0011_rename_booking_id_hotel_booking_book_id"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='cab_booking',
-            name='start_time',
+            model_name="cab_booking",
+            name="start_time",
         ),
         migrations.AddField(
-            model_name='cab_booking',
-            name='amount',
-            field=models.CharField(max_length=255, null=True, verbose_name='amount'),
+            model_name="cab_booking",
+            name="amount",
+            field=models.CharField(max_length=255, null=True, verbose_name="amount"),
         ),
         migrations.AddField(
-            model_name='cab_booking',
-            name='booking_id',
-            field=models.CharField(default='0', max_length=255, null=True, verbose_name='booking_id'),
+            model_name="cab_booking",
+            name="booking_id",
+            field=models.CharField(
+                default="0", max_length=255, null=True, verbose_name="booking_id"
+            ),
         ),
         migrations.AddField(
-            model_name='cab_booking',
-            name='check_in_date',
-            field=models.CharField(default='0', max_length=255, null=True, verbose_name='check_in_date'),
+            model_name="cab_booking",
+            name="check_in_date",
+            field=models.CharField(
+                default="0", max_length=255, null=True, verbose_name="check_in_date"
+            ),
         ),
         migrations.AddField(
-            model_name='cab_booking',
-            name='check_in_time',
-            field=models.CharField(default='0', max_length=255, null=True, verbose_name='check_in_time'),
+            model_name="cab_booking",
+            name="check_in_time",
+            field=models.CharField(
+                default="0", max_length=255, null=True, verbose_name="check_in_time"
+            ),
         ),
         migrations.AddField(
-            model_name='cab_booking',
-            name='check_out_date',
-            field=models.CharField(default='0', max_length=255, null=True, verbose_name='check_out_date'),
+            model_name="cab_booking",
+            name="check_out_date",
+            field=models.CharField(
+                default="0", max_length=255, null=True, verbose_name="check_out_date"
+            ),
         ),
         migrations.AddField(
-            model_name='cab_booking',
-            name='check_out_time',
-            field=models.CharField(default='0', max_length=255, null=True, verbose_name='check_out_time'),
+            model_name="cab_booking",
+            name="check_out_time",
+            field=models.CharField(
+                default="0", max_length=255, null=True, verbose_name="check_out_time"
+            ),
         ),
         migrations.AddField(
-            model_name='cab_booking',
-            name='driver_id',
-            field=models.CharField(default='0', max_length=255, null=True, verbose_name='driver_id'),
+            model_name="cab_booking",
+            name="driver_id",
+            field=models.CharField(
+                default="0", max_length=255, null=True, verbose_name="driver_id"
+            ),
         ),
         migrations.AddField(
-            model_name='cab_booking',
-            name='no_guests',
-            field=models.CharField(max_length=255, null=True, verbose_name='no_guests'),
+            model_name="cab_booking",
+            name="no_guests",
+            field=models.CharField(max_length=255, null=True, verbose_name="no_guests"),
         ),
     ]

@@ -7,6 +7,7 @@ from django.utils import timezone
 #     Hotel_Category,
 # )
 
+
 class User_Register(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user_id = models.CharField("user_id", null=True, max_length=255)
@@ -15,10 +16,10 @@ class User_Register(models.Model):
     email = models.EmailField("email", null=True, max_length=255)
     mobile = models.CharField("mobile", null=True, max_length=255)
     password = models.CharField("password", null=True, max_length=255)
-    user_type = models.CharField("user_type",null=True,default="shangkai", max_length=255)
-    image = models.FileField(
-        "image", null=True, max_length=255
+    user_type = models.CharField(
+        "user_type", null=True, default="shangkai", max_length=255
     )
+    image = models.FileField("image", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -30,7 +31,10 @@ class User_Register(models.Model):
 
 class client_token_authentication(models.Model):
     user = models.ForeignKey(
-        "clients.User_Register", on_delete=models.CASCADE, default=None, db_constraint=False
+        "clients.User_Register",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
     )
     user_email = models.EmailField("Email", null=True, blank=True, unique=True)
     is_email_verified = models.BooleanField(
@@ -41,20 +45,19 @@ class client_token_authentication(models.Model):
     )
 
     last_otp = models.IntegerField("Last OTP", null=True, default=None)
-    last_otp_time = models.DateTimeField(
-        "Last OTP time", auto_now_add=True
-    )
+    last_otp_time = models.DateTimeField("Last OTP time", auto_now_add=True)
     accessToken = models.TextField("Access Token", default=None, null=True, blank=True)
     refreshToken = models.TextField(
         "Refresh Token", default=None, null=True, blank=True
     )
+
 
 class Client_login(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user_ip = models.CharField("user_ip", null=True, max_length=255)
     email = models.EmailField("email", null=True, max_length=255)
     password = models.CharField("password", null=True, max_length=255)
-    user_type = models.CharField("user_type",null=True,default="0", max_length=255)
+    user_type = models.CharField("user_type", null=True, default="0", max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -88,9 +91,7 @@ class Reg_Hotel(models.Model):
     room_rates = models.CharField("rates", null=True, max_length=255)
     hotel_facilites = models.TextField("facilites", null=True, max_length=5000)
     max_guests_limit = models.CharField("limits", null=True, max_length=255)
-    hotel_images = models.FileField(
-        "images", null=True, max_length=255
-    )
+    hotel_images = models.FileField("images", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -106,13 +107,10 @@ class Room_Register(models.Model):
         "clients.User_Register",
         on_delete=models.CASCADE,
         default=None,
-        db_constraint=False
+        db_constraint=False,
     )
     hotel_id = models.ForeignKey(
-        "clients.Reg_Hotel",
-        on_delete=models.CASCADE,
-        default=None,
-        db_constraint=False
+        "clients.Reg_Hotel", on_delete=models.CASCADE, default=None, db_constraint=False
     )
     room_id = models.CharField("room_id", null=True, max_length=255)
     room_type = models.CharField("room_type", null=True, max_length=255)
@@ -127,9 +125,7 @@ class Room_Register(models.Model):
     rating = models.CharField("rating", null=True, max_length=255)
     tags = models.TextField("tags", null=True, max_length=255)
     extra_services = models.TextField("extra_services", null=True, max_length=255)
-    room_images = models.FileField(
-        "images", null=True,max_length=255
-    )
+    room_images = models.FileField("images", null=True, max_length=255)
     states = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -137,6 +133,7 @@ class Room_Register(models.Model):
             "Room Registration",
             "Room Registration",
         )
+
 
 class Driver_Reg(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
@@ -154,15 +151,9 @@ class Driver_Reg(models.Model):
     languages = models.CharField("languages", null=True, max_length=255)
     working_hours = models.CharField("working_hours", null=True, max_length=255)
     licence_no = models.CharField("licence_no", null=True, max_length=255)
-    adhar_card = models.FileField(
-        "addhar_card", null=True, max_length=255
-    )
-    licence_doc = models.FileField(
-        "licence_doc", null=True, max_length=255
-    )
-    picture = models.FileField(
-        "picture", null=True, max_length=255
-    )
+    adhar_card = models.FileField("addhar_card", null=True, max_length=255)
+    licence_doc = models.FileField("licence_doc", null=True, max_length=255)
+    picture = models.FileField("picture", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -170,6 +161,7 @@ class Driver_Reg(models.Model):
             "Car Driver Registration",
             "Car Driver Registration",
         )
+
 
 class Cabs_Reg(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
@@ -197,15 +189,9 @@ class Cabs_Reg(models.Model):
     checkin_date = models.CharField("checkin_date", null=True, max_length=255)
     checkout_date = models.CharField("checkout_date", null=True, max_length=255)
     car_rating = models.CharField("car_rating", null=True, max_length=255)
-    car_rc = models.FileField(
-        "car_rc", null=True, max_length=255
-    )
-    car_insurance = models.FileField(
-        "car_insurance", null=True, max_length=255
-    )
-    car_images = models.FileField(
-        "car_images", null=True, max_length=255
-    )
+    car_rc = models.FileField("car_rc", null=True, max_length=255)
+    car_insurance = models.FileField("car_insurance", null=True, max_length=255)
+    car_images = models.FileField("car_images", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -213,6 +199,7 @@ class Cabs_Reg(models.Model):
             "Car Registration",
             "Car Registration",
         )
+
 
 class Account_Details(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
@@ -224,15 +211,15 @@ class Account_Details(models.Model):
     )
     acc_holder = models.CharField("acc_holder", null=True, max_length=255)
     account_no = models.CharField("account_no", null=True, max_length=255)
-    bannk_name = models.CharField("bannk_name", null=True,  max_length=255)
+    bannk_name = models.CharField("bannk_name", null=True, max_length=255)
     bank_branch = models.CharField("bank_branch", null=True, max_length=255)
     ifsc_code = models.CharField("ifsc_code", null=True, max_length=255)
-    bank_state = models.CharField("bank_state", null=True,  max_length=255)
-    pan_card = models.CharField("pan_card", null=True,  max_length=255)
+    bank_state = models.CharField("bank_state", null=True, max_length=255)
+    pan_card = models.CharField("pan_card", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
         verbose_name, verbose_name_plural = (
             "Bank Details",
             "Bank Details",
-        )        
+        )

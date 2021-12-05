@@ -6,23 +6,52 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shangkai_app', '0007_auto_20211117_1720'),
+        ("shangkai_app", "0007_auto_20211117_1720"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Payment_Transaction',
+            name="Payment_Transaction",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('datetime', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('user_id', models.CharField(max_length=255, null=True, verbose_name='user_id')),
-                ('transaction_id', models.CharField(max_length=255, null=True, verbose_name='transaction_id')),
-                ('transaction_type', models.CharField(max_length=2000, null=True, verbose_name='transaction_type')),
-                ('status', models.CharField(default='0', max_length=255, null=True, verbose_name='status')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "datetime",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "user_id",
+                    models.CharField(max_length=255, null=True, verbose_name="user_id"),
+                ),
+                (
+                    "transaction_id",
+                    models.CharField(
+                        max_length=255, null=True, verbose_name="transaction_id"
+                    ),
+                ),
+                (
+                    "transaction_type",
+                    models.CharField(
+                        max_length=2000, null=True, verbose_name="transaction_type"
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        default="0", max_length=255, null=True, verbose_name="status"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Payment Transaction',
-                'verbose_name_plural': 'Payment Transaction',
+                "verbose_name": "Payment Transaction",
+                "verbose_name_plural": "Payment Transaction",
             },
         ),
     ]

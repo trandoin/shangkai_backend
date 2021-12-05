@@ -30,7 +30,6 @@ from clients.models import (
 )
 from shangkai_app.models import (
     My_Trips,
-   
 )
 
 
@@ -73,24 +72,24 @@ class UserRegisterViewSet(viewsets.ViewSet):
         users_data = serializers.NormalUserRegisterSerializer(
             Normal_UserReg.objects.filter(id=users_inst.id), many=True
         )
-        return Response(users_data.data[0], status=status.HTTP_200_OK)    
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
+
 
 class UserLoginViewSet(viewsets.ViewSet):
-
     def create(self, request):
 
         email = request.POST.get("email", None)
         password = request.POST.get("password", None)
- 
-        if email is None and password is None : 
-            
+
+        if email is None and password is None:
+
             return Response(
-                    {"message": "Enter username & password !"},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-                    
+                {"message": "Enter username & password !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         try:
-            users_inst = Normal_UserReg.objects.filter(email=email,password=password)
+            users_inst = Normal_UserReg.objects.filter(email=email, password=password)
             users_data_dic = serializers.NormalUserRegisterSerializer(
                 users_inst, many=True
             )
@@ -177,7 +176,7 @@ class HotelBookingViewSet(viewsets.ViewSet):
                         }
                     }
                 )
-            
+
         return Response(hotel_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
@@ -225,7 +224,7 @@ class HotelBookingViewSet(viewsets.ViewSet):
         users_data = serializers.HotelBookingSerializer(
             User_Hotel_Booking.objects.filter(id=users_inst.id), many=True
         )
-        return Response(users_data.data[0], status=status.HTTP_200_OK)      
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
 
 
 class CabBookingViewSet(viewsets.ViewSet):
@@ -302,7 +301,7 @@ class CabBookingViewSet(viewsets.ViewSet):
                             "message": "Deleted Driver",
                         }
                     }
-                )    
+                )
         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
@@ -354,7 +353,7 @@ class CabBookingViewSet(viewsets.ViewSet):
         users_data = serializers.CabBookingSerializer(
             User_Cab_Booking.objects.filter(id=users_inst.id), many=True
         )
-        return Response(users_data.data[0], status=status.HTTP_200_OK)       
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
 
 
 class CabCartViewSet(viewsets.ViewSet):
@@ -431,7 +430,7 @@ class CabCartViewSet(viewsets.ViewSet):
                             "message": "Deleted Driver",
                         }
                     }
-                )    
+                )
         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
@@ -479,7 +478,7 @@ class CabCartViewSet(viewsets.ViewSet):
         users_data = serializers.CabCartSerializer(
             User_Cab_Cart.objects.filter(id=users_inst.id), many=True
         )
-        return Response(users_data.data[0], status=status.HTTP_200_OK) 
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
 
 
 class HotelCartViewSet(viewsets.ViewSet):
@@ -558,7 +557,7 @@ class HotelCartViewSet(viewsets.ViewSet):
                         }
                     }
                 )
-            
+
         return Response(hotel_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
@@ -590,16 +589,14 @@ class HotelCartViewSet(viewsets.ViewSet):
             check_out_date=check_out_date,
             guest_no=guest_no,
             rooms=rooms,
-            amount_booking=amount_booking, 
-            
+            amount_booking=amount_booking,
         )
         hotel_cart_inst.save()
 
         hotel_cart_data = serializers.HotelCartSerializer(
             User_Hotel_Cart.objects.filter(id=hotel_cart_inst.id), many=True
         )
-        return Response(hotel_cart_data.data[0], status=status.HTTP_200_OK)    
-
+        return Response(hotel_cart_data.data[0], status=status.HTTP_200_OK)
 
 
 class HotelPaymentViewSet(viewsets.ViewSet):
@@ -641,15 +638,14 @@ class HotelPaymentViewSet(viewsets.ViewSet):
                             "id": hotel_inst.id,
                             # "hotel_id": hotel_inst.hotel_id,
                             # "room_id":hotel_inst.room_id,
-                            "hotel_bookid":hotel_inst.hotel_bookid,
-                            "check_in_date":hotel_inst.check_in_date,
-                            "check_in_time":hotel_inst.check_in_time,
-                            "check_out_date":hotel_inst.check_out_date,
-                            "check_out_time":hotel_inst.check_out_time,
-                            "guest_no":hotel_inst.guest_no,
-                            "rooms":hotel_inst.rooms,
-                            "amount_booking":hotel_inst.amount_booking,
-
+                            "hotel_bookid": hotel_inst.hotel_bookid,
+                            "check_in_date": hotel_inst.check_in_date,
+                            "check_in_time": hotel_inst.check_in_time,
+                            "check_out_date": hotel_inst.check_out_date,
+                            "check_out_time": hotel_inst.check_out_time,
+                            "guest_no": hotel_inst.guest_no,
+                            "rooms": hotel_inst.rooms,
+                            "amount_booking": hotel_inst.amount_booking,
                         }
                     }
                 )
@@ -662,7 +658,7 @@ class HotelPaymentViewSet(viewsets.ViewSet):
                         }
                     }
                 )
-            
+
         return Response(hotel_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
@@ -698,7 +694,9 @@ class CabPaymentViewSet(viewsets.ViewSet):
         user_id = request.GET.get("user_id", None)
         try:
             sm_cab_booking = User_Cab_Payment.objects.filter(user=user_id)
-            cab_booking_data_dic = serializers.UserCabPaymentSerializer(sm_cab_booking, many=True)
+            cab_booking_data_dic = serializers.UserCabPaymentSerializer(
+                sm_cab_booking, many=True
+            )
         except:
             return Response(
                 {"message": "Sorry No data found !"},
@@ -724,23 +722,24 @@ class CabPaymentViewSet(viewsets.ViewSet):
                 )
             created_cab_booking_id = cab_booking_data_dic.data[i].get("cab_booking")
             try:
-                cab_booking_inst = User_Cab_Booking.objects.get(id=created_cab_booking_id)
+                cab_booking_inst = User_Cab_Booking.objects.get(
+                    id=created_cab_booking_id
+                )
 
                 cab_booking_data_dic.data[i].update(
                     {
                         "cab_booking": {
                             "id": cab_booking_inst.id,
-                            "cab_bookid":cab_booking_inst.cab_bookid,
+                            "cab_bookid": cab_booking_inst.cab_bookid,
                             # "car_id":cab_booking_inst.car_id,
                             # "driver_id":cab_booking_inst.driver_id,
-                            "check_in_date":cab_booking_inst.check_in_date,
-                            "check_in_time":cab_booking_inst.check_in_time,
-                            "check_out_date":cab_booking_inst.check_out_date,
-                            "check_out_time":cab_booking_inst.check_out_time,
-                            "end_trip":cab_booking_inst.end_trip,
-                            "amount_booking":cab_booking_inst.amount_booking,
-                            "no_guests":cab_booking_inst.no_guests,
-
+                            "check_in_date": cab_booking_inst.check_in_date,
+                            "check_in_time": cab_booking_inst.check_in_time,
+                            "check_out_date": cab_booking_inst.check_out_date,
+                            "check_out_time": cab_booking_inst.check_out_time,
+                            "end_trip": cab_booking_inst.end_trip,
+                            "amount_booking": cab_booking_inst.amount_booking,
+                            "no_guests": cab_booking_inst.no_guests,
                         }
                     }
                 )
@@ -753,7 +752,7 @@ class CabPaymentViewSet(viewsets.ViewSet):
                         }
                     }
                 )
-            
+
         return Response(cab_booking_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
@@ -783,7 +782,9 @@ class CabPaymentViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+
 ############# """""""""" USER TRIPS """"""######
+
 
 class UserTripsCartViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -808,15 +809,14 @@ class UserTripsCartViewSet(viewsets.ViewSet):
                             "id": user_inst.id,
                             "trip_title": user_inst.title,
                             "trip_category": user_inst.category,
-                            "trip_price":user_inst.price,
-                            
+                            "trip_price": user_inst.price,
                         }
                     }
                 )
             except:
                 account_data_dic.data[i].update(
                     {"trip_id": {"id": created_user_id, "message": "Deleted Trip"}}
-                )      
+                )
 
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
@@ -838,7 +838,7 @@ class UserTripsCartViewSet(viewsets.ViewSet):
                 {"message": "Successfully Cart Removed"}, status=status.HTTP_200_OK
             )
         except:
-            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)    
+            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
@@ -865,7 +865,7 @@ class UserTripsCartViewSet(viewsets.ViewSet):
             return Response(
                 {"message": "Sorry No data found with this cart id"},
                 status=status.HTTP_400_BAD_REQUEST,
-            ) 
+            )
 
     def create(self, request):
 
@@ -895,12 +895,15 @@ class UserTripsCartViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+
 class UserTripsBookingViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.GET.get("user_id", None)
         try:
             sm_hotel = User_Trip_Booking.objects.filter(user=user_id)
-            account_data_dic = serializers.UserTripBookingSerializer(sm_hotel, many=True)
+            account_data_dic = serializers.UserTripBookingSerializer(
+                sm_hotel, many=True
+            )
         except:
             return Response(
                 {"message": "Sorry No data found !"},
@@ -918,15 +921,14 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
                             "id": user_inst.id,
                             "trip_title": user_inst.title,
                             "trip_category": user_inst.category,
-                            "trip_price":user_inst.price,
-                            
+                            "trip_price": user_inst.price,
                         }
                     }
                 )
             except:
                 account_data_dic.data[i].update(
                     {"trip_id": {"id": created_user_id, "message": "Deleted Trip"}}
-                )      
+                )
 
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
@@ -960,12 +962,15 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+
 class TripPaymentViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.GET.get("user_id", None)
         try:
             sm_trip_booking = User_Trips_Payment.objects.filter(user=user_id)
-            trip_booking_data_dic = serializers.UserTripsPaymentSerializer(sm_trip_booking, many=True)
+            trip_booking_data_dic = serializers.UserTripsPaymentSerializer(
+                sm_trip_booking, many=True
+            )
         except:
             return Response(
                 {"message": "Sorry No data found !"},
@@ -991,17 +996,18 @@ class TripPaymentViewSet(viewsets.ViewSet):
                 )
             created_trip_booking_id = trip_booking_data_dic.data[i].get("trip_booking")
             try:
-                trip_booking_inst = User_Trip_Booking.objects.get(id=created_trip_booking_id)
+                trip_booking_inst = User_Trip_Booking.objects.get(
+                    id=created_trip_booking_id
+                )
 
                 trip_booking_data_dic.data[i].update(
                     {
                         "trip_booking": {
                             "id": trip_booking_inst.id,
                             # "trip_id":trip_booking_inst.trip_id,
-                            "no_guests":trip_booking_inst.no_guests,
-                            "trip_ammount":trip_booking_inst.trip_ammount,
-                            "trip_cart_status":trip_booking_inst.trip_cart_status,
-
+                            "no_guests": trip_booking_inst.no_guests,
+                            "trip_ammount": trip_booking_inst.trip_ammount,
+                            "trip_cart_status": trip_booking_inst.trip_cart_status,
                         }
                     }
                 )
@@ -1014,7 +1020,7 @@ class TripPaymentViewSet(viewsets.ViewSet):
                         }
                     }
                 )
-            
+
         return Response(trip_booking_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
@@ -1044,12 +1050,15 @@ class TripPaymentViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+
 class AccounDetailsBookingViewSet(viewsets.ViewSet):
     def list(self, request):
 
         try:
             sm_hotel = User_Account_Details.objects.all()
-            account_data_dic = serializers.AccountDetailsBookingSerializer(sm_hotel, many=True)
+            account_data_dic = serializers.AccountDetailsBookingSerializer(
+                sm_hotel, many=True
+            )
         except:
             return Response(
                 {"message": "Sorry No data found !"},
@@ -1074,7 +1083,7 @@ class AccounDetailsBookingViewSet(viewsets.ViewSet):
             except:
                 account_data_dic.data[i].update(
                     {"user": {"id": created_user_id, "message": "Deleted Account"}}
-                )   
+                )
 
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
@@ -1113,10 +1122,11 @@ class AccounDetailsBookingViewSet(viewsets.ViewSet):
         users_data = serializers.AccountDetailsBookingSerializer(
             User_Account_Details.objects.filter(id=users_inst.id), many=True
         )
-        return Response(users_data.data[0], status=status.HTTP_200_OK)                            
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
 
 
 ##############"""""""""""""" ADMIN """"""""""""""""""""###########
+
 
 class GetAllUsersViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -1132,6 +1142,7 @@ class GetAllUsersViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(users_data_dic.data, status=status.HTTP_200_OK)
+
 
 class GetUsersHotelBookingViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -1207,8 +1218,9 @@ class GetUsersHotelBookingViewSet(viewsets.ViewSet):
                         }
                     }
                 )
-            
+
         return Response(hotel_data_dic.data, status=status.HTTP_200_OK)
+
 
 class GetUsersCabBookingViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -1283,8 +1295,9 @@ class GetUsersCabBookingViewSet(viewsets.ViewSet):
                             "message": "Deleted Driver",
                         }
                     }
-                )    
-        return Response(cabs_data_dic.data, status=status.HTTP_200_OK)  
+                )
+        return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
+
 
 class GetUsersCabCartViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -1359,8 +1372,9 @@ class GetUsersCabCartViewSet(viewsets.ViewSet):
                             "message": "Deleted Driver",
                         }
                     }
-                )    
-        return Response(cabs_data_dic.data, status=status.HTTP_200_OK)  
+                )
+        return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
+
 
 class GetUsersHotelCartViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -1436,8 +1450,9 @@ class GetUsersHotelCartViewSet(viewsets.ViewSet):
                         }
                     }
                 )
-            
-        return Response(hotel_data_dic.data, status=status.HTTP_200_OK)                    
+
+        return Response(hotel_data_dic.data, status=status.HTTP_200_OK)
+
 
 class GetUsersHotelPaymentViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -1477,15 +1492,14 @@ class GetUsersHotelPaymentViewSet(viewsets.ViewSet):
                             "id": hotel_inst.id,
                             # "hotel_id": hotel_inst.hotel_id,
                             # "room_id":hotel_inst.room_id,
-                            "hotel_bookid":hotel_inst.hotel_bookid,
-                            "check_in_date":hotel_inst.check_in_date,
-                            "check_in_time":hotel_inst.check_in_time,
-                            "check_out_date":hotel_inst.check_out_date,
-                            "check_out_time":hotel_inst.check_out_time,
-                            "guest_no":hotel_inst.guest_no,
-                            "rooms":hotel_inst.rooms,
-                            "amount_booking":hotel_inst.amount_booking,
-
+                            "hotel_bookid": hotel_inst.hotel_bookid,
+                            "check_in_date": hotel_inst.check_in_date,
+                            "check_in_time": hotel_inst.check_in_time,
+                            "check_out_date": hotel_inst.check_out_date,
+                            "check_out_time": hotel_inst.check_out_time,
+                            "guest_no": hotel_inst.guest_no,
+                            "rooms": hotel_inst.rooms,
+                            "amount_booking": hotel_inst.amount_booking,
                         }
                     }
                 )
@@ -1498,8 +1512,9 @@ class GetUsersHotelPaymentViewSet(viewsets.ViewSet):
                         }
                     }
                 )
-            
-        return Response(hotel_data_dic.data, status=status.HTTP_200_OK)   
+
+        return Response(hotel_data_dic.data, status=status.HTTP_200_OK)
+
 
 class GetUserTripsCartViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -1529,7 +1544,7 @@ class GetUserTripsCartViewSet(viewsets.ViewSet):
             except:
                 account_data_dic.data[i].update(
                     {"user": {"id": created_user_id, "message": "Deleted Trip"}}
-                ) 
+                )
             created_user_id = account_data_dic.data[i].get("trip_id")
             try:
                 user_inst = My_Trips.objects.get(id=created_user_id)
@@ -1540,18 +1555,16 @@ class GetUserTripsCartViewSet(viewsets.ViewSet):
                             "id": user_inst.id,
                             "trip_title": user_inst.title,
                             "trip_category": user_inst.category,
-                            "trip_price":user_inst.price,
-                            
+                            "trip_price": user_inst.price,
                         }
                     }
                 )
             except:
                 account_data_dic.data[i].update(
                     {"user": {"id": created_user_id, "message": "Deleted Account"}}
-                )      
+                )
 
-        return Response(account_data_dic.data, status=status.HTTP_200_OK)             
-
+        return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
         # def update(self, request, pk=None):
         # pk = tokenConversion(request)
@@ -1577,10 +1590,10 @@ class GetUserTripsCartViewSet(viewsets.ViewSet):
         #     return Response(
         #         {"message": "Sorry No data found with this post id"},
         #         status=status.HTTP_400_BAD_REQUEST,
-        #     )    
+        #     )
 
         # def destroy(self, request, pk=None):
-        # pk = tokenConversion(request) 
+        # pk = tokenConversion(request)
         # post_id = request.GET.get("post_id", None)
 
         # if pk is None:
@@ -1597,4 +1610,4 @@ class GetUserTripsCartViewSet(viewsets.ViewSet):
         #         {"message": "Successfully unliked"}, status=status.HTTP_200_OK
         #     )
         # except:
-        #     return Response({"message": "Details not found"}, status=status.HTTP_200_OK)    
+        #     return Response({"message": "Details not found"}, status=status.HTTP_200_OK)

@@ -7,36 +7,132 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0014_auto_20211116_2007'),
-        ('shangkai_app', '0002_hotspot_category'),
+        ("users", "0014_auto_20211116_2007"),
+        ("shangkai_app", "0002_hotspot_category"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Hot_Spots',
+            name="Hot_Spots",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('datetime', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('title', models.CharField(default='0', max_length=255, null=True, verbose_name='title')),
-                ('sub_title', models.CharField(default='0', max_length=255, null=True, verbose_name='sub_title')),
-                ('city', models.CharField(default='0', max_length=255, null=True, verbose_name='city')),
-                ('state', models.CharField(default='0', max_length=255, null=True, verbose_name='state')),
-                ('pin_code', models.CharField(default='0', max_length=255, null=True, verbose_name='pin_code')),
-                ('geo_location', models.CharField(default='0', max_length=255, null=True, verbose_name='geo_location')),
-                ('amenites', models.CharField(default='0', max_length=255, null=True, verbose_name='amenites')),
-                ('history', models.CharField(default='0', max_length=255, null=True, verbose_name='history')),
-                ('about', models.TextField(max_length=2000, null=True, verbose_name='about')),
-                ('images', models.FileField(default='images.jpg', max_length=255, null=True, upload_to='', verbose_name='images')),
-                ('entry_fee', models.CharField(max_length=2000, null=True, verbose_name='entry_fee')),
-                ('parking_fee', models.CharField(max_length=2000, null=True, verbose_name='parking_fee')),
-                ('tags', models.TextField(max_length=2000, null=True, verbose_name='tags')),
-                ('status', models.CharField(default='0', max_length=255, null=True, verbose_name='status')),
-                ('category', models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to='shangkai_app.hotspot_category')),
-                ('rating', models.ManyToManyField(null=True, related_name='user_rating', to='users.Normal_UserReg')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "datetime",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "title",
+                    models.CharField(
+                        default="0", max_length=255, null=True, verbose_name="title"
+                    ),
+                ),
+                (
+                    "sub_title",
+                    models.CharField(
+                        default="0", max_length=255, null=True, verbose_name="sub_title"
+                    ),
+                ),
+                (
+                    "city",
+                    models.CharField(
+                        default="0", max_length=255, null=True, verbose_name="city"
+                    ),
+                ),
+                (
+                    "state",
+                    models.CharField(
+                        default="0", max_length=255, null=True, verbose_name="state"
+                    ),
+                ),
+                (
+                    "pin_code",
+                    models.CharField(
+                        default="0", max_length=255, null=True, verbose_name="pin_code"
+                    ),
+                ),
+                (
+                    "geo_location",
+                    models.CharField(
+                        default="0",
+                        max_length=255,
+                        null=True,
+                        verbose_name="geo_location",
+                    ),
+                ),
+                (
+                    "amenites",
+                    models.CharField(
+                        default="0", max_length=255, null=True, verbose_name="amenites"
+                    ),
+                ),
+                (
+                    "history",
+                    models.CharField(
+                        default="0", max_length=255, null=True, verbose_name="history"
+                    ),
+                ),
+                (
+                    "about",
+                    models.TextField(max_length=2000, null=True, verbose_name="about"),
+                ),
+                (
+                    "images",
+                    models.FileField(
+                        default="images.jpg",
+                        max_length=255,
+                        null=True,
+                        upload_to="",
+                        verbose_name="images",
+                    ),
+                ),
+                (
+                    "entry_fee",
+                    models.CharField(
+                        max_length=2000, null=True, verbose_name="entry_fee"
+                    ),
+                ),
+                (
+                    "parking_fee",
+                    models.CharField(
+                        max_length=2000, null=True, verbose_name="parking_fee"
+                    ),
+                ),
+                (
+                    "tags",
+                    models.TextField(max_length=2000, null=True, verbose_name="tags"),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        default="0", max_length=255, null=True, verbose_name="status"
+                    ),
+                ),
+                (
+                    "category",
+                    models.ForeignKey(
+                        default=None,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="shangkai_app.hotspot_category",
+                    ),
+                ),
+                (
+                    "rating",
+                    models.ManyToManyField(
+                        null=True, related_name="user_rating", to="users.Normal_UserReg"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Hotspots',
-                'verbose_name_plural': 'Hotspots',
+                "verbose_name": "Hotspots",
+                "verbose_name_plural": "Hotspots",
             },
         ),
     ]

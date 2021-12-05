@@ -6,24 +6,55 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0014_auto_20211116_2007'),
-        ('shangkai_app', '0003_hot_spots'),
+        ("users", "0014_auto_20211116_2007"),
+        ("shangkai_app", "0003_hot_spots"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Comments_All',
+            name="Comments_All",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('datetime', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('comments', models.CharField(max_length=2000, null=True, verbose_name='comments')),
-                ('comment_type', models.CharField(max_length=2000, null=True, verbose_name='comment_type')),
-                ('status', models.CharField(default='0', max_length=255, null=True, verbose_name='status')),
-                ('user', models.ManyToManyField(null=True, related_name='user_user', to='users.Normal_UserReg')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "datetime",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "comments",
+                    models.CharField(
+                        max_length=2000, null=True, verbose_name="comments"
+                    ),
+                ),
+                (
+                    "comment_type",
+                    models.CharField(
+                        max_length=2000, null=True, verbose_name="comment_type"
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        default="0", max_length=255, null=True, verbose_name="status"
+                    ),
+                ),
+                (
+                    "user",
+                    models.ManyToManyField(
+                        null=True, related_name="user_user", to="users.Normal_UserReg"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Comments',
-                'verbose_name_plural': 'Comments',
+                "verbose_name": "Comments",
+                "verbose_name_plural": "Comments",
             },
         ),
     ]

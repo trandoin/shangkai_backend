@@ -1,6 +1,7 @@
-from clients.models import User_Register,client_token_authentication
+from clients.models import User_Register, client_token_authentication
 from rest_framework import permissions
 from .authentication import SafeJWTAuthentication
+
 
 class IsAuthenticated(permissions.BasePermission):
     """
@@ -13,6 +14,3 @@ class IsAuthenticated(permissions.BasePermission):
                 return False
         except:
             return True
-
-
-

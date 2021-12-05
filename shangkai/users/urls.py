@@ -6,14 +6,22 @@ from . import views
 router = DefaultRouter()
 
 
-router.register("user_register", views.UserRegisterViewSet, basename="NormalUsersRegister")
+router.register(
+    "user_register", views.UserRegisterViewSet, basename="NormalUsersRegister"
+)
 router.register("user_login", views.UserLoginViewSet, basename="NormalUsersLogin")
-router.register("account_details", views.AccounDetailsBookingViewSet, basename="AccounDetailsBooking")
+router.register(
+    "account_details",
+    views.AccounDetailsBookingViewSet,
+    basename="AccounDetailsBooking",
+)
 
 # # """"BOOKINGS"""
 router.register("hotel_booking", views.HotelBookingViewSet, basename="HotelBooking")
 router.register("cab_booking", views.CabBookingViewSet, basename="CabBooking")
-router.register("trip_booking", views.UserTripsBookingViewSet, basename="UserTripsBooking")
+router.register(
+    "trip_booking", views.UserTripsBookingViewSet, basename="UserTripsBooking"
+)
 
 
 #### """"""""CART """"""""###
@@ -30,13 +38,30 @@ router.register("trip_payment", views.TripPaymentViewSet, basename="TripPayemnt"
 ################"""""""""" ADMIN """"""""""""""###########
 
 router.register("get_users", views.GetAllUsersViewSet, basename="GetAllUsers")
-router.register("get_users_hotelbooking", views.GetUsersHotelBookingViewSet, basename="GetUsersHotelBooking")
-router.register("get_users_cabbooking", views.GetUsersCabBookingViewSet, basename="GetUsersCabBooking")
-router.register("get_users_cabcart", views.GetUsersCabCartViewSet, basename="GetusersCabCart")
-router.register("get_users_hotelcart", views.GetUsersHotelCartViewSet, basename="GetUsersHotelCart")
-router.register("get_users_tripcart", views.GetUserTripsCartViewSet, basename="GetUserTripsCart")
-router.register("get_users_booking_payments", views.GetUsersHotelPaymentViewSet, basename="GetUsersHotelPayment")
-
+router.register(
+    "get_users_hotelbooking",
+    views.GetUsersHotelBookingViewSet,
+    basename="GetUsersHotelBooking",
+)
+router.register(
+    "get_users_cabbooking",
+    views.GetUsersCabBookingViewSet,
+    basename="GetUsersCabBooking",
+)
+router.register(
+    "get_users_cabcart", views.GetUsersCabCartViewSet, basename="GetusersCabCart"
+)
+router.register(
+    "get_users_hotelcart", views.GetUsersHotelCartViewSet, basename="GetUsersHotelCart"
+)
+router.register(
+    "get_users_tripcart", views.GetUserTripsCartViewSet, basename="GetUserTripsCart"
+)
+router.register(
+    "get_users_booking_payments",
+    views.GetUsersHotelPaymentViewSet,
+    basename="GetUsersHotelPayment",
+)
 
 
 urlpatterns = [

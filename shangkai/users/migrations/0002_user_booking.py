@@ -7,25 +7,68 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('clients', '0001_initial'),
-        ('users', '0001_initial'),
+        ("clients", "0001_initial"),
+        ("users", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='User_Booking',
+            name="User_Booking",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('datetime', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('user_ip', models.CharField(max_length=255, null=True, verbose_name='user_ip')),
-                ('booking_status', models.CharField(default='0', max_length=255, null=True, verbose_name='status')),
-                ('hotel_id', models.ForeignKey(db_constraint=False, default=None, on_delete=django.db.models.deletion.CASCADE, to='clients.reg_hotel')),
-                ('room_id', models.ForeignKey(db_constraint=False, default=None, on_delete=django.db.models.deletion.CASCADE, to='clients.room_register')),
-                ('user', models.ForeignKey(db_constraint=False, default=None, on_delete=django.db.models.deletion.CASCADE, to='users.normal_userreg')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "datetime",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "user_ip",
+                    models.CharField(max_length=255, null=True, verbose_name="user_ip"),
+                ),
+                (
+                    "booking_status",
+                    models.CharField(
+                        default="0", max_length=255, null=True, verbose_name="status"
+                    ),
+                ),
+                (
+                    "hotel_id",
+                    models.ForeignKey(
+                        db_constraint=False,
+                        default=None,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="clients.reg_hotel",
+                    ),
+                ),
+                (
+                    "room_id",
+                    models.ForeignKey(
+                        db_constraint=False,
+                        default=None,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="clients.room_register",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        db_constraint=False,
+                        default=None,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="users.normal_userreg",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Hotel Booking',
-                'verbose_name_plural': 'Hotel Booking',
+                "verbose_name": "Hotel Booking",
+                "verbose_name_plural": "Hotel Booking",
             },
         ),
     ]

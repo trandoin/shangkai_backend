@@ -6,21 +6,40 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shangkai_app', '0001_initial'),
+        ("shangkai_app", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Hotspot_Category',
+            name="Hotspot_Category",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('datetime', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('title', models.CharField(max_length=1000, null=True, verbose_name='title')),
-                ('status', models.CharField(default='0', max_length=255, null=True, verbose_name='status')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "datetime",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "title",
+                    models.CharField(max_length=1000, null=True, verbose_name="title"),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        default="0", max_length=255, null=True, verbose_name="status"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Hotspot Category',
-                'verbose_name_plural': 'Hotspot Category',
+                "verbose_name": "Hotspot Category",
+                "verbose_name_plural": "Hotspot Category",
             },
         ),
     ]

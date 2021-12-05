@@ -25,40 +25,47 @@ class HotelBookingSerializer(ModelSerializer):
         model = User_Hotel_Booking
         fields = "__all__"
 
+
 class HotelCartSerializer(ModelSerializer):
     class Meta:
         model = User_Hotel_Cart
-        fields = "__all__"        
+        fields = "__all__"
+
 
 class UserHotelPaymentSerializer(ModelSerializer):
     class Meta:
         model = User_Hotel_Payment
-        fields = "__all__" 
+        fields = "__all__"
+
 
 class CabBookingSerializer(ModelSerializer):
     class Meta:
         model = User_Cab_Booking
         fields = "__all__"
 
+
 class CabCartSerializer(ModelSerializer):
     class Meta:
         model = User_Cab_Cart
         fields = "__all__"
+
 
 class UserTripCartSerializer(ModelSerializer):
     class Meta:
         model = User_Trip_Cart
         fields = "__all__"
 
+
 class UserTripBookingSerializer(ModelSerializer):
     class Meta:
         model = User_Trip_Booking
         fields = "__all__"
 
+
 class UserTripsPaymentSerializer(ModelSerializer):
     class Meta:
         model = User_Trips_Payment
-        fields = "__all__"        
+        fields = "__all__"
 
 
 class UserCabPaymentSerializer(ModelSerializer):
@@ -71,4 +78,3 @@ class AccountDetailsBookingSerializer(ModelSerializer):
     class Meta:
         model = User_Account_Details
         fields = "__all__"
-

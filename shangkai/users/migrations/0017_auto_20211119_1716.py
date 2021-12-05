@@ -6,22 +6,24 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0016_alter_account_details_options'),
+        ("users", "0016_alter_account_details_options"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='cab_booking',
-            old_name='amount',
-            new_name='amount_booking',
+            model_name="cab_booking",
+            old_name="amount",
+            new_name="amount_booking",
         ),
         migrations.RemoveField(
-            model_name='hotel_booking',
-            name='amount',
+            model_name="hotel_booking",
+            name="amount",
         ),
         migrations.AddField(
-            model_name='hotel_booking',
-            name='amount_booking',
-            field=models.CharField(default='0', max_length=255, null=True, verbose_name='amount_booking'),
+            model_name="hotel_booking",
+            name="amount_booking",
+            field=models.CharField(
+                default="0", max_length=255, null=True, verbose_name="amount_booking"
+            ),
         ),
     ]

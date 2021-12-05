@@ -3,7 +3,7 @@ from rest_framework.authentication import get_authorization_header, BaseAuthenti
 from django.middleware.csrf import CsrfViewMiddleware
 from rest_framework import exceptions
 from django.conf import settings
-from clients.models import User_Register,client_token_authentication
+from clients.models import User_Register, client_token_authentication
 
 
 class CSRFCheck(CsrfViewMiddleware):
@@ -11,33 +11,30 @@ class CSRFCheck(CsrfViewMiddleware):
         # Return the failure reason instead of an HttpResponse
         return reason
 
+
 class SafeJWTAuthentication(BaseAuthentication):
-
-
-    def authenticate(self,request):
-        authorization_heaader=request.headers.get('Authorization')
+    def authenticate(self, request):
+        authorization_heaader = request.headers.get("Authorization")
 
         if not authorization_heaader:
             return None
         try:
-            access_token=authorization_heaader.split(' ')[1]
-            payload=jwt.decode(access_token,settings.SECRET_KEY,algorithms=['HS256'])
-
-
+            access_token = authorization_heaader.split(" ")[1]
+            payload = jwt.decode(
+                access_token, settings.SECRET_KEY, algorithms=["HS256"]
+            )
 
         except jwt.ExpiredSignatureError:
-            raise exceptions.AuthenticationFailed('access_token expired')
+            raise exceptions.AuthenticationFailed("access_token expired")
         except IndexError:
-            raise exceptions.AuthenticationFailed('Token prefix missing')
+            raise exceptions.AuthenticationFailed("Token prefix missing")
         except:
-            raise exceptions.AuthenticationFailed('Invalid Token')
+            raise exceptions.AuthenticationFailed("Invalid Token")
 
-
-        user=client_token_authentication.objects.filter(user=payload['id']).first()
-        user_inst=User_Register.objects.filter(id=payload['id']).first()
+        user = client_token_authentication.objects.filter(user=payload["id"]).first()
+        user_inst = User_Register.objects.filter(id=payload["id"]).first()
         if (user is None) or (user_inst is None):
-            raise exceptions.AuthenticationFailed('user not found')
-
+            raise exceptions.AuthenticationFailed("user not found")
 
         return (user_inst, None)
 
@@ -61,8 +58,4 @@ class SafeJWTAuthentication(BaseAuthentication):
     """
 
     def authenticate_header(self, request):
-        return 'Token'
-
-
-
-
+        return "Token"

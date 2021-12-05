@@ -65,24 +65,21 @@ class UserRegisterViewSet(viewsets.ViewSet):
 
 
 class ClientloginViewSet(viewsets.ViewSet):
-
     def create(self, request):
 
         email = request.POST.get("email", None)
         password = request.POST.get("password", None)
-         
-        if email is None and password is None : 
+
+        if email is None and password is None:
 
             return Response(
-                    {"message": "Enter username & password !"},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )    
+                {"message": "Enter username & password !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         try:
-            users_inst = User_Register.objects.filter(email=email,password=password)
-            users_data_dic = serializers.UserRegisterSerializer(
-                users_inst, many=True
-            )
+            users_inst = User_Register.objects.filter(email=email, password=password)
+            users_data_dic = serializers.UserRegisterSerializer(users_inst, many=True)
         except:
             return Response(
                 {"message": "Invalid username & password !"},
@@ -237,52 +234,53 @@ class RoomRegistrationViewSet(viewsets.ViewSet):
 
     def create(self, request):
 
-            user_id = request.POST.get("user_id", None)
-            hotel_id = request.POST.get("hotel_id", None)
-            room_id = request.POST.get("room_id", None)
-            room_type = request.POST.get("room_type", None)
-            bed_type = request.POST.get("bed_type", None)
-            totel_beds = request.POST.get("totel_beds", None)
-            room_rates = request.POST.get("room_rates", None)
-            room_facilites = request.POST.get("room_facilites", None)
-            max_guests_limit = request.POST.get("max_guests_limit", None)
-            no_rooms = request.POST.get("no_rooms", None)
-            rating = request.POST.get("rating", None)
-            tags = request.POST.get("tags", None)
-            extra_services = request.POST.get("extra_services", None)
-            room_images = request.POST.get("room_images", None)
+        user_id = request.POST.get("user_id", None)
+        hotel_id = request.POST.get("hotel_id", None)
+        room_id = request.POST.get("room_id", None)
+        room_type = request.POST.get("room_type", None)
+        bed_type = request.POST.get("bed_type", None)
+        totel_beds = request.POST.get("totel_beds", None)
+        room_rates = request.POST.get("room_rates", None)
+        room_facilites = request.POST.get("room_facilites", None)
+        max_guests_limit = request.POST.get("max_guests_limit", None)
+        no_rooms = request.POST.get("no_rooms", None)
+        rating = request.POST.get("rating", None)
+        tags = request.POST.get("tags", None)
+        extra_services = request.POST.get("extra_services", None)
+        room_images = request.POST.get("room_images", None)
 
-            try:
-                user_inst = User_Register.objects.get(id=user_id)
-                hotel_inst = Reg_Hotel.objects.get(id=hotel_id)
-            except:
+        try:
+            user_inst = User_Register.objects.get(id=user_id)
+            hotel_inst = Reg_Hotel.objects.get(id=hotel_id)
+        except:
 
-                return Response(
-                    {"message": "No user found !"},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-            users_inst = Room_Register.objects.create(
-                user=user_inst,
-                hotel_id=hotel_inst,
-                room_id=room_id,
-                room_type=room_type,
-                bed_type=bed_type,
-                totel_beds=totel_beds,
-                room_rates=room_rates,
-                room_facilites=room_facilites,
-                max_guests_limit=max_guests_limit,
-                no_rooms=no_rooms,
-                tags=tags,
-                rating=rating,
-                extra_services=extra_services,
-                room_images=room_images,
+            return Response(
+                {"message": "No user found !"},
+                status=status.HTTP_400_BAD_REQUEST,
             )
-            users_inst.save()
+        users_inst = Room_Register.objects.create(
+            user=user_inst,
+            hotel_id=hotel_inst,
+            room_id=room_id,
+            room_type=room_type,
+            bed_type=bed_type,
+            totel_beds=totel_beds,
+            room_rates=room_rates,
+            room_facilites=room_facilites,
+            max_guests_limit=max_guests_limit,
+            no_rooms=no_rooms,
+            tags=tags,
+            rating=rating,
+            extra_services=extra_services,
+            room_images=room_images,
+        )
+        users_inst.save()
 
-            users_data = serializers.RoomRegisterSerializer(
-                Room_Register.objects.filter(id=users_inst.id), many=True
-            )
-            return Response(users_data.data[0], status=status.HTTP_200_OK)
+        users_data = serializers.RoomRegisterSerializer(
+            Room_Register.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
+
 
 class DriverRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -315,7 +313,6 @@ class DriverRegistrationViewSet(viewsets.ViewSet):
                 )
 
         return Response(driver_data_dic.data, status=status.HTTP_200_OK)
-
 
     def create(self, request):
 
@@ -360,6 +357,7 @@ class DriverRegistrationViewSet(viewsets.ViewSet):
             Driver_Reg.objects.filter(id=users_inst.id), many=True
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
+
 
 class CabRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -468,14 +466,13 @@ class CabRegistrationViewSet(viewsets.ViewSet):
         users_data = serializers.CabRegisterSerializer(
             Cabs_Reg.objects.filter(id=users_inst.id), many=True
         )
-        return Response(users_data.data[0], status=status.HTTP_200_OK)    
-
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
 
 
 ###############      SEARCH BAR  #######################
 
-class CabSearchViewSet(viewsets.ViewSet):
 
+class CabSearchViewSet(viewsets.ViewSet):
     def list(self, request):
         cab_name = request.GET.get("cab_name", None)
         checkin_date = request.GET.get("checkin_date", None)
@@ -483,7 +480,13 @@ class CabSearchViewSet(viewsets.ViewSet):
         from_location = request.GET.get("from_location", None)
         destination = request.GET.get("destination", None)
         try:
-            sm_cabs = Cabs_Reg.objects.filter(car_name=cab_name,checkin_date=checkin_date,checkout_date=checkout_date,pickup_point=from_location,destination=destination)
+            sm_cabs = Cabs_Reg.objects.filter(
+                car_name=cab_name,
+                checkin_date=checkin_date,
+                checkout_date=checkout_date,
+                pickup_point=from_location,
+                destination=destination,
+            )
             cabs_data_dic = serializers.CabRegisterSerializer(sm_cabs, many=True)
         except:
             return Response(
@@ -493,13 +496,15 @@ class CabSearchViewSet(viewsets.ViewSet):
 
         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
 
-class CabGetByLocationViewSet(viewsets.ViewSet):
 
+class CabGetByLocationViewSet(viewsets.ViewSet):
     def list(self, request):
         from_location = request.GET.get("from_location", None)
         destination = request.GET.get("destination", None)
         try:
-            sm_cabs = Cabs_Reg.objects.filter(pickup_point=from_location,destination=destination)
+            sm_cabs = Cabs_Reg.objects.filter(
+                pickup_point=from_location, destination=destination
+            )
             cabs_data_dic = serializers.CabRegisterSerializer(sm_cabs, many=True)
         except:
             return Response(
@@ -507,17 +512,18 @@ class CabGetByLocationViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        return Response(cabs_data_dic.data, status=status.HTTP_200_OK)        
+        return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
 
 
 class RoomSearchViewSet(viewsets.ViewSet):
-
     def list(self, request):
         hotel_city = request.GET.get("hotel_city", None)
         checkin_date = request.GET.get("checkin_date", None)
         checkout_date = request.GET.get("checkout_date", None)
         try:
-            sm_rooms = Room_Register.objects.filter(checkin_date=checkin_date,checkout_date=checkout_date)
+            sm_rooms = Room_Register.objects.filter(
+                checkin_date=checkin_date, checkout_date=checkout_date
+            )
             room_data_dic = serializers.RoomRegisterSerializer(sm_rooms, many=True)
         except:
             return Response(
@@ -535,18 +541,18 @@ class RoomSearchViewSet(viewsets.ViewSet):
                             "id": hotel_inst.id,
                             "hotel_name": hotel_inst.hotel_name,
                             "hotel_city": hotel_inst.hotel_city,
-                            "room_rates":hotel_inst.room_rates,
+                            "room_rates": hotel_inst.room_rates,
                         }
                     }
                 )
             except:
                 room_data_dic.data[i].update(
                     {"hotel_id": {"id": created_hotel_id, "message": "No Hotel found"}}
-                )    
+                )
         return Response(room_data_dic.data, status=status.HTTP_200_OK)
 
-class RoomGetByIdViewSet(viewsets.ViewSet):
 
+class RoomGetByIdViewSet(viewsets.ViewSet):
     def list(self, request):
         room_id = request.GET.get("room_id", None)
         try:
@@ -568,16 +574,17 @@ class RoomGetByIdViewSet(viewsets.ViewSet):
                             "id": hotel_inst.id,
                             "hotel_name": hotel_inst.hotel_name,
                             "hotel_city": hotel_inst.hotel_city,
-                            "room_rates":hotel_inst.room_rates,
+                            "room_rates": hotel_inst.room_rates,
                         }
                     }
                 )
             except:
                 room_data_dic.data[i].update(
                     {"hotel_id": {"id": created_hotel_id, "message": "No Hotel found"}}
-                )     
-    
+                )
+
         return Response(room_data_dic.data, status=status.HTTP_200_OK)
+
 
 class GetHotelByCatIdViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -591,11 +598,11 @@ class GetHotelByCatIdViewSet(viewsets.ViewSet):
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        return Response(users_data_dic.data, status=status.HTTP_200_OK)        
-
+        return Response(users_data_dic.data, status=status.HTTP_200_OK)
 
 
 ############ """""""" ADMIN """"""""""#########
+
 
 class GetClientslAllViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -608,6 +615,7 @@ class GetClientslAllViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(users_data_dic.data, status=status.HTTP_200_OK)
+
 
 class GetHotelAllViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -622,8 +630,8 @@ class GetHotelAllViewSet(viewsets.ViewSet):
             )
         return Response(users_data_dic.data, status=status.HTTP_200_OK)
 
-class GetRoomALLViewSet(viewsets.ViewSet):
 
+class GetRoomALLViewSet(viewsets.ViewSet):
     def list(self, request):
         try:
             sm_rooms = Room_Register.objects.all()
@@ -644,19 +652,19 @@ class GetRoomALLViewSet(viewsets.ViewSet):
                             "id": hotel_inst.id,
                             "hotel_name": hotel_inst.hotel_name,
                             "hotel_city": hotel_inst.hotel_city,
-                            "room_rates":hotel_inst.room_rates,
+                            "room_rates": hotel_inst.room_rates,
                         }
                     }
                 )
             except:
                 room_data_dic.data[i].update(
                     {"hotel_id": {"id": created_hotel_id, "message": "No Hotel found"}}
-                )     
-    
-        return Response(room_data_dic.data, status=status.HTTP_200_OK)        
+                )
+
+        return Response(room_data_dic.data, status=status.HTTP_200_OK)
+
 
 class GetCabAllViewSet(viewsets.ViewSet):
-
     def list(self, request):
         try:
             sm_cabs = Cabs_Reg.objects.all()
@@ -667,7 +675,8 @@ class GetCabAllViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        return Response(cabs_data_dic.data, status=status.HTTP_200_OK) 
+        return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
+
 
 class GetDriverAllViewSet(viewsets.ViewSet):
     def list(self, request):

@@ -11,21 +11,20 @@ from . import serializers
 
 """Model Package """
 from .models import (
-   About_Us,
-   Footer_Copyright,
-   Hotspot_Category,
-   Hot_Spots,
-   Comments_All,
-   Payment_Transaction,
-   Hotel_Category,
-   My_Trips,
-   My_Trips_Days,
+    About_Us,
+    Footer_Copyright,
+    Hotspot_Category,
+    Hot_Spots,
+    Comments_All,
+    Payment_Transaction,
+    Hotel_Category,
+    My_Trips,
+    My_Trips_Days,
 )
 
 """Model Package """
 from users.models import (
     Normal_UserReg,
-   
 )
 
 
@@ -42,6 +41,7 @@ class AboutUsViewSet(viewsets.ViewSet):
             )
         return Response(about_us_data_dic.data, status=status.HTTP_200_OK)
 
+
 class FooterViewSet(viewsets.ViewSet):
     def list(self, request):
 
@@ -55,12 +55,15 @@ class FooterViewSet(viewsets.ViewSet):
             )
         return Response(footer_data_dic.data, status=status.HTTP_200_OK)
 
+
 class HotelCategoryViewSet(viewsets.ViewSet):
     def list(self, request):
 
         try:
             sm_hotspots_cat = Hotel_Category.objects.all()
-            hotspots_cat_data_dic = serializers.HotelCategorySerializer(sm_hotspots_cat, many=True)
+            hotspots_cat_data_dic = serializers.HotelCategorySerializer(
+                sm_hotspots_cat, many=True
+            )
         except:
             return Response(
                 {"message": "Sorry No data found !"},
@@ -74,28 +77,30 @@ class HotelCategoryViewSet(viewsets.ViewSet):
 
         hotels_inst = Hotel_Category.objects.create(
             title=title,
-
         )
         hotels_inst.save()
 
         hotels_data = serializers.HotelCategorySerializer(
             Hotel_Category.objects.filter(id=hotels_inst.id), many=True
         )
-        return Response(hotels_data.data[0], status=status.HTTP_200_OK)    
+        return Response(hotels_data.data[0], status=status.HTTP_200_OK)
+
 
 class HotspotCategoryViewSet(viewsets.ViewSet):
     def list(self, request):
 
         try:
             sm_hotspots_cat = Hotspot_Category.objects.all()
-            hotspots_cat_data_dic = serializers.HotspotCategorySerializer(sm_hotspots_cat, many=True)
+            hotspots_cat_data_dic = serializers.HotspotCategorySerializer(
+                sm_hotspots_cat, many=True
+            )
         except:
             return Response(
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(hotspots_cat_data_dic.data, status=status.HTTP_200_OK)
-    
+
     def create(self, request):
 
         title = request.POST.get("title", None)
@@ -108,7 +113,6 @@ class HotspotCategoryViewSet(viewsets.ViewSet):
             sub_title=sub_title,
             tagline=tagline,
             images=images,
-
         )
         hotspots_cat_inst.save()
 
@@ -116,38 +120,50 @@ class HotspotCategoryViewSet(viewsets.ViewSet):
             Hotspot_Category.objects.filter(id=hotspots_cat_inst.id), many=True
         )
         return Response(hotspots_cat_data.data[0], status=status.HTTP_200_OK)
-        
+
+
 class HotSpotsViewSet(viewsets.ViewSet):
     def list(self, request):
         hotspot_cat = request.POST.get("hotspot_cat", None)
         hotspot_city = request.POST.get("hotspot_city", None)
         hotspot_price = request.POST.get("hotspot_price", None)
 
-        if hotspot_cat is not None and hotspot_city is not None and hotspot_price is not None :
-            sm_hotspots = Hot_Spots.objects.filter(category=hotspot_cat,city=hotspot_city,entry_fee=hotspot_price)
+        if (
+            hotspot_cat is not None
+            and hotspot_city is not None
+            and hotspot_price is not None
+        ):
+            sm_hotspots = Hot_Spots.objects.filter(
+                category=hotspot_cat, city=hotspot_city, entry_fee=hotspot_price
+            )
             hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
-        elif hotspot_cat is not None and hotspot_city is not None :
-            sm_hotspots = Hot_Spots.objects.filter(category=hotspot_cat,city=hotspot_city)
-            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True) 
-        elif hotspot_city is not None and hotspot_price is not None :
-            sm_hotspots = Hot_Spots.objects.filter(city=hotspot_city,entry_fee=hotspot_price)
+        elif hotspot_cat is not None and hotspot_city is not None:
+            sm_hotspots = Hot_Spots.objects.filter(
+                category=hotspot_cat, city=hotspot_city
+            )
             hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
-        elif hotspot_cat is not None and hotspot_price is not None :
-            sm_hotspots = Hot_Spots.objects.filter(category=hotspot_cat,entry_fee=hotspot_price)
-            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)           
-        elif hotspot_cat is not None :
+        elif hotspot_city is not None and hotspot_price is not None:
+            sm_hotspots = Hot_Spots.objects.filter(
+                city=hotspot_city, entry_fee=hotspot_price
+            )
+            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
+        elif hotspot_cat is not None and hotspot_price is not None:
+            sm_hotspots = Hot_Spots.objects.filter(
+                category=hotspot_cat, entry_fee=hotspot_price
+            )
+            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
+        elif hotspot_cat is not None:
             sm_hotspots = Hot_Spots.objects.filter(category=hotspot_cat)
             hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
-        elif hotspot_city is not None :
+        elif hotspot_city is not None:
             sm_hotspots = Hot_Spots.objects.filter(city=hotspot_city)
             hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
-        elif hotspot_price is not None :
+        elif hotspot_price is not None:
             sm_hotspots = Hot_Spots.objects.filter(entry_fee=hotspot_price)
-            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)           
+            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
         else:
             sm_hotspots = Hot_Spots.objects.all()
             hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
-
 
         return Response(hotspots_data_dic.data, status=status.HTTP_200_OK)
 
@@ -191,26 +207,29 @@ class HotSpotsViewSet(viewsets.ViewSet):
             images=images,
             entry_fee=entry_fee,
             parking_fee=parking_fee,
-            category= cat_inst,
+            category=cat_inst,
             rating=rating,
             tags=tags,
-
         )
         users_inst.save()
 
         users_data = serializers.HotSpotsSerializer(
             Hot_Spots.objects.filter(id=users_inst.id), many=True
         )
-        return Response(users_data.data[0], status=status.HTTP_200_OK)    
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
+
 
 ####  """""""" MY TRIPS """"""""######
+
 
 class MyTripsViewSet(viewsets.ViewSet):
     def list(self, request):
 
         try:
             sm_mytrips_all = My_Trips.objects.all()
-            mytrips_all_data_dic = serializers.MyTripsSerializer(sm_mytrips_all, many=True)
+            mytrips_all_data_dic = serializers.MyTripsSerializer(
+                sm_mytrips_all, many=True
+            )
         except:
             return Response(
                 {"message": "Sorry No data found !"},
@@ -231,8 +250,13 @@ class MyTripsViewSet(viewsets.ViewSet):
                 )
             except:
                 mytrips_all_data_dic.data[i].update(
-                    {"hotspots_id": {"id": created_hotspots_id, "message": "No HotSpots Found !"}}
-                )    
+                    {
+                        "hotspots_id": {
+                            "id": created_hotspots_id,
+                            "message": "No HotSpots Found !",
+                        }
+                    }
+                )
         return Response(mytrips_all_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
@@ -266,20 +290,23 @@ class MyTripsViewSet(viewsets.ViewSet):
         trips_data = serializers.MyTripsSerializer(
             My_Trips.objects.filter(id=trips_inst.id), many=True
         )
-        return Response(trips_data.data, status=status.HTTP_200_OK)    
+        return Response(trips_data.data, status=status.HTTP_200_OK)
+
 
 class MyTripsDaysViewSet(viewsets.ViewSet):
     def list(self, request):
         my_trip = request.GET.get("my_trip", None)
         try:
             sm_mytrips_all = My_Trips_Days.objects.filter(my_trip=my_trip)
-            mytripsdays_all_data_dic = serializers.MyTripsDaysSerializer(sm_mytrips_all, many=True)
+            mytripsdays_all_data_dic = serializers.MyTripsDaysSerializer(
+                sm_mytrips_all, many=True
+            )
         except:
             return Response(
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-    
+
         return Response(mytripsdays_all_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
@@ -299,7 +326,6 @@ class MyTripsDaysViewSet(viewsets.ViewSet):
         mytrips_days_inst = My_Trips_Days.objects.create(
             my_trip=my_trips_inst,
             description=description,
-
         )
         mytrips_days_inst.save()
 
@@ -308,12 +334,15 @@ class MyTripsDaysViewSet(viewsets.ViewSet):
         )
         return Response(mytrips_days_data.data[0], status=status.HTTP_200_OK)
 
+
 class CommentsAllViewSet(viewsets.ViewSet):
     def list(self, request):
 
         try:
             sm_comments_all = Comments_All.objects.filter(status="1")
-            comments_all_data_dic = serializers.CommentsAllSerializer(sm_comments_all, many=True)
+            comments_all_data_dic = serializers.CommentsAllSerializer(
+                sm_comments_all, many=True
+            )
         except:
             return Response(
                 {"message": "Sorry No data found !"},
@@ -337,9 +366,8 @@ class CommentsAllViewSet(viewsets.ViewSet):
             except:
                 comments_all_data_dic.data[i].update(
                     {"user": {"id": created_user_id, "message": "Deleted Account"}}
-                )    
+                )
         return Response(comments_all_data_dic.data, status=status.HTTP_200_OK)
-
 
     def create(self, request):
 
@@ -361,7 +389,6 @@ class CommentsAllViewSet(viewsets.ViewSet):
             post_id=post_id,
             comments=comments,
             comment_type=comment_type,
-
         )
         users_inst.save()
 
@@ -370,12 +397,15 @@ class CommentsAllViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+
 class PaymentTransactionViewSet(viewsets.ViewSet):
     def list(self, request):
 
         try:
             sm_payment_tra = Payment_Transaction.objects.filter(status="1")
-            payment_tra_data_dic = serializers.PaymentTransactionAllSerializer(sm_payment_tra, many=True)
+            payment_tra_data_dic = serializers.PaymentTransactionAllSerializer(
+                sm_payment_tra, many=True
+            )
         except:
             return Response(
                 {"message": "Sorry No data found !"},
@@ -384,11 +414,10 @@ class PaymentTransactionViewSet(viewsets.ViewSet):
         return Response(payment_tra_data_dic.data, status=status.HTTP_200_OK)
 
 
-#################  SEARCH HOTSPOTS ##########################   
+#################  SEARCH HOTSPOTS ##########################
 
 
 class HotSpotSearchViewSet(viewsets.ViewSet):
-
     def list(self, request):
         title = request.GET.get("title", None)
         hotspot_id = request.GET.get("hotspot_id", None)
@@ -398,15 +427,15 @@ class HotSpotSearchViewSet(viewsets.ViewSet):
             hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
         elif hotspot_id is not None:
             sm_hotspots = Hot_Spots.objects.filter(id=hotspot_id)
-            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)            
+            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
         else:
             sm_hotspots = Hot_Spots.objects.all()
             hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
 
-        return Response(hotspots_data_dic.data, status=status.HTTP_200_OK)    
+        return Response(hotspots_data_dic.data, status=status.HTTP_200_OK)
+
 
 class HotSpotSearchByCatIdViewSet(viewsets.ViewSet):
-
     def list(self, request):
         category = request.GET.get("category_id", None)
         try:
@@ -418,5 +447,4 @@ class HotSpotSearchByCatIdViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        return Response(cabs_data_dic.data, status=status.HTTP_200_OK)        
-
+        return Response(cabs_data_dic.data, status=status.HTTP_200_OK)

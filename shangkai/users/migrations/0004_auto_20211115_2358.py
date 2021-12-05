@@ -6,17 +6,20 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('clients', '0002_cabs_reg_driver_reg'),
-        ('users', '0003_cab_booking'),
+        ("clients", "0002_cabs_reg_driver_reg"),
+        ("users", "0003_cab_booking"),
     ]
 
     operations = [
         migrations.RenameModel(
-            old_name='User_Booking',
-            new_name='Hotel_Booking',
+            old_name="User_Booking",
+            new_name="Hotel_Booking",
         ),
         migrations.AlterModelOptions(
-            name='normal_userreg',
-            options={'verbose_name': 'Registration', 'verbose_name_plural': 'Registration'},
+            name="normal_userreg",
+            options={
+                "verbose_name": "Registration",
+                "verbose_name_plural": "Registration",
+            },
         ),
     ]

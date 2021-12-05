@@ -8,82 +8,291 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Reg_Hotel',
+            name="Reg_Hotel",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('datetime', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('hotel_code', models.CharField(max_length=255, null=True, verbose_name='hotel_id')),
-                ('hotel_name', models.CharField(max_length=255, null=True, verbose_name='hotel_name')),
-                ('hotel_address', models.TextField(max_length=1000, null=True, verbose_name='hotel_address')),
-                ('hotel_city', models.CharField(max_length=255, null=True, verbose_name='hotel_city')),
-                ('hotel_state', models.CharField(max_length=255, null=True, verbose_name='hotel_state')),
-                ('geo_location', models.CharField(max_length=255, null=True, verbose_name='geo_location')),
-                ('pin_code', models.CharField(max_length=255, null=True, verbose_name='pincode')),
-                ('room_rates', models.CharField(max_length=255, null=True, verbose_name='rates')),
-                ('hotel_facilites', models.TextField(max_length=5000, null=True, verbose_name='facilites')),
-                ('max_guests_limit', models.CharField(max_length=255, null=True, verbose_name='limits')),
-                ('hotel_images', models.FileField(default='hotel_image.jpg', max_length=255, null=True, upload_to='', verbose_name='images')),
-                ('status', models.CharField(default='0', max_length=255, null=True, verbose_name='status')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "datetime",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "hotel_code",
+                    models.CharField(
+                        max_length=255, null=True, verbose_name="hotel_id"
+                    ),
+                ),
+                (
+                    "hotel_name",
+                    models.CharField(
+                        max_length=255, null=True, verbose_name="hotel_name"
+                    ),
+                ),
+                (
+                    "hotel_address",
+                    models.TextField(
+                        max_length=1000, null=True, verbose_name="hotel_address"
+                    ),
+                ),
+                (
+                    "hotel_city",
+                    models.CharField(
+                        max_length=255, null=True, verbose_name="hotel_city"
+                    ),
+                ),
+                (
+                    "hotel_state",
+                    models.CharField(
+                        max_length=255, null=True, verbose_name="hotel_state"
+                    ),
+                ),
+                (
+                    "geo_location",
+                    models.CharField(
+                        max_length=255, null=True, verbose_name="geo_location"
+                    ),
+                ),
+                (
+                    "pin_code",
+                    models.CharField(max_length=255, null=True, verbose_name="pincode"),
+                ),
+                (
+                    "room_rates",
+                    models.CharField(max_length=255, null=True, verbose_name="rates"),
+                ),
+                (
+                    "hotel_facilites",
+                    models.TextField(
+                        max_length=5000, null=True, verbose_name="facilites"
+                    ),
+                ),
+                (
+                    "max_guests_limit",
+                    models.CharField(max_length=255, null=True, verbose_name="limits"),
+                ),
+                (
+                    "hotel_images",
+                    models.FileField(
+                        default="hotel_image.jpg",
+                        max_length=255,
+                        null=True,
+                        upload_to="",
+                        verbose_name="images",
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        default="0", max_length=255, null=True, verbose_name="status"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Hotel Registration',
-                'verbose_name_plural': 'Hotel Registration',
+                "verbose_name": "Hotel Registration",
+                "verbose_name_plural": "Hotel Registration",
             },
         ),
         migrations.CreateModel(
-            name='User_Register',
+            name="User_Register",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('datetime', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('user_id', models.CharField(max_length=255, null=True, verbose_name='user_id')),
-                ('user_ip', models.CharField(max_length=255, null=True, verbose_name='user_ip')),
-                ('name', models.CharField(max_length=255, null=True, verbose_name='name')),
-                ('email', models.EmailField(max_length=255, null=True, verbose_name='email')),
-                ('mobile', models.CharField(max_length=255, null=True, verbose_name='mobile')),
-                ('password', models.CharField(max_length=255, null=True, verbose_name='password')),
-                ('user_type', models.CharField(max_length=255, null=True, verbose_name='user_type')),
-                ('image', models.FileField(default='user_avatar.jpg', max_length=255, null=True, upload_to='', verbose_name='image')),
-                ('status', models.CharField(default='0', max_length=255, null=True, verbose_name='status')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "datetime",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "user_id",
+                    models.CharField(max_length=255, null=True, verbose_name="user_id"),
+                ),
+                (
+                    "user_ip",
+                    models.CharField(max_length=255, null=True, verbose_name="user_ip"),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=255, null=True, verbose_name="name"),
+                ),
+                (
+                    "email",
+                    models.EmailField(max_length=255, null=True, verbose_name="email"),
+                ),
+                (
+                    "mobile",
+                    models.CharField(max_length=255, null=True, verbose_name="mobile"),
+                ),
+                (
+                    "password",
+                    models.CharField(
+                        max_length=255, null=True, verbose_name="password"
+                    ),
+                ),
+                (
+                    "user_type",
+                    models.CharField(
+                        max_length=255, null=True, verbose_name="user_type"
+                    ),
+                ),
+                (
+                    "image",
+                    models.FileField(
+                        default="user_avatar.jpg",
+                        max_length=255,
+                        null=True,
+                        upload_to="",
+                        verbose_name="image",
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        default="0", max_length=255, null=True, verbose_name="status"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Clients Registration',
-                'verbose_name_plural': 'Clients Registration',
+                "verbose_name": "Clients Registration",
+                "verbose_name_plural": "Clients Registration",
             },
         ),
         migrations.CreateModel(
-            name='Room_Register',
+            name="Room_Register",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('datetime', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('room_id', models.CharField(max_length=255, null=True, verbose_name='room_id')),
-                ('room_type', models.CharField(max_length=255, null=True, verbose_name='room_type')),
-                ('bed_type', models.TextField(max_length=1000, null=True, verbose_name='bed_type')),
-                ('totel_beds', models.CharField(max_length=255, null=True, verbose_name='totel_beds')),
-                ('room_rates', models.CharField(max_length=255, null=True, verbose_name='rates')),
-                ('room_facilites', models.TextField(max_length=5000, null=True, verbose_name='facilites')),
-                ('max_guests_limit', models.CharField(max_length=255, null=True, verbose_name='limits')),
-                ('no_rooms', models.CharField(max_length=255, null=True, verbose_name='no_of_rooms')),
-                ('rating', models.CharField(max_length=255, null=True, verbose_name='rating')),
-                ('tags', models.TextField(max_length=255, null=True, verbose_name='tags')),
-                ('extra_services', models.TextField(max_length=255, null=True, verbose_name='extra_services')),
-                ('room_images', models.FileField(default='room_image.jpg', max_length=255, null=True, upload_to='', verbose_name='images')),
-                ('states', models.CharField(default='0', max_length=255, null=True, verbose_name='status')),
-                ('hotel_id', models.ForeignKey(db_constraint=False, default=None, on_delete=django.db.models.deletion.CASCADE, to='clients.reg_hotel')),
-                ('user', models.ForeignKey(db_constraint=False, default=None, on_delete=django.db.models.deletion.CASCADE, to='clients.user_register')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "datetime",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "room_id",
+                    models.CharField(max_length=255, null=True, verbose_name="room_id"),
+                ),
+                (
+                    "room_type",
+                    models.CharField(
+                        max_length=255, null=True, verbose_name="room_type"
+                    ),
+                ),
+                (
+                    "bed_type",
+                    models.TextField(
+                        max_length=1000, null=True, verbose_name="bed_type"
+                    ),
+                ),
+                (
+                    "totel_beds",
+                    models.CharField(
+                        max_length=255, null=True, verbose_name="totel_beds"
+                    ),
+                ),
+                (
+                    "room_rates",
+                    models.CharField(max_length=255, null=True, verbose_name="rates"),
+                ),
+                (
+                    "room_facilites",
+                    models.TextField(
+                        max_length=5000, null=True, verbose_name="facilites"
+                    ),
+                ),
+                (
+                    "max_guests_limit",
+                    models.CharField(max_length=255, null=True, verbose_name="limits"),
+                ),
+                (
+                    "no_rooms",
+                    models.CharField(
+                        max_length=255, null=True, verbose_name="no_of_rooms"
+                    ),
+                ),
+                (
+                    "rating",
+                    models.CharField(max_length=255, null=True, verbose_name="rating"),
+                ),
+                (
+                    "tags",
+                    models.TextField(max_length=255, null=True, verbose_name="tags"),
+                ),
+                (
+                    "extra_services",
+                    models.TextField(
+                        max_length=255, null=True, verbose_name="extra_services"
+                    ),
+                ),
+                (
+                    "room_images",
+                    models.FileField(
+                        default="room_image.jpg",
+                        max_length=255,
+                        null=True,
+                        upload_to="",
+                        verbose_name="images",
+                    ),
+                ),
+                (
+                    "states",
+                    models.CharField(
+                        default="0", max_length=255, null=True, verbose_name="status"
+                    ),
+                ),
+                (
+                    "hotel_id",
+                    models.ForeignKey(
+                        db_constraint=False,
+                        default=None,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="clients.reg_hotel",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        db_constraint=False,
+                        default=None,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="clients.user_register",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Room Registration',
-                'verbose_name_plural': 'Room Registration',
+                "verbose_name": "Room Registration",
+                "verbose_name_plural": "Room Registration",
             },
         ),
         migrations.AddField(
-            model_name='reg_hotel',
-            name='user',
-            field=models.ForeignKey(db_constraint=False, default=None, on_delete=django.db.models.deletion.CASCADE, to='clients.user_register'),
+            model_name="reg_hotel",
+            name="user",
+            field=models.ForeignKey(
+                db_constraint=False,
+                default=None,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="clients.user_register",
+            ),
         ),
     ]

@@ -15,15 +15,18 @@ class UserRegisterSerializer(ModelSerializer):
         model = User_Register
         fields = "__all__"
 
+
 class ClientloginSerializer(ModelSerializer):
     class Meta:
         model = Client_login
         fields = "__all__"
 
+
 class clienttokenauthenticationSerializer(ModelSerializer):
     class Meta:
         model = client_token_authentication
         fields = "__all__"
+
 
 class HotelRegisterSerializer(ModelSerializer):
     class Meta:
@@ -36,12 +39,14 @@ class RoomRegisterSerializer(ModelSerializer):
         model = Room_Register
         fields = "__all__"
 
+
 class DriverRegisterSerializer(ModelSerializer):
     class Meta:
         model = Driver_Reg
         fields = "__all__"
 
+
 class CabRegisterSerializer(ModelSerializer):
     class Meta:
         model = Cabs_Reg
-        fields = "__all__"        
+        fields = "__all__"

@@ -7,28 +7,87 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0014_auto_20211116_2007'),
+        ("users", "0014_auto_20211116_2007"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Account_Details',
+            name="Account_Details",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('datetime', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('acc_holder', models.CharField(max_length=255, null=True, verbose_name='acc_holder')),
-                ('account_no', models.CharField(max_length=255, null=True, verbose_name='account_no')),
-                ('bannk_name', models.CharField(max_length=255, null=True, verbose_name='bannk_name')),
-                ('bank_branch', models.CharField(max_length=255, null=True, verbose_name='bank_branch')),
-                ('ifsc_code', models.CharField(max_length=255, null=True, verbose_name='ifsc_code')),
-                ('bank_state', models.CharField(max_length=255, null=True, verbose_name='bank_state')),
-                ('pan_card', models.CharField(max_length=255, null=True, verbose_name='pan_card')),
-                ('status', models.CharField(default='0', max_length=255, null=True, verbose_name='status')),
-                ('user', models.ForeignKey(db_constraint=False, default=None, on_delete=django.db.models.deletion.CASCADE, to='users.normal_userreg')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "datetime",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "acc_holder",
+                    models.CharField(
+                        max_length=255, null=True, verbose_name="acc_holder"
+                    ),
+                ),
+                (
+                    "account_no",
+                    models.CharField(
+                        max_length=255, null=True, verbose_name="account_no"
+                    ),
+                ),
+                (
+                    "bannk_name",
+                    models.CharField(
+                        max_length=255, null=True, verbose_name="bannk_name"
+                    ),
+                ),
+                (
+                    "bank_branch",
+                    models.CharField(
+                        max_length=255, null=True, verbose_name="bank_branch"
+                    ),
+                ),
+                (
+                    "ifsc_code",
+                    models.CharField(
+                        max_length=255, null=True, verbose_name="ifsc_code"
+                    ),
+                ),
+                (
+                    "bank_state",
+                    models.CharField(
+                        max_length=255, null=True, verbose_name="bank_state"
+                    ),
+                ),
+                (
+                    "pan_card",
+                    models.CharField(
+                        max_length=255, null=True, verbose_name="pan_card"
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        default="0", max_length=255, null=True, verbose_name="status"
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        db_constraint=False,
+                        default=None,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="users.normal_userreg",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'User Account Details',
-                'verbose_name_plural': 'User Account Details',
+                "verbose_name": "User Account Details",
+                "verbose_name_plural": "User Account Details",
             },
         ),
     ]

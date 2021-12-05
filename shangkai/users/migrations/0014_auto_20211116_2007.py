@@ -6,17 +6,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0013_auto_20211116_2006'),
+        ("users", "0013_auto_20211116_2006"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='cab_booking',
-            name='booking_id',
+            model_name="cab_booking",
+            name="booking_id",
         ),
         migrations.AddField(
-            model_name='cab_booking',
-            name='cab_bookid',
-            field=models.CharField(default='0', max_length=255, null=True, verbose_name='cab_bookid'),
+            model_name="cab_booking",
+            name="cab_bookid",
+            field=models.CharField(
+                default="0", max_length=255, null=True, verbose_name="cab_bookid"
+            ),
         ),
     ]

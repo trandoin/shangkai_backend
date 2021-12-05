@@ -7,34 +7,73 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='About_Us',
+            name="About_Us",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('datetime', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('about_us', models.TextField(max_length=1000, null=True, verbose_name='about_us')),
-                ('status', models.CharField(default='0', max_length=255, null=True, verbose_name='status')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "datetime",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "about_us",
+                    models.TextField(
+                        max_length=1000, null=True, verbose_name="about_us"
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        default="0", max_length=255, null=True, verbose_name="status"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'About Us',
-                'verbose_name_plural': 'About Us',
+                "verbose_name": "About Us",
+                "verbose_name_plural": "About Us",
             },
         ),
         migrations.CreateModel(
-            name='Footer_Copyright',
+            name="Footer_Copyright",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('datetime', models.DateTimeField(auto_now_add=True, verbose_name='Created At')),
-                ('footer', models.TextField(max_length=1000, null=True, verbose_name='footer')),
-                ('status', models.CharField(default='0', max_length=255, null=True, verbose_name='status')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "datetime",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Created At"),
+                ),
+                (
+                    "footer",
+                    models.TextField(max_length=1000, null=True, verbose_name="footer"),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        default="0", max_length=255, null=True, verbose_name="status"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Footer',
-                'verbose_name_plural': 'Footer',
+                "verbose_name": "Footer",
+                "verbose_name_plural": "Footer",
             },
         ),
     ]

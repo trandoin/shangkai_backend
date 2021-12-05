@@ -6,18 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shangkai_app', '0005_auto_20211117_1716'),
+        ("shangkai_app", "0005_auto_20211117_1716"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='comments_all',
-            name='post_id',
-            field=models.CharField(max_length=255, null=True, verbose_name='post_id'),
+            model_name="comments_all",
+            name="post_id",
+            field=models.CharField(max_length=255, null=True, verbose_name="post_id"),
         ),
         migrations.AlterField(
-            model_name='comments_all',
-            name='comment_type',
-            field=models.CharField(max_length=255, null=True, verbose_name='comment_type'),
+            model_name="comments_all",
+            name="comment_type",
+            field=models.CharField(
+                max_length=255, null=True, verbose_name="comment_type"
+            ),
         ),
     ]

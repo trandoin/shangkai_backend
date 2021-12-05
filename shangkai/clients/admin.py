@@ -116,7 +116,9 @@ class DriverRegistration(admin.ModelAdmin):
         "picture",
     ]
 
+
 admin.site.register(Driver_Reg, DriverRegistration)
+
 
 class CarRegistration(admin.ModelAdmin):
     list_display = [
@@ -140,10 +142,22 @@ class CarRegistration(admin.ModelAdmin):
         "status",
     ]
 
+
 admin.site.register(Cabs_Reg, CarRegistration)
 
+
 class AccountDetails(admin.ModelAdmin):
-    list_display = ["id", "user", "acc_holder", "account_no","bannk_name","bank_branch","ifsc_code","bank_state","pan_card"]
+    list_display = [
+        "id",
+        "user",
+        "acc_holder",
+        "account_no",
+        "bannk_name",
+        "bank_branch",
+        "ifsc_code",
+        "bank_state",
+        "pan_card",
+    ]
 
 
 admin.site.register(Account_Details, AccountDetails)

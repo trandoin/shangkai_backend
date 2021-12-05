@@ -6,17 +6,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shangkai_app', '0008_payment_transaction'),
+        ("shangkai_app", "0008_payment_transaction"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='payment_transaction',
-            name='transaction_type',
+            model_name="payment_transaction",
+            name="transaction_type",
         ),
         migrations.AddField(
-            model_name='payment_transaction',
-            name='transaction_type_id',
-            field=models.CharField(max_length=2000, null=True, verbose_name='transaction_type_id'),
+            model_name="payment_transaction",
+            name="transaction_type_id",
+            field=models.CharField(
+                max_length=2000, null=True, verbose_name="transaction_type_id"
+            ),
         ),
     ]
