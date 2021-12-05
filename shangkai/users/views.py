@@ -76,7 +76,39 @@ class UserRegisterViewSet(viewsets.ViewSet):
             Normal_UserReg.objects.filter(id=users_inst.id), many=True
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
+ 
 
+    def update(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+        name = request.GET.get("name", None)
+        mobile = request.GET.get("mobile", None)
+        password = request.GET.get("password", None)
+        image = request.GET.get("image", None)
+
+        if pk is None and user_id is None:
+            return Response(
+                {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = Normal_UserReg.objects.get(id=pk)
+            post_inst.name = name
+            post_inst.mobile = mobile
+            post_inst.password = password
+            post_inst.image = image
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Profile Updated Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Something went to wrong ! Try again !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 class UserLoginViewSet(viewsets.ViewSet):
     def create(self, request):
