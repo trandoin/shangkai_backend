@@ -642,6 +642,23 @@ class CabCartViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+    def destroy(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+        cart_id = request.GET.get("cart_id", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Please provide user_id"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        try:
+            scm_post_inst = User_Cab_Cart.objects.filter(id=pk)
+            scm_post_inst.delete()
+            return Response(
+                {"message": "Successfully Cart Removed"}, status=status.HTTP_200_OK
+            )
+        except:
+            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
 
 class CabBookingViewSet(viewsets.ViewSet):
     def list(self, request):
