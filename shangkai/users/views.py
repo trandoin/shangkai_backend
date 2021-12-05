@@ -925,7 +925,7 @@ class UserTripsCartViewSet(viewsets.ViewSet):
 
     def update(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
-        cart_id = request.GET.get("cart_id", None)
+        pk = request.GET.get("cart_id", None)
         trip_cart_status = request.GET.get("trip_cart_status", None)
 
         if user_id is None:
@@ -934,7 +934,7 @@ class UserTripsCartViewSet(viewsets.ViewSet):
             )
 
         try:
-            post_inst = User_Trip_Cart.objects.get(id=cart_id)
+            post_inst = User_Trip_Cart.objects.get(id=pk)
             post_inst.trip_cart_status = trip_cart_status
             post_inst.is_edited = True
             post_inst.save()
