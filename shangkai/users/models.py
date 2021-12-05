@@ -297,5 +297,28 @@ class User_Trip_Booking(models.Model):
         verbose_name, verbose_name_plural = (
             "Trip Booking",
             "Trip Booking",
-        )         
+        )  
+
+class User_Trips_Payment(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user = models.ForeignKey(
+        "users.Normal_UserReg",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    trip_booking = models.ForeignKey(
+        "users.User_Trip_Booking",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    payment_id = models.CharField("payment_id", null=True, max_length=255)
+    payment_status = models.CharField("status", null=True, default="0", max_length=255)
+
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "User Trips Payments",
+            "User Trips Payments",
+        )               
                      

@@ -13,6 +13,7 @@ from .models import (
     User_Trip_Cart,
     User_Cab_Payment,
     User_Trip_Booking,
+    User_Trip_Booking,
 )
 
 # Register your models here.
@@ -87,3 +88,9 @@ class UserTripBooking(admin.ModelAdmin):
 
 
 admin.site.register(User_Trip_Booking, UserTripBooking)
+
+class UserTripsPayment(admin.ModelAdmin):
+    list_display = ["id", "user", "trip_booking","payment_id"]
+
+
+admin.site.register(User_Trips_Payment, UserTripsPayment)
