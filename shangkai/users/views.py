@@ -926,7 +926,7 @@ class UserTripsCartViewSet(viewsets.ViewSet):
     def update(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
         pk = request.GET.get("cart_id", None)
-        trip_cart_status = request.GET.get("trip_cart_status", None)
+        trip_cart_status = 1
 
         if user_id is None:
             return Response(
