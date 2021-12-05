@@ -13,7 +13,7 @@ from .models import (
     User_Trip_Cart,
     User_Cab_Payment,
     User_Trip_Booking,
-    User_Trip_Booking,
+    User_Trips_Payment,
 )
 
 # Register your models here.
