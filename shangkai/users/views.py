@@ -76,7 +76,6 @@ class UserRegisterViewSet(viewsets.ViewSet):
             Normal_UserReg.objects.filter(id=users_inst.id), many=True
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
- 
 
     def update(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
@@ -109,6 +108,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
                 {"message": "Something went to wrong ! Try again !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
 
 class UserLoginViewSet(viewsets.ViewSet):
     def create(self, request):
@@ -330,7 +330,6 @@ class HotelCartViewSet(viewsets.ViewSet):
         )
         return Response(hotel_cart_data.data[0], status=status.HTTP_200_OK)
 
-
     def destroy(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
         cart_id = request.GET.get("cart_id", None)
@@ -348,6 +347,7 @@ class HotelCartViewSet(viewsets.ViewSet):
             )
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
+
 
 class HotelBookingViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -487,10 +487,12 @@ class HotelBookingViewSet(viewsets.ViewSet):
             scm_post_inst = User_Hotel_Booking.objects.filter(id=pk)
             scm_post_inst.delete()
             return Response(
-                {"message": "Hotel Booking Removed Successfully"}, status=status.HTTP_200_OK
+                {"message": "Hotel Booking Removed Successfully"},
+                status=status.HTTP_200_OK,
             )
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
+
 
 class HotelPaymentViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -727,6 +729,7 @@ class CabCartViewSet(viewsets.ViewSet):
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
 
+
 class CabBookingViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.GET.get("user_id", None)
@@ -868,7 +871,8 @@ class CabBookingViewSet(viewsets.ViewSet):
             scm_post_inst = User_Cab_Booking.objects.filter(id=pk)
             scm_post_inst.delete()
             return Response(
-                {"message": "Cab Booking Removed Successfully"}, status=status.HTTP_200_OK
+                {"message": "Cab Booking Removed Successfully"},
+                status=status.HTTP_200_OK,
             )
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
@@ -1145,7 +1149,6 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
-
     def destroy(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
         book_id = request.GET.get("book_id", None)
@@ -1159,10 +1162,12 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
             scm_post_inst = User_Trip_Booking.objects.filter(id=pk)
             scm_post_inst.delete()
             return Response(
-                {"message": "Trip Booking Removed Successfully"}, status=status.HTTP_200_OK
+                {"message": "Trip Booking Removed Successfully"},
+                status=status.HTTP_200_OK,
             )
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
+
 
 class TripPaymentViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -1430,7 +1435,7 @@ class GetUsersHotelBookingViewSet(viewsets.ViewSet):
         book_id = request.GET.get("book_id", None)
         booking_status = request.GET.get("status", None)
 
-        if pk is None :
+        if pk is None:
             return Response(
                 {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
             )
@@ -1672,7 +1677,7 @@ class GetUsersCabBookingViewSet(viewsets.ViewSet):
         book_id = request.GET.get("book_id", None)
         booking_status = request.GET.get("status", None)
 
-        if pk is None :
+        if pk is None:
             return Response(
                 {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
             )
@@ -1734,7 +1739,7 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
         book_id = request.GET.get("book_id", None)
         trip_cart_status = request.GET.get("status", None)
 
-        if pk is None :
+        if pk is None:
             return Response(
                 {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
             )
@@ -1755,6 +1760,7 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
 
 class GetUserTripsCartViewSet(viewsets.ViewSet):
     def list(self, request):

@@ -259,7 +259,8 @@ class HotelRegistrationViewSet(viewsets.ViewSet):
                 {"message": "Hotel Deleted Successfully"}, status=status.HTTP_200_OK
             )
         except:
-            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)        
+            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
+
 
 class RoomRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -428,6 +429,7 @@ class RoomRegistrationViewSet(viewsets.ViewSet):
             )
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
+
 
 class DriverRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -677,7 +679,6 @@ class CabRegistrationViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
-
     def update(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
         car_name = request.GET.get("car_name", None)
@@ -745,6 +746,7 @@ class CabRegistrationViewSet(viewsets.ViewSet):
             )
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
+
 
 ###############      SEARCH BAR  #######################
 
