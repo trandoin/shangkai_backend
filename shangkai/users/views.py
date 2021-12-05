@@ -923,10 +923,10 @@ class UserTripsCartViewSet(viewsets.ViewSet):
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
 
-    def update(self, request, pk):
+    def update(self, request, pk=None):
         # user_id = request.GET.get("user_id", None)
-        pk = request.GET.get("cart_id", None)
-        trip_cart_status = 1
+        cart_id = request.GET.get("cart_id", None)
+        trip_cart_status = request.GET.get("cart_status", None)
 
         if pk is None:
             return Response(
