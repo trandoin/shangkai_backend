@@ -63,6 +63,38 @@ class UserRegisterViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+    def update(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+        name = request.GET.get("name", None)
+        mobile = request.GET.get("mobile", None)
+        password = request.GET.get("password", None)
+        image = request.GET.get("image", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = User_Register.objects.get(id=pk)
+            post_inst.name = name
+            post_inst.mobile = mobile
+            post_inst.password = password
+            post_inst.image = image
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Profile Updated Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Something went to wrong ! Try again !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
 
 class ClientloginViewSet(viewsets.ViewSet):
     def create(self, request):
@@ -91,14 +123,6 @@ class ClientloginViewSet(viewsets.ViewSet):
 class HotelRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.GET.get("user_id", None)
-        # try:
-        #     user_inst = User_Register.objects.get(id=user_id)
-        # except:
-
-        #     return Response(
-        #         {"message": "No user found !"},
-        #         status=status.HTTP_400_BAD_REQUEST,
-        #     )
         try:
             sm_users = Reg_Hotel.objects.filter(user=user_id)
             users_data_dic = serializers.HotelRegisterSerializer(sm_users, many=True)
@@ -175,6 +199,49 @@ class HotelRegistrationViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+    def update(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+        hotel_name = request.GET.get("hotel_name", None)
+        hotel_address = request.GET.get("hotel_address", None)
+        hotel_city = request.GET.get("hotel_city", None)
+        hotel_state = request.GET.get("hotel_state", None)
+        geo_location = request.GET.get("geo_location", None)
+        pin_code = request.GET.get("pin_code", None)
+        room_rates = request.GET.get("room_rates", None)
+        hotel_facilites = request.GET.get("hotel_facilites", None)
+        max_guests_limit = request.GET.get("max_guests_limit", None)
+        hotel_images = request.GET.get("hotel_images", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = Reg_Hotel.objects.get(id=pk)
+            post_inst.hotel_name = hotel_name
+            post_inst.hotel_address = hotel_address
+            post_inst.hotel_city = hotel_city
+            post_inst.hotel_state = hotel_state
+            post_inst.geo_location = geo_location
+            post_inst.pin_code = pin_code
+            post_inst.room_rates = room_rates
+            post_inst.hotel_facilites = hotel_facilites
+            post_inst.max_guests_limit = max_guests_limit
+            post_inst.hotel_images = hotel_images
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Hotel Updated Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Something went to wrong ! Try again !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 class RoomRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -281,6 +348,50 @@ class RoomRegistrationViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+    def update(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+        room_type = request.GET.get("room_type", None)
+        bed_type = request.GET.get("bed_type", None)
+        totel_beds = request.GET.get("totel_beds", None)
+        room_rates = request.GET.get("room_rates", None)
+        room_facilites = request.GET.get("room_facilites", None)
+        max_guests_limit = request.GET.get("max_guests_limit", None)
+        no_rooms = request.GET.get("no_rooms", None)
+        rating = request.GET.get("rating", None)
+        tags = request.GET.get("tags", None)
+        extra_services = request.GET.get("extra_services", None)
+        room_images = request.GET.get("room_images", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = Room_Register.objects.get(id=pk)
+            post_inst.room_type = room_type
+            post_inst.bed_type = bed_type
+            post_inst.totel_beds = totel_beds
+            post_inst.room_rates = room_rates
+            post_inst.room_facilites = room_facilites
+            post_inst.max_guests_limit = max_guests_limit
+            post_inst.no_rooms = no_rooms
+            post_inst.tags = tags
+            post_inst.extra_services = extra_services
+            post_inst.room_images = room_images
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Room details Updated Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Something went to wrong ! Try again !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 class DriverRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -357,6 +468,50 @@ class DriverRegistrationViewSet(viewsets.ViewSet):
             Driver_Reg.objects.filter(id=users_inst.id), many=True
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
+
+    def update(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+        driver_name = request.GET.get("driver_name", None)
+        driver_address = request.GET.get("driver_address", None)
+        driver_mobile = request.GET.get("driver_mobile", None)
+        driver_email = request.GET.get("driver_email", None)
+        languages = request.GET.get("languages", None)
+        working_hours = request.GET.get("room_facilites", None)
+        licence_no = request.GET.get("licence_no", None)
+        adhar_card = request.GET.get("adhar_card", None)
+        licence_doc = request.GET.get("licence_doc", None)
+        picture = request.GET.get("picture", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = Driver_Reg.objects.get(id=pk)
+            post_inst.driver_name = driver_name
+            post_inst.driver_address = driver_address
+            post_inst.driver_mobile = driver_mobile
+            post_inst.driver_email = driver_email
+            post_inst.languages = languages
+            post_inst.working_hours = working_hours
+            post_inst.licence_no = licence_no
+            post_inst.adhar_card = adhar_card
+            post_inst.licence_doc = licence_doc
+            post_inst.picture = picture
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Driver details Updated Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Something went to wrong ! Try again !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 
 class CabRegistrationViewSet(viewsets.ViewSet):
@@ -468,6 +623,56 @@ class CabRegistrationViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+
+    def update(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+        car_name = request.GET.get("car_name", None)
+        car_type = request.GET.get("car_type", None)
+        capacity = request.GET.get("capacity", None)
+        vehicle_no = request.GET.get("vehicle_no", None)
+        car_mou = request.GET.get("room_facilites", None)
+        car_fee = request.GET.get("car_fee", None)
+        pickup_point = request.GET.get("pickup_point", None)
+        destination = request.GET.get("destination", None)
+        checkin_date = request.GET.get("checkin_date", None)
+        checkout_date = request.GET.get("checkout_date", None)
+        car_rc = request.GET.get("car_rc", None)
+        car_insurance = request.GET.get("car_insurance", None)
+        car_images = request.GET.get("car_images", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = Cabs_Reg.objects.get(id=pk)
+            post_inst.car_name = car_name
+            post_inst.car_type = car_type
+            post_inst.capacity = capacity
+            post_inst.vehicle_no = vehicle_no
+            post_inst.car_mou = car_mou
+            post_inst.car_fee = car_fee
+            post_inst.pickup_point = pickup_point
+            post_inst.destination = destination
+            post_inst.checkin_date = checkin_date
+            post_inst.checkout_date = checkout_date
+            post_inst.car_rc = car_rc
+            post_inst.car_insurance = car_insurance
+            post_inst.car_images = car_images
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Cab Details Updated Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Something went to wrong ! Try again !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 ###############      SEARCH BAR  #######################
 
