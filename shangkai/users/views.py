@@ -902,7 +902,7 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
         users_inst = User_Trip_Booking.objects.create(
             user_id=user_id,
             trip_id=trip_inst,
-            trip_ammount=trip_ammount,
+            trip_ammount=trip_amount,
             no_guests=no_guests,
         )
         users_inst.save()
