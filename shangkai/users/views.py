@@ -78,11 +78,11 @@ class UserRegisterViewSet(viewsets.ViewSet):
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
-        user_id = request.GET.get("user_id", None)
-        name = request.GET.get("name", None)
-        mobile = request.GET.get("mobile", None)
-        password = request.GET.get("password", None)
-        image = request.GET.get("image", None)
+        user_id = request.POST.get("user_id", None)
+        name = request.POST.get("name", None)
+        mobile = request.POST.get("mobile", None)
+        password = request.POST.get("password", None)
+        image = request.POST.get("image", None)
 
         if user_id is None:
             return Response(
@@ -1028,9 +1028,9 @@ class UserTripsCartViewSet(viewsets.ViewSet):
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
-        user_id = request.GET.get("user_id", None)
-        cart_id = request.GET.get("cart_id", None)
-        trip_cart_status = request.GET.get("cart_status", None)
+        user_id = request.POST.get("user_id", None)
+        cart_id = request.POST.get("cart_id", None)
+        trip_cart_status = request.POST.get("cart_status", None)
 
         if pk is None and user_id is None:
             return Response(
@@ -1432,8 +1432,8 @@ class GetUsersHotelBookingViewSet(viewsets.ViewSet):
         return Response(hotel_data_dic.data, status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
-        book_id = request.GET.get("book_id", None)
-        booking_status = request.GET.get("status", None)
+        book_id = request.POST.get("book_id", None)
+        booking_status = request.POST.get("status", None)
 
         if pk is None:
             return Response(
@@ -1674,8 +1674,8 @@ class GetUsersCabBookingViewSet(viewsets.ViewSet):
         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
-        book_id = request.GET.get("book_id", None)
-        booking_status = request.GET.get("status", None)
+        book_id = request.POST.get("book_id", None)
+        booking_status = request.POST.get("status", None)
 
         if pk is None:
             return Response(
@@ -1736,8 +1736,8 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
-        book_id = request.GET.get("book_id", None)
-        trip_cart_status = request.GET.get("status", None)
+        book_id = request.POST.get("book_id", None)
+        trip_cart_status = request.POST.get("status", None)
 
         if pk is None:
             return Response(

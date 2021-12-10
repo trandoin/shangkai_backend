@@ -64,11 +64,11 @@ class UserRegisterViewSet(viewsets.ViewSet):
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
-        user_id = request.GET.get("user_id", None)
-        name = request.GET.get("name", None)
-        mobile = request.GET.get("mobile", None)
-        password = request.GET.get("password", None)
-        image = request.GET.get("image", None)
+        user_id = request.POST.get("user_id", None)
+        name = request.POST.get("name", None)
+        mobile = request.POST.get("mobile", None)
+        password = request.POST.get("password", None)
+        image = request.POST.get("image", None)
 
         if user_id is None:
             return Response(
@@ -200,17 +200,17 @@ class HotelRegistrationViewSet(viewsets.ViewSet):
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
-        user_id = request.GET.get("user_id", None)
-        hotel_name = request.GET.get("hotel_name", None)
-        hotel_address = request.GET.get("hotel_address", None)
-        hotel_city = request.GET.get("hotel_city", None)
-        hotel_state = request.GET.get("hotel_state", None)
-        geo_location = request.GET.get("geo_location", None)
-        pin_code = request.GET.get("pin_code", None)
-        room_rates = request.GET.get("room_rates", None)
-        hotel_facilites = request.GET.get("hotel_facilites", None)
-        max_guests_limit = request.GET.get("max_guests_limit", None)
-        hotel_images = request.GET.get("hotel_images", None)
+        user_id = request.POST.get("user_id", None)
+        hotel_name = request.POST.get("hotel_name", None)
+        hotel_address = request.POST.get("hotel_address", None)
+        hotel_city = request.POST.get("hotel_city", None)
+        hotel_state = request.POST.get("hotel_state", None)
+        geo_location = request.POST.get("geo_location", None)
+        pin_code = request.POST.get("pin_code", None)
+        room_rates = request.POST.get("room_rates", None)
+        hotel_facilites = request.POST.get("hotel_facilites", None)
+        max_guests_limit = request.POST.get("max_guests_limit", None)
+        hotel_images = request.POST.get("hotel_images", None)
 
         if user_id is None:
             return Response(
@@ -368,18 +368,18 @@ class RoomRegistrationViewSet(viewsets.ViewSet):
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
-        user_id = request.GET.get("user_id", None)
-        room_type = request.GET.get("room_type", None)
-        bed_type = request.GET.get("bed_type", None)
-        totel_beds = request.GET.get("totel_beds", None)
-        room_rates = request.GET.get("room_rates", None)
-        room_facilites = request.GET.get("room_facilites", None)
-        max_guests_limit = request.GET.get("max_guests_limit", None)
-        no_rooms = request.GET.get("no_rooms", None)
-        rating = request.GET.get("rating", None)
-        tags = request.GET.get("tags", None)
-        extra_services = request.GET.get("extra_services", None)
-        room_images = request.GET.get("room_images", None)
+        user_id = request.POST.get("user_id", None)
+        room_type = request.POST.get("room_type", None)
+        bed_type = request.POST.get("bed_type", None)
+        totel_beds = request.POST.get("totel_beds", None)
+        room_rates = request.POST.get("room_rates", None)
+        room_facilites = request.POST.get("room_facilites", None)
+        max_guests_limit = request.POST.get("max_guests_limit", None)
+        no_rooms = request.POST.get("no_rooms", None)
+        rating = request.POST.get("rating", None)
+        tags = request.POST.get("tags", None)
+        extra_services = request.POST.get("extra_services", None)
+        room_images = request.POST.get("room_images", None)
 
         if user_id is None:
             return Response(
@@ -508,17 +508,17 @@ class DriverRegistrationViewSet(viewsets.ViewSet):
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
-        user_id = request.GET.get("user_id", None)
-        driver_name = request.GET.get("driver_name", None)
-        driver_address = request.GET.get("driver_address", None)
-        driver_mobile = request.GET.get("driver_mobile", None)
-        driver_email = request.GET.get("driver_email", None)
-        languages = request.GET.get("languages", None)
-        working_hours = request.GET.get("room_facilites", None)
-        licence_no = request.GET.get("licence_no", None)
-        adhar_card = request.GET.get("adhar_card", None)
-        licence_doc = request.GET.get("licence_doc", None)
-        picture = request.GET.get("picture", None)
+        user_id = request.POST.get("user_id", None)
+        driver_name = request.POST.get("driver_name", None)
+        driver_address = request.POST.get("driver_address", None)
+        driver_mobile = request.POST.get("driver_mobile", None)
+        driver_email = request.POST.get("driver_email", None)
+        languages = request.POST.get("languages", None)
+        working_hours = request.POST.get("room_facilites", None)
+        licence_no = request.POST.get("licence_no", None)
+        adhar_card = request.POST.get("adhar_card", None)
+        licence_doc = request.POST.get("licence_doc", None)
+        picture = request.POST.get("picture", None)
 
         if user_id is None:
             return Response(
@@ -680,20 +680,20 @@ class CabRegistrationViewSet(viewsets.ViewSet):
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
-        user_id = request.GET.get("user_id", None)
-        car_name = request.GET.get("car_name", None)
-        car_type = request.GET.get("car_type", None)
-        capacity = request.GET.get("capacity", None)
-        vehicle_no = request.GET.get("vehicle_no", None)
-        car_mou = request.GET.get("room_facilites", None)
-        car_fee = request.GET.get("car_fee", None)
-        pickup_point = request.GET.get("pickup_point", None)
-        destination = request.GET.get("destination", None)
-        checkin_date = request.GET.get("checkin_date", None)
-        checkout_date = request.GET.get("checkout_date", None)
-        car_rc = request.GET.get("car_rc", None)
-        car_insurance = request.GET.get("car_insurance", None)
-        car_images = request.GET.get("car_images", None)
+        user_id = request.POST.get("user_id", None)
+        car_name = request.POST.get("car_name", None)
+        car_type = request.POST.get("car_type", None)
+        capacity = request.POST.get("capacity", None)
+        vehicle_no = request.POST.get("vehicle_no", None)
+        car_mou = request.POST.get("room_facilites", None)
+        car_fee = request.POST.get("car_fee", None)
+        pickup_point = request.POST.get("pickup_point", None)
+        destination = request.POST.get("destination", None)
+        checkin_date = request.POST.get("checkin_date", None)
+        checkout_date = request.POST.get("checkout_date", None)
+        car_rc = request.POST.get("car_rc", None)
+        car_insurance = request.POST.get("car_insurance", None)
+        car_images = request.POST.get("car_images", None)
 
         if user_id is None:
             return Response(
