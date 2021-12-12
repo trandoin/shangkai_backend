@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from shangkai.users.models import Normal_UserReg, User_Cab_Booking, User_Hotel_Booking
+from users.models import Normal_UserReg, User_Cab_Booking, User_Hotel_Booking
 from shangkai.users.serializers import HotelBookingSerializer,CabBookingSerializer
 from . import serializers
 
