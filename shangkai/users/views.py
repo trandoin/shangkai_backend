@@ -1820,7 +1820,7 @@ class GetUserTripsCartViewSet(viewsets.ViewSet):
 class GetMyUsersHotelBookingViewSet(viewsets.ViewSet):
     def list(self, request):
         try:
-            sm_hotel = User_Hotel_Booking.objects.filter(status='1')
+            sm_hotel = User_Hotel_Booking.objects.filter(booking_status='1')
             hotel_data_dic = serializers.HotelBookingSerializer(sm_hotel, many=True)
         except:
             return Response(
@@ -1899,7 +1899,7 @@ class GetMyUsersHotelBookingViewSet(viewsets.ViewSet):
 class GetMyUsersCabBookingViewSet(viewsets.ViewSet):
     def list(self, request):
         try:
-            sm_hotel = User_Cab_Booking.objects.filter(status='1')
+            sm_hotel = User_Cab_Booking.objects.filter(booking_status='1')
             cabs_data_dic = serializers.CabBookingSerializer(sm_hotel, many=True)
         except:
             return Response(
