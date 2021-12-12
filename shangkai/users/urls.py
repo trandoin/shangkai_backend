@@ -24,6 +24,15 @@ router.register(
 )
 
 
+#########"""""""""""" MY Clients BOOKINGS """"""""############
+router.register(
+    "my_hotel_bookings", views.GetMyUsersHotelBookingViewSet, basename="MyHotelBookings"
+)
+router.register(
+    "my_cabs_booking", views.GetMyUsersCabBookingViewSet, basename="MyCabBookings"
+)
+
+
 #### """"""""CART """"""""###
 router.register("hotel_cart", views.HotelCartViewSet, basename="HotelCart")
 router.register("cab_cart", views.CabCartViewSet, basename="CabCart")

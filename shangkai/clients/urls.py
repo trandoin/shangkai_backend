@@ -42,14 +42,6 @@ router.register(
 )
 
 
-#########"""""""""""" MY BOOKINGS """"""""############
-router.register(
-    "my_hotel_bookings", views.GetMyUsersHotelBookingViewSet, basename="MyHotelBookings"
-)
-router.register(
-    "my_cabs_booking", views.GetMyUsersCabBookingViewSet, basename="MyCabBookings"
-)
-
 
 ############# """""""" ADMIN """"""""##########
 
