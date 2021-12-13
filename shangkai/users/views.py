@@ -430,7 +430,7 @@ class HotelBookingViewSet(viewsets.ViewSet):
     def create(self, request):
 
         user_id = request.POST.get("user_id", None)
-        user_ip = request.POST.get("user_ip", None)
+        user_ip = request.POST.get("client_id", None)
         hotel_id = request.POST.get("hotel_id", None)
         room_id = request.POST.get("room_id", None)
         hotel_bookid = request.POST.get("hotel_bookid", None)
@@ -810,7 +810,7 @@ class CabBookingViewSet(viewsets.ViewSet):
     def create(self, request):
 
         user_id = request.POST.get("user_id", None)
-        user_ip = request.POST.get("user_ip", None)
+        user_ip = request.POST.get("client_id", None)
         car_id = request.POST.get("car_id", None)
         driver_id = request.POST.get("driver_id", None)
         cab_bookid = request.POST.get("cab_bookid", None)
