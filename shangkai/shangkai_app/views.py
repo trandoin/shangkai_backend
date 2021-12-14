@@ -350,7 +350,7 @@ class AllMyTripsDaysViewSet(viewsets.ViewSet):
         for i in range(0, len(mytripsdays_all_data_dic.data)):
             created_trip_id = mytripsdays_all_data_dic.data[i].get("my_trip")
             try:
-                trip_inst = My_Trips_Days.objects.get(id=created_trip_id)
+                trip_inst = My_Trips.objects.get(id=created_trip_id)
 
                 mytripsdays_all_data_dic.data[i].update(
                     {
