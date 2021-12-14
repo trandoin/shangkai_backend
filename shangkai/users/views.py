@@ -61,7 +61,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         password = request.POST.get("password", None)
         image = request.POST.get("image", None)
         try:
-            sm_users = Normal_UserReg.objects.all(email=email)
+            sm_users = Normal_UserReg.objects.filter(email=email)
             return Response(
                 {"message": "Email id already exists !"},
                 status=status.HTTP_400_BAD_REQUEST,
