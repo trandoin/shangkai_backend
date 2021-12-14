@@ -335,6 +335,21 @@ class MyTripsDaysViewSet(viewsets.ViewSet):
         return Response(mytrips_days_data.data[0], status=status.HTTP_200_OK)
 
 
+class AllMyTripsDaysViewSet(viewsets.ViewSet):
+    def list(self, request):
+        try:
+            sm_mytrips_all = My_Trips_Days.objects.all()
+            mytripsdays_all_data_dic = serializers.MyTripsDaysSerializer(
+                sm_mytrips_all, many=True
+            )
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return Response(mytripsdays_all_data_dic.data, status=status.HTTP_200_OK)
+
 class CommentsAllViewSet(viewsets.ViewSet):
     def list(self, request):
 

@@ -26,6 +26,7 @@ router.register(
 ##### """""""" MY TRIPS """"""""####
 router.register("my_trips", views.MyTripsViewSet, basename="MYTrips")
 router.register("my_trips_days", views.MyTripsDaysViewSet, basename="MYTripsDays")
+router.register("all_trips_days", views.AllMyTripsDaysViewSet, basename="AllTripsDays")
 
 
 urlpatterns = [
