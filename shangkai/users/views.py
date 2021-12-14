@@ -1819,7 +1819,7 @@ class GetUserTripsCartViewSet(viewsets.ViewSet):
 
 class GetMyUsersHotelBookingViewSet(viewsets.ViewSet):
     def list(self, request):
-        client_id = request.POST.get("client_id", None)
+        client_id = request.GET.get("client_id", None)
         try:
             sm_hotel = User_Hotel_Booking.objects.filter(user_ip=client_id)
             hotel_data_dic = serializers.HotelBookingSerializer(sm_hotel, many=True)
