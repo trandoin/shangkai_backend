@@ -61,8 +61,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         password = request.POST.get("password", None)
         image = request.POST.get("image", None)
 
-        try:
-            users_inst = Normal_UserReg.objects.create(
+        users_inst = Normal_UserReg.objects.create(
                 user_id=user_id,
                 user_ip=user_ip,
                 name=name,
@@ -76,7 +75,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         users_data = serializers.NormalUserRegisterSerializer(
                 Normal_UserReg.objects.filter(id=users_inst.id), many=True
             )
-
+            
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
         # try:
