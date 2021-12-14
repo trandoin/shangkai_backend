@@ -347,7 +347,23 @@ class AllMyTripsDaysViewSet(viewsets.ViewSet):
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+        for i in range(0, len(mytripsdays_all_data_dic.data)):
+            created_trip_id = mytripsdays_all_data_dic.data[i].get("my_trip")
+            try:
+                trip_inst = My_Trips_Days.objects.get(id=created_trip_id)
 
+                mytripsdays_all_data_dic.data[i].update(
+                    {
+                        "my_trip": {
+                            "id": trip_inst.id,
+                            "trip_title": trip_inst.title,
+                        }
+                    }
+                )
+            except:
+                mytripsdays_all_data_dic.data[i].update(
+                    {"my_trip": {"id": created_trip_id, "message": "Deleted Trip"}}
+                )
         return Response(mytripsdays_all_data_dic.data, status=status.HTTP_200_OK)
 
 class CommentsAllViewSet(viewsets.ViewSet):
