@@ -60,7 +60,13 @@ class UserRegisterViewSet(viewsets.ViewSet):
         mobile = request.POST.get("mobile", None)
         password = request.POST.get("password", None)
         image = request.POST.get("image", None)
-
+        try:
+            sm_users = Normal_UserReg.objects.get(email=email)
+        except:
+            return Response(
+                {"message": "Email id already exists !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         users_inst = Normal_UserReg.objects.create(
             user_id=user_id,
             user_ip=user_ip,
