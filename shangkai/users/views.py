@@ -62,10 +62,14 @@ class UserRegisterViewSet(viewsets.ViewSet):
         image = request.POST.get("image", None)
         try:
             sm_users = Normal_UserReg.objects.filter(email=email)
-            return Response(
-                {"message": "Email id already exists !"},
-                status=status.HTTP_400_BAD_REQUEST,
+            users_data_dic = serializers.NormalUserRegisterSerializer(
+                sm_users, many=True
             )
+            if email in users_data_dic:
+                return Response(
+                    {"message": "Email id already exists !"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
         except:
             users_inst = Normal_UserReg.objects.create(
                 user_id=user_id,
