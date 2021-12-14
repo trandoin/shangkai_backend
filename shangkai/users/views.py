@@ -61,28 +61,35 @@ class UserRegisterViewSet(viewsets.ViewSet):
         password = request.POST.get("password", None)
         image = request.POST.get("image", None)
         try:
-            sm_users = Normal_UserReg.objects.get(email=email)
+            sm_users = Normal_UserReg.objects.filter(email=email)
+            users_data_dic = serializers.NormalUserRegisterSerializer(
+                sm_users, many=True
+            )
+            if email in users_data_dic:
+                    return Response(
+                    {"message": "Email id already exists !"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )    
+            users_inst = Normal_UserReg.objects.create(
+                user_id=user_id,
+                user_ip=user_ip,
+                name=name,
+                email=email,
+                mobile=mobile,
+                password=password,
+                image=image,
+            )
+            users_inst.save()
+
+            users_data = serializers.NormalUserRegisterSerializer(
+                Normal_UserReg.objects.filter(id=users_inst.id), many=True
+            )
+            return Response(users_data.data[0], status=status.HTTP_200_OK)
         except:
             return Response(
-                {"message": "Email id already exists !"},
+                {"message": "Sorry!! something went wrong"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        users_inst = Normal_UserReg.objects.create(
-            user_id=user_id,
-            user_ip=user_ip,
-            name=name,
-            email=email,
-            mobile=mobile,
-            password=password,
-            image=image,
-        )
-        users_inst.save()
-
-        users_data = serializers.NormalUserRegisterSerializer(
-            Normal_UserReg.objects.filter(id=users_inst.id), many=True
-        )
-        return Response(users_data.data[0], status=status.HTTP_200_OK)
-
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)
         name = request.POST.get("name", None)
