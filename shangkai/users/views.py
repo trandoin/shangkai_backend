@@ -62,20 +62,20 @@ class UserRegisterViewSet(viewsets.ViewSet):
         image = request.POST.get("image", None)
 
         users_inst = Normal_UserReg.objects.create(
-                user_id=user_id,
-                user_ip=user_ip,
-                name=name,
-                email=email,
-                mobile=mobile,
-                password=password,
-                image=image,
-            )
+            user_id=user_id,
+            user_ip=user_ip,
+            name=name,
+            email=email,
+            mobile=mobile,
+            password=password,
+            image=image,
+        )
         users_inst.save()
 
         users_data = serializers.NormalUserRegisterSerializer(
-                Normal_UserReg.objects.filter(id=users_inst.id), many=True
-            )
-            
+            Normal_UserReg.objects.filter(id=users_inst.id), many=True
+        )
+
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
@@ -99,8 +99,11 @@ class UserRegisterViewSet(viewsets.ViewSet):
             post_inst.is_edited = True
             post_inst.save()
 
+            users_data = serializers.NormalUserRegisterSerializer(
+                Normal_UserReg.objects.filter(id=post_inst.id), many=True
+            )
             return Response(
-                {"message": "Profile Updated Sucessfully"},
+                users_data.data,
                 status=status.HTTP_200_OK,
             )
 
@@ -1814,7 +1817,6 @@ class GetUserTripsCartViewSet(viewsets.ViewSet):
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
 
-
 ########"""""""" USERS BOOKINGS""""""""########
 
 
@@ -1840,7 +1842,7 @@ class GetMyUsersHotelBookingViewSet(viewsets.ViewSet):
                             "id": user_inst.id,
                             "user_id": user_inst.user_id,
                             "user_name": user_inst.name,
-                            "user_mobile":user_inst.mobile,
+                            "user_mobile": user_inst.mobile,
                         }
                     }
                 )
@@ -1898,7 +1900,6 @@ class GetMyUsersHotelBookingViewSet(viewsets.ViewSet):
         return Response(hotel_data_dic.data, status=status.HTTP_200_OK)
 
 
-
 class GetMyUsersCabBookingViewSet(viewsets.ViewSet):
     def list(self, request):
         client_id = request.GET.get("client_id", None)
@@ -1921,7 +1922,7 @@ class GetMyUsersCabBookingViewSet(viewsets.ViewSet):
                             "id": user_inst.id,
                             "user_id": user_inst.user_id,
                             "user_name": user_inst.name,
-                            "user_mobile":user_inst.mobile,
+                            "user_mobile": user_inst.mobile,
                         }
                     }
                 )
@@ -1976,7 +1977,6 @@ class GetMyUsersCabBookingViewSet(viewsets.ViewSet):
                     }
                 )
         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
-
 
         # def update(self, request, pk=None):
         # pk = tokenConversion(request)

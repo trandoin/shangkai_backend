@@ -42,7 +42,6 @@ router.register(
 )
 
 
-
 ############# """""""" ADMIN """"""""##########
 
 router.register("get_clients", views.GetClientslAllViewSet, basename="GetClientsAll")
