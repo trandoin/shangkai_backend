@@ -60,17 +60,8 @@ class UserRegisterViewSet(viewsets.ViewSet):
         mobile = request.POST.get("mobile", None)
         password = request.POST.get("password", None)
         image = request.POST.get("image", None)
+
         try:
-            sm_users = Normal_UserReg.objects.filter(email=email)
-            users_data_dic = serializers.NormalUserRegisterSerializer(
-                sm_users, many=True
-            )
-            if email in users_data_dic:
-                return Response(
-                    {"message": "Email id already exists !"},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-        except:
             users_inst = Normal_UserReg.objects.create(
                 user_id=user_id,
                 user_ip=user_ip,
@@ -80,12 +71,26 @@ class UserRegisterViewSet(viewsets.ViewSet):
                 password=password,
                 image=image,
             )
-            users_inst.save()
+        users_inst.save()
 
-            users_data = serializers.NormalUserRegisterSerializer(
+        users_data = serializers.NormalUserRegisterSerializer(
                 Normal_UserReg.objects.filter(id=users_inst.id), many=True
             )
-            return Response(users_data.data[0], status=status.HTTP_200_OK)
+
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
+
+        # try:
+        #     sm_users = Normal_UserReg.objects.filter(email=email)
+        #     users_data_dic = serializers.NormalUserRegisterSerializer(
+        #         sm_users, many=True
+        #     )
+        #     if email in users_data_dic:
+        #         return Response(
+        #             {"message": "Email id already exists !"},
+        #             status=status.HTTP_400_BAD_REQUEST,
+        #         )
+        # except:
+            
 
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)
