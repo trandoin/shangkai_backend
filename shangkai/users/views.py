@@ -71,7 +71,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         #         status=status.HTTP_400_BAD_REQUEST,
         #     )
         sm_users = Normal_UserReg.objects.all()
-            users_data_dic = serializers.NormalUserRegisterSerializer(
+        users_data_dic = serializers.NormalUserRegisterSerializer(
                 sm_users, many=True
             )
         if email in users_data_dic:
