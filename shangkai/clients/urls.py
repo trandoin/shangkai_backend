@@ -43,13 +43,13 @@ router.register(
 
 #######"""""" TOUR GUIDE  """"""#######
 router.register(
-    "tour_location", views.TourLocationsViewSet, basename="MyTourGuider"
+    "tour_location", views.TourLocationsViewSet, basename="TourLocations"
 )
 router.register(
-    "tour_packages", views.TourPackagesViewSet, basename="MyTourGuider"
+    "tour_packages", views.TourPackagesViewSet, basename="TourPackages"
 )
 router.register(
-    "my_tour_guider", views.TourGuiderViewSet, basename="MyTourGuider"
+    "my_tour_guider", views.TourGuiderViewSet, basename="TourGuider"
 )
 
 
