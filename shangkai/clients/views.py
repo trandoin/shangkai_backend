@@ -915,6 +915,29 @@ class TourPackagesViewSet(viewsets.ViewSet):
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+        for i in range(0, len(room_data_dic.data)):
+            created_user = room_data_dic.data[i].get("user")
+            try:
+                package_inst = User_Register.objects.get(id=created_user)
+
+                room_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": package_inst.id,
+                            "name": package_inst.name,
+                            "mobile": package_inst.mobile,
+                        }
+                    }
+                )
+            except:
+                room_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": created_user,
+                            "message": "Deleted user",
+                        }
+                    }
+                )    
         return Response(room_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
