@@ -1772,7 +1772,7 @@ class GetAllCabPaymentViewSet(viewsets.ViewSet):
 class GetAllTripPaymentViewSet(viewsets.ViewSet):
     def list(self, request):
         try:
-            sm_trip_booking = User_Trips_Payment.objects.all())
+            sm_trip_booking = User_Trips_Payment.objects.all()
             trip_booking_data_dic = serializers.UserTripsPaymentSerializer(
                 sm_trip_booking, many=True
             )
