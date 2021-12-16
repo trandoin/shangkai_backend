@@ -889,7 +889,7 @@ class TourGuiderViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.GET.get("user_id", None)
         try:
-            sm_rooms = TourGuide_Reg.objects.filter(id=user_id)
+            sm_rooms = TourGuide_Reg.objects.filter(user=user_id)
             room_data_dic = serializers.TourGuideRegSerializer(sm_rooms, many=True)
         except:
             return Response(
