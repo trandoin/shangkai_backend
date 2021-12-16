@@ -930,28 +930,28 @@ class TourGuiderViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         for i in range(0, len(room_data_dic.data)):
-        #     created_tour_locations = room_data_dic.data[i].get("tour_locations")
-        #     try:
-        #         location_inst = Tour_locations.objects.get(id=created_tour_locations)
+            created_tour_locations = room_data_dic.data[i].get("tour_locations")
+            try:
+                location_inst = Tour_locations.objects.get(id=created_tour_locations)
 
-        #         room_data_dic.data[i].update(
-        #             {
-        #                 "tour_locations": {
-        #                     "id": location_inst.id,
-        #                     "locations": location_inst.locations,
-        #                     "location_image": location_inst.location_image,
-        #                 }
-        #             }
-        #         )
-        #     except:
-        #         room_data_dic.data[i].update(
-        #             {
-        #                 "tour_locations": {
-        #                     "id": created_tour_locations,
-        #                     "message": "Deleted Location",
-        #                 }
-        #             }
-        #         )
+                room_data_dic.data[i].update(
+                    {
+                        "tour_locations": {
+                            "id": location_inst.id,
+                            "locations": location_inst.locations,
+                            "location_image": location_inst.location_image,
+                        }
+                    }
+                )
+            except:
+                room_data_dic.data[i].update(
+                    {
+                        "tour_locations": {
+                            "id": created_tour_locations,
+                            "message": "Deleted Location",
+                        }
+                    }
+                )
             created_packages = room_data_dic.data[i].get("packages")
             try:
                 package_inst = Tour_Packages.objects.get(id=created_packages)
