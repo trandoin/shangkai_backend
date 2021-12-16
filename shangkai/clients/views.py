@@ -953,6 +953,23 @@ class TourLocationsViewSet(viewsets.ViewSet):
         )
         return Response(location_data.data[0], status=status.HTTP_200_OK)
 
+    def destroy(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Please provide user_id"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        try:
+            scm_location_inst = Tour_locations.objects.filter(id=pk)
+            scm_location_inst.delete()
+            return Response(
+                {"message": "Tour Location deleted successfully"}, status=status.HTTP_200_OK
+            )
+        except:
+            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
+
 class TourPackagesViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.GET.get("user_id", None)
@@ -1015,6 +1032,22 @@ class TourPackagesViewSet(viewsets.ViewSet):
         )
         return Response(package_data.data[0], status=status.HTTP_200_OK)
 
+    def destroy(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Please provide user_id"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        try:
+            scm_package_inst = Tour_Packages.objects.filter(id=pk)
+            scm_package_inst.delete()
+            return Response(
+                {"message": "Tour package deleted successfully"}, status=status.HTTP_200_OK
+            )
+        except:
+            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
 
 class TourGuiderViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -1142,6 +1175,23 @@ class TourGuiderViewSet(viewsets.ViewSet):
             TourGuide_Reg.objects.filter(id=guide_inst.id), many=True
         )
         return Response(guide_data.data[0], status=status.HTTP_200_OK)
+
+    def destroy(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Please provide user_id"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        try:
+            scm_tourguide_inst = TourGuide_Reg.objects.filter(id=pk)
+            scm_tourguide_inst.delete()
+            return Response(
+                {"message": "Tour tour guider deleted successfully"}, status=status.HTTP_200_OK
+            )
+        except:
+            return Response({"message": "Details not found"}, status=status.HTTP_200_OK) 
 
 ############ """""""" ADMIN """"""""""#########
 
