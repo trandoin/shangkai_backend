@@ -12,6 +12,7 @@ from .models import (
     Room_Register,
     User_Register,
     client_token_authentication,
+    Tour_locations,
 )
 
 # Register your models here.
@@ -144,6 +145,19 @@ class CarRegistration(admin.ModelAdmin):
 
 
 admin.site.register(Cabs_Reg, CarRegistration)
+
+
+class Tourlocations(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "user",
+        "locations",
+        "location_image",
+
+    ]
+
+
+admin.site.register(Tour_locations, Tourlocations)
 
 
 class AccountDetails(admin.ModelAdmin):
