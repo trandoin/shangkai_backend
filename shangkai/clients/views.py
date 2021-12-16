@@ -923,18 +923,18 @@ class TourGuiderViewSet(viewsets.ViewSet):
         user_id = request.GET.get("user_id", None)
         try:
             sm_rooms = TourGuide_Reg.objects.filter(user=user_id)
-            room_data_dic = serializers.TourGuideRegSerializer(sm_rooms, many=True)
+            tourguide_data_dic = serializers.TourGuideRegSerializer(sm_rooms, many=True)
         except:
             return Response(
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        for i in range(0, len(room_data_dic.data)):
-            created_tour_locations = room_data_dic.data[i].get("tour_locations")
+        for i in range(0, len(tourguide_data_dic.data)):
+            created_tour_locations = tourguide_data_dic.data[i].get("tour_locations")
             try:
                 location_inst = Tour_locations.objects.get(id=created_tour_locations)
 
-                room_data_dic.data[i].update(
+                tourguide_data_dic.data[i].update(
                     {
                         "tour_locations": {
                             "id": location_inst.id,
@@ -944,7 +944,7 @@ class TourGuiderViewSet(viewsets.ViewSet):
                     }
                 )
             except:
-                room_data_dic.data[i].update(
+                tourguide_data_dic.data[i].update(
                     {
                         "tour_locations": {
                             "id": created_tour_locations,
@@ -952,11 +952,11 @@ class TourGuiderViewSet(viewsets.ViewSet):
                         }
                     }
                 )
-            created_packages = room_data_dic.data[i].get("packages")
+            created_packages = tourguide_data_dic.data[i].get("packages")
             try:
                 package_inst = Tour_Packages.objects.get(id=created_packages)
 
-                room_data_dic.data[i].update(
+                tourguide_data_dic.data[i].update(
                     {
                         "packages": {
                             "id": package_inst.id,
@@ -966,7 +966,7 @@ class TourGuiderViewSet(viewsets.ViewSet):
                     }
                 )
             except:
-                room_data_dic.data[i].update(
+                tourguide_data_dic.data[i].update(
                     {
                         "packages": {
                             "id": created_packages,
@@ -975,7 +975,7 @@ class TourGuiderViewSet(viewsets.ViewSet):
                     }
                 )
 
-        return Response(room_data_dic.data, status=status.HTTP_200_OK)
+        return Response(tourguide_data_dic.data, status=status.HTTP_200_OK)
 
 
 ############ """""""" ADMIN """"""""""#########
