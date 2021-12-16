@@ -977,6 +977,51 @@ class TourGuiderViewSet(viewsets.ViewSet):
 
         return Response(tourguide_data_dic.data, status=status.HTTP_200_OK)
 
+    def create(self, request):
+    
+        user_id = request.POST.get("user_id", None)
+        tour_locations = request.POST.get("tour_locations", None)
+        packages = request.POST.get("packages", None)
+        guider_name = request.POST.get("guider_name", None)
+        about_guider = request.POST.get("about_guider", None)
+        guider_address = request.POST.get("guider_address", None)
+        guider_mobile = request.POST.get("guider_mobile", None)
+        guider_email = request.POST.get("guider_email", None)
+        languages = request.POST.get("languages", None)
+        adhar_card = request.POST.get("adhar_card", None)
+        licence_doc = request.POST.get("licence_doc", None)
+        picture = request.POST.get("picture", None)
+
+        try:
+            user_inst = User_Register.objects.get(id=user_id)
+            location_inst = Tour_locations.objects.get(id=tour_locations)
+            packages_inst = Tour_Packages.objects.get(id=packages)
+        except:
+
+            return Response(
+                {"message": "No user found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        guide_inst = Cabs_Reg.objects.create(
+            user=user_inst,
+            tour_locations=location_inst,
+            packages=packages_inst,
+            guider_name=guider_name,
+            about_guider=about_guider,
+            guider_address=guider_address,
+            guider_mobile=guider_mobile,
+            guider_email=guider_email,
+            languages=languages,
+            adhar_card=adhar_card,
+            licence_doc=licence_doc,
+            picture=picture,
+        )
+        guide_inst.save()
+
+        guide_data = serializers.TourGuideRegSerializer(
+            TourGuide_Reg.objects.filter(id=guide_inst.id), many=True
+        )
+        return Response(guide_data.data[0], status=status.HTTP_200_OK)
 
 ############ """""""" ADMIN """"""""""#########
 
