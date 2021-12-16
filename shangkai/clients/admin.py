@@ -13,6 +13,7 @@ from .models import (
     User_Register,
     client_token_authentication,
     Tour_locations,
+    Tour_Packages,
 )
 
 # Register your models here.
@@ -158,6 +159,18 @@ class Tourlocations(admin.ModelAdmin):
 
 
 admin.site.register(Tour_locations, Tourlocations)
+
+class TourPackages(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "user",
+        "location_ids",
+        "package_amount",
+
+    ]
+
+
+admin.site.register(Tour_Packages, TourPackages)
 
 
 class AccountDetails(admin.ModelAdmin):
