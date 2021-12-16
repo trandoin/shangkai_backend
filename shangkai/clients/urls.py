@@ -41,6 +41,12 @@ router.register(
     "cab_getby_locations", views.CabGetByLocationViewSet, basename="CabGetByLocation"
 )
 
+#######"""""" TOUR GUIDE  """"""#######
+router.register(
+    "my_tour_guider", views.TourGuiderViewSet, basename="MyTourGuider"
+)
+
+
 
 ############# """""""" ADMIN """"""""##########
 

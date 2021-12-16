@@ -7,6 +7,9 @@ from .models import (
     Cabs_Reg,
     Client_login,
     client_token_authentication,
+    Tour_locations,
+    Tour_Packages,
+    TourGuide_Reg,
 )
 
 
@@ -49,4 +52,19 @@ class DriverRegisterSerializer(ModelSerializer):
 class CabRegisterSerializer(ModelSerializer):
     class Meta:
         model = Cabs_Reg
+        fields = "__all__"
+
+class TourlocationsSerializer(ModelSerializer):
+    class Meta:
+        model = Tour_locations
+        fields = "__all__"
+
+class TourPackagesSerializer(ModelSerializer):
+    class Meta:
+        model = Tour_Packages
+        fields = "__all__"
+
+class TourGuideRegSerializer(ModelSerializer):
+    class Meta:
+        model = TourGuide_Reg
         fields = "__all__"
