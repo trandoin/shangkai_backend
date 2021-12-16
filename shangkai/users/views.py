@@ -1108,7 +1108,7 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
 
                 account_data_dic.data[i].update(
                     {
-                        "user_id": {
+                        "user": {
                             "id": user_inst.id,
                             "user_name": user_inst.name,
                             "user_mobile": user_inst.mobile,
@@ -1117,7 +1117,7 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
                 )
             except:
                 account_data_dic.data[i].update(
-                    {"user_id": {"id": created_user_id, "message": "Deleted User"}}
+                    {"user": {"id": created_user_id, "message": "Deleted User"}}
                 )
             created_user_id = account_data_dic.data[i].get("trip_id")
             try:
