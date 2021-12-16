@@ -227,7 +227,7 @@ class Tour_Packages(models.Model):
         db_constraint=False,
     )
     location_ids = models.CharField("location_ids", null=True, max_length=255)
-    package_amount = models.FileField("package_amount", null=True, max_length=255)
+    package_amount = models.CharField("package_amount", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
