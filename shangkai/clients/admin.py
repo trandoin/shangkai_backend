@@ -14,6 +14,7 @@ from .models import (
     client_token_authentication,
     Tour_locations,
     Tour_Packages,
+    TourGuide_Reg,
 )
 
 # Register your models here.
@@ -171,6 +172,28 @@ class TourPackages(admin.ModelAdmin):
 
 
 admin.site.register(Tour_Packages, TourPackages)
+
+class TourGuideReg(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "user",
+        "tour_locations",
+        "packages",
+        "guider_name",
+        "about_guider",
+        "guider_address",
+        "guider_mobile",
+        "guider_email",
+        "languages",
+        "adhar_card",
+        "licence_doc",
+        "picture",
+        "rating",
+
+    ]
+
+
+admin.site.register(TourGuide_Reg, TourGuideReg)
 
 
 class AccountDetails(admin.ModelAdmin):

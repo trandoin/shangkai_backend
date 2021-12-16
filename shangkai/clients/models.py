@@ -236,6 +236,44 @@ class Tour_Packages(models.Model):
             "Tour Packages",
         )
 
+class TourGuide_Reg(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user = models.ForeignKey(
+        "clients.User_Register",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    tour_locations = models.ForeignKey(
+        "clients.Tour_locations",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    packages = models.ForeignKey(
+        "clients.Tour_Packages",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    guider_name = models.CharField("guider_name", null=True, max_length=255)
+    about_guider = models.TextField("about_guider", null=True, max_length=255)
+    guider_address = models.TextField("guider_address", null=True, max_length=255)
+    guider_mobile = models.CharField("guider_mobile", null=True, max_length=255)
+    guider_email = models.CharField("guider_email", null=True, max_length=255)
+    languages = models.CharField("languages", null=True, max_length=255)
+    adhar_card = models.FileField("addhar_card", null=True, max_length=255)
+    licence_doc = models.FileField("licence_doc", null=True, max_length=255)
+    picture = models.FileField("picture", null=True, max_length=255)
+    rating = models.CharField("rating", null=True, default="0", max_length=255)
+    status = models.CharField("status", null=True, default="0", max_length=255)
+
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Tour Guide Registration",
+            "Tour Guide Registration",
+        )
+
 
 class Account_Details(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
