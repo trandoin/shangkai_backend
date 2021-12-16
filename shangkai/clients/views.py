@@ -999,7 +999,7 @@ class TourGuiderViewSet(viewsets.ViewSet):
         except:
 
             return Response(
-                {"message": "No user found !"},
+                {"message": "Invalid Request !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         guide_inst = Cabs_Reg.objects.create(
