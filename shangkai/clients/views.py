@@ -930,6 +930,28 @@ class TourGuiderViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         for i in range(0, len(tourguide_data_dic.data)):
+            created_user = tourguide_data_dic.data[i].get("user")
+            try:
+                package_inst = User_Register.objects.get(id=created_user)
+
+                tourguide_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": package_inst.id,
+                            "name": package_inst.name,
+                            "mobile": package_inst.mobile,
+                        }
+                    }
+                )
+            except:
+                tourguide_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": created_user,
+                            "message": "Deleted user",
+                        }
+                    }
+                )
             created_tour_locations = tourguide_data_dic.data[i].get("tour_locations")
             try:
                 package_inst = Tour_locations.objects.get(id=created_tour_locations)
