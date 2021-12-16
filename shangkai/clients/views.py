@@ -917,6 +917,32 @@ class TourPackagesViewSet(viewsets.ViewSet):
             )
         return Response(room_data_dic.data, status=status.HTTP_200_OK)
 
+    def create(self, request):
+        
+        user_id = request.POST.get("user_id", None)
+        location_ids = request.POST.get("location_ids", None)
+        package_amount = request.POST.get("package_amount", None)
+
+        try:
+            user_inst = User_Register.objects.get(id=user_id)
+        except:
+
+            return Response(
+                {"message": "Invalid Request !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        package_inst = Tour_Packages.objects.create(
+            user=user_inst,
+            location_ids=location_ids,
+            package_amount=package_amount,
+        )
+        package_inst.save()
+
+        package_data = serializers.TourPackagesSerializer(
+            Tour_Packages.objects.filter(id=package_inst.id), many=True
+        )
+        return Response(package_data.data[0], status=status.HTTP_200_OK)
+
 
 class TourGuiderViewSet(viewsets.ViewSet):
     def list(self, request):
