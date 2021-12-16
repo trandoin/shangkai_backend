@@ -43,6 +43,12 @@ router.register(
 
 #######"""""" TOUR GUIDE  """"""#######
 router.register(
+    "tour_location", views.TourLocationsViewSet, basename="MyTourGuider"
+)
+router.register(
+    "tour_packages", views.TourPackagesViewSet, basename="MyTourGuider"
+)
+router.register(
     "my_tour_guider", views.TourGuiderViewSet, basename="MyTourGuider"
 )
 

@@ -885,6 +885,34 @@ class GetHotelByCatIdViewSet(viewsets.ViewSet):
 
 
 ############ """""" TOUR GUIDER """"""""##########
+
+class TourLocationsViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+        try:
+            sm_rooms = Tour_locations.objects.filter(user=user_id)
+            room_data_dic = serializers.TourlocationsSerializer(sm_rooms, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(room_data_dic.data, status=status.HTTP_200_OK)
+
+class TourPackagesViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+        try:
+            sm_rooms = Tour_Packages.objects.filter(user=user_id)
+            room_data_dic = serializers.TourPackagesSerializer(sm_rooms, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(room_data_dic.data, status=status.HTTP_200_OK)
+
+
 class TourGuiderViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.GET.get("user_id", None)
