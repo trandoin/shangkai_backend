@@ -1002,7 +1002,7 @@ class TourGuiderViewSet(viewsets.ViewSet):
                 {"message": "Invalid Request !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        guide_inst = Cabs_Reg.objects.create(
+        guide_inst = TourGuide_Reg.objects.create(
             user=user_inst,
             tour_locations=location_inst,
             packages=packages_inst,
