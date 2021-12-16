@@ -54,15 +54,18 @@ class CabRegisterSerializer(ModelSerializer):
         model = Cabs_Reg
         fields = "__all__"
 
+
 class TourlocationsSerializer(ModelSerializer):
     class Meta:
         model = Tour_locations
         fields = "__all__"
 
+
 class TourPackagesSerializer(ModelSerializer):
     class Meta:
         model = Tour_Packages
         fields = "__all__"
+
 
 class TourGuideRegSerializer(ModelSerializer):
     class Meta:

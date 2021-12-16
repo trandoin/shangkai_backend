@@ -200,6 +200,7 @@ class Cabs_Reg(models.Model):
             "Car Registration",
         )
 
+
 class Tour_locations(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
@@ -218,6 +219,7 @@ class Tour_locations(models.Model):
             "Tour Locations",
         )
 
+
 class Tour_Packages(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
@@ -235,6 +237,7 @@ class Tour_Packages(models.Model):
             "Tour Packages",
             "Tour Packages",
         )
+
 
 class TourGuide_Reg(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
@@ -262,9 +265,11 @@ class TourGuide_Reg(models.Model):
     guider_mobile = models.CharField("guider_mobile", null=True, max_length=255)
     guider_email = models.CharField("guider_email", null=True, max_length=255)
     languages = models.CharField("languages", null=True, max_length=255)
-    adhar_card = models.FileField("addhar_card", null=True,default="0", max_length=255)
-    licence_doc = models.FileField("licence_doc", null=True,default="0", max_length=255)
-    picture = models.FileField("picture", null=True,default="0", max_length=255)
+    adhar_card = models.FileField("addhar_card", null=True, default="0", max_length=255)
+    licence_doc = models.FileField(
+        "licence_doc", null=True, default="0", max_length=255
+    )
+    picture = models.FileField("picture", null=True, default="0", max_length=255)
     rating = models.CharField("rating", null=True, default="0", max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 

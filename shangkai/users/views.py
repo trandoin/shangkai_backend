@@ -1786,6 +1786,7 @@ class GetAllCabPaymentViewSet(viewsets.ViewSet):
 
         return Response(cab_booking_data_dic.data, status=status.HTTP_200_OK)
 
+
 class GetAllTripPaymentViewSet(viewsets.ViewSet):
     def list(self, request):
         try:
@@ -1844,6 +1845,7 @@ class GetAllTripPaymentViewSet(viewsets.ViewSet):
                 )
 
         return Response(trip_booking_data_dic.data, status=status.HTTP_200_OK)
+
 
 class UserAllTripsBookingViewSet(viewsets.ViewSet):
     def list(self, request):

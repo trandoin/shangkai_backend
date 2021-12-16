@@ -155,11 +155,11 @@ class Tourlocations(admin.ModelAdmin):
         "user",
         "locations",
         "location_image",
-
     ]
 
 
 admin.site.register(Tour_locations, Tourlocations)
+
 
 class TourPackages(admin.ModelAdmin):
     list_display = [
@@ -167,11 +167,11 @@ class TourPackages(admin.ModelAdmin):
         "user",
         "location_ids",
         "package_amount",
-
     ]
 
 
 admin.site.register(Tour_Packages, TourPackages)
+
 
 class TourGuideReg(admin.ModelAdmin):
     list_display = [
@@ -189,7 +189,6 @@ class TourGuideReg(admin.ModelAdmin):
         "licence_doc",
         "picture",
         "rating",
-
     ]
 
 

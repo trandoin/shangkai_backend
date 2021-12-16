@@ -886,6 +886,7 @@ class GetHotelByCatIdViewSet(viewsets.ViewSet):
 
 ############ """""" TOUR GUIDER """"""""##########
 
+
 class TourLocationsViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.GET.get("user_id", None)
@@ -898,6 +899,7 @@ class TourLocationsViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(room_data_dic.data, status=status.HTTP_200_OK)
+
 
 class TourPackagesViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -935,13 +937,17 @@ class TourGuiderViewSet(viewsets.ViewSet):
                             "id": location_inst.id,
                             "locations": location_inst.locations,
                             "location_image": location_inst.location_image,
-
                         }
                     }
                 )
             except:
                 room_data_dic.data[i].update(
-                    {"tour_locations": {"id": created_tour_locations, "message": "Deleted Location"}}
+                    {
+                        "tour_locations": {
+                            "id": created_tour_locations,
+                            "message": "Deleted Location",
+                        }
+                    }
                 )
             created_packages = room_data_dic.data[i].get("packages")
             try:
@@ -953,14 +959,18 @@ class TourGuiderViewSet(viewsets.ViewSet):
                             "id": package_inst.id,
                             "location_ids": package_inst.location_ids,
                             "package_amount": package_inst.package_amount,
-
                         }
                     }
                 )
             except:
                 room_data_dic.data[i].update(
-                    {"packages": {"id": created_packages, "message": "Deleted Packages"}}
-                )    
+                    {
+                        "packages": {
+                            "id": created_packages,
+                            "message": "Deleted Packages",
+                        }
+                    }
+                )
 
         return Response(room_data_dic.data, status=status.HTTP_200_OK)
 

@@ -78,12 +78,15 @@ router.register(
     basename="GetUsersHotelPayment",
 )
 router.register(
-    "get_cabbooking_payment", views.GetAllCabPaymentViewSet, basename="GetUserCabPayment"
+    "get_cabbooking_payment",
+    views.GetAllCabPaymentViewSet,
+    basename="GetUserCabPayment",
 )
 router.register(
-    "get_tripbooking_payment", views.GetAllTripPaymentViewSet, basename="GetUserTripPayment"
+    "get_tripbooking_payment",
+    views.GetAllTripPaymentViewSet,
+    basename="GetUserTripPayment",
 )
-
 
 
 urlpatterns = [

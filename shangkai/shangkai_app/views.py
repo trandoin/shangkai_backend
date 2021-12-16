@@ -366,6 +366,7 @@ class AllMyTripsDaysViewSet(viewsets.ViewSet):
                 )
         return Response(mytripsdays_all_data_dic.data, status=status.HTTP_200_OK)
 
+
 class CommentsAllViewSet(viewsets.ViewSet):
     def list(self, request):
 
