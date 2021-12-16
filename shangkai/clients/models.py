@@ -262,9 +262,9 @@ class TourGuide_Reg(models.Model):
     guider_mobile = models.CharField("guider_mobile", null=True, max_length=255)
     guider_email = models.CharField("guider_email", null=True, max_length=255)
     languages = models.CharField("languages", null=True, max_length=255)
-    adhar_card = models.FileField("addhar_card", null=True, max_length=255)
-    licence_doc = models.FileField("licence_doc", null=True, max_length=255)
-    picture = models.FileField("picture", null=True, max_length=255)
+    adhar_card = models.FileField("addhar_card", null=True,default="0", max_length=255)
+    licence_doc = models.FileField("licence_doc", null=True,default="0", max_length=255)
+    picture = models.FileField("picture", null=True,default="0", max_length=255)
     rating = models.CharField("rating", null=True, default="0", max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
