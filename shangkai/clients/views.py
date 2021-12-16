@@ -13,6 +13,9 @@ from . import serializers
 """Model Package """
 from .models import (
     Reg_Hotel,
+    Tour_Packages,
+    Tour_locations,
+    TourGuide_Reg,
     User_Register,
     Room_Register,
     Driver_Reg,
