@@ -932,14 +932,14 @@ class TourGuiderViewSet(viewsets.ViewSet):
         for i in range(0, len(tourguide_data_dic.data)):
             created_tour_locations = tourguide_data_dic.data[i].get("tour_locations")
             try:
-                location_inst = Tour_locations.objects.get(id=created_tour_locations)
+                package_inst = Tour_locations.objects.get(id=created_tour_locations)
 
                 tourguide_data_dic.data[i].update(
                     {
                         "tour_locations": {
-                            "id": location_inst.id,
-                            "locations": location_inst.locations,
-                            "location_image": location_inst.location_image,
+                            "id": package_inst.id,
+                            "locations": package_inst.locations,
+                            "status": package_inst.status,
                         }
                     }
                 )
@@ -948,7 +948,7 @@ class TourGuiderViewSet(viewsets.ViewSet):
                     {
                         "tour_locations": {
                             "id": created_tour_locations,
-                            "message": "Deleted Location",
+                            "message": "Deleted tour_locations",
                         }
                     }
                 )
