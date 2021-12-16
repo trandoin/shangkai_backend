@@ -107,9 +107,7 @@ class My_Trips(models.Model):
     price = models.CharField("price", null=True, max_length=255)
     description = models.TextField("description", null=True, max_length=255)
     services = models.TextField("services", null=True, max_length=255)
-    hotspots_id = models.ManyToManyField(
-        "shangkai_app.Hot_Spots", related_name="hotspots_name"
-    )
+    hotspots_id = models.CharField("hotspots", null=True, max_length=255)
     includes = models.TextField("includes", null=True, max_length=255)
     rules = models.TextField("rules", null=True, max_length=255)
     days_no = models.TextField("days_no", null=True, max_length=2000)

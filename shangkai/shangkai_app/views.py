@@ -236,27 +236,27 @@ class MyTripsViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        for i in range(0, len(mytrips_all_data_dic.data)):
-            created_hotspots_id = mytrips_all_data_dic.data[i].get("hotspots_id")
-            try:
-                hotspots_inst = Hot_Spots.objects.get(id=created_hotspots_id)
+        # for i in range(0, len(mytrips_all_data_dic.data)):
+        #     created_hotspots_id = mytrips_all_data_dic.data[i].get("hotspots_id")
+        #     try:
+        #         hotspots_inst = Hot_Spots.objects.get(id=created_hotspots_id)
 
-                mytrips_all_data_dic.data[i].update(
-                    {
-                        "hotspots_id": {
-                            "id": hotspots_inst.id,
-                        }
-                    }
-                )
-            except:
-                mytrips_all_data_dic.data[i].update(
-                    {
-                        "hotspots_id": {
-                            "id": created_hotspots_id,
-                            "message": "No HotSpots Found !",
-                        }
-                    }
-                )
+        #         mytrips_all_data_dic.data[i].update(
+        #             {
+        #                 "hotspots_id": {
+        #                     "id": hotspots_inst.id,
+        #                 }
+        #             }
+        #         )
+        #     except:
+        #         mytrips_all_data_dic.data[i].update(
+        #             {
+        #                 "hotspots_id": {
+        #                     "id": created_hotspots_id,
+        #                     "message": "No HotSpots Found !",
+        #                 }
+        #             }
+        #         )
         return Response(mytrips_all_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
