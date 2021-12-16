@@ -59,7 +59,7 @@ router.register(
 )
 router.register(
     "get_users_tripbooking",
-    views.UserTripsBookingViewSet,
+    views.UserAllTripsBookingViewSet,
     basename="UserTripsBooking",
 )
 

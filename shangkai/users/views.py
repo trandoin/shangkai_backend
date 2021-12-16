@@ -1828,7 +1828,7 @@ class GetAllTripPaymentViewSet(viewsets.ViewSet):
 
         return Response(trip_booking_data_dic.data, status=status.HTTP_200_OK)
 
-class UserTripsBookingViewSet(viewsets.ViewSet):
+class UserAllTripsBookingViewSet(viewsets.ViewSet):
     def list(self, request):
         try:
             sm_hotel = User_Trip_Booking.objects.all()
