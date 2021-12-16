@@ -1704,6 +1704,130 @@ class GetUsersCabBookingViewSet(viewsets.ViewSet):
             )
 
 
+class GetAllCabPaymentViewSet(viewsets.ViewSet):
+    def list(self, request):
+        try:
+            sm_cab_booking = User_Cab_Payment.objects.all()
+            cab_booking_data_dic = serializers.UserCabPaymentSerializer(
+                sm_cab_booking, many=True
+            )
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        for i in range(0, len(cab_booking_data_dic.data)):
+            created_user_id = cab_booking_data_dic.data[i].get("user")
+            try:
+                user_inst = Normal_UserReg.objects.get(id=created_user_id)
+
+                cab_booking_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "user_id": user_inst.user_id,
+                            "user_name": user_inst.name,
+                        }
+                    }
+                )
+            except:
+                cab_booking_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted Account"}}
+                )
+            created_cab_booking_id = cab_booking_data_dic.data[i].get("cab_booking")
+            try:
+                cab_booking_inst = User_Cab_Booking.objects.get(
+                    id=created_cab_booking_id
+                )
+
+                cab_booking_data_dic.data[i].update(
+                    {
+                        "cab_booking": {
+                            "id": cab_booking_inst.id,
+                            "cab_bookid": cab_booking_inst.cab_bookid,
+                            # "car_id":cab_booking_inst.car_id,
+                            # "driver_id":cab_booking_inst.driver_id,
+                            "check_in_date": cab_booking_inst.check_in_date,
+                            "check_in_time": cab_booking_inst.check_in_time,
+                            "check_out_date": cab_booking_inst.check_out_date,
+                            "check_out_time": cab_booking_inst.check_out_time,
+                            "end_trip": cab_booking_inst.end_trip,
+                            "amount_booking": cab_booking_inst.amount_booking,
+                            "no_guests": cab_booking_inst.no_guests,
+                        }
+                    }
+                )
+            except:
+                cab_booking_data_dic.data[i].update(
+                    {
+                        "cab_booking": {
+                            "id": created_cab_booking_id,
+                            "message": "Deleted Cab Booking",
+                        }
+                    }
+                )
+
+        return Response(cab_booking_data_dic.data, status=status.HTTP_200_OK)
+
+class GetAllTripPaymentViewSet(viewsets.ViewSet):
+    def list(self, request):
+        try:
+            sm_trip_booking = User_Trips_Payment.objects.all())
+            trip_booking_data_dic = serializers.UserTripsPaymentSerializer(
+                sm_trip_booking, many=True
+            )
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        for i in range(0, len(trip_booking_data_dic.data)):
+            created_user_id = trip_booking_data_dic.data[i].get("user")
+            try:
+                user_inst = Normal_UserReg.objects.get(id=created_user_id)
+
+                trip_booking_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "user_id": user_inst.user_id,
+                            "user_name": user_inst.name,
+                        }
+                    }
+                )
+            except:
+                trip_booking_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted Account"}}
+                )
+            created_trip_booking_id = trip_booking_data_dic.data[i].get("trip_booking")
+            try:
+                trip_booking_inst = User_Trip_Booking.objects.get(
+                    id=created_trip_booking_id
+                )
+
+                trip_booking_data_dic.data[i].update(
+                    {
+                        "trip_booking": {
+                            "id": trip_booking_inst.id,
+                            # "trip_id":trip_booking_inst.trip_id,
+                            "no_guests": trip_booking_inst.no_guests,
+                            "trip_ammount": trip_booking_inst.trip_ammount,
+                            "trip_cart_status": trip_booking_inst.trip_cart_status,
+                        }
+                    }
+                )
+            except:
+                trip_booking_data_dic.data[i].update(
+                    {
+                        "trip_booking": {
+                            "id": created_trip_booking_id,
+                            "message": "Deleted Trip Booking",
+                        }
+                    }
+                )
+
+        return Response(trip_booking_data_dic.data, status=status.HTTP_200_OK)
+
 class UserTripsBookingViewSet(viewsets.ViewSet):
     def list(self, request):
         try:
