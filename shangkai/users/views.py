@@ -1361,6 +1361,7 @@ class UserGuideBookingViewSet(viewsets.ViewSet):
         client_id = request.POST.get("client_id", None)
         guide_id = request.POST.get("guide_id", None)
         no_guests = request.POST.get("no_guests", None)
+        booking_date = request.POST.get("booking_date", None)
         guide_amount = request.POST.get("guide_amount", None)
         try:
             user_inst = Normal_UserReg.objects.get(id=user_id)
@@ -1378,6 +1379,7 @@ class UserGuideBookingViewSet(viewsets.ViewSet):
             client_id=clients_inst,
             guide_id=guide_inst,
             no_guests=no_guests,
+            booking_date=booking_date,
             guide_amount=guide_amount,
         )
         users_inst.save()
@@ -1484,6 +1486,7 @@ class UserHotspotsCartViewSet(viewsets.ViewSet):
         user_id = request.POST.get("user_id", None)
         hostpots_id = request.POST.get("hostpots_id", None)
         no_guests = request.POST.get("no_guests", None)
+        booking_date = request.POST.get("booking_date", None)
         cart_amount = request.POST.get("cart_amount", None)
         try:
             user_inst = Normal_UserReg.objects.get(id=user_id)
@@ -1499,6 +1502,7 @@ class UserHotspotsCartViewSet(viewsets.ViewSet):
             user=user_inst,
             hostpots_id=hotspots_inst,
             no_guests=no_guests,
+            booking_date=booking_date,
             cart_amount=cart_amount,
         )
         users_inst.save()
@@ -1581,6 +1585,7 @@ class UserHotSpotsBookingViewSet(viewsets.ViewSet):
         user_id = request.POST.get("user_id", None)
         cart_id = request.POST.get("cart_id", None)
         no_guests = request.POST.get("no_guests", None)
+        booking_date = request.POST.get("booking_date", None)
         booking_amount = request.POST.get("booking_amount", None)
         try:
             user_inst = Normal_UserReg.objects.get(id=user_id)
@@ -1596,6 +1601,7 @@ class UserHotSpotsBookingViewSet(viewsets.ViewSet):
             user=user_inst,
             cart_id=cart_inst,
             no_guests=no_guests,
+            booking_date=booking_date,
             booking_amount=booking_amount,
         )
         users_inst.save()
