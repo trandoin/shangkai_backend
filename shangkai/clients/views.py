@@ -1196,6 +1196,159 @@ class TourGuiderViewSet(viewsets.ViewSet):
 ############ """""""" ADMIN """"""""""#########
 
 
+""""""""" TOUR GUIDE  """""""""""""""""""""
+class GetAllTourLocationsViewSet(viewsets.ViewSet):
+    def list(self, request):
+        try:
+            sm_rooms = Tour_locations.objects.all()
+            room_data_dic = serializers.TourlocationsSerializer(sm_rooms, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        for i in range(0, len(room_data_dic.data)):
+            created_user = room_data_dic.data[i].get("user")
+            try:
+                package_inst = User_Register.objects.get(id=created_user)
+
+                room_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": package_inst.id,
+                            "name": package_inst.name,
+                            "mobile": package_inst.mobile,
+                        }
+                    }
+                )
+            except:
+                room_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": created_user,
+                            "message": "Deleted user",
+                        }
+                    }
+                )
+
+        return Response(room_data_dic.data, status=status.HTTP_200_OK)
+
+class GetAllTourPackagesViewSet(viewsets.ViewSet):
+    def list(self, request):
+        try:
+            sm_rooms = Tour_Packages.objects.all()
+            room_data_dic = serializers.TourPackagesSerializer(sm_rooms, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        for i in range(0, len(room_data_dic.data)):
+            created_user = room_data_dic.data[i].get("user")
+            try:
+                package_inst = User_Register.objects.get(id=created_user)
+
+                room_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": package_inst.id,
+                            "name": package_inst.name,
+                            "mobile": package_inst.mobile,
+                        }
+                    }
+                )
+            except:
+                room_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": created_user,
+                            "message": "Deleted user",
+                        }
+                    }
+                )    
+        return Response(room_data_dic.data, status=status.HTTP_200_OK)
+
+
+class GetAllTourGuiderViewSet(viewsets.ViewSet):
+    def list(self, request):
+        try:
+            sm_rooms = TourGuide_Reg.objects.all()
+            tourguide_data_dic = serializers.TourGuideRegSerializer(sm_rooms, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        for i in range(0, len(tourguide_data_dic.data)):
+            created_user = tourguide_data_dic.data[i].get("user")
+            try:
+                package_inst = User_Register.objects.get(id=created_user)
+
+                tourguide_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": package_inst.id,
+                            "name": package_inst.name,
+                            "mobile": package_inst.mobile,
+                        }
+                    }
+                )
+            except:
+                tourguide_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": created_user,
+                            "message": "Deleted user",
+                        }
+                    }
+                )
+            created_tour_locations = tourguide_data_dic.data[i].get("tour_locations")
+            try:
+                package_inst = Tour_locations.objects.get(id=created_tour_locations)
+
+                tourguide_data_dic.data[i].update(
+                    {
+                        "tour_locations": {
+                            "id": package_inst.id,
+                            "locations": package_inst.locations,
+                            "status": package_inst.status,
+                        }
+                    }
+                )
+            except:
+                tourguide_data_dic.data[i].update(
+                    {
+                        "tour_locations": {
+                            "id": created_tour_locations,
+                            "message": "Deleted tour_locations",
+                        }
+                    }
+                )
+            created_packages = tourguide_data_dic.data[i].get("packages")
+            try:
+                package_inst = Tour_Packages.objects.get(id=created_packages)
+
+                tourguide_data_dic.data[i].update(
+                    {
+                        "packages": {
+                            "id": package_inst.id,
+                            "location_ids": package_inst.location_ids,
+                            "package_amount": package_inst.package_amount,
+                        }
+                    }
+                )
+            except:
+                tourguide_data_dic.data[i].update(
+                    {
+                        "packages": {
+                            "id": created_packages,
+                            "message": "Deleted Packages",
+                        }
+                    }
+                )
+
+        return Response(tourguide_data_dic.data, status=status.HTTP_200_OK)
+
 class GetClientslAllViewSet(viewsets.ViewSet):
     def list(self, request):
         try:
