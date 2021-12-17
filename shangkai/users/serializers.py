@@ -12,6 +12,7 @@ from .models import (
     User_Cab_Payment,
     User_Trip_Booking,
     User_Trips_Payment,
+    User_Guide_Booking,
 )
 
 ########### """"""""" ACCOUNTS DETAILS """""""""""" #############
@@ -89,4 +90,12 @@ class UserTripBookingSerializer(ModelSerializer):
 class UserTripsPaymentSerializer(ModelSerializer):
     class Meta:
         model = User_Trips_Payment
+        fields = "__all__"
+
+
+#############"""""" TOUR GUIDE """"""""########
+
+class UserGuideBookingSerializer(ModelSerializer):
+    class Meta:
+        model = User_Guide_Booking
         fields = "__all__"

@@ -11,6 +11,7 @@ from . import serializers
 from .models import (
     User_Account_Details,
     User_Cab_Booking,
+    User_Guide_Booking,
     User_Hotel_Booking,
     Normal_UserReg,
     User_Hotel_Cart,
@@ -27,6 +28,7 @@ from clients.models import (
     Reg_Hotel,
     Room_Register,
     Driver_Reg,
+    User_Register,
 )
 from shangkai_app.models import (
     My_Trips,
@@ -1277,6 +1279,59 @@ class TripPaymentViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+
+###########"""" TOUR GUIDE """"""#######
+class UserTripsBookingViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+        try:
+            sm_hotel = User_Guide_Booking.objects.filter(user=user_id)
+            account_data_dic = serializers.UserGuideBookingSerializer(
+                sm_hotel, many=True
+            )
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        for i in range(0, len(account_data_dic.data)):
+            created_user_id = account_data_dic.data[i].get("user")
+            try:
+                user_inst = User_Register.objects.get(id=created_user_id)
+
+                account_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "user_name": user_inst.name,
+                            "user_mobile": user_inst.mobile,
+                        }
+                    }
+                )
+            except:
+                account_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted User"}}
+                )
+            created_user_id = account_data_dic.data[i].get("client_id")
+            try:
+                user_inst = My_Trips.objects.get(id=created_user_id)
+
+                account_data_dic.data[i].update(
+                    {
+                        "client_id": {
+                            "id": user_inst.id,
+                            "client_name": user_inst.name,
+                            "client_email": user_inst.email,
+                        }
+                    }
+                )
+            except:
+                account_data_dic.data[i].update(
+                    {"client_id": {"id": created_user_id, "message": "Deleted Trip"}}
+                )
+
+        return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
 ##############"""""""""""""" ADMIN """"""""""""""""""""###########
 
