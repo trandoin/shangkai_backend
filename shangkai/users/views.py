@@ -1383,6 +1383,34 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+    def update(self, request, pk=None):
+        user_id = request.POST.get("user_id", None)
+        razorpay_id = request.POST.get("razorpay_id", None)
+        booking_status = request.POST.get("booking_status", None)
+
+        if pk is None and user_id is None:
+            return Response(
+                {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = User_Guide_Booking.objects.get(id=pk)
+            post_inst.razorpay_id = razorpay_id,
+            post_inst.booking_status=booking_status
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Tour Guide has been booked Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Invalid request"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
 ##############"""""""""""""" ADMIN """"""""""""""""""""###########
 
 
