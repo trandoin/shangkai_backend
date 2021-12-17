@@ -465,7 +465,7 @@ class User_Hotspots_Bookings(models.Model):
     )
     no_guests = models.CharField("no_guests", null=True, max_length=255)
     booking_amount = models.CharField("booking_amount", null=True, max_length=255)
-    razorpay_id = models.CharField("razorpay_id", null=True, max_length=255)
+    razorpay_id = models.CharField("razorpay_id", null=True,default="0", max_length=255)
     status = models.CharField(
         "status", null=True, default="0", max_length=255
     )
