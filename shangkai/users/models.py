@@ -458,7 +458,7 @@ class User_Hotspots_Bookings(models.Model):
         db_constraint=False,
     )
     cart_id = models.ForeignKey(
-        "shangkai_app.User_Hotspots_Cart",
+        "users.User_Hotspots_Cart",
         on_delete=models.CASCADE,
         default=None,
         db_constraint=False,
