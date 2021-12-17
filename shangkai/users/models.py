@@ -412,8 +412,8 @@ class User_Guide_Booking(models.Model):
         db_constraint=False,
     )
     no_guests = models.CharField("no_guests", null=True, max_length=255)
-    guide_ammount = models.CharField("guide_ammount", null=True, max_length=255)
-    razorpay_id = models.CharField("razorpay_id", null=True, max_length=255)
+    guide_amount = models.CharField("guide_ammount", null=True, max_length=255)
+    razorpay_id = models.CharField("razorpay_id", null=True,default="0", max_length=255)
     status = models.CharField(
         "status", null=True, default="0", max_length=255
     )
