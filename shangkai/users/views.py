@@ -1351,6 +1351,38 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
                 )
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
+    def create(self, request):
+    
+        user_id = request.POST.get("user_id", None)
+        client_id = request.POST.get("client_id", None)
+        guide_id = request.POST.get("guide_id", None)
+        no_guests = request.POST.get("no_guests", None)
+        guide_amount = request.POST.get("guide_amount", None)
+        try:
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+            clients_inst = User_Register.objects.get(id=client_id)
+            guide_inst = TourGuide_Reg.objects.get(id=guide_id)
+        except:
+
+            return Response(
+                {"message": "Invalid Request !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        users_inst = User_Guide_Booking.objects.create(
+            user=user_inst,
+            client_id=clients_inst,
+            guide_id=guide_inst,
+            no_guests=no_guests,
+            guide_amount=guide_amount,
+        )
+        users_inst.save()
+
+        users_data = serializers.UserGuideBookingSerializer(
+            User_Guide_Booking.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
+
 ##############"""""""""""""" ADMIN """"""""""""""""""""###########
 
 
