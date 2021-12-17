@@ -13,6 +13,7 @@ from .models import (
     User_Trip_Booking,
     User_Trips_Payment,
     User_Guide_Booking,
+    User_Hotspots_Cart,
 )
 
 ########### """"""""" ACCOUNTS DETAILS """""""""""" #############
@@ -99,3 +100,11 @@ class UserGuideBookingSerializer(ModelSerializer):
     class Meta:
         model = User_Guide_Booking
         fields = "__all__"
+
+#########""""""HOTSPOTS """"""#####
+
+class UserHotspotsCartSerializer(ModelSerializer):
+    class Meta:
+        model = User_Hotspots_Cart 
+        fields = "__all__"
+       

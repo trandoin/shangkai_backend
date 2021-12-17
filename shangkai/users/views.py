@@ -17,6 +17,7 @@ from .models import (
     User_Hotel_Cart,
     User_Cab_Cart,
     User_Hotel_Payment,
+    User_Hotspots_Cart,
     User_Trip_Cart,
     User_Cab_Payment,
     User_Trip_Booking,
@@ -32,6 +33,7 @@ from clients.models import (
     User_Register,
 )
 from shangkai_app.models import (
+    Hot_Spots,
     My_Trips,
 )
 
@@ -1282,6 +1284,7 @@ class TripPaymentViewSet(viewsets.ViewSet):
 
 
 ###########"""" TOUR GUIDE """"""#######
+
 class UserTripsBookingViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.GET.get("user_id", None)
@@ -1410,6 +1413,99 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
                 {"message": "Invalid request"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+###########"""" HOTSPOTS """"""#######
+
+class UserHotspotsCartViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+        try:
+            sm_hotel = User_Hotspots_Cart.objects.filter(user=user_id)
+            account_data_dic = serializers.UserHotspotsCartSerializer(
+                sm_hotel, many=True
+            )
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        for i in range(0, len(account_data_dic.data)):
+            created_user_id = account_data_dic.data[i].get("user")
+            try:
+                user_inst = Normal_UserReg.objects.get(id=created_user_id)
+
+                account_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "user_name": user_inst.name,
+                            "user_mobile": user_inst.mobile,
+                        }
+                    }
+                )
+            except:
+                account_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted User"}}
+                )
+            created_user_id = account_data_dic.data[i].get("hostpots_id")
+            try:
+                user_inst = Hot_Spots.objects.get(id=created_user_id)
+
+                account_data_dic.data[i].update(
+                    {
+                        "hostpots_id": {
+                            "id": user_inst.id,
+                            "title": user_inst.title,
+                            "sub_title": user_inst.sub_title,
+                            "city": user_inst.city,
+                            "state": user_inst.state,
+                            "pin_code": user_inst.pin_code,
+                            "geo_location": user_inst.geo_location,
+                            "amenites": user_inst.amenites,
+                            "history": user_inst.history,
+                            "about": user_inst.about,
+                            "entry_fee": user_inst.entry_fee,
+                            "parking_fee": user_inst.parking_fee,
+                            "rating": user_inst.rating,
+                            "tags": user_inst.tags,
+                        }
+                    }
+                )
+            except:
+                account_data_dic.data[i].update(
+                    {"hostpots_id": {"id": created_user_id, "message": "Deleted Clients"}}
+                )
+        return Response(account_data_dic.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+    
+        user_id = request.POST.get("user_id", None)
+        hostpots_id = request.POST.get("hostpots_id", None)
+        no_guests = request.POST.get("no_guests", None)
+        cart_amount = request.POST.get("cart_amount", None)
+        try:
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+            hotspots_inst = Hot_Spots.objects.get(id=hostpots_id)
+        except:
+
+            return Response(
+                {"message": "Invalid Request !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        users_inst = User_Hotspots_Cart.objects.create(
+            user=user_inst,
+            hostpots_id=hotspots_inst,
+            no_guests=no_guests,
+            cart_amount=cart_amount,
+        )
+        users_inst.save()
+
+        users_data = serializers.UserHotspotsCartSerializer(
+            User_Hotspots_Cart.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
 
 ##############"""""""""""""" ADMIN """"""""""""""""""""###########
 
