@@ -1395,8 +1395,8 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
 
         try:
             post_inst = User_Guide_Booking.objects.get(id=pk)
-            post_inst.razorpay_id = razorpay_id,
-            post_inst.booking_status=booking_status
+            post_inst.razorpay_id = razorpay_id
+            post_inst.status=booking_status
             post_inst.is_edited = True
             post_inst.save()
 
