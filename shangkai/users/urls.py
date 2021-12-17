@@ -36,6 +36,10 @@ router.register(
 router.register(
     "my_cabs_booking", views.GetMyUsersCabBookingViewSet, basename="MyCabBookings"
 )
+router.register(
+    "my_guide_booking", views.MyUserGuideBookingViewSet, basename="MyGuideBookings"
+)
+
 
 
 
