@@ -1315,7 +1315,7 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
                 )
             created_user_id = account_data_dic.data[i].get("client_id")
             try:
-                user_inst = My_Trips.objects.get(id=created_user_id)
+                user_inst = User_Register.objects.get(id=created_user_id)
 
                 account_data_dic.data[i].update(
                     {
