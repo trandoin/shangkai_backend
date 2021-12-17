@@ -2709,6 +2709,24 @@ class MyUserGuideBookingViewSet(viewsets.ViewSet):
                 account_data_dic.data[i].update(
                     {"client_id": {"id": created_user_id, "message": "Deleted Clients"}}
                 )
+            created_user_id = account_data_dic.data[i].get("guide_id")
+            try:
+                user_inst = TourGuide_Reg.objects.get(id=created_user_id)
+
+                account_data_dic.data[i].update(
+                    {
+                        "guide_id": {
+                            "id": user_inst.id,
+                            "guider_name":user_inst.guider_name,
+                            "guider_mobile":user_inst.guider_mobile,
+                            "rating":user_inst.rating,
+                        }
+                    }
+                )
+            except:
+                account_data_dic.data[i].update(
+                    {"guide_id": {"id": created_user_id, "message": "Deleted Guide"}}
+                )    
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
         # def update(self, request, pk=None):
