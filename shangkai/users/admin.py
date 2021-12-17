@@ -181,19 +181,19 @@ class UserTripsPayment(admin.ModelAdmin):
 admin.site.register(User_Trips_Payment, UserTripsPayment)
 
 class UserGuideBooking(admin.ModelAdmin):
-    list_display = ["id", "user", "client_id", "guide_id", "no_guests","guide_amount","razorpay_id"]
+    list_display = ["id", "user", "client_id", "guide_id", "no_guests","booking_date","guide_amount","razorpay_id"]
 
 
 admin.site.register(User_Guide_Booking, UserGuideBooking)
 
 class UserHotspotsCart(admin.ModelAdmin):
-    list_display = ["id", "user", "hostpots_id", "no_guests","cart_amount"]
+    list_display = ["id", "user", "hostpots_id", "no_guests","booking_date","cart_amount"]
 
 
 admin.site.register(User_Hotspots_Cart, UserHotspotsCart)
 
 class UserHotspotsBookings(admin.ModelAdmin):
-    list_display = ["id", "user", "cart_id", "no_guests","booking_amount","razorpay_id"]
+    list_display = ["id", "user", "cart_id", "no_guests","booking_date","booking_amount","razorpay_id"]
 
 
 admin.site.register(User_Hotspots_Bookings, UserHotspotsBookings)
