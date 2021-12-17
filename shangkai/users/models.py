@@ -11,6 +11,10 @@ from clients.models import (
     Reg_Hotel,
     Room_Register,
     Driver_Reg,
+    User_Register,
+    TourGuide_Reg,
+    Tour_Packages,
+    Tour_locations,
 )
 
 # from shangkai_app.models import (
@@ -385,4 +389,37 @@ class User_Trips_Payment(models.Model):
         verbose_name, verbose_name_plural = (
             "User Trips Payments",
             "User Trips Payments",
+        )
+
+class User_Guide_Booking(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user = models.ForeignKey(
+        "users.Normal_UserReg",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    client_id = models.ForeignKey(
+        "clients.My_Trips",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    guide_id = models.ForeignKey(
+        "clients.TourGuide_Reg",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    no_guests = models.CharField("no_guests", null=True, max_length=255)
+    guide_ammount = models.CharField("guide_ammount", null=True, max_length=255)
+    razorpay_id = models.CharField("razorpay_id", null=True, max_length=255)
+    status = models.CharField(
+        "status", null=True, default="0", max_length=255
+    )
+
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Tour Guide Booking",
+            "Tour Guide Booking",
         )
