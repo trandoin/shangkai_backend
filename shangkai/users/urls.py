@@ -26,7 +26,7 @@ router.register(
     "my_hotspots_booking", views.UserHotSpotsBookingViewSet, basename="HotSpotsBookings"
 )
 router.register(
-    "my_guide_booking", views.UserTripsBookingViewSet, basename="MyGuideBookings"
+    "my_guide_booking", views.UserGuideBookingViewSet, basename="MyGuideBookings"
 )
 
 #########"""""""""""" MY Clients BOOKINGS """"""""############

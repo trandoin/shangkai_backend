@@ -1286,7 +1286,7 @@ class TripPaymentViewSet(viewsets.ViewSet):
 
 ###########"""" TOUR GUIDE """"""#######
 
-class UserTripsBookingViewSet(viewsets.ViewSet):
+class UserGuideBookingViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.GET.get("user_id", None)
         try:
