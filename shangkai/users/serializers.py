@@ -8,6 +8,7 @@ from .models import (
     User_Hotel_Cart,
     User_Cab_Cart,
     User_Hotel_Payment,
+    User_Hotspots_Bookings,
     User_Trip_Cart,
     User_Cab_Payment,
     User_Trip_Booking,
@@ -107,4 +108,8 @@ class UserHotspotsCartSerializer(ModelSerializer):
     class Meta:
         model = User_Hotspots_Cart 
         fields = "__all__"
-       
+
+class UserHotspotsBookingsSerializer(ModelSerializer):
+    class Meta:
+        model = User_Hotspots_Bookings 
+        fields = "__all__"       

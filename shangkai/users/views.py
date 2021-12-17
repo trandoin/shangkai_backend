@@ -17,6 +17,7 @@ from .models import (
     User_Hotel_Cart,
     User_Cab_Cart,
     User_Hotel_Payment,
+    User_Hotspots_Bookings,
     User_Hotspots_Cart,
     User_Trip_Cart,
     User_Cab_Payment,
@@ -1523,6 +1524,114 @@ class UserHotspotsCartViewSet(viewsets.ViewSet):
             )
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
+
+class UserHotSpotsBookingViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+        try:
+            sm_hotel = User_Hotspots_Bookings.objects.filter(user=user_id)
+            account_data_dic = serializers.UserHotspotsBookingsSerializer(
+                sm_hotel, many=True
+            )
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        for i in range(0, len(account_data_dic.data)):
+            created_user_id = account_data_dic.data[i].get("user")
+            try:
+                user_inst = Normal_UserReg.objects.get(id=created_user_id)
+
+                account_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "user_name": user_inst.name,
+                            "user_mobile": user_inst.mobile,
+                        }
+                    }
+                )
+            except:
+                account_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted User"}}
+                )
+            created_user_id = account_data_dic.data[i].get("cart_id")
+            try:
+                user_inst = User_Hotspots_Cart.objects.get(id=created_user_id)
+
+                account_data_dic.data[i].update(
+                    {
+                        "cart_id": {
+                            "id": user_inst.id,
+                            "no_guests": user_inst.no_guests,
+                            "cart_amount": user_inst.cart_amount,
+                        }
+                    }
+                )
+            except:
+                account_data_dic.data[i].update(
+                    {"cart_id": {"id": created_user_id, "message": "Deleted HotSpots"}}
+                )
+        return Response(account_data_dic.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+    
+        user_id = request.POST.get("user_id", None)
+        cart_id = request.POST.get("cart_id", None)
+        no_guests = request.POST.get("no_guests", None)
+        booking_amount = request.POST.get("booking_amount", None)
+        try:
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+            cart_inst = User_Hotspots_Cart.objects.get(id=cart_id)
+        except:
+
+            return Response(
+                {"message": "Invalid Request !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        users_inst = User_Hotspots_Bookings.objects.create(
+            user=user_inst,
+            cart_id=cart_inst,
+            no_guests=no_guests,
+            booking_amount=booking_amount,
+        )
+        users_inst.save()
+
+        users_data = serializers.UserHotspotsBookingsSerializer(
+            User_Hotspots_Bookings.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
+
+    def update(self, request, pk=None):
+        user_id = request.POST.get("user_id", None)
+        razorpay_id = request.POST.get("razorpay_id", None)
+        booking_status = request.POST.get("booking_status", None)
+
+        if pk is None and user_id is None:
+            return Response(
+                {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = User_Hotspots_Bookings.objects.get(id=pk)
+            post_inst.razorpay_id = razorpay_id
+            post_inst.status=booking_status
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Tour HotSpots has been booked Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Invalid request"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 ##############"""""""""""""" ADMIN """"""""""""""""""""###########
 
