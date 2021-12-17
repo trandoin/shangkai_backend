@@ -449,3 +449,29 @@ class User_Hotspots_Cart(models.Model):
             "Hotspots Cart",
             "Hotspots Cart",
         )
+class User_Hotspots_Bookings(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user = models.ForeignKey(
+        "users.Normal_UserReg",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    cart_id = models.ForeignKey(
+        "shangkai_app.User_Hotspots_Cart",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    no_guests = models.CharField("no_guests", null=True, max_length=255)
+    booking_amount = models.CharField("booking_amount", null=True, max_length=255)
+    razorpay_id = models.CharField("razorpay_id", null=True, max_length=255)
+    status = models.CharField(
+        "status", null=True, default="0", max_length=255
+    )
+
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Hotspots Bookings",
+            "Hotspots Bookings",
+        )        

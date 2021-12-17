@@ -11,6 +11,7 @@ from .models import (
     User_Hotel_Cart,
     User_Cab_Cart,
     User_Hotel_Payment,
+    User_Hotspots_Bookings,
     User_Trip_Cart,
     User_Cab_Payment,
     User_Trip_Booking,
@@ -190,3 +191,9 @@ class UserHotspotsCart(admin.ModelAdmin):
 
 
 admin.site.register(User_Hotspots_Cart, UserHotspotsCart)
+
+class UserHotspotsBookings(admin.ModelAdmin):
+    list_display = ["id", "user", "cart_id", "no_guests","booking_amount","razorpay_id"]
+
+
+admin.site.register(User_Hotspots_Bookings, UserHotspotsBookings)
