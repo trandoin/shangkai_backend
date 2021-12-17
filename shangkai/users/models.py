@@ -400,7 +400,7 @@ class User_Guide_Booking(models.Model):
         db_constraint=False,
     )
     client_id = models.ForeignKey(
-        "clients.My_Trips",
+        "clients.User_Register",
         on_delete=models.CASCADE,
         default=None,
         db_constraint=False,
