@@ -15,6 +15,7 @@ from .models import (
     User_Cab_Payment,
     User_Trip_Booking,
     User_Trips_Payment,
+    User_Guide_Booking,
 )
 
 
@@ -176,3 +177,9 @@ class UserTripsPayment(admin.ModelAdmin):
 
 
 admin.site.register(User_Trips_Payment, UserTripsPayment)
+
+class UserGuideBooking(admin.ModelAdmin):
+    list_display = ["id", "user", "client_id", "guide_id", "no_guests","guide_ammount","razorpay_id"]
+
+
+admin.site.register(User_Guide_Booking, UserGuideBooking)
