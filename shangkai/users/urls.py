@@ -101,6 +101,23 @@ router.register(
     views.GetAllTripPaymentViewSet,
     basename="GetUserTripPayment",
 )
+router.register(
+    "all_userhotspots_cart",
+    views.AllUserHotspotsCartViewSet,
+    basename="AllUserHotspotsCart",
+)
+router.register(
+    "all_userhotspots_bookings",
+    views.UserHotSpotsBookingViewSet,
+    basename="UserHotSpotsBooking",
+)
+router.register(
+    "all_userguide_bookings",
+    views.AllUserGuideBookingViewSet,
+    basename="AllUserGuideBooking",
+)
+
+
 
 
 urlpatterns = [

@@ -2314,6 +2314,185 @@ class GetUserTripsCartViewSet(viewsets.ViewSet):
 
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
+class AllUserGuideBookingViewSet(viewsets.ViewSet):
+    def list(self, request):
+        try:
+            sm_hotel = User_Guide_Booking.objects.all()
+            account_data_dic = serializers.UserGuideBookingSerializer(
+                sm_hotel, many=True
+            )
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        for i in range(0, len(account_data_dic.data)):
+            created_user_id = account_data_dic.data[i].get("user")
+            try:
+                user_inst = Normal_UserReg.objects.get(id=created_user_id)
+
+                account_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "user_name": user_inst.name,
+                            "user_mobile": user_inst.mobile,
+                        }
+                    }
+                )
+            except:
+                account_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted User"}}
+                )
+            created_user_id = account_data_dic.data[i].get("client_id")
+            try:
+                user_inst = User_Register.objects.get(id=created_user_id)
+
+                account_data_dic.data[i].update(
+                    {
+                        "client_id": {
+                            "id": user_inst.id,
+                            "client_name": user_inst.name,
+                            "client_email": user_inst.email,
+                        }
+                    }
+                )
+            except:
+                account_data_dic.data[i].update(
+                    {"client_id": {"id": created_user_id, "message": "Deleted Clients"}}
+                )
+            created_user_id = account_data_dic.data[i].get("guide_id")
+            try:
+                user_inst = TourGuide_Reg.objects.get(id=created_user_id)
+
+                account_data_dic.data[i].update(
+                    {
+                        "guide_id": {
+                            "id": user_inst.id,
+                            "guider_name":user_inst.guider_name,
+                            "guider_mobile":user_inst.guider_mobile,
+                            "rating":user_inst.rating,
+                        }
+                    }
+                )
+            except:
+                account_data_dic.data[i].update(
+                    {"guide_id": {"id": created_user_id, "message": "Deleted Guide"}}
+                )
+        return Response(account_data_dic.data, status=status.HTTP_200_OK)
+
+class AllUserHotspotsCartViewSet(viewsets.ViewSet):
+    def list(self, request):
+        try:
+            sm_hotel = User_Hotspots_Cart.objects.all()
+            account_data_dic = serializers.UserHotspotsCartSerializer(
+                sm_hotel, many=True
+            )
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        for i in range(0, len(account_data_dic.data)):
+            created_user_id = account_data_dic.data[i].get("user")
+            try:
+                user_inst = Normal_UserReg.objects.get(id=created_user_id)
+
+                account_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "user_name": user_inst.name,
+                            "user_mobile": user_inst.mobile,
+                        }
+                    }
+                )
+            except:
+                account_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted User"}}
+                )
+            created_user_id = account_data_dic.data[i].get("hostpots_id")
+            try:
+                user_inst = Hot_Spots.objects.get(id=created_user_id)
+
+                account_data_dic.data[i].update(
+                    {
+                        "hostpots_id": {
+                            "id": user_inst.id,
+                            "title": user_inst.title,
+                            "sub_title": user_inst.sub_title,
+                            "city": user_inst.city,
+                            "state": user_inst.state,
+                            "pin_code": user_inst.pin_code,
+                            "geo_location": user_inst.geo_location,
+                            "amenites": user_inst.amenites,
+                            "history": user_inst.history,
+                            "about": user_inst.about,
+                            "entry_fee": user_inst.entry_fee,
+                            "parking_fee": user_inst.parking_fee,
+                            "rating": user_inst.rating,
+                            "tags": user_inst.tags,
+                        }
+                    }
+                )
+            except:
+                account_data_dic.data[i].update(
+                    {"hostpots_id": {"id": created_user_id, "message": "Deleted Clients"}}
+                )
+        return Response(account_data_dic.data, status=status.HTTP_200_OK)
+
+class UserHotSpotsBookingViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+        try:
+            sm_hotel = User_Hotspots_Bookings.objects.filter(user=user_id)
+            account_data_dic = serializers.UserHotspotsBookingsSerializer(
+                sm_hotel, many=True
+            )
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        for i in range(0, len(account_data_dic.data)):
+            created_user_id = account_data_dic.data[i].get("user")
+            try:
+                user_inst = Normal_UserReg.objects.get(id=created_user_id)
+
+                account_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "user_name": user_inst.name,
+                            "user_mobile": user_inst.mobile,
+                        }
+                    }
+                )
+            except:
+                account_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted User"}}
+                )
+            created_user_id = account_data_dic.data[i].get("cart_id")
+            try:
+                user_inst = User_Hotspots_Cart.objects.get(id=created_user_id)
+
+                account_data_dic.data[i].update(
+                    {
+                        "cart_id": {
+                            "id": user_inst.id,
+                            "no_guests": user_inst.no_guests,
+                            "cart_amount": user_inst.cart_amount,
+                        }
+                    }
+                )
+            except:
+                account_data_dic.data[i].update(
+                    {"cart_id": {"id": created_user_id, "message": "Deleted HotSpots"}}
+                )
+        return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
 ########"""""""" USERS BOOKINGS""""""""########
 
