@@ -16,6 +16,7 @@ from .models import (
     User_Trip_Booking,
     User_Trips_Payment,
     User_Guide_Booking,
+    User_Hotspots_Cart,
 )
 
 
@@ -183,3 +184,9 @@ class UserGuideBooking(admin.ModelAdmin):
 
 
 admin.site.register(User_Guide_Booking, UserGuideBooking)
+
+class UserHotspotsCart(admin.ModelAdmin):
+    list_display = ["id", "user", "hostpots_id", "no_guests","cart_amount"]
+
+
+admin.site.register(User_Hotspots_Cart, UserHotspotsCart)

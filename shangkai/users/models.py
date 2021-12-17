@@ -423,3 +423,29 @@ class User_Guide_Booking(models.Model):
             "Tour Guide Booking",
             "Tour Guide Booking",
         )
+
+class User_Hotspots_Cart(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user = models.ForeignKey(
+        "users.Normal_UserReg",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    hostpots_id = models.ForeignKey(
+        "shangkai_app.Hot_Spots",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    no_guests = models.CharField("no_guests", null=True, max_length=255)
+    cart_amount = models.CharField("cart_ammount", null=True, max_length=255)
+    status = models.CharField(
+        "status", null=True, default="0", max_length=255
+    )
+
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Hotspots Cart",
+            "Hotspots Cart",
+        )
