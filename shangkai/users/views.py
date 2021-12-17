@@ -2445,9 +2445,8 @@ class AllUserHotspotsCartViewSet(viewsets.ViewSet):
 
 class UserHotSpotsBookingViewSet(viewsets.ViewSet):
     def list(self, request):
-        user_id = request.GET.get("user_id", None)
         try:
-            sm_hotel = User_Hotspots_Bookings.objects.filter(user=user_id)
+            sm_hotel = User_Hotspots_Bookings.objects.all()
             account_data_dic = serializers.UserHotspotsBookingsSerializer(
                 sm_hotel, many=True
             )
