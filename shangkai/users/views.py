@@ -1339,7 +1339,6 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
                     {
                         "guide_id": {
                             "id": user_inst.id,
-                            "packages": user_inst.packages,
                             "guider_name":user_inst.guider_name,
                             "guider_mobile":user_inst.guider_mobile,
                             "rating":user_inst.rating,
