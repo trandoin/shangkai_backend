@@ -28,6 +28,7 @@ from clients.models import (
     Reg_Hotel,
     Room_Register,
     Driver_Reg,
+    TourGuide_Reg,
     User_Register,
 )
 from shangkai_app.models import (
@@ -1328,9 +1329,28 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
                 )
             except:
                 account_data_dic.data[i].update(
-                    {"client_id": {"id": created_user_id, "message": "Deleted Trip"}}
+                    {"client_id": {"id": created_user_id, "message": "Deleted Clients"}}
                 )
+            created_user_id = account_data_dic.data[i].get("guide_id")
+            try:
+                user_inst = TourGuide_Reg.objects.get(id=created_user_id)
 
+                account_data_dic.data[i].update(
+                    {
+                        "guide_id": {
+                            "id": user_inst.id,
+                            "tour_locations": user_inst.tour_locations,
+                            "packages": user_inst.packages,
+                            "guider_name":user_inst.guider_name,
+                            "guider_mobile":user_inst.guider_mobile,
+                            "rating":user_inst.rating,
+                        }
+                    }
+                )
+            except:
+                account_data_dic.data[i].update(
+                    {"guide_id": {"id": created_user_id, "message": "Deleted Guide"}}
+                )
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
 ##############"""""""""""""" ADMIN """"""""""""""""""""###########
