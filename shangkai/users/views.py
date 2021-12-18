@@ -340,6 +340,33 @@ class HotelCartViewSet(viewsets.ViewSet):
         )
         return Response(hotel_cart_data.data[0], status=status.HTTP_200_OK)
 
+    def update(self, request, pk=None):
+        user_id = request.POST.get("user_id", None)
+        cart_id = request.POST.get("cart_id", None)
+        cart_status = request.POST.get("cart_status", None)
+
+        if pk is None and user_id is None:
+            return Response(
+                {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = User_Hotel_Cart.objects.get(id=pk)
+            post_inst.booking_status = cart_status
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Hotel Cart Updated Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Sorry No data found with this cart id"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
     def destroy(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
         cart_id = request.GET.get("cart_id", None)
@@ -720,6 +747,33 @@ class CabCartViewSet(viewsets.ViewSet):
             User_Cab_Cart.objects.filter(id=users_inst.id), many=True
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
+
+    def update(self, request, pk=None):
+        user_id = request.POST.get("user_id", None)
+        cart_id = request.POST.get("cart_id", None)
+        cart_status = request.POST.get("cart_status", None)
+
+        if pk is None and user_id is None:
+            return Response(
+                {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = User_Cab_Cart.objects.get(id=pk)
+            post_inst.booking_status = cart_status
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Cab Cart Updated Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Sorry No data found with this cart id"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     def destroy(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
@@ -1511,6 +1565,33 @@ class UserHotspotsCartViewSet(viewsets.ViewSet):
             User_Hotspots_Cart.objects.filter(id=users_inst.id), many=True
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
+
+    def update(self, request, pk=None):
+        user_id = request.POST.get("user_id", None)
+        cart_id = request.POST.get("cart_id", None)
+        cart_status = request.POST.get("cart_status", None)
+
+        if pk is None and user_id is None:
+            return Response(
+                {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = User_Hotspots_Cart.objects.get(id=pk)
+            post_inst.status = cart_status
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Hotspots Cart Updated Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Sorry No data found with this cart id"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     def destroy(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
