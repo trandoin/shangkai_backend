@@ -2530,7 +2530,7 @@ class AllUserHotspotsCartViewSet(viewsets.ViewSet):
                 )
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
-class UserHotSpotsBookingViewSet(viewsets.ViewSet):
+class AllUserHotSpotsBookingViewSet(viewsets.ViewSet):
     def list(self, request):
         try:
             sm_hotel = User_Hotspots_Bookings.objects.all()

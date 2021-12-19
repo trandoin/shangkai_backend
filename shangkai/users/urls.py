@@ -108,7 +108,7 @@ router.register(
 )
 router.register(
     "all_userhotspots_bookings",
-    views.UserHotSpotsBookingViewSet,
+    views.AllUserHotSpotsBookingViewSet,
     basename="UserHotSpotsBooking",
 )
 router.register(
