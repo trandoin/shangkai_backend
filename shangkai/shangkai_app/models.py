@@ -37,7 +37,7 @@ class Hotspot_Category(models.Model):
     sub_title = models.CharField("sub_title", null=True, max_length=1000)
     tagline = models.TextField("tagline", null=True, max_length=1000)
     rating = models.CharField("rating", null=True, max_length=1000)
-    images = models.FileField("images", max_length=255)
+    images = models.CharField("images", max_length=25500)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -70,7 +70,7 @@ class Hot_Spots(models.Model):
     amenites = models.CharField("amenites", null=True, max_length=255)
     history = models.CharField("history", null=True, max_length=255)
     about = models.TextField("about", null=True, max_length=2000)
-    images = models.FileField("images", max_length=255)
+    images = models.CharField("images", max_length=25500)
     entry_fee = models.CharField("entry_fee", null=True, max_length=2000)
     parking_fee = models.CharField("parking_fee", null=True, max_length=2000)
     category = models.ForeignKey(
@@ -112,8 +112,8 @@ class My_Trips(models.Model):
     rules = models.TextField("rules", null=True, max_length=255)
     days_no = models.TextField("days_no", null=True, max_length=2000)
     start_trip = models.DateField("start_trip", null=True, max_length=2000)
-    images = models.FileField(
-        "images", upload_to="trips/", null=True, default="image.png", max_length=255
+    images = models.CharField(
+        "images", null=True, default="0", max_length=25500
     )
     status = models.CharField("status", null=True, default="0", max_length=255)
 

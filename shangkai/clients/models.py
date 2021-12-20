@@ -125,7 +125,7 @@ class Room_Register(models.Model):
     rating = models.CharField("rating", null=True, max_length=255)
     tags = models.TextField("tags", null=True, max_length=255)
     extra_services = models.TextField("extra_services", null=True, max_length=255)
-    room_images = models.FileField("images", null=True, max_length=255)
+    room_images = models.FileField("images", null=True, max_length=25500)
     states = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -191,7 +191,7 @@ class Cabs_Reg(models.Model):
     car_rating = models.CharField("car_rating", null=True, max_length=255)
     car_rc = models.FileField("car_rc", null=True, max_length=255)
     car_insurance = models.FileField("car_insurance", null=True, max_length=255)
-    car_images = models.FileField("car_images", null=True, max_length=255)
+    car_images = models.CharField("car_images", null=True, max_length=25500)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -210,7 +210,7 @@ class Tour_locations(models.Model):
         db_constraint=False,
     )
     locations = models.CharField("locations", null=True, max_length=255)
-    location_image = models.FileField("location_image", null=True, max_length=255)
+    location_image = models.CharField("location_image", null=True, max_length=25500)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
