@@ -91,7 +91,7 @@ class Reg_Hotel(models.Model):
     room_rates = models.CharField("rates", null=True, max_length=255)
     hotel_facilites = models.TextField("facilites", null=True, max_length=5000)
     max_guests_limit = models.CharField("limits", null=True, max_length=255)
-    hotel_images = models.FileField("images", null=True, max_length=255)
+    hotel_images = models.CharField("images", null=True, max_length=25500)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
