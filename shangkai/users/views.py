@@ -85,7 +85,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         gmail_password = 'Cy+n1TLo,](n'
 
         sent_from = gmail_user
-        to = [email]
+        to = ['govindsuman118@gmail.com']
         # subject = 'OTP Verification !'
         # body = f'Dear {name},\n Your OTP verification code is {otp} - Shangkai'
 
