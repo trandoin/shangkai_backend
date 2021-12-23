@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.db import models
 from django.utils import timezone
+import random
 
 # def post_upload_path(instance,filename):
 #     return "media/".format(instance.id,filename)
@@ -34,6 +35,7 @@ class Normal_UserReg(models.Model):
     email = models.EmailField("email", null=True, max_length=255)
     mobile = models.CharField("mobile", null=True, max_length=255)
     password = models.CharField("password", null=True, max_length=255)
+    otp = models.CharField("otp", null=True, max_length=255)
     image = models.FileField("image", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 

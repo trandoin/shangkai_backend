@@ -19,6 +19,7 @@ class User_Register(models.Model):
     user_type = models.CharField(
         "user_type", null=True, default="shangkai", max_length=255
     )
+    otp = models.CharField("otp", null=True, max_length=255)
     image = models.FileField("image", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
