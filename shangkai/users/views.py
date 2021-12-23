@@ -81,28 +81,10 @@ class UserRegisterViewSet(viewsets.ViewSet):
             image=image,
         )
         users_inst.save()
-        gmail_user = 'noreply@shangkai.in'
-        gmail_password = 'Cy+n1TLo,](n'
 
-        sent_from = gmail_user
-        to = ['govindsuman118@gmail.com']
-        # subject = 'OTP Verification !'
-        # body = f'Dear {name},\n Your OTP verification code is {otp} - Shangkai'
-
-        email_text = """\
-        From: %s
-        To: %s
-        Subject: %s
-
-        %s
-        """ % (sent_from, ", ".join(to),'OTP Verification !', f'Dear {name},\n Your OTP verification code is {otp} - Shangkai')
-        smtp_server = smtplib.SMTP_SSL('mail.shangkai.in', 465)
-        smtp_server.ehlo()
-        smtp_server.login(gmail_user, gmail_password)
-        smtp_server.sendmail(sent_from, to, email_text)
-        smtp_server.close()
         users_data = serializers.NormalUserRegisterSerializer(
-        Normal_UserReg.objects.filter(id=users_inst.id), many=True)    
+            Normal_UserReg.objects.filter(id=users_inst.id), many=True
+        )
 
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
