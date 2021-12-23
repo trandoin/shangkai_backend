@@ -95,7 +95,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         Subject: %s
 
         %s
-        """ % (sent_from, ", ".join(to), s'OTP Verification !', f'Dear {name},\n Your OTP verification code is {otp} - Shangkai')
+        """ % (sent_from, ", ".join(to),'OTP Verification !', f'Dear {name},\n Your OTP verification code is {otp} - Shangkai')
         smtp_server = smtplib.SMTP_SSL('mail.shangkai.in', 465)
         smtp_server.ehlo()
         smtp_server.login(gmail_user, gmail_password)
