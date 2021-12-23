@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from . import serializers
 import random
+import smtplib
 
 
 """Model Package """
@@ -65,6 +66,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         name = request.POST.get("name", None)
         email = request.POST.get("email", None)
         mobile = request.POST.get("mobile", None)
+        otp = random.randint(1111, 9999)
         password = request.POST.get("password", None)
         image = request.POST.get("image", None)
 
@@ -75,10 +77,31 @@ class UserRegisterViewSet(viewsets.ViewSet):
             email=email,
             mobile=mobile,
             password=password,
+            otp=otp,
             image=image,
         )
         users_inst.save()
+        gmail_user = 'noreply@shangkai.in'
+        gmail_password = 'Cy+n1TLo,](n'
 
+        sent_from = gmail_user
+        to = [email]
+        subject = 'OTP Verification !'
+        body = f'Your OTP verification code is {otp} - Shangkai'
+
+        email_text = """\
+        From: %s
+        To: %s
+        Subject: %s
+
+        %s
+        """ % (sent_from, ", ".join(to), subject, body)
+        mtp_server = smtplib.SMTP_SSL('mail.shangkai.in', 465)
+        smtp_server.ehlo()
+        smtp_server.login(gmail_user, gmail_password)
+        smtp_server.sendmail(sent_from, to, email_text)
+        smtp_server.close()
+        
         users_data = serializers.NormalUserRegisterSerializer(
             Normal_UserReg.objects.filter(id=users_inst.id), many=True
         )
