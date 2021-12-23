@@ -96,11 +96,15 @@ class UserRegisterViewSet(viewsets.ViewSet):
 
         %s
         """ % (sent_from, ", ".join(to), subject, body)
-        mtp_server = smtplib.SMTP_SSL('mail.shangkai.in', 465)
-        smtp_server.ehlo()
-        smtp_server.login(gmail_user, gmail_password)
-        smtp_server.sendmail(sent_from, to, email_text)
-        smtp_server.close()
+            try:
+                smtp_server = smtplib.SMTP_SSL('mail.shangkai.in', 465)
+                smtp_server.ehlo()
+                smtp_server.login(gmail_user, gmail_password)
+                smtp_server.sendmail(sent_from, to, email_text)
+                smtp_server.close()
+                print ("Email sent successfully!")
+            except Exception as ex:
+                print ("Something went wrong….",ex)
 
         users_data = serializers.NormalUserRegisterSerializer(
             Normal_UserReg.objects.filter(id=users_inst.id), many=True
