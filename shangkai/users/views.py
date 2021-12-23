@@ -76,13 +76,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         to = [email]
         subject = 'OTP Verification !'
         body = f'Dear {name}, consectetur adipiscing elit {otp} Shangkai'
-        email_text = """\
-        From: %s
-        To: %s
-        Subject: %s
-
-        %s
-        """ % (sent_from, ", ".join(to),subject, body)
+        email_text = """\From: %s To: %s Subject: %s %s """ % (sent_from, ", ".join(to),subject, body)
         users_inst = Normal_UserReg.objects.create(
             user_id=user_id,
             user_ip=user_ip,
