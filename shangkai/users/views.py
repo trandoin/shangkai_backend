@@ -87,7 +87,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         sent_from = gmail_user
         to = [email]
         subject = 'OTP Verification !'
-        body = f'Your OTP verification code is {otp} - Shangkai'
+        body = f'Dear {name},\n Your OTP verification code is {otp} - Shangkai'
 
         email_text = """\
         From: %s
@@ -101,7 +101,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         smtp_server.login(gmail_user, gmail_password)
         smtp_server.sendmail(sent_from, to, email_text)
         smtp_server.close()
-        
+
         users_data = serializers.NormalUserRegisterSerializer(
             Normal_UserReg.objects.filter(id=users_inst.id), many=True
         )
