@@ -123,60 +123,53 @@ class UserRegisterViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-
 class UserVerifyOTPViewSet(viewsets.ViewSet):
-    
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+        try:
+            sm_users = Normal_UserReg.objects.filter(id=user_id)
+            users_data_dic = serializers.NormalUserRegisterSerializer(
+                sm_users, many=True
+            )
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(users_data_dic.data, status=status.HTTP_200_OK)
+        
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)
         otp = request.POST.get("otp", None)
         status = request.POST.get("status", None)
 
-        if user_id is None:
+        if otp is None:
             return Response(
-                {"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
+                {"message": "Enter OTP !"}, status=status.HTTP_400_BAD_REQUEST
             )
         try:
             users_inst = Normal_UserReg.objects.filter(id=user_id, otp=otp)
-            # users_data_dic = serializers.NormalUserRegisterSerializer(
-            #     users_inst, many=True
-            # )
+            users_data_dic = serializers.NormalUserRegisterSerializer(
+                users_inst, many=True
+            )
             post_inst = Normal_UserReg.objects.get(id=pk)
             post_inst.otp = otp
             post_inst.status = status
             post_inst.is_edited = True
             post_inst.save()
+
+            users_data = serializers.NormalUserRegisterSerializer(
+                Normal_UserReg.objects.filter(id=post_inst.id), many=True
+            )
+            return Response(
+                users_data.data,
+                status=status.HTTP_200_OK,
+            )
         except:
             return Response(
                 {"message": "Invalid OTP !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        return Response({"message": "OTP Verified successfully !"}, status=status.HTTP_200_OK)
-        
-        # users_inst = Normal_UserReg.objects.filter(id=user_id,otp=otp)
-        # users_data_dic = serializers.NormalUserRegisterSerializer(
-        #         users_inst, many=True
-        #     )    
-
-        # try:
-        #     post_inst = Normal_UserReg.objects.get(id=pk)
-        #     post_inst.otp = otp
-        #     post_inst.status = status
-        #     post_inst.is_edited = True
-        #     post_inst.save()
-
-        #     users_data = serializers.NormalUserRegisterSerializer(
-        #         Normal_UserReg.objects.filter(id=post_inst.id), many=True
-        #     )
-        #     return Response(
-        #         users_data.data,
-        #         status=status.HTTP_200_OK,
-        #     )
-
-        # except:
-        #     return Response(
-        #         {"message": "Something went to wrong ! Try again !"},
-        #         status=status.HTTP_400_BAD_REQUEST,
-        #     )
 
 
 class UserLoginViewSet(viewsets.ViewSet):
@@ -1399,7 +1392,6 @@ class TripPaymentViewSet(viewsets.ViewSet):
 
 ###########"""" TOUR GUIDE """"""#######
 
-
 class UserGuideBookingViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.GET.get("user_id", None)
@@ -1457,9 +1449,9 @@ class UserGuideBookingViewSet(viewsets.ViewSet):
                     {
                         "guide_id": {
                             "id": user_inst.id,
-                            "guider_name": user_inst.guider_name,
-                            "guider_mobile": user_inst.guider_mobile,
-                            "rating": user_inst.rating,
+                            "guider_name":user_inst.guider_name,
+                            "guider_mobile":user_inst.guider_mobile,
+                            "rating":user_inst.rating,
                         }
                     }
                 )
@@ -1470,7 +1462,7 @@ class UserGuideBookingViewSet(viewsets.ViewSet):
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-
+    
         user_id = request.POST.get("user_id", None)
         client_id = request.POST.get("client_id", None)
         guide_id = request.POST.get("guide_id", None)
@@ -1516,7 +1508,7 @@ class UserGuideBookingViewSet(viewsets.ViewSet):
         try:
             post_inst = User_Guide_Booking.objects.get(id=pk)
             post_inst.razorpay_id = razorpay_id
-            post_inst.status = booking_status
+            post_inst.status=booking_status
             post_inst.is_edited = True
             post_inst.save()
 
@@ -1531,9 +1523,7 @@ class UserGuideBookingViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-
 ###########"""" HOTSPOTS """"""#######
-
 
 class UserHotspotsCartViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -1593,17 +1583,12 @@ class UserHotspotsCartViewSet(viewsets.ViewSet):
                 )
             except:
                 account_data_dic.data[i].update(
-                    {
-                        "hostpots_id": {
-                            "id": created_user_id,
-                            "message": "Deleted Clients",
-                        }
-                    }
+                    {"hostpots_id": {"id": created_user_id, "message": "Deleted Clients"}}
                 )
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-
+    
         user_id = request.POST.get("user_id", None)
         hostpots_id = request.POST.get("hostpots_id", None)
         no_guests = request.POST.get("no_guests", None)
@@ -1677,7 +1662,6 @@ class UserHotspotsCartViewSet(viewsets.ViewSet):
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
 
-
 class UserHotSpotsBookingViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.GET.get("user_id", None)
@@ -1730,7 +1714,7 @@ class UserHotSpotsBookingViewSet(viewsets.ViewSet):
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-
+    
         user_id = request.POST.get("user_id", None)
         cart_id = request.POST.get("cart_id", None)
         no_guests = request.POST.get("no_guests", None)
@@ -1773,7 +1757,7 @@ class UserHotSpotsBookingViewSet(viewsets.ViewSet):
         try:
             post_inst = User_Hotspots_Bookings.objects.get(id=pk)
             post_inst.razorpay_id = razorpay_id
-            post_inst.status = booking_status
+            post_inst.status=booking_status
             post_inst.is_edited = True
             post_inst.save()
 
@@ -1787,7 +1771,6 @@ class UserHotSpotsBookingViewSet(viewsets.ViewSet):
                 {"message": "Invalid request"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
 
 ##############"""""""""""""" ADMIN """"""""""""""""""""###########
 
@@ -2470,7 +2453,6 @@ class GetUserTripsCartViewSet(viewsets.ViewSet):
 
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
-
 class AllUserGuideBookingViewSet(viewsets.ViewSet):
     def list(self, request):
         try:
@@ -2527,9 +2509,9 @@ class AllUserGuideBookingViewSet(viewsets.ViewSet):
                     {
                         "guide_id": {
                             "id": user_inst.id,
-                            "guider_name": user_inst.guider_name,
-                            "guider_mobile": user_inst.guider_mobile,
-                            "rating": user_inst.rating,
+                            "guider_name":user_inst.guider_name,
+                            "guider_mobile":user_inst.guider_mobile,
+                            "rating":user_inst.rating,
                         }
                     }
                 )
@@ -2538,7 +2520,6 @@ class AllUserGuideBookingViewSet(viewsets.ViewSet):
                     {"guide_id": {"id": created_user_id, "message": "Deleted Guide"}}
                 )
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
-
 
 class AllUserHotspotsCartViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -2597,15 +2578,9 @@ class AllUserHotspotsCartViewSet(viewsets.ViewSet):
                 )
             except:
                 account_data_dic.data[i].update(
-                    {
-                        "hostpots_id": {
-                            "id": created_user_id,
-                            "message": "Deleted Clients",
-                        }
-                    }
+                    {"hostpots_id": {"id": created_user_id, "message": "Deleted Clients"}}
                 )
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
-
 
 class AllUserHotSpotsBookingViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -2656,7 +2631,6 @@ class AllUserHotSpotsBookingViewSet(viewsets.ViewSet):
                     {"cart_id": {"id": created_user_id, "message": "Deleted HotSpots"}}
                 )
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
-
 
 ########"""""""" USERS BOOKINGS""""""""########
 
@@ -2819,7 +2793,6 @@ class GetMyUsersCabBookingViewSet(viewsets.ViewSet):
                 )
         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
 
-
 class MyUserGuideBookingViewSet(viewsets.ViewSet):
     def list(self, request):
         client_id = request.GET.get("client_id", None)
@@ -2877,16 +2850,16 @@ class MyUserGuideBookingViewSet(viewsets.ViewSet):
                     {
                         "guide_id": {
                             "id": user_inst.id,
-                            "guider_name": user_inst.guider_name,
-                            "guider_mobile": user_inst.guider_mobile,
-                            "rating": user_inst.rating,
+                            "guider_name":user_inst.guider_name,
+                            "guider_mobile":user_inst.guider_mobile,
+                            "rating":user_inst.rating,
                         }
                     }
                 )
             except:
                 account_data_dic.data[i].update(
                     {"guide_id": {"id": created_user_id, "message": "Deleted Guide"}}
-                )
+                )    
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
         # def update(self, request, pk=None):
