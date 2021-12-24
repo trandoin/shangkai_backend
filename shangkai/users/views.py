@@ -137,7 +137,7 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(users_data_dic.data, status=status.HTTP_200_OK)
-        
+
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)
         otp = request.POST.get("otp", None)
@@ -167,8 +167,7 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
             )
         except:
             return Response(
-                {"message": "Invalid OTP !"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"message": "Invalid OTP !"},status=status.HTTP_400_BAD_REQUEST,
             )
 
 
