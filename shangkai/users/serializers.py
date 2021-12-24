@@ -97,19 +97,23 @@ class UserTripsPaymentSerializer(ModelSerializer):
 
 #############"""""" TOUR GUIDE """"""""########
 
+
 class UserGuideBookingSerializer(ModelSerializer):
     class Meta:
         model = User_Guide_Booking
         fields = "__all__"
 
+
 #########""""""HOTSPOTS """"""#####
+
 
 class UserHotspotsCartSerializer(ModelSerializer):
     class Meta:
-        model = User_Hotspots_Cart 
+        model = User_Hotspots_Cart
         fields = "__all__"
+
 
 class UserHotspotsBookingsSerializer(ModelSerializer):
     class Meta:
-        model = User_Hotspots_Bookings 
-        fields = "__all__"       
+        model = User_Hotspots_Bookings
+        fields = "__all__"

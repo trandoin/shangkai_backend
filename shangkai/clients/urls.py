@@ -55,9 +55,15 @@ router.register("get_rooms", views.GetRoomALLViewSet, basename="GetRoomALL")
 router.register("get_cabs", views.GetCabAllViewSet, basename="GetCabAll")
 router.register("get_drivers", views.GetDriverAllViewSet, basename="GetDriverAll")
 
-router.register("all_tour_location", views.GetAllTourLocationsViewSet, basename="AllTourLocations")
-router.register("all_tour_packages", views.GetAllTourPackagesViewSet, basename="AllTourPackages")
-router.register("all_my_tour_guider", views.GetAllTourGuiderViewSet, basename="AllTourGuider")
+router.register(
+    "all_tour_location", views.GetAllTourLocationsViewSet, basename="AllTourLocations"
+)
+router.register(
+    "all_tour_packages", views.GetAllTourPackagesViewSet, basename="AllTourPackages"
+)
+router.register(
+    "all_my_tour_guider", views.GetAllTourGuiderViewSet, basename="AllTourGuider"
+)
 
 urlpatterns = [
     path("", include(router.urls)),

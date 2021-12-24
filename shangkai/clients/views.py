@@ -928,7 +928,7 @@ class TourLocationsViewSet(viewsets.ViewSet):
         return Response(room_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-        
+
         user_id = request.POST.get("user_id", None)
         locations = request.POST.get("locations", None)
         location_image = request.POST.get("location_image", None)
@@ -965,10 +965,12 @@ class TourLocationsViewSet(viewsets.ViewSet):
             scm_location_inst = Tour_locations.objects.filter(id=pk)
             scm_location_inst.delete()
             return Response(
-                {"message": "Tour Location deleted successfully"}, status=status.HTTP_200_OK
+                {"message": "Tour Location deleted successfully"},
+                status=status.HTTP_200_OK,
             )
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
+
 
 class TourPackagesViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -1003,11 +1005,11 @@ class TourPackagesViewSet(viewsets.ViewSet):
                             "message": "Deleted user",
                         }
                     }
-                )    
+                )
         return Response(room_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-        
+
         user_id = request.POST.get("user_id", None)
         location_ids = request.POST.get("location_ids", None)
         package_amount = request.POST.get("package_amount", None)
@@ -1044,10 +1046,12 @@ class TourPackagesViewSet(viewsets.ViewSet):
             scm_package_inst = Tour_Packages.objects.filter(id=pk)
             scm_package_inst.delete()
             return Response(
-                {"message": "Tour package deleted successfully"}, status=status.HTTP_200_OK
+                {"message": "Tour package deleted successfully"},
+                status=status.HTTP_200_OK,
             )
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
+
 
 class TourGuiderViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -1131,7 +1135,7 @@ class TourGuiderViewSet(viewsets.ViewSet):
         return Response(tourguide_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-    
+
         user_id = request.POST.get("user_id", None)
         tour_locations = request.POST.get("tour_locations", None)
         packages = request.POST.get("packages", None)
@@ -1188,15 +1192,19 @@ class TourGuiderViewSet(viewsets.ViewSet):
             scm_tourguide_inst = TourGuide_Reg.objects.filter(id=pk)
             scm_tourguide_inst.delete()
             return Response(
-                {"message": "Tour tour guider deleted successfully"}, status=status.HTTP_200_OK
+                {"message": "Tour tour guider deleted successfully"},
+                status=status.HTTP_200_OK,
             )
         except:
-            return Response({"message": "Details not found"}, status=status.HTTP_200_OK) 
+            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
+
 
 ############ """""""" ADMIN """"""""""#########
 
 
-""""""""" TOUR GUIDE  """""""""""""""""""""
+"""""" """ TOUR GUIDE  """ """""" """""" """"""
+
+
 class GetAllTourLocationsViewSet(viewsets.ViewSet):
     def list(self, request):
         try:
@@ -1233,6 +1241,7 @@ class GetAllTourLocationsViewSet(viewsets.ViewSet):
 
         return Response(room_data_dic.data, status=status.HTTP_200_OK)
 
+
 class GetAllTourPackagesViewSet(viewsets.ViewSet):
     def list(self, request):
         try:
@@ -1265,7 +1274,7 @@ class GetAllTourPackagesViewSet(viewsets.ViewSet):
                             "message": "Deleted user",
                         }
                     }
-                )    
+                )
         return Response(room_data_dic.data, status=status.HTTP_200_OK)
 
 
@@ -1348,6 +1357,7 @@ class GetAllTourGuiderViewSet(viewsets.ViewSet):
                 )
 
         return Response(tourguide_data_dic.data, status=status.HTTP_200_OK)
+
 
 class GetClientslAllViewSet(viewsets.ViewSet):
     def list(self, request):
