@@ -69,14 +69,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         otp = random.randint(1111, 9999)
         password = request.POST.get("password", None)
         image = request.POST.get("image", None)
-        gmail_user = 'noreply@shangkai.in'
-        gmail_password = 'Cy+n1TLo,](n'
-        otp = random.randint(1111, 9999)
-        sent_from = gmail_user
-        to = [email]
-        subject = 'OTP Verification !'
-        body = f'Dear {name}, consectetur adipiscing elit {otp} Shangkai'
-        email_text = """\From: %s To: %s Subject: %s %s """ % (sent_from, ", ".join(to),subject, body)
+
         users_inst = Normal_UserReg.objects.create(
             user_id=user_id,
             user_ip=user_ip,
@@ -88,13 +81,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
             image=image,
         )
         users_inst.save()
-        smtp_server = smtplib.SMTP_SSL('mail.shangkai.in', 465)
-        smtp_server.ehlo()
-        smtp_server.login(gmail_user, gmail_password)
-        smtp_server.sendmail(sent_from, to, email_text)
-        smtp_server.close()
         
-
         users_data = serializers.NormalUserRegisterSerializer(
             Normal_UserReg.objects.filter(id=users_inst.id), many=True
         )
