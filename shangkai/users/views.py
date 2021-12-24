@@ -158,12 +158,10 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
             post_inst.is_edited = True
             post_inst.save()
 
-            users_data = serializers.NormalUserRegisterSerializer(
+            users_data_dic = serializers.NormalUserRegisterSerializer(
                 Normal_UserReg.objects.filter(id=post_inst.id), many=True
             )
-            return Response(
-                users_data.data,
-                status=status.HTTP_200_OK,
+            return Response(users_data_dic.data,status=status.HTTP_200_OK,
             )
         except:
             return Response(
