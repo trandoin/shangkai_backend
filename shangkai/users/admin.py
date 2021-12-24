@@ -33,6 +33,7 @@ class NormalUserReg(admin.ModelAdmin):
         "email",
         "mobile",
         "password",
+        "otp",
         "image",
     ]
 

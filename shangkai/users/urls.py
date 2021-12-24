@@ -10,6 +10,7 @@ router.register(
     "user_register", views.UserRegisterViewSet, basename="NormalUsersRegister"
 )
 router.register("user_login", views.UserLoginViewSet, basename="NormalUsersLogin")
+router.register("user_verify_otp", views.UserVerifyOTPViewSet, basename="UserVerifyOTP")
 router.register(
     "account_details",
     views.AccounDetailsBookingViewSet,

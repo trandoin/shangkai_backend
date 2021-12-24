@@ -136,6 +136,40 @@ class UserRegisterViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+class UserVerifyOTPViewSet(viewsets.ViewSet):
+    def update(self, request, pk=None):
+        user_id = request.POST.get("user_id", None)
+        otp = request.POST.get("otp", None)
+        status = request.POST.get("status", None)
+
+        if otp is None:
+            return Response(
+                {"message": "Enter OTP !"}, status=status.HTTP_400_BAD_REQUEST
+            )
+        try:
+            users_inst = Normal_UserReg.objects.filter(id=user_id, otp=otp)
+            users_data_dic = serializers.NormalUserRegisterSerializer(
+                users_inst, many=True
+            )
+            post_inst = Normal_UserReg.objects.get(id=pk)
+            post_inst.otp = otp
+            post_inst.status = status
+            post_inst.is_edited = True
+            post_inst.save()
+
+            users_data = serializers.NormalUserRegisterSerializer(
+                Normal_UserReg.objects.filter(id=post_inst.id), many=True
+            )
+            return Response(
+                users_data.data,
+                status=status.HTTP_200_OK,
+            )
+        except:
+            return Response(
+                {"message": "Invalid OTP !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
 
 class UserLoginViewSet(viewsets.ViewSet):
     def create(self, request):
