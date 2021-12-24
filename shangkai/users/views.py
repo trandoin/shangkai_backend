@@ -165,7 +165,7 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
             )
         except:
             return Response(
-                users_data_dic.data,status=status.HTTP_400_BAD_REQUEST,
+                {"message": "Invalid OTP !"}
             )
 
 
