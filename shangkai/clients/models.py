@@ -126,7 +126,7 @@ class Room_Register(models.Model):
     rating = models.CharField("rating", null=True, max_length=255)
     tags = models.TextField("tags", null=True, max_length=255)
     extra_services = models.TextField("extra_services", null=True, max_length=255)
-    room_images = models.FileField("images", null=True, max_length=25500)
+    room_images = models.CharField("images", null=True, max_length=25500)
     states = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
