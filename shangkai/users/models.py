@@ -32,7 +32,7 @@ class Normal_UserReg(models.Model):
     user_id = models.CharField("user_id", null=True, max_length=255)
     user_ip = models.CharField("user_ip", null=True, max_length=255)
     name = models.CharField("name", null=True, max_length=255)
-    email = models.EmailField("email", null=True, max_length=255)
+    email = models.EmailField("email", null=True, max_length=255,unique=True)
     mobile = models.CharField("mobile", null=True, max_length=255)
     password = models.CharField("password", null=True, max_length=255)
     otp = models.CharField("otp", null=True, max_length=255)

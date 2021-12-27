@@ -13,11 +13,44 @@ class User_Register(models.Model):
     user_id = models.CharField("user_id", null=True, max_length=255)
     user_ip = models.CharField("user_ip", null=True, max_length=255)
     name = models.CharField("name", null=True, max_length=255)
-    email = models.EmailField("email", null=True, max_length=255)
+    email = models.EmailField("email", null=True, max_length=255,unique=True)
     mobile = models.CharField("mobile", null=True, max_length=255)
     password = models.CharField("password", null=True, max_length=255)
     user_type = models.CharField(
         "user_type", null=True, default="shangkai", max_length=255
+    )
+    address = models.TextField(
+        "address", null=True, default="0", max_length=255
+    )
+    city = models.CharField(
+        "city", null=True, default="0", max_length=255
+    )
+    state = models.CharField(
+        "state", null=True, default="0", max_length=255
+    )
+    pin_code = models.CharField(
+        "pin_code", null=True, default="0", max_length=255
+    )
+    voter_id = models.CharField(
+        "voter_id", null=True, default="0", max_length=255
+    )
+    whatsapp_no = models.CharField(
+        "whatsapp_no", null=True, default="0", max_length=12
+    )
+    emergency_no = models.CharField(
+        "emergency_no", null=True, default="0", max_length=12
+    )
+    bank_name = models.CharField(
+        "bank_name", null=True, default="0", max_length=255
+    )
+    bank_branch = models.CharField(
+        "bank_branch", null=True, default="0", max_length=255
+    )
+    account_no = models.CharField(
+        "account_no", null=True, default="0", max_length=255
+    )
+    ifsc_code = models.CharField(
+        "ifsc_code", null=True, default="0", max_length=255
     )
     otp = models.CharField("otp", null=True, max_length=255)
     image = models.FileField("image", null=True, max_length=255)
