@@ -36,7 +36,7 @@ class Normal_UserReg(models.Model):
     mobile = models.CharField("mobile", null=True, max_length=255)
     password = models.CharField("password", null=True, max_length=255)
     otp = models.CharField("otp", null=True, max_length=255)
-    image = models.FileField("image", null=True, max_length=255)
+    image = models.FileField("image",default="0", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:

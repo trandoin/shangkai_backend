@@ -53,7 +53,7 @@ class User_Register(models.Model):
         "ifsc_code", null=True, default="0", max_length=255
     )
     otp = models.CharField("otp", null=True, max_length=255)
-    image = models.FileField("image", null=True, max_length=255)
+    image = models.FileField("image",default='0', null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -185,9 +185,9 @@ class Driver_Reg(models.Model):
     languages = models.CharField("languages", null=True, max_length=255)
     working_hours = models.CharField("working_hours", null=True, max_length=255)
     licence_no = models.CharField("licence_no", null=True, max_length=255)
-    adhar_card = models.FileField("addhar_card", null=True, max_length=255)
-    licence_doc = models.FileField("licence_doc", null=True, max_length=255)
-    picture = models.FileField("picture", null=True, max_length=255)
+    adhar_card = models.FileField("addhar_card",default="0", null=True, max_length=255)
+    licence_doc = models.FileField("licence_doc",default="0", null=True, max_length=255)
+    picture = models.FileField("picture",default="0", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -223,8 +223,8 @@ class Cabs_Reg(models.Model):
     checkin_date = models.CharField("checkin_date", null=True, max_length=255)
     checkout_date = models.CharField("checkout_date", null=True, max_length=255)
     car_rating = models.CharField("car_rating", null=True, max_length=255)
-    car_rc = models.FileField("car_rc", null=True, max_length=255)
-    car_insurance = models.FileField("car_insurance", null=True, max_length=255)
+    car_rc = models.FileField("car_rc",default="0", null=True, max_length=255)
+    car_insurance = models.FileField("car_insurance",default="0", null=True, max_length=255)
     car_images = models.CharField("car_images", null=True, max_length=25500)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
