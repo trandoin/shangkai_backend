@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib import admin
 from django.contrib.admin.sites import AdminSite
-from django.utils.translation import ugettext_lazy as _
+# from django.utils.translation import ugettext_lazy as _
 from django.db.models import Q
 from django.utils.timezone import utc
 from .models import (
