@@ -94,7 +94,7 @@ DATABASES = {
         "NAME": "shangkai_shangkai_db",
         "USER": "shangkai_shangkaiUser466",
         "PASSWORD": "sZrGWzBPpU2t@pA",
-        "HOST": "shangkai-server.com",
+        "HOST": "127.0.0.1",
         "PORT": "",
     }
 }
