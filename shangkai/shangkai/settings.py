@@ -77,13 +77,24 @@ WSGI_APPLICATION = "shangkai.wsgi.application"
 #     }
 # }
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.mysql",
+#         "NAME": "shangkai_db",
+#         "USER": "shangkai",
+#         "PASSWORD": "shangkaipass",
+#         "HOST": "mysql-dbms.cog4jorwkti6.ap-south-1.rds.amazonaws.com",
+#         "PORT": "3306",
+#     }
+# }
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "shangkai_db",
-        "USER": "shangkai",
-        "PASSWORD": "shangkaipass",
-        "HOST": "mysql-dbms.cog4jorwkti6.ap-south-1.rds.amazonaws.com",
+        "NAME": "shangkai_shangkai_db",
+        "USER": "shangkai_shangkaiUser466",
+        "PASSWORD": "sZrGWzBPpU2t@pA",
+        "HOST": "localhost",
         "PORT": "3306",
     }
 }
