@@ -111,7 +111,7 @@ class My_Trips(models.Model):
     includes = models.TextField("includes", null=True, max_length=255)
     rules = models.TextField("rules", null=True, max_length=255)
     days_no = models.TextField("days_no", null=True, max_length=2000)
-    start_trip = models.DateField("start_trip", null=True, max_length=2000)
+    start_trip = models.DateField("start_trip",default="2021-03-09", null=True, max_length=2000)
     images = models.CharField("images", null=True, default="0", max_length=25500)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
