@@ -72,6 +72,17 @@ class UserRegisterViewSet(viewsets.ViewSet):
         name = request.POST.get("name", None)
         mobile = request.POST.get("mobile", None)
         password = request.POST.get("password", None)
+        address = request.POST.get("address", None)
+        city = request.POST.get("city", None)
+        state = request.POST.get("state", None)
+        pin_code = request.POST.get("pin_code", None)
+        voter_id = request.POST.get("voter_id", None)
+        whatsapp_no = request.POST.get("whatsapp_no", None)
+        emergency_no = request.POST.get("emergency_no", None)
+        bank_name = request.POST.get("bank_name", None)
+        bank_branch = request.POST.get("bank_branch", None)
+        account_no = request.POST.get("account_no", None)
+        ifsc_code = request.POST.get("ifsc_code", None)
         image = request.POST.get("image", None)
 
         if user_id is None:
@@ -84,6 +95,17 @@ class UserRegisterViewSet(viewsets.ViewSet):
             post_inst.name = name
             post_inst.mobile = mobile
             post_inst.password = password
+            post_inst.address = address
+            post_inst.city = city
+            post_inst.state = state
+            post_inst.pin_code = pin_code
+            post_inst.voter_id = voter_id
+            post_inst.whatsapp_no = whatsapp_no
+            post_inst.emergency_no = emergency_no
+            post_inst.bank_name = bank_name
+            post_inst.bank_branch = bank_branch
+            post_inst.account_no = account_no
+            post_inst.ifsc_code = ifsc_code
             post_inst.image = image
             post_inst.is_edited = True
             post_inst.save()

@@ -70,23 +70,34 @@ WSGI_APPLICATION = "shangkai.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#     "default": {
+#         "ENGINE": "django.db.backends.mysql",
+#         "NAME": "shangkai_db",
+#         "USER": "shangkai",
+#         "PASSWORD": "shangkaipass",
+#         "HOST": "mysql-dbms.cog4jorwkti6.ap-south-1.rds.amazonaws.com",
+#         "PORT": "3306",
 #     }
 # }
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "shangkai_db",
-        "USER": "shangkai",
-        "PASSWORD": "shangkaipass",
-        "HOST": "mysql-dbms.cog4jorwkti6.ap-south-1.rds.amazonaws.com",
-        "PORT": "3306",
-    }
-}
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.mysql",
+#         "NAME": "shangkai_shangkai_db",
+#         "USER": "shangkai_shangkaiUser466",
+#         "PASSWORD": "sZrGWzBPpU2t@pA",
+#         "HOST": "127.0.0.1",
+#         "PORT": "",
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -124,7 +135,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-# STATIC_URL = '/static/'
+STATIC_URL = '/root/shangkai_env/shangkai_backend/shangkai/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
