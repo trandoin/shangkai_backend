@@ -95,7 +95,7 @@ DATABASES = {
         "USER": "shangkai_shangkaiUser466",
         "PASSWORD": "sZrGWzBPpU2t@pA",
         "HOST": "127.0.0.1",
-        "PORT": "22",
+        "PORT": "",
     }
 }
 
