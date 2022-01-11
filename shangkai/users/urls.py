@@ -16,6 +16,8 @@ router.register(
     views.AccounDetailsBookingViewSet,
     basename="AccounDetailsBooking",
 )
+router.register("user_password_update", views.UserUpdatePasswordViewSet, basename="UsersPasswordUpdate")
+
 
 # # """"BOOKINGS"""
 router.register("hotel_booking", views.HotelBookingViewSet, basename="HotelBooking")
