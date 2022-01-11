@@ -125,6 +125,47 @@ class UserRegisterViewSet(viewsets.ViewSet):
             )
 
 
+class ClientsUpdatePasswordViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.POST.get("user_id", None)
+        try:
+            sm_users = User_Register.objects.filter(id=user_id)
+            users_data_dic = serializers.UserRegisterSerializer(sm_users, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(users_data_dic.data, status=status.HTTP_200_OK)
+    def update(self, request, pk=None):
+        user_id = request.POST.get("user_id", None)
+        password = request.POST.get("password", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = User_Register.objects.get(id=pk)
+            post_inst.password = password
+            post_inst.is_edited = True
+            post_inst.save()
+
+            users_data = serializers.UserRegisterSerializer(
+                User_Register.objects.filter(id=post_inst.id), many=True
+            )
+            return Response(
+                {"message": "Password Updated successfully !"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Something went to wrong ! Try again !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
 class ClientloginViewSet(viewsets.ViewSet):
     def create(self, request):
 
