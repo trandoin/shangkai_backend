@@ -13,47 +13,29 @@ class User_Register(models.Model):
     user_id = models.CharField("user_id", null=True, max_length=255)
     user_ip = models.CharField("user_ip", null=True, max_length=255)
     name = models.CharField("name", null=True, max_length=255)
-    email = models.EmailField("email", null=True, max_length=255,unique=True)
+    email = models.EmailField("email", null=True, max_length=255, unique=True)
     mobile = models.CharField("mobile", null=True, max_length=255)
     password = models.CharField("password", null=True, max_length=255)
     user_type = models.CharField(
         "user_type", null=True, default="shangkai", max_length=255
     )
-    address = models.TextField(
-        "address", null=True, default="0", max_length=255
-    )
-    city = models.CharField(
-        "city", null=True, default="0", max_length=255
-    )
-    state = models.CharField(
-        "state", null=True, default="0", max_length=255
-    )
-    pin_code = models.CharField(
-        "pin_code", null=True, default="0", max_length=255
-    )
-    voter_id = models.CharField(
-        "voter_id", null=True, default="0", max_length=255
-    )
-    whatsapp_no = models.CharField(
-        "whatsapp_no", null=True, default="0", max_length=12
-    )
+    address = models.TextField("address", null=True, default="0", max_length=255)
+    city = models.CharField("city", null=True, default="0", max_length=255)
+    state = models.CharField("state", null=True, default="0", max_length=255)
+    pin_code = models.CharField("pin_code", null=True, default="0", max_length=255)
+    voter_id = models.CharField("voter_id", null=True, default="0", max_length=255)
+    whatsapp_no = models.CharField("whatsapp_no", null=True, default="0", max_length=12)
     emergency_no = models.CharField(
         "emergency_no", null=True, default="0", max_length=12
     )
-    bank_name = models.CharField(
-        "bank_name", null=True, default="0", max_length=255
-    )
+    bank_name = models.CharField("bank_name", null=True, default="0", max_length=255)
     bank_branch = models.CharField(
         "bank_branch", null=True, default="0", max_length=255
     )
-    account_no = models.CharField(
-        "account_no", null=True, default="0", max_length=255
-    )
-    ifsc_code = models.CharField(
-        "ifsc_code", null=True, default="0", max_length=255
-    )
+    account_no = models.CharField("account_no", null=True, default="0", max_length=255)
+    ifsc_code = models.CharField("ifsc_code", null=True, default="0", max_length=255)
     otp = models.CharField("otp", null=True, max_length=255)
-    image = models.FileField("image",default='0', null=True, max_length=255)
+    image = models.FileField("image", default="0", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -61,8 +43,10 @@ class User_Register(models.Model):
             "Clients Registration",
             "Clients Registration",
         )
+
     def __str__(self):
         return self.name
+
 
 class client_token_authentication(models.Model):
     user = models.ForeignKey(
@@ -134,8 +118,9 @@ class Reg_Hotel(models.Model):
             "Hotel Registration",
             "Hotel Registration",
         )
+
     def __str__(self):
-        return self.hotel_name    
+        return self.hotel_name
 
 
 class Room_Register(models.Model):
@@ -188,9 +173,11 @@ class Driver_Reg(models.Model):
     languages = models.CharField("languages", null=True, max_length=255)
     working_hours = models.CharField("working_hours", null=True, max_length=255)
     licence_no = models.CharField("licence_no", null=True, max_length=255)
-    adhar_card = models.FileField("addhar_card",default="0", null=True, max_length=255)
-    licence_doc = models.FileField("licence_doc",default="0", null=True, max_length=255)
-    picture = models.FileField("picture",default="0", null=True, max_length=255)
+    adhar_card = models.FileField("addhar_card", default="0", null=True, max_length=255)
+    licence_doc = models.FileField(
+        "licence_doc", default="0", null=True, max_length=255
+    )
+    picture = models.FileField("picture", default="0", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -198,8 +185,9 @@ class Driver_Reg(models.Model):
             "Car Driver Registration",
             "Car Driver Registration",
         )
+
     def __str__(self):
-        return self.driver_name    
+        return self.driver_name
 
 
 class Cabs_Reg(models.Model):
@@ -228,8 +216,10 @@ class Cabs_Reg(models.Model):
     checkin_date = models.CharField("checkin_date", null=True, max_length=255)
     checkout_date = models.CharField("checkout_date", null=True, max_length=255)
     car_rating = models.CharField("car_rating", null=True, max_length=255)
-    car_rc = models.FileField("car_rc",default="0", null=True, max_length=255)
-    car_insurance = models.FileField("car_insurance",default="0", null=True, max_length=255)
+    car_rc = models.FileField("car_rc", default="0", null=True, max_length=255)
+    car_insurance = models.FileField(
+        "car_insurance", default="0", null=True, max_length=255
+    )
     car_images = models.CharField("car_images", null=True, max_length=25500)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
@@ -257,8 +247,9 @@ class Tour_locations(models.Model):
             "Tour Locations",
             "Tour Locations",
         )
+
     def __str__(self):
-        return self.locations    
+        return self.locations
 
 
 class Tour_Packages(models.Model):
@@ -278,8 +269,9 @@ class Tour_Packages(models.Model):
             "Tour Packages",
             "Tour Packages",
         )
+
     def __str__(self):
-        return self.package_amount    
+        return self.package_amount
 
 
 class TourGuide_Reg(models.Model):
@@ -321,8 +313,10 @@ class TourGuide_Reg(models.Model):
             "Tour Guide Registration",
             "Tour Guide Registration",
         )
+
     def __str__(self):
         return self.guider_name
+
 
 class Account_Details(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)

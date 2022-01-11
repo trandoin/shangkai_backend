@@ -96,16 +96,16 @@ class UserRegisterViewSet(viewsets.ViewSet):
         )
         users_inst.save()
         mail_context = {
-                "content_message": f"Your OTP verification code is {otp}",
-            }
+            "content_message": f"Your OTP verification code is {otp}",
+        }
         html_message = render_to_string("", mail_context)
         send_mail(
-                "Reading Right : OTP verification",
-                "Your OTP verification code is {otp}".format(otp=otp),
-                "noreply@shangkai.in",
-                [users_inst.email],
-                fail_silently=False,
-                html_message=html_message,
+            "Reading Right : OTP verification",
+            "Your OTP verification code is {otp}".format(otp=otp),
+            "noreply@shangkai.in",
+            [users_inst.email],
+            fail_silently=False,
+            html_message=html_message,
         )
         # return Response(
         #         {
@@ -198,9 +198,7 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
                 status=status.HTTP_200_OK,
             )
         except:
-            return Response(
-                {"message": "Invalid OTP !"}
-            )
+            return Response({"message": "Invalid OTP !"})
 
 
 class UserLoginViewSet(viewsets.ViewSet):
