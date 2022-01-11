@@ -195,6 +195,32 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
         except:
             return Response({"message": "Invalid OTP !"})
 
+class UserUpdatePasswordViewSet(viewsets.ViewSet):
+    def update(self, request, pk=None):
+        user_id = request.POST.get("user_id", None)
+        password = request.POST.get("password", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            user_inst = Normal_UserReg.objects.get(id=pk)
+            user_inst.password = password
+            user_inst.is_edited = True
+            user_inst.save()
+
+            return Response(
+                {"message": "Password Updated Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Something went to wrong ! Try again !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 class UserLoginViewSet(viewsets.ViewSet):
     def create(self, request):
