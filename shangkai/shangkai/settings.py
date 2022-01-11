@@ -105,9 +105,7 @@ EMAIL_HOST = "mail.shangkai.in"
 EMAIL_USE_TLS = False
 EMAIL_PORT = 25
 EMAIL_HOST_USER = "noreply@shangkai.in"
-EMAIL_HOST_PASSWORD = (
-    "Cy+n1TLo,](n"  
-)
+EMAIL_HOST_PASSWORD = "Cy+n1TLo,](n"
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -145,7 +143,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 # STATIC_URL = '/root/shangkai_env/shangkai_backend/shangkai/static/'
 
 # Default primary key field type

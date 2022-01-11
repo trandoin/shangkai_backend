@@ -32,11 +32,11 @@ class Normal_UserReg(models.Model):
     user_id = models.CharField("user_id", null=True, max_length=255)
     user_ip = models.CharField("user_ip", null=True, max_length=255)
     name = models.CharField("name", null=True, max_length=255)
-    email = models.EmailField("email", null=True, max_length=255,unique=True)
+    email = models.EmailField("email", null=True, max_length=255, unique=True)
     mobile = models.CharField("mobile", null=True, max_length=255)
     password = models.CharField("password", null=True, max_length=255)
     otp = models.CharField("otp", null=True, max_length=255)
-    image = models.FileField("image",default="0", null=True, max_length=255)
+    image = models.FileField("image", default="0", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -44,8 +44,10 @@ class Normal_UserReg(models.Model):
             "Registration",
             "Registration",
         )
+
     def __str__(self):
         return self.name
+
 
 class User_Account_Details(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
@@ -416,7 +418,9 @@ class User_Guide_Booking(models.Model):
         db_constraint=False,
     )
     no_guests = models.CharField("no_guests", null=True, max_length=255)
-    booking_date = models.DateField("booking_date",default="2021-03-09", null=True, max_length=255)
+    booking_date = models.DateField(
+        "booking_date", default="2021-03-09", null=True, max_length=255
+    )
     guide_amount = models.CharField("guide_ammount", null=True, max_length=255)
     razorpay_id = models.CharField(
         "razorpay_id", null=True, default="0", max_length=255
@@ -445,7 +449,9 @@ class User_Hotspots_Cart(models.Model):
         db_constraint=False,
     )
     no_guests = models.CharField("no_guests", null=True, max_length=255)
-    booking_date = models.DateField("booking_date",default="2021-03-09", null=True, max_length=255)
+    booking_date = models.DateField(
+        "booking_date", default="2021-03-09", null=True, max_length=255
+    )
     cart_amount = models.CharField("cart_ammount", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
@@ -471,7 +477,9 @@ class User_Hotspots_Bookings(models.Model):
         db_constraint=False,
     )
     no_guests = models.CharField("no_guests", null=True, max_length=255)
-    booking_date = models.DateField("booking_date",default="2021-03-09", null=True, max_length=255)
+    booking_date = models.DateField(
+        "booking_date", default="2021-03-09", null=True, max_length=255
+    )
     booking_amount = models.CharField("booking_amount", null=True, max_length=255)
     razorpay_id = models.CharField(
         "razorpay_id", null=True, default="0", max_length=255

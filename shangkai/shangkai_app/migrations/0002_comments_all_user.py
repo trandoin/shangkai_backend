@@ -9,14 +9,23 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+<<<<<<< HEAD
         ('users', '0001_initial'),
         ('shangkai_app', '0001_initial'),
+=======
+        ("shangkai_app", "0001_initial"),
+        ("users", "0001_initial"),
+>>>>>>> 74e3dbbb4f240b6b7b7e2ecc894287c7324a3feb
     ]
 
     operations = [
         migrations.AddField(
-            model_name='comments_all',
-            name='user',
-            field=models.ForeignKey(default=None, on_delete=django.db.models.deletion.CASCADE, to='users.normal_userreg'),
+            model_name="comments_all",
+            name="user",
+            field=models.ForeignKey(
+                default=None,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="users.normal_userreg",
+            ),
         ),
     ]

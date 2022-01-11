@@ -9,44 +9,84 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+<<<<<<< HEAD
         ('clients', '0001_initial'),
         ('shangkai_app', '0001_initial'),
+=======
+        ("shangkai_app", "0001_initial"),
+        ("clients", "0001_initial"),
+>>>>>>> 74e3dbbb4f240b6b7b7e2ecc894287c7324a3feb
     ]
 
     operations = [
         migrations.AddField(
-            model_name='reg_hotel',
-            name='hotel_cat',
-            field=models.ForeignKey(db_constraint=False, default=None, on_delete=django.db.models.deletion.CASCADE, to='shangkai_app.hotel_category'),
+            model_name="reg_hotel",
+            name="hotel_cat",
+            field=models.ForeignKey(
+                db_constraint=False,
+                default=None,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="shangkai_app.hotel_category",
+            ),
         ),
         migrations.AddField(
-            model_name='reg_hotel',
-            name='user',
-            field=models.ForeignKey(db_constraint=False, default=None, on_delete=django.db.models.deletion.CASCADE, to='clients.user_register'),
+            model_name="reg_hotel",
+            name="user",
+            field=models.ForeignKey(
+                db_constraint=False,
+                default=None,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="clients.user_register",
+            ),
         ),
         migrations.AddField(
-            model_name='driver_reg',
-            name='user',
-            field=models.ForeignKey(db_constraint=False, default=None, on_delete=django.db.models.deletion.CASCADE, to='clients.user_register'),
+            model_name="driver_reg",
+            name="user",
+            field=models.ForeignKey(
+                db_constraint=False,
+                default=None,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="clients.user_register",
+            ),
         ),
         migrations.AddField(
-            model_name='client_token_authentication',
-            name='user',
-            field=models.ForeignKey(db_constraint=False, default=None, on_delete=django.db.models.deletion.CASCADE, to='clients.user_register'),
+            model_name="client_token_authentication",
+            name="user",
+            field=models.ForeignKey(
+                db_constraint=False,
+                default=None,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="clients.user_register",
+            ),
         ),
         migrations.AddField(
-            model_name='cabs_reg',
-            name='driver',
-            field=models.ForeignKey(db_constraint=False, default=None, on_delete=django.db.models.deletion.CASCADE, to='clients.driver_reg'),
+            model_name="cabs_reg",
+            name="driver",
+            field=models.ForeignKey(
+                db_constraint=False,
+                default=None,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="clients.driver_reg",
+            ),
         ),
         migrations.AddField(
-            model_name='cabs_reg',
-            name='user',
-            field=models.ForeignKey(db_constraint=False, default=None, on_delete=django.db.models.deletion.CASCADE, to='clients.user_register'),
+            model_name="cabs_reg",
+            name="user",
+            field=models.ForeignKey(
+                db_constraint=False,
+                default=None,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="clients.user_register",
+            ),
         ),
         migrations.AddField(
-            model_name='account_details',
-            name='user',
-            field=models.ForeignKey(db_constraint=False, default=None, on_delete=django.db.models.deletion.CASCADE, to='clients.user_register'),
+            model_name="account_details",
+            name="user",
+            field=models.ForeignKey(
+                db_constraint=False,
+                default=None,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="clients.user_register",
+            ),
         ),
     ]
