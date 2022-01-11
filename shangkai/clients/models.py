@@ -61,7 +61,8 @@ class User_Register(models.Model):
             "Clients Registration",
             "Clients Registration",
         )
-
+    def __str__(self):
+        return self.name
 
 class client_token_authentication(models.Model):
     user = models.ForeignKey(
@@ -133,6 +134,8 @@ class Reg_Hotel(models.Model):
             "Hotel Registration",
             "Hotel Registration",
         )
+    def __str__(self):
+        return self.hotel_name    
 
 
 class Room_Register(models.Model):
@@ -195,6 +198,8 @@ class Driver_Reg(models.Model):
             "Car Driver Registration",
             "Car Driver Registration",
         )
+    def __str__(self):
+        return self.driver_name    
 
 
 class Cabs_Reg(models.Model):
@@ -252,6 +257,8 @@ class Tour_locations(models.Model):
             "Tour Locations",
             "Tour Locations",
         )
+    def __str__(self):
+        return self.locations    
 
 
 class Tour_Packages(models.Model):
@@ -271,6 +278,8 @@ class Tour_Packages(models.Model):
             "Tour Packages",
             "Tour Packages",
         )
+    def __str__(self):
+        return self.package_amount    
 
 
 class TourGuide_Reg(models.Model):
@@ -312,7 +321,8 @@ class TourGuide_Reg(models.Model):
             "Tour Guide Registration",
             "Tour Guide Registration",
         )
-
+    def __str__(self):
+        return self.guider_name
 
 class Account_Details(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)

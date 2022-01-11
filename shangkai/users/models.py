@@ -44,7 +44,8 @@ class Normal_UserReg(models.Model):
             "Registration",
             "Registration",
         )
-
+    def __str__(self):
+        return self.name
 
 class User_Account_Details(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
