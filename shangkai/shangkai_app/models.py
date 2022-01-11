@@ -45,7 +45,8 @@ class Hotspot_Category(models.Model):
             "Hotspot Category",
             "Hotspot Category",
         )
-
+    def __str__(self):
+        return self.title
 
 class Hotel_Category(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
@@ -57,7 +58,8 @@ class Hotel_Category(models.Model):
             "Hotel Category",
             "Hotel Category",
         )
-
+    def __str__(self):
+        return self.title
 
 class Hot_Spots(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
@@ -85,7 +87,8 @@ class Hot_Spots(models.Model):
             "Hotspots",
             "Hotspots",
         )
-
+    def __str__(self):
+        return self.title
 
 class My_Trips(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
@@ -120,7 +123,8 @@ class My_Trips(models.Model):
             "My Trips",
             "My Trips",
         )
-
+    def __str__(self):
+        return self.title
 
 class My_Trips_Days(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
