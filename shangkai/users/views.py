@@ -196,6 +196,19 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
             return Response({"message": "Invalid OTP !"})
 
 class UserUpdatePasswordViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+        try:
+            sm_users = Normal_UserReg.objects.filter(id=user_id)
+            users_data_dic = serializers.NormalUserRegisterSerializer(
+                sm_users, many=True
+            )
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(users_data_dic.data, status=status.HTTP_200_OK)
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)
         password = request.POST.get("password", None)
