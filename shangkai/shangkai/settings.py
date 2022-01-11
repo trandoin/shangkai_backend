@@ -99,6 +99,16 @@ DATABASES = {
     }
 }
 
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "mail.shangkai.in"
+EMAIL_USE_TLS = False
+EMAIL_PORT = 25
+EMAIL_HOST_USER = "noreply@shangkai.in"
+EMAIL_HOST_PASSWORD = (
+    "Cy+n1TLo,](n"  
+)
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
