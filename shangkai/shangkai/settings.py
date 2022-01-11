@@ -145,7 +145,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/root/shangkai_env/shangkai_backend/shangkai/static/'
+STATIC_URL = '/static/'
+# STATIC_URL = '/root/shangkai_env/shangkai_backend/shangkai/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -158,7 +159,8 @@ STATIC_URL = '/root/shangkai_env/shangkai_backend/shangkai/static/'
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_DIR, "static")
-STATIC_URL = "/home/ubuntu/travel-env/shangkai_backend/shangkai/static/"
+STATIC_URL = "/root/shangkai_env/shangkai_backend/shangkai/static/"
+# STATIC_URL = "/home/ubuntu/travel-env/shangkai_backend/shangkai/static/"
 
 
 # STATIC_URL = "/static/"
