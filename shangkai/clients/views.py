@@ -985,13 +985,13 @@ class DriverUpdateStatusViewSet(viewsets.ViewSet):
             )        
 
 ###### TOUR LOCATIONS
-class TourLocationsUpdateStatusViewSet(viewsets.ViewSet):
+# class TourLocationsUpdateStatusViewSet(viewsets.ViewSet):
 
 ###### TOUR PACKAGES
-class TourPackagesUpdateStatusViewSet(viewsets.ViewSet):
+# class TourPackagesUpdateStatusViewSet(viewsets.ViewSet):
 
 ###### TOUR GUIDE
-class TourGuideUpdateStatusViewSet(viewsets.ViewSet):
+# class TourGuideUpdateStatusViewSet(viewsets.ViewSet):
 
 
 ###############      SEARCH BAR  #######################
