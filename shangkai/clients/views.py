@@ -881,7 +881,7 @@ class RoomsUpdateStatusViewSet(viewsets.ViewSet):
 
         if user_id is None:
             return Response(
-                {"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
+                {"message": "Invalid Request"}
             )
 
         try:
@@ -891,8 +891,7 @@ class RoomsUpdateStatusViewSet(viewsets.ViewSet):
             post_inst.save()
 
             return Response(
-                {"message": "Room Status Updated Sucessfully"},
-                status=status.HTTP_200_OK,
+                {"message": "Room Status Updated Sucessfully"}
             )
 
         except:
