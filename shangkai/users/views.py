@@ -98,7 +98,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         mail_context = {
             "content_message": f"Your OTP verification code is {otp}",
         }
-        html_message = render_to_string("email/email.html", mail_context)
+        html_message = render_to_string("email/user_email_verify.html", mail_context)
         send_mail(
             "Reading Right : OTP verification",
             "Your OTP verification code is {otp}".format(otp=otp),

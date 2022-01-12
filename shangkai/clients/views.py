@@ -817,6 +817,182 @@ class CabRegistrationViewSet(viewsets.ViewSet):
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
 
+########### STATUS UPDATE ######################
+
+""""""'HOTEL'"""""""
+class HotelUpdateStatusViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+        try:
+            sm_users = Reg_Hotel.objects.filter(user=user_id)
+            users_data_dic = serializers.HotelRegisterSerializer(sm_users, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(users_data_dic.data, status=status.HTTP_200_OK)
+
+    def update(self, request, pk=None):
+        user_id = request.POST.get("user_id", None)
+        status = request.POST.get("status", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = Reg_Hotel.objects.get(id=pk)
+            post_inst.status = status
+
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Hotel Status Updated Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Something went to wrong ! Try again !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )        
+
+""""""'ROOMS'"""""""
+class RoomsUpdateStatusViewSet(viewsets.ViewSet): 
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+
+        try:
+            sm_users = Room_Register.objects.filter(user=user_id)
+            users_data_dic = serializers.RoomRegisterSerializer(sm_users, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(users_data_dic.data, status=status.HTTP_200_OK) 
+
+    def update(self, request, pk=None):
+        user_id = request.POST.get("user_id", None)
+        status = request.POST.get("status", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = Room_Register.objects.get(id=pk)
+            post_inst.status = status
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Room Status Updated Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Something went to wrong ! Try again !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )        
+
+""""""'CAB'"""""""
+class CabUpdateStatusViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+        try:
+            sm_cabs = Cabs_Reg.objects.filter(user=user_id)
+            cabs_data_dic = serializers.CabRegisterSerializer(sm_cabs, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
+
+    def update(self, request, pk=None):
+        user_id = request.POST.get("user_id", None)
+        status = request.POST.get("status", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = Cabs_Reg.objects.get(id=pk)
+            post_inst.status = status
+
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Cab Status Updated Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Something went to wrong ! Try again !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )        
+
+""""""'DRIVER'"""""""
+class DriverUpdateStatusViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+        try:
+            sm_driver = Driver_Reg.objects.filter(user=user_id)
+            driver_data_dic = serializers.DriverRegisterSerializer(sm_driver, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return Response(driver_data_dic.data, status=status.HTTP_200_OK)
+
+    def update(self, request, pk=None):
+        user_id = request.POST.get("user_id", None)
+        status = request.POST.get("status", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = Driver_Reg.objects.get(id=pk)
+            post_inst.status = status
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Driver Status Updated Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Something went to wrong ! Try again !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )        
+
+""""""'TOUR LOCATIONS'"""""""
+class TourLocationsUpdateStatusViewSet(viewsets.ViewSet):
+
+""""""'TOUR PACKAGES'"""""""
+class TourPackagesUpdateStatusViewSet(viewsets.ViewSet):
+
+""""""'TOUR GUIDE'"""""""
+class TourGuideUpdateStatusViewSet(viewsets.ViewSet):
+
 
 ###############      SEARCH BAR  #######################
 

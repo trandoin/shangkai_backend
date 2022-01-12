@@ -26,6 +26,12 @@ router.register("room_get_byId", views.RoomGetByIdViewSet, basename="RoomGetById
 router.register(
     "get_hotel_by_id", views.GetHotelByCatIdViewSet, basename="GetHotelById"
 )
+router.register(
+    "update_room_status", views.RoomsUpdateStatusViewSet, basename="UpdateRoomsStatus"
+)
+router.register(
+    "update_hotel_status", views.HotelUpdateStatusViewSet, basename="UpdateHotelStatus"
+)
 
 
 ##### CABS #####
@@ -42,6 +48,13 @@ router.register("cab_search", views.CabSearchViewSet, basename="CabSearch")
 router.register(
     "cab_getby_locations", views.CabGetByLocationViewSet, basename="CabGetByLocation"
 )
+router.register(
+    "update_cab_status", views.CabUpdateStatusViewSet, basename="UpdateCabStatus"
+)
+router.register(
+    "update_driver_status", views.DriverUpdateStatusViewSet, basename="UpdateDriverStatus"
+)
+
 
 #######"""""" TOUR GUIDE  """"""#######
 router.register("tour_location", views.TourLocationsViewSet, basename="TourLocations")
