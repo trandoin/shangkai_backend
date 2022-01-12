@@ -51,7 +51,7 @@ ROOT_URLCONF = "shangkai.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "DIRS": ['/root/shangkai_env/shangkai_backend/shangkai/templates','/root/shangkai_env/shangkai_backend/shangkai/templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
