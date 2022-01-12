@@ -819,7 +819,7 @@ class CabRegistrationViewSet(viewsets.ViewSet):
 
 ########### STATUS UPDATE ######################
 
-""""""'HOTEL'"""""""
+### HOTEL 
 class HotelUpdateStatusViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.GET.get("user_id", None)
@@ -860,7 +860,7 @@ class HotelUpdateStatusViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )        
 
-""""""'ROOMS'"""""""
+###### ROOMS
 class RoomsUpdateStatusViewSet(viewsets.ViewSet): 
     def list(self, request):
         user_id = request.GET.get("user_id", None)
@@ -901,7 +901,7 @@ class RoomsUpdateStatusViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )        
 
-""""""'CAB'"""""""
+###### CABS
 class CabUpdateStatusViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.GET.get("user_id", None)
@@ -943,7 +943,7 @@ class CabUpdateStatusViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )        
 
-""""""'DRIVER'"""""""
+##### DRIVERS
 class DriverUpdateStatusViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.GET.get("user_id", None)
@@ -984,13 +984,13 @@ class DriverUpdateStatusViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )        
 
-""""""'TOUR LOCATIONS'"""""""
+###### TOUR LOCATIONS
 class TourLocationsUpdateStatusViewSet(viewsets.ViewSet):
 
-""""""'TOUR PACKAGES'"""""""
+###### TOUR PACKAGES
 class TourPackagesUpdateStatusViewSet(viewsets.ViewSet):
 
-""""""'TOUR GUIDE'"""""""
+###### TOUR GUIDE
 class TourGuideUpdateStatusViewSet(viewsets.ViewSet):
 
 
