@@ -897,8 +897,7 @@ class RoomsUpdateStatusViewSet(viewsets.ViewSet):
 
         except:
             return Response(
-                {"message": "Something went to wrong ! Try again !"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"message": "Something went to wrong ! Try again !"}
             )        
 
 ###### CABS
