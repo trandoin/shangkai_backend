@@ -886,7 +886,7 @@ class RoomsUpdateStatusViewSet(viewsets.ViewSet):
 
         try:
             post_inst = Room_Register.objects.get(id=pk)
-            post_inst.status = status
+            post_inst.states = status
             post_inst.is_edited = True
             post_inst.save()
 
