@@ -828,8 +828,7 @@ class HotelUpdateStatusViewSet(viewsets.ViewSet):
             users_data_dic = serializers.HotelRegisterSerializer(sm_users, many=True)
         except:
             return Response(
-                {"message": "Sorry No data found !"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"message": "Sorry No data found !"}
             )
         return Response(users_data_dic.data, status=status.HTTP_200_OK)
 
@@ -839,7 +838,7 @@ class HotelUpdateStatusViewSet(viewsets.ViewSet):
 
         if user_id is None:
             return Response(
-                {"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
+                {"message": "Invalid Request"}
             )
 
         try:
@@ -850,14 +849,12 @@ class HotelUpdateStatusViewSet(viewsets.ViewSet):
             post_inst.save()
 
             return Response(
-                {"message": "Hotel Status Updated Sucessfully"},
-                status=status.HTTP_200_OK,
+                {"message": "Hotel Status Updated Sucessfully"}
             )
 
         except:
             return Response(
-                {"message": "Something went to wrong ! Try again !"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"message": "Something went to wrong ! Try again !"}
             )        
 
 ###### ROOMS
@@ -908,8 +905,7 @@ class CabUpdateStatusViewSet(viewsets.ViewSet):
             cabs_data_dic = serializers.CabRegisterSerializer(sm_cabs, many=True)
         except:
             return Response(
-                {"message": "Sorry No data found !"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"message": "Sorry No data found !"}
             )
 
         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
@@ -920,7 +916,7 @@ class CabUpdateStatusViewSet(viewsets.ViewSet):
 
         if user_id is None:
             return Response(
-                {"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
+                {"message": "Invalid Request"}
             )
 
         try:
@@ -931,14 +927,12 @@ class CabUpdateStatusViewSet(viewsets.ViewSet):
             post_inst.save()
 
             return Response(
-                {"message": "Cab Status Updated Sucessfully"},
-                status=status.HTTP_200_OK,
+                {"message": "Cab Status Updated Sucessfully"}
             )
 
         except:
             return Response(
-                {"message": "Something went to wrong ! Try again !"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"message": "Something went to wrong ! Try again !"}
             )        
 
 ##### DRIVERS
@@ -950,8 +944,7 @@ class DriverUpdateStatusViewSet(viewsets.ViewSet):
             driver_data_dic = serializers.DriverRegisterSerializer(sm_driver, many=True)
         except:
             return Response(
-                {"message": "Sorry No data found !"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"message": "Sorry No data found !"}
             )
 
         return Response(driver_data_dic.data, status=status.HTTP_200_OK)
@@ -962,7 +955,7 @@ class DriverUpdateStatusViewSet(viewsets.ViewSet):
 
         if user_id is None:
             return Response(
-                {"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
+                {"message": "Invalid Request"}
             )
 
         try:
@@ -972,14 +965,12 @@ class DriverUpdateStatusViewSet(viewsets.ViewSet):
             post_inst.save()
 
             return Response(
-                {"message": "Driver Status Updated Sucessfully"},
-                status=status.HTTP_200_OK,
+                {"message": "Driver Status Updated Sucessfully"}
             )
 
         except:
             return Response(
-                {"message": "Something went to wrong ! Try again !"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"message": "Something went to wrong ! Try again !"}
             )        
 
 ###### TOUR LOCATIONS
