@@ -60,6 +60,9 @@ router.register(
 router.register("tour_location", views.TourLocationsViewSet, basename="TourLocations")
 router.register("tour_packages", views.TourPackagesViewSet, basename="TourPackages")
 router.register("my_tour_guider", views.TourGuiderViewSet, basename="TourGuider")
+router.register("update_status_tour_locations", views.TourLocationsUpdateStatusViewSet, basename="UpdateStatusTourLocations")
+router.register("update_status_tour_packages", views.TourPackagesUpdateStatusViewSet, basename="UpdateStatusTourPackages")
+router.register("update_status_tour_guiders", views.TourGuideUpdateStatusViewSet, basename="UpdateStatusTourGuider")
 
 
 ############# """""""" ADMIN """"""""##########

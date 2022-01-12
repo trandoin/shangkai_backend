@@ -974,13 +974,118 @@ class DriverUpdateStatusViewSet(viewsets.ViewSet):
             )        
 
 ###### TOUR LOCATIONS
-# class TourLocationsUpdateStatusViewSet(viewsets.ViewSet):
+class TourLocationsUpdateStatusViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+        try:
+            sm_rooms = Tour_locations.objects.filter(user=user_id)
+            room_data_dic = serializers.TourlocationsSerializer(sm_rooms, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"}
+            )
+
+        return Response(room_data_dic.data, status=status.HTTP_200_OK)
+
+    def update(self, request, pk=None):
+        user_id = request.POST.get("user_id", None)
+        status = request.POST.get("status", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Invalid Request"}
+            )
+
+        try:
+            post_inst = Tour_locations.objects.get(id=pk)
+            post_inst.status = status
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Tour Location Status Updated Sucessfully"}
+            )
+
+        except:
+            return Response(
+                {"message": "Something went to wrong ! Try again !"}
+            )        
 
 ###### TOUR PACKAGES
-# class TourPackagesUpdateStatusViewSet(viewsets.ViewSet):
+class TourPackagesUpdateStatusViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+        try:
+            sm_rooms = Tour_Packages.objects.filter(user=user_id)
+            room_data_dic = serializers.TourPackagesSerializer(sm_rooms, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"}
+            )
+        return Response(room_data_dic.data, status=status.HTTP_200_OK)
+
+    def update(self, request, pk=None):
+        user_id = request.POST.get("user_id", None)
+        status = request.POST.get("status", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Invalid Request"}
+            )
+
+        try:
+            post_inst = Tour_Packages.objects.get(id=pk)
+            post_inst.status = status
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Tour Package Status Updated Sucessfully"}
+            )
+
+        except:
+            return Response(
+                {"message": "Something went to wrong ! Try again !"}
+            )
 
 ###### TOUR GUIDE
-# class TourGuideUpdateStatusViewSet(viewsets.ViewSet):
+class TourGuideUpdateStatusViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+        try:
+            sm_rooms = TourGuide_Reg.objects.filter(user=user_id)
+            tourguide_data_dic = serializers.TourGuideRegSerializer(sm_rooms, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return Response(tourguide_data_dic.data, status=status.HTTP_200_OK)
+
+    def update(self, request, pk=None):
+        user_id = request.POST.get("user_id", None)
+        status = request.POST.get("status", None)
+
+        if user_id is None:
+            return Response(
+                {"message": "Invalid Request"}
+            )
+
+        try:
+            post_inst = TourGuide_Reg.objects.get(id=pk)
+            post_inst.status = status
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Tour Guider Status Updated Sucessfully"}
+            )
+
+        except:
+            return Response(
+                {"message": "Something went to wrong ! Try again !"}
+            )
 
 
 ###############      SEARCH BAR  #######################
