@@ -6,6 +6,8 @@ from django.http import response
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from django.conf import settings
+from django.core.mail import send_mail
 
 from . import serializers
 
@@ -61,6 +63,12 @@ class UserRegisterViewSet(viewsets.ViewSet):
             image=image,
         )
         users_inst.save()
+
+        subject = 'Team Shangkai : Account Registration'
+        message = f'Dear, {users_inst.name}, Account registration successfully'
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [users_inst.email, ]
+        send_mail( subject, message, email_from, recipient_list )
 
         users_data = serializers.UserRegisterSerializer(
             User_Register.objects.filter(id=users_inst.id), many=True
