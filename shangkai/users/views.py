@@ -7,20 +7,9 @@ from rest_framework import status
 from . import serializers
 import random
 import smtplib
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
-
-import time
-from datetime import datetime, date, timedelta
-from pytz import timezone
-from django.utils.timezone import utc
-from calendar import monthrange, isleap
-import math, random, requests
-from django.core.paginator import Paginator, EmptyPage
-from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
-from django.db.models import F, Q
-import re
+from django.core.mail import send_mail
+
 
 
 """Model Package """
@@ -95,18 +84,23 @@ class UserRegisterViewSet(viewsets.ViewSet):
             image=image,
         )
         users_inst.save()
-        mail_context = {
-            "content_message": f"Your OTP verification code is {otp}",
-        }
-        html_message = render_to_string("email/user_email_verify.html", mail_context)
-        send_mail(
-            "Reading Right : OTP verification",
-            "Your OTP verification code is {otp}".format(otp=otp),
-            "businessinfotrando@gmail.com",
-            [users_inst.email],
-            fail_silently=False,
-            html_message=html_message,
-        )
+        # mail_context = {
+        #     "content_message": f"Your OTP verification code is {otp}",
+        # }
+        # html_message = render_to_string("email/user_email_verify.html", mail_context)
+        # send_mail(
+        #     "Reading Right : OTP verification",
+        #     "Your OTP verification code is {otp}".format(otp=otp),
+        #     "businessinfotrando@gmail.com",
+        #     [users_inst.email],
+        #     fail_silently=False,
+        #     html_message=html_message,
+        # )
+        subject = 'Team Shangkai : OTP verification'
+        message = f'Hi {users_inst.name}, Your OTP verification code is {otp }'
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [users_inst.email, ]
+        send_mail( subject, message, email_from, recipient_list )
 
         users_data = serializers.NormalUserRegisterSerializer(
             Normal_UserReg.objects.filter(id=users_inst.id), many=True
