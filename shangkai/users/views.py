@@ -98,7 +98,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         #     html_message=html_message,
         # )
         subject = 'Team Shangkai : OTP verification'
-        message = f'Hi {users_inst.name}, Your OTP verification code is {otp }'
+        message = f'Dear, {users_inst.name}, Your OTP verification code is {otp }'
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [users_inst.email, ]
         send_mail( subject, message, email_from, recipient_list )
