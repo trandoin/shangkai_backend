@@ -51,7 +51,7 @@ ROOT_URLCONF = "shangkai.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ['/root/shangkai_env/shangkai_backend/shangkai/templates','/root/shangkai_env/shangkai_backend/shangkai/templates'],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -102,13 +102,6 @@ DATABASES = {
 
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = "businessinfotrando@gmail.com"
-EMAIL_HOST_PASSWORD = "startup@trando"
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -146,6 +139,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "businessinfotrando@gmail.com"
+EMAIL_HOST_PASSWORD = "startup@trando"
+
+
 # STATIC_URL = '/root/shangkai_env/shangkai_backend/shangkai/static/'
 
 # Default primary key field type
@@ -163,7 +165,6 @@ STATIC_ROOT = os.path.join(PROJECT_DIR, "static")
 # STATIC_URL = "/home/ubuntu/travel-env/shangkai_backend/shangkai/static/"
 
 
-STATIC_URL = "/static/"
 
 
 
