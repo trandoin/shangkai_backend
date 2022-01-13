@@ -7,6 +7,7 @@ from rest_framework import status
 from . import serializers
 import random
 import smtplib
+from django.contrib.auth import login, authenticate, logout
 from django.conf import settings
 from django.core.mail import send_mail
 
