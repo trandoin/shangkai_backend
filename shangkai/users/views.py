@@ -166,7 +166,7 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
         status = 1
 
         if otp is None:
-            return Response({"message": "Enter OTP !"}, status=status.HTTP_400_BAD_REQUEST,)
+            return Response({"message": "Enter OTP !"})
 
         try:
             users_inst = Normal_UserReg.objects.filter(email=user_email, otp=otp)
