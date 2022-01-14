@@ -181,11 +181,15 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
             user_inst.otp = newotp
             user_inst.is_edited = True
             user_inst.save()
+            
+            return Response(
+                {"message": "OTP Verified successfully !"}
+            )
         except:
             return Response(
                 {"message": "Invalid Request !"}
             )
-        return Response(users_data_dic.data, status=status.HTTP_200_OK)    
+   
 
 class UserUpdatePasswordViewSet(viewsets.ViewSet):
     def list(self, request):
