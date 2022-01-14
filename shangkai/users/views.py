@@ -161,34 +161,27 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
         return Response(users_data_dic.data, status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
-        user_id = request.POST.get("user_id", None)
+        user_email = request.POST.get("user_email", None)
         otp = request.POST.get("otp", None)
-        status = request.POST.get("status", None)
+        status = 1
 
         if otp is None:
-            return Response(
-                {"message": "Enter OTP !"}, status=status.HTTP_400_BAD_REQUEST
-            )
+            return Response({"message": "Enter OTP !"}, status=status.HTTP_400_BAD_REQUEST,)
+
         try:
-            users_inst = Normal_UserReg.objects.filter(id=user_id, otp=otp)
+            users_inst = Normal_UserReg.objects.filter(email=user_email, otp=otp)
             users_data_dic = serializers.NormalUserRegisterSerializer(
                 users_inst, many=True
             )
-            post_inst = Normal_UserReg.objects.get(id=pk)
-            post_inst.otp = otp
-            post_inst.status = status
-            post_inst.is_edited = True
-            post_inst.save()
-
-            users_data_dic = serializers.NormalUserRegisterSerializer(
-                Normal_UserReg.objects.filter(id=post_inst.id), many=True
-            )
-            return Response(
-                users_data_dic.data,
-                status=status.HTTP_200_OK,
-            )
+            user_inst = Normal_UserReg.objects.get(id=pk)
+            user_inst.status = status
+            user_inst.is_edited = True
+            user_inst.save()
         except:
-            return Response({"message": "Invalid OTP !"})
+            return Response(
+                {"message": "Invalid username & password !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 class UserUpdatePasswordViewSet(viewsets.ViewSet):
     def list(self, request):
