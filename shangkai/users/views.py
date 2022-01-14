@@ -163,6 +163,7 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
     def update(self, request, pk=None):
         user_email = request.POST.get("user_email", None)
         otp = request.POST.get("otp", None)
+        new_otp = random.randint(1111, 9999)
         status = 1
 
         if otp is None:
@@ -175,11 +176,12 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
             )
             user_inst = Normal_UserReg.objects.get(id=pk)
             user_inst.status = status
+            user_inst.otp = new_otp
             user_inst.is_edited = True
             user_inst.save()
         except:
             return Response(
-                {"message": "Invalid username & password !"}
+                {"message": "Invalid Request !"}
             )
 
 class UserUpdatePasswordViewSet(viewsets.ViewSet):
