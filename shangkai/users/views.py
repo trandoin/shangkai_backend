@@ -163,11 +163,13 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
     def update(self, request, pk=None):
         user_email = request.POST.get("user_email", None)
         otp = request.POST.get("otp", None)
-        new_otp = random.randint(1111, 9999)
+        newotp = random.randint(1111, 9999)
         status = 1
 
         if otp is None:
-            return Response({"message": "Enter OTP !"})
+            return Response(
+                {"message": "Enter OTP !"}
+            )
 
         try:
             users_inst = Normal_UserReg.objects.filter(email=user_email, otp=otp)
@@ -176,13 +178,14 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
             )
             user_inst = Normal_UserReg.objects.get(id=pk)
             user_inst.status = status
-            user_inst.otp = new_otp
+            user_inst.otp = newotp
             user_inst.is_edited = True
             user_inst.save()
         except:
             return Response(
                 {"message": "Invalid Request !"}
             )
+        return Response(users_data_dic.data, status=status.HTTP_200_OK)    
 
 class UserUpdatePasswordViewSet(viewsets.ViewSet):
     def list(self, request):
