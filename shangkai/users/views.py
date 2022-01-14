@@ -179,8 +179,7 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
             user_inst.save()
         except:
             return Response(
-                {"message": "Invalid username & password !"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"message": "Invalid username & password !"}
             )
 
 class UserUpdatePasswordViewSet(viewsets.ViewSet):
