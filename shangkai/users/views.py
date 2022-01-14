@@ -181,7 +181,7 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
             user_inst.save()
 
             return Response(
-                {"message": "OTP Verified Sucessfully"},
+                users_data_dic.data,
                 status=status.HTTP_200_OK,
             )
             
