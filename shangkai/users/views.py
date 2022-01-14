@@ -163,7 +163,7 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
     def update(self, request, pk=None):
         user_email = request.POST.get("user_email", None)
         otp = request.POST.get("otp", None)
-        newotp = random.randint(1111, 9999)
+        newotp = random.randint(11, 999)
         status = 1
 
         if otp is None:
@@ -176,18 +176,18 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
             users_data_dic = serializers.NormalUserRegisterSerializer(
                 users_inst, many=True
             )
-            user_inst = Normal_UserReg.objects.get(id=pk)
+            user_inst = Normal_UserReg.objects.get(id=pk,email=user_email)
             user_inst.status = status
             user_inst.otp = newotp
             user_inst.is_edited = True
             user_inst.save()
-            
+
             return Response(
                 {"message": "OTP Verified successfully !"}
             )
         except:
             return Response(
-                {"message": "Invalid Request !"}
+                {"message": "Invalid OTP !"}
             )
    
 
