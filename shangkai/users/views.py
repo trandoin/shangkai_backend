@@ -185,8 +185,7 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
                 {"message": "Invalid OTP !"}
             )
         return Response(
-                users_data_dic.data,
-                status=status.HTTP_200_OK,
+                {"message": "OTP Verified !"}
             )    
    
 
