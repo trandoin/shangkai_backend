@@ -172,19 +172,21 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
             )
 
         try:
-            users_inst = Normal_UserReg.objects.filter(email=user_email, otp=otp)
+            users_inst = Normal_UserReg.objects.filter(id=pk, email=user_email, otp=otp)
             users_data_dic = serializers.NormalUserRegisterSerializer(
                 users_inst, many=True
             )
-            user_inst = Normal_UserReg.objects.get(id=pk,email=user_email)
+            user_inst = Normal_UserReg.objects.get(email=user_email, id=pk)
             user_inst.status = status
             user_inst.otp = newotp
             user_inst.is_edited = True
             user_inst.save()
 
             return Response(
-                {"message": "OTP Verified successfully !"}
+                {"message": "OTP Verified Sucessfully"},
+                status=status.HTTP_200_OK,
             )
+            
         except:
             return Response(
                 {"message": "Invalid OTP !"}
