@@ -163,7 +163,6 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
     def update(self, request, pk=None):
         user_email = request.POST.get("user_email", None)
         otp = request.POST.get("otp", None)
-        newotp = random.randint(11, 999)
         status = 1
 
         if otp is None:
@@ -178,7 +177,6 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
             )
             user_inst = Normal_UserReg.objects.get(id=pk)
             user_inst.status = status
-            user_inst.otp = newotp
             user_inst.is_edited = True
             user_inst.save()
 
