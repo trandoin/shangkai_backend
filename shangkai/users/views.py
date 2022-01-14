@@ -163,7 +163,7 @@ class UserVerifyOTPViewSet(viewsets.ViewSet):
     def update(self, request, pk=None):
         user_email = request.POST.get("user_email", None)
         otp = request.POST.get("otp", None)
-        newotp = random.randint(1111, 9999)
+        newotp = random.randint(11, 999)
         status = 1
 
         if otp is None:
