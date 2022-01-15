@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
 from django.core.mail import send_mail
+import random
 
 from . import serializers
 
@@ -52,6 +53,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         mobile = request.POST.get("mobile", None)
         password = request.POST.get("password", None)
         image = request.POST.get("image", None)
+        otp = random.randint(1111, 9999)
 
         users_inst = User_Register.objects.create(
             user_id=user_id,
@@ -60,12 +62,13 @@ class UserRegisterViewSet(viewsets.ViewSet):
             email=email,
             mobile=mobile,
             password=password,
+            otp=otp,
             image=image,
         )
         users_inst.save()
 
-        subject = 'Team Shangkai : Account Registration'
-        message = f'Dear, {users_inst.name}, Account registration successfully'
+        subject = 'Team Shangkai : OTP verification'
+        message = f'Dear, {users_inst.name}, Your OTP verification code is {otp } , This otp for clients'
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [users_inst.email, ]
         send_mail( subject, message, email_from, recipient_list )
