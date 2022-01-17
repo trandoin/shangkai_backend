@@ -67,8 +67,8 @@ class UserRegisterViewSet(viewsets.ViewSet):
         )
         users_inst.save()
 
-        subject = 'Team Shangkai : OTP verification'
-        message = f'Dear, {users_inst.name}, Your OTP verification code is {otp } , This otp for clients'
+        subject = 'Team Shangkai : Account verification'
+        message = f'Dear, {users_inst.name}, Your verification url is : https://shangkai.in/verify/clients.php?email={email}'
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [users_inst.email, ]
         send_mail( subject, message, email_from, recipient_list )
