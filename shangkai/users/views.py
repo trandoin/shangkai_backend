@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from . import serializers
 import random
+import string
 import smtplib
 from django.contrib.auth import login, authenticate, logout
 from django.conf import settings
@@ -73,6 +74,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         otp = random.randint(1111, 9999)
         password = request.POST.get("password", None)
         image = request.POST.get("image", None)
+        token = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 80))
 
         users_inst = Normal_UserReg.objects.create(
             user_id=user_id,
@@ -98,7 +100,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         #     html_message=html_message,
         # )
         subject = 'Team Shangkai : Account verification'
-        message = f'Dear, {users_inst.name}, Your verification url is : https://shangkai.in/verify/?email={email}'
+        message = f'Dear, {users_inst.name}, Your verification url is : https://shangkai.in/verify/?email={email}&token={token}'
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [users_inst.email, ]
         send_mail( subject, message, email_from, recipient_list )

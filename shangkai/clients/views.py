@@ -9,6 +9,7 @@ from rest_framework import status
 from django.conf import settings
 from django.core.mail import send_mail
 import random
+import string
 
 from . import serializers
 
@@ -54,6 +55,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         password = request.POST.get("password", None)
         image = request.POST.get("image", None)
         otp = random.randint(1111, 9999)
+        token = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 80))
 
         users_inst = User_Register.objects.create(
             user_id=user_id,
@@ -68,7 +70,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         users_inst.save()
 
         subject = 'Team Shangkai : Account verification'
-        message = f'Dear, {users_inst.name}, Your verification url is : https://shangkai.in/verify/clients.php?email={email}'
+        message = f'Dear, {users_inst.name}, Your verification url is : https://shangkai.in/verify/clients.php?email={email}&token={token}'
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [users_inst.email, ]
         send_mail( subject, message, email_from, recipient_list )
