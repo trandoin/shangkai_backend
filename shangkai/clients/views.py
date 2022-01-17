@@ -180,48 +180,35 @@ class ClientsUpdatePasswordViewSet(viewsets.ViewSet):
             )
 
 
-class ClientVerifyOTPViewSet(viewsets.ViewSet):
-    def list(self, request):
-        user_id = request.GET.get("user_id", None)
-        try:
-            sm_users = User_Register.objects.filter(id=user_id)
-            users_data_dic = serializers.UserRegisterSerializer(
-                sm_users, many=True
+class ClientVerifyEmailViewSet(viewsets.ViewSet):
+    def create(self, request):
+
+        email = request.POST.get("email", None)
+        token = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 80))
+
+        if email is None :
+
+            return Response(
+                {"message": "Enter email id !"},
+                status=status.HTTP_400_BAD_REQUEST,
             )
+
+        try:
+            users_inst = User_Register.objects.filter(email=email)
+            users_data_dic = serializers.UserRegisterSerializer(users_inst, many=True)
+
+            subject = 'Team Shangkai : Account verification'
+            message = f'Dear, {users_inst.name}, Your verification url is : https://shangkai.in/verify/clients_account.php?email={email}&token={token}'
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [users_inst.email, ]
+            send_mail( subject, message, email_from, recipient_list )    
+
         except:
             return Response(
-                {"message": "Sorry No data found !"},
+                {"message": "Invalid email !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(users_data_dic.data, status=status.HTTP_200_OK)
-
-    def update(self, request, pk=None):
-        user_email = request.POST.get("user_email", None)
-        otp = request.POST.get("otp", None)
-        status = 1
-
-        if otp is None:
-            return Response(
-                {"message": "Enter OTP !"}
-            )
-
-        try:
-            users_inst = User_Register.objects.filter(email=user_email, otp=otp)
-            users_data_dic = serializers.UserRegisterSerializer(
-                users_inst, many=True
-            )
-            user_inst = User_Register.objects.get(id=pk)
-            user_inst.status = status
-            user_inst.is_edited = True
-            user_inst.save()
-  
-        except:
-            return Response(
-                {"message": "Invalid OTP !"}
-            )
-        return Response(
-                {"message": "OTP Verified !"}
-            ) 
 
 
 class ClientloginViewSet(viewsets.ViewSet):

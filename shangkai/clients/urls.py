@@ -13,7 +13,7 @@ router.register("client_login", views.ClientloginViewSet, basename="ClientsLogin
 
 router.register("client_update_password", views.ClientsUpdatePasswordViewSet, basename="ClientsUpdatePassword")
 
-router.register("client_otp_verified", views.ClientVerifyOTPViewSet, basename="ClientsOtpVerified")
+router.register("client_email_verified", views.ClientVerifyEmailViewSet, basename="ClientsEmailVerified")
 
 
 
