@@ -97,8 +97,8 @@ class UserRegisterViewSet(viewsets.ViewSet):
         #     fail_silently=False,
         #     html_message=html_message,
         # )
-        subject = 'Team Shangkai : OTP verification'
-        message = f'Dear, {users_inst.name}, Your OTP verification code is {otp } https://shangkai.in/verify/?email={email}'
+        subject = 'Team Shangkai : Account verification'
+        message = f'Dear, {users_inst.name}, Your verification url is : https://shangkai.in/verify/?email={email}'
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [users_inst.email, ]
         send_mail( subject, message, email_from, recipient_list )
