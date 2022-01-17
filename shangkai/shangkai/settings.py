@@ -147,12 +147,19 @@ STATIC_URL = "/static/"
 # EMAIL_HOST_USER = "businessinfotrando@gmail.com"
 # EMAIL_HOST_PASSWORD = "startup@trando"
 
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.hostinger.in'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = "noreply@trando.in"
+# EMAIL_HOST_PASSWORD = "Anoreply@123"
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.hostinger.in'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "noreply@trando.in"
-EMAIL_HOST_PASSWORD = "Anoreply@123"
+EMAIL_HOST_USER = "shangkai-mail@trando.in"
+EMAIL_HOST_PASSWORD = "Shangkai@12#$"
 
 
 # STATIC_URL = '/root/shangkai_env/shangkai_backend/shangkai/static/'
