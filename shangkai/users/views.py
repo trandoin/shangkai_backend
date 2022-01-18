@@ -165,9 +165,9 @@ class UserVerifyEmailViewSet(viewsets.ViewSet):
             users_data_dic = serializers.NormalUserRegisterSerializer(users_inst, many=True)
 
             subject = 'Team Shangkai : Account verification'
-            message = f'Dear, {users_inst.name}, Your verification url is : https://shangkai.in/verify/user_account.php?email={email}&token={token}'
+            message = f'Hello, Your verification url is : https://shangkai.in/verify/user_account.php?email={email}&token={token}'
             email_from = settings.EMAIL_HOST_USER
-            recipient_list = [users_inst.email, ]
+            recipient_list = [email, ]
             send_mail( subject, message, email_from, recipient_list )    
 
         except:
