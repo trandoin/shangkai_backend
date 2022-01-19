@@ -172,7 +172,7 @@ class UserVerifyEmailViewSet(viewsets.ViewSet):
 
         except:
             return Response(
-                {"message": "Invalid email !"},
+                {"message": "Invalid Request !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(users_data_dic.data, status=status.HTTP_200_OK)
