@@ -70,7 +70,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         users_inst.save()
 
         subject = 'Team Shangkai : Account verification'
-        message = f'Dear, {users_inst.name}, Your verification url is : https://shangkai.in/verify/clients.php?email={email}&token={token}'
+        message = f'Hello, {users_inst.name}, Account verification mail sent to your email : https://shangkai.in/verify/clients.php?email={email}&token={token}'
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [users_inst.email, ]
         send_mail( subject, message, email_from, recipient_list )
@@ -169,7 +169,7 @@ class ClientsUpdatePasswordViewSet(viewsets.ViewSet):
                 User_Register.objects.filter(id=post_inst.id), many=True
             )
             return Response(
-                {"message": "Password Updated successfully !"},
+                {"message": "Your Password has been changed Successfully "},
                 status=status.HTTP_200_OK,
             )
 
@@ -198,7 +198,7 @@ class ClientVerifyEmailViewSet(viewsets.ViewSet):
             users_data_dic = serializers.UserRegisterSerializer(users_inst, many=True)
 
             subject = 'Team Shangkai : Account verification'
-            message = f'Hello,  Your verification url is : https://shangkai.in/verify/clients_account.php?email={email}&token={token}'
+            message = f'Hello, Please find below the link to change your password : https://shangkai.in/verify/clients_account.php?email={email}&token={token}'
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [email, ]
             send_mail( subject, message, email_from, recipient_list )    
