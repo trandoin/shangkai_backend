@@ -38,7 +38,7 @@ class Hotspot_Category(models.Model):
     tagline = models.TextField("tagline", null=True, max_length=1000)
     rating = models.CharField("rating", null=True, max_length=1000)
     images = models.CharField("images", default="0", max_length=25500)
-    is_recommended = models.CharField("is_recommended", null=True, default="0", max_length=255)
+   # is_recommended = models.CharField("is_recommended", null=True, default="0", max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -85,7 +85,7 @@ class Hot_Spots(models.Model):
     )
     rating = models.CharField("rating", null=True, max_length=2000)
     tags = models.TextField("tags", null=True, max_length=2000)
-    is_recommended = models.CharField("is_recommended", null=True, default="0", max_length=255)
+    # is_recommended = models.CharField("is_recommended", null=True, default="0", max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
