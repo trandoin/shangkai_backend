@@ -9,13 +9,8 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-<<<<<<< HEAD
-        ('clients', '0001_initial'),
-        ('shangkai_app', '0001_initial'),
-=======
         ("shangkai_app", "0001_initial"),
         ("clients", "0001_initial"),
->>>>>>> 74e3dbbb4f240b6b7b7e2ecc894287c7324a3feb
     ]
 
     operations = [
