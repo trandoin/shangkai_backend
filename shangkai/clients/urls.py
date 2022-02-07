@@ -11,10 +11,17 @@ router.register(
 )
 router.register("client_login", views.ClientloginViewSet, basename="ClientsLogin")
 
-router.register("client_update_password", views.ClientsUpdatePasswordViewSet, basename="ClientsUpdatePassword")
+router.register(
+    "client_update_password",
+    views.ClientsUpdatePasswordViewSet,
+    basename="ClientsUpdatePassword",
+)
 
-router.register("client_email_verified", views.ClientVerifyEmailViewSet, basename="ClientsEmailVerified")
-
+router.register(
+    "client_email_verified",
+    views.ClientVerifyEmailViewSet,
+    basename="ClientsEmailVerified",
+)
 
 
 # # """"HOTELS"""
@@ -56,7 +63,9 @@ router.register(
     "update_cab_status", views.CabUpdateStatusViewSet, basename="UpdateCabStatus"
 )
 router.register(
-    "update_driver_status", views.DriverUpdateStatusViewSet, basename="UpdateDriverStatus"
+    "update_driver_status",
+    views.DriverUpdateStatusViewSet,
+    basename="UpdateDriverStatus",
 )
 
 
@@ -64,9 +73,21 @@ router.register(
 router.register("tour_location", views.TourLocationsViewSet, basename="TourLocations")
 router.register("tour_packages", views.TourPackagesViewSet, basename="TourPackages")
 router.register("my_tour_guider", views.TourGuiderViewSet, basename="TourGuider")
-router.register("update_status_tour_locations", views.TourLocationsUpdateStatusViewSet, basename="UpdateStatusTourLocations")
-router.register("update_status_tour_packages", views.TourPackagesUpdateStatusViewSet, basename="UpdateStatusTourPackages")
-router.register("update_status_tour_guiders", views.TourGuideUpdateStatusViewSet, basename="UpdateStatusTourGuider")
+router.register(
+    "update_status_tour_locations",
+    views.TourLocationsUpdateStatusViewSet,
+    basename="UpdateStatusTourLocations",
+)
+router.register(
+    "update_status_tour_packages",
+    views.TourPackagesUpdateStatusViewSet,
+    basename="UpdateStatusTourPackages",
+)
+router.register(
+    "update_status_tour_guiders",
+    views.TourGuideUpdateStatusViewSet,
+    basename="UpdateStatusTourGuider",
+)
 
 
 ############# """""""" ADMIN """"""""##########

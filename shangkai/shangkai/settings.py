@@ -101,7 +101,6 @@ DATABASES = {
 }
 
 
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -154,8 +153,8 @@ STATIC_URL = "/static/"
 # EMAIL_HOST_USER = "noreply@trando.in"
 # EMAIL_HOST_PASSWORD = "Anoreply@123"
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.hostinger.in'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.hostinger.in"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "shangkai-mail@trando.in"
@@ -177,9 +176,6 @@ PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_DIR, "static")
 # STATIC_URL = "/root/shangkai_env/shangkai_backend/shangkai/static/"
 # STATIC_URL = "/home/ubuntu/travel-env/shangkai_backend/shangkai/static/"
-
-
-
 
 
 # default static files settings for PythonAnywhere.

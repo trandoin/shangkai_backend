@@ -10,13 +10,19 @@ router.register(
     "user_register", views.UserRegisterViewSet, basename="NormalUsersRegister"
 )
 router.register("user_login", views.UserLoginViewSet, basename="NormalUsersLogin")
-router.register("verify_email_user", views.UserVerifyEmailViewSet, basename="VerifyEmail")
+router.register(
+    "verify_email_user", views.UserVerifyEmailViewSet, basename="VerifyEmail"
+)
 router.register(
     "account_details",
     views.AccounDetailsBookingViewSet,
     basename="AccounDetailsBooking",
 )
-router.register("user_password_update", views.UserUpdatePasswordViewSet, basename="UsersPasswordUpdate")
+router.register(
+    "user_password_update",
+    views.UserUpdatePasswordViewSet,
+    basename="UsersPasswordUpdate",
+)
 
 
 # # """"BOOKINGS"""

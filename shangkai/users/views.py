@@ -13,7 +13,6 @@ from django.conf import settings
 from django.core.mail import send_mail
 
 
-
 """Model Package """
 from .models import (
     User_Account_Details,
@@ -74,7 +73,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
         otp = random.randint(1111, 9999)
         password = request.POST.get("password", None)
         image = request.POST.get("image", None)
-        token = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 80))
+        token = "".join(random.choices(string.ascii_uppercase + string.digits, k=80))
 
         users_inst = Normal_UserReg.objects.create(
             user_id=user_id,
@@ -99,11 +98,13 @@ class UserRegisterViewSet(viewsets.ViewSet):
         #     fail_silently=False,
         #     html_message=html_message,
         # )
-        subject = 'Team Shangkai : Account verification'
-        message = f'Hello, {users_inst.name}, Account verification mail sent to your email : https://shangkai.in/verify/?email={email}&token={token}'
+        subject = "Team Shangkai : Account verification"
+        message = f"Hello, {users_inst.name}, Account verification mail sent to your email : https://shangkai.in/verify/?email={email}&token={token}"
         email_from = settings.EMAIL_HOST_USER
-        recipient_list = [users_inst.email, ]
-        send_mail( subject, message, email_from, recipient_list )
+        recipient_list = [
+            users_inst.email,
+        ]
+        send_mail(subject, message, email_from, recipient_list)
 
         users_data = serializers.NormalUserRegisterSerializer(
             Normal_UserReg.objects.filter(id=users_inst.id), many=True
@@ -146,14 +147,15 @@ class UserRegisterViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+
 # user_account.php
 class UserVerifyEmailViewSet(viewsets.ViewSet):
     def create(self, request):
 
         email = request.POST.get("email", None)
-        token = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 80))
+        token = "".join(random.choices(string.ascii_uppercase + string.digits, k=80))
 
-        if email is None :
+        if email is None:
 
             return Response(
                 {"message": "Enter email id !"},
@@ -162,13 +164,17 @@ class UserVerifyEmailViewSet(viewsets.ViewSet):
 
         try:
             users_inst = Normal_UserReg.objects.filter(email=email)
-            users_data_dic = serializers.NormalUserRegisterSerializer(users_inst, many=True)
+            users_data_dic = serializers.NormalUserRegisterSerializer(
+                users_inst, many=True
+            )
 
-            subject = 'Team Shangkai : Account verification'
-            message = f'Hello, Please find below the link to change your password : https://shangkai.in/verify/user_account.php?email={email}&token={token}'
+            subject = "Team Shangkai : Account verification"
+            message = f"Hello, Please find below the link to change your password : https://shangkai.in/verify/user_account.php?email={email}&token={token}"
             email_from = settings.EMAIL_HOST_USER
-            recipient_list = [email, ]
-            send_mail( subject, message, email_from, recipient_list )    
+            recipient_list = [
+                email,
+            ]
+            send_mail(subject, message, email_from, recipient_list)
 
         except:
             return Response(
@@ -176,8 +182,7 @@ class UserVerifyEmailViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(users_data_dic.data, status=status.HTTP_200_OK)
-   
-   
+
 
 class UserUpdatePasswordViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -193,6 +198,7 @@ class UserUpdatePasswordViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(users_data_dic.data, status=status.HTTP_200_OK)
+
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)
         password = request.POST.get("password", None)
@@ -218,6 +224,7 @@ class UserUpdatePasswordViewSet(viewsets.ViewSet):
                 {"message": "Something went to wrong ! Try again !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
 
 class UserLoginViewSet(viewsets.ViewSet):
     def create(self, request):

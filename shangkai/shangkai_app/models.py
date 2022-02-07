@@ -42,7 +42,7 @@ class Hotspot_Category(models.Model):
     tagline = models.TextField("tagline", null=True, max_length=1000)
     rating = models.CharField("rating", null=True, max_length=1000)
     images = models.CharField("images", default="0", max_length=25500)
-   # is_recommended = models.CharField("is_recommended", null=True, default="0", max_length=255)
+    # is_recommended = models.CharField("is_recommended", null=True, default="0", max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -156,6 +156,7 @@ class My_Trips_Days(models.Model):
             "My Trips Days",
         )
 
+
 class Blog_Category(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
@@ -169,6 +170,7 @@ class Blog_Category(models.Model):
             "Blog Category",
             "Blog Category",
         )
+
 
 class Comments_All(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)

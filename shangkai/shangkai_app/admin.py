@@ -113,6 +113,7 @@ class PaymentTransaction(admin.ModelAdmin):
 
 admin.site.register(Payment_Transaction, PaymentTransaction)
 
+
 class BlogCategory(admin.ModelAdmin):
     list_display = ["id", "user", "title"]
 
