@@ -15,6 +15,7 @@ from .models import (
     Hotel_Category,
     My_Trips,
     My_Trips_Days,
+    Blog_Category,
 )
 
 # Register your models here.
@@ -111,3 +112,9 @@ class PaymentTransaction(admin.ModelAdmin):
 
 
 admin.site.register(Payment_Transaction, PaymentTransaction)
+
+class BlogCategory(admin.ModelAdmin):
+    list_display = ["id", "user", "title"]
+
+
+admin.site.register(Blog_Category, BlogCategory)

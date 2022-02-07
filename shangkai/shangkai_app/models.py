@@ -6,6 +6,10 @@ from users.models import (
     Normal_UserReg,
 )
 
+from clients.models import (
+    User_Register,
+)
+
 
 class About_Us(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
@@ -152,6 +156,19 @@ class My_Trips_Days(models.Model):
             "My Trips Days",
         )
 
+class Blog_Category(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user = models.ForeignKey(
+        "clients.User_Register", on_delete=models.CASCADE, default=None
+    )
+    title = models.CharField("Category Title", null=True, max_length=255)
+    status = models.CharField("status", null=True, default="0", max_length=255)
+
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Blog Category",
+            "Blog Category",
+        )
 
 class Comments_All(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
