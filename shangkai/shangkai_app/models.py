@@ -170,6 +170,27 @@ class Blog_Category(models.Model):
             "Blog Category",
             "Blog Category",
         )
+    def __str__(self):
+        return self.title        
+        
+class Blog_Post(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user = models.ForeignKey(
+        "clients.User_Register", on_delete=models.CASCADE, default=None
+    )
+    category = models.ForeignKey(
+        "shangkai_app.Blog_Category", on_delete=models.CASCADE, default=None
+    )
+    title = models.CharField("Post Title", null=True, max_length=555)
+    text = models.TextField("Post Text", null=True, max_length=2000)
+    feature_image = models.CharField("Feature Image", null=True, max_length=2000)
+    status = models.CharField("status", null=True, default="0", max_length=255)
+
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Blog Posts",
+            "Blog Posts",
+        )        
 
 
 class Comments_All(models.Model):

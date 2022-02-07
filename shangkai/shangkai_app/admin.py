@@ -16,6 +16,7 @@ from .models import (
     My_Trips,
     My_Trips_Days,
     Blog_Category,
+    Blog_Post,
 )
 
 # Register your models here.
@@ -119,3 +120,9 @@ class BlogCategory(admin.ModelAdmin):
 
 
 admin.site.register(Blog_Category, BlogCategory)
+
+class BlogPosts(admin.ModelAdmin):
+    list_display = ["id", "category", "title","text","feature_image"]
+
+
+admin.site.register(Blog_Post, BlogPosts)
