@@ -122,14 +122,16 @@ class BlogCategory(admin.ModelAdmin):
 
 admin.site.register(Blog_Category, BlogCategory)
 
+
 class BlogPosts(admin.ModelAdmin):
-    list_display = ["id", "category", "title","text","feature_image"]
+    list_display = ["id", "category", "title", "text", "feature_image"]
 
 
 admin.site.register(Blog_Post, BlogPosts)
 
+
 class BlogPostComments(admin.ModelAdmin):
-    list_display = ["id", "post", "user_ip","comments"]
+    list_display = ["id", "post", "user_ip", "comments"]
 
 
 admin.site.register(BlogPost_Comments, BlogPostComments)

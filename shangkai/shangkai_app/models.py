@@ -170,9 +170,11 @@ class Blog_Category(models.Model):
             "Blog Category",
             "Blog Category",
         )
+
     def __str__(self):
-        return self.title        
-        
+        return self.title
+
+
 class Blog_Post(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
@@ -190,18 +192,20 @@ class Blog_Post(models.Model):
         verbose_name, verbose_name_plural = (
             "Blog Posts",
             "Blog Posts",
-        ) 
+        )
+
     def __str__(self):
-        return self.title     
-               
+        return self.title
+
+
 class BlogPost_Comments(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "users.Normal_UserReg", on_delete=models.CASCADE, default=None
     )
     post = models.ForeignKey(
-        "shangkai.Blog_Post", on_delete=models.CASCADE, default=None
-    )    
+        "shangkai_app.Blog_Post", on_delete=models.CASCADE, default=None
+    )
     user_ip = models.CharField("User IP", null=True, max_length=255)
     comments = models.TextField("Comments", null=True, max_length=2000)
     status = models.CharField("status", null=True, default="0", max_length=255)
@@ -211,6 +215,7 @@ class BlogPost_Comments(models.Model):
             "Blog Post Comments",
             "Blog Post Comments",
         )
+
 
 class Comments_All(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
