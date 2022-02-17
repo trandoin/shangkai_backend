@@ -227,7 +227,7 @@ CORS_ORIGIN_WHITELIST = [
     # "https://panel.shangkai.in",
     # "http://panel.shangkai.in",
     "http://shangkai.in",
-    "http://partner.shangkai.in/",
+    "http://partner.shangkai.in",
 ]
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
