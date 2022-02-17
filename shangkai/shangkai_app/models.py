@@ -125,7 +125,7 @@ class My_Trips(models.Model):
     hotspots_id = models.CharField("hotspots", null=True, max_length=255)
     includes = models.TextField("includes", null=True, max_length=255)
     rules = models.TextField("rules", null=True, max_length=255)
-    days_no = models.TextField("days_no", null=True, max_length=2000)
+    days_no = models.CharField("days_no", null=True, max_length=2000)
     start_trip = models.DateField(
         "start_trip", default="2021-03-09", null=True, max_length=2000
     )
