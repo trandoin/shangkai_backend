@@ -155,6 +155,17 @@ class My_Trips_Days(models.Model):
             "My Trips days",
             "My Trips Days",
         )
+class Admin_Notification(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    title = models.CharField("Title", null=True, max_length=255)
+    message = models.TextField("Message", null=True, max_length=255)
+    status = models.CharField("Status", null=True, default="0", max_length=255)
+
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Admin_Notification",
+            "Admin_Notification",
+        )        
 
 
 class Blog_Category(models.Model):

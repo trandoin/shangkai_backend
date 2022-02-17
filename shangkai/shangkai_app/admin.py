@@ -18,6 +18,7 @@ from .models import (
     Blog_Category,
     Blog_Post,
     BlogPost_Comments,
+    Admin_Notification,
 )
 
 # Register your models here.
@@ -35,6 +36,12 @@ class FooterCopyright(admin.ModelAdmin):
 
 
 admin.site.register(Footer_Copyright, FooterCopyright)
+
+class Notification(admin.ModelAdmin):
+    list_display = ["id", "title","message","status"]
+
+
+admin.site.register(Admin_Notification, Notification)
 
 
 class HotspotCategory(admin.ModelAdmin):
