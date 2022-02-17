@@ -329,6 +329,7 @@ class MyTripsViewSet(viewsets.ViewSet):
             hotspots_id=hotspots_ids,
             includes=includes,
             rules=rules,
+            days_no=days_no,
             start_trip=start_trip,
         )
         trips_inst.save()
