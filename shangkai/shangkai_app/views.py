@@ -76,6 +76,7 @@ class NotificationViewSet(viewsets.ViewSet):
 
         notification_inst = Admin_Notification.objects.create(
             title=title,
+            message=message,
         )
         notification_inst.save()
 
