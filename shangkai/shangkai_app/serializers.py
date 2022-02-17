@@ -9,6 +9,7 @@ from .models import (
     Hotel_Category,
     My_Trips,
     My_Trips_Days,
+    Admin_Notification,
 )
 
 
@@ -21,6 +22,11 @@ class AboutUsSerializer(ModelSerializer):
 class FooterSerializer(ModelSerializer):
     class Meta:
         model = Footer_Copyright
+        fields = "__all__"
+
+class NotificationSerializer(ModelSerializer):
+    class Meta:
+        model = Admin_Notification
         fields = "__all__"
 
 

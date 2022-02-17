@@ -20,6 +20,7 @@ from .models import (
     Hotel_Category,
     My_Trips,
     My_Trips_Days,
+    Admin_Notification,
 )
 
 """Model Package """
@@ -54,6 +55,19 @@ class FooterViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(footer_data_dic.data, status=status.HTTP_200_OK)
+
+class NotificationViewSet(viewsets.ViewSet):
+    def list(self, request):
+
+        try:
+            sm_notification = Admin_Notification.objects.filter(status="1")
+            notification_data_dic = serializers.NotificationSerializer(sm_notification, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(notification_data_dic.data, status=status.HTTP_200_OK)
 
 
 class HotelCategoryViewSet(viewsets.ViewSet):
