@@ -131,6 +131,7 @@ class HotelCategoryViewSet(viewsets.ViewSet):
         )
         return Response(hotels_data.data[0], status=status.HTTP_200_OK)
 
+       
 
 class HotspotCategoryViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -165,7 +166,25 @@ class HotspotCategoryViewSet(viewsets.ViewSet):
         hotspots_cat_data = serializers.HotspotCategorySerializer(
             Hotspot_Category.objects.filter(id=hotspots_cat_inst.id), many=True
         )
-        return Response(hotspots_cat_data.data[0], status=status.HTTP_200_OK)
+        return Response(hotspots_cat_data.data[0], status=status.HTTP_200_OK)        
+
+    def update(self, request, pk=None):
+        status = request.GET.get("status", None)
+
+        if pk is None:
+            return Response({"message": "Invalid Request"})
+
+        try:
+            post_inst = Hotspot_Category.objects.get(id=pk)
+            post_inst.status = status
+
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response({"message": "HotSpots Category Status Updated Sucessfully"})
+
+        except:
+            return Response({"message": "Something went to wrong ! Try again !"}) 
 
 
 class HotSpotsViewSet(viewsets.ViewSet):
@@ -264,6 +283,23 @@ class HotSpotsViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+    def update(self, request, pk=None):
+        status = request.GET.get("status", None)
+
+        if pk is None:
+            return Response({"message": "Invalid Request"})
+
+        try:
+            post_inst = Hot_Spots.objects.get(id=pk)
+            post_inst.status = status
+
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response({"message": "HotSpots Status Updated Sucessfully"})
+
+        except:
+            return Response({"message": "Something went to wrong ! Try again !"}) 
 
 ####  """""""" MY TRIPS """"""""######
 
@@ -339,6 +375,23 @@ class MyTripsViewSet(viewsets.ViewSet):
         )
         return Response(trips_data.data, status=status.HTTP_200_OK)
 
+    def update(self, request, pk=None):
+        status = request.GET.get("status", None)
+
+        if pk is None:
+            return Response({"message": "Invalid Request"})
+
+        try:
+            post_inst = My_Trips.objects.get(id=pk)
+            post_inst.status = status
+
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response({"message": "Trip Status Updated Sucessfully"})
+
+        except:
+            return Response({"message": "Something went to wrong ! Try again !"}) 
 
 class MyTripsDaysViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -381,6 +434,24 @@ class MyTripsDaysViewSet(viewsets.ViewSet):
         )
         return Response(mytrips_days_data.data[0], status=status.HTTP_200_OK)
 
+    def update(self, request, pk=None):
+        status = request.GET.get("status", None)
+
+        if pk is None:
+            return Response({"message": "Invalid Request"})
+
+        try:
+            post_inst = My_Trips_Days.objects.get(id=pk)
+            post_inst.status = status
+
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response({"message": "Trip Status Updated Sucessfully"})
+
+        except:
+            return Response({"message": "Something went to wrong ! Try again !"})
+            
 
 class AllMyTripsDaysViewSet(viewsets.ViewSet):
     def list(self, request):
