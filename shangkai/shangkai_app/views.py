@@ -60,7 +60,7 @@ class NotificationViewSet(viewsets.ViewSet):
     def list(self, request):
 
         try:
-            sm_notification = Admin_Notification.objects.filter(status="1")
+            sm_notification = Admin_Notification.objects.all()
             notification_data_dic = serializers.NotificationSerializer(sm_notification, many=True)
         except:
             return Response(
