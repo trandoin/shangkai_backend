@@ -69,6 +69,37 @@ class NotificationViewSet(viewsets.ViewSet):
             )
         return Response(notification_data_dic.data, status=status.HTTP_200_OK)
 
+    def create(self, request):
+
+        title = request.POST.get("title", None)
+        message = request.POST.get("message", None)
+
+        notification_inst = Admin_Notification.objects.create(
+            title=title,
+        )
+        notification_inst.save()
+
+        notification_data = serializers.NotificationSerializer(
+            Admin_Notification.objects.filter(id=notification_inst.id), many=True
+        )
+        return Response(notification_data.data[0], status=status.HTTP_200_OK)  
+
+    def destroy(self, request, pk=None):
+        notification_id = request.GET.get("notification_id", None)
+
+        if notification_id is None:
+            return Response(
+                {"message": "Please provide notification_id"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        try:
+            scm_notifi_inst = Admin_Notification.objects.filter(id=pk)
+            scm_notifi_inst.delete()
+            return Response(
+                {"message": "Notification Deleted Successfully"}, status=status.HTTP_200_OK
+            )
+        except:
+            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
 
 class HotelCategoryViewSet(viewsets.ViewSet):
     def list(self, request):
