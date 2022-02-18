@@ -119,7 +119,10 @@ class My_Trips(models.Model):
         blank=True,
         default="General",
     )
-    price = models.CharField("price", null=True, max_length=255)
+    price = models.CharField("Price", null=True, max_length=255)
+    special_offer = models.CharField("Special Offer", null=True,default="0", max_length=255)
+    deadline_date = models.CharField("Deadline Date", null=True, max_length=255)
+    exlusion = models.TextField("Exlusion", null=True, max_length=2550)
     description = models.TextField("description", null=True, max_length=255)
     services = models.TextField("services", null=True, max_length=255)
     hotspots_id = models.CharField("hotspots", null=True, max_length=255)
