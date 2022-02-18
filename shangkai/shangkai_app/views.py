@@ -70,11 +70,12 @@ class NotificationViewSet(viewsets.ViewSet):
         return Response(notification_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-
+        datetime = request.POST.get("datetime", None)
         title = request.POST.get("title", None)
         message = request.POST.get("message", None)
 
         notification_inst = Admin_Notification.objects.create(
+            datetime=datetime,
             title=title,
             message=message,
         )
