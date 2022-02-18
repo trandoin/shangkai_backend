@@ -348,6 +348,7 @@ class MyTripsViewSet(viewsets.ViewSet):
         sub_title = request.POST.get("sub_title", None)
         category = request.POST.get("category", None)
         price = request.POST.get("price", None)
+        offer_price = request.POST.get("offer_price", None)
         special_offer = request.POST.get("special_offer", None)
         deadline_date = request.POST.get("deadline_date", None)
         exlusion = request.POST.get("exlusion", None)
@@ -364,6 +365,7 @@ class MyTripsViewSet(viewsets.ViewSet):
             sub_title=sub_title,
             category=category,
             price=price,
+            offer_price=offer_price,
             special_offer=special_offer,
             deadline_date=deadline_date,
             exlusion=exlusion,
