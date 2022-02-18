@@ -120,6 +120,7 @@ class My_Trips(models.Model):
         default="General",
     )
     price = models.CharField("Price", null=True, max_length=255)
+    offer_price = models.CharField("Offer Price", null=True, max_length=255)
     special_offer = models.CharField("Special Offer", null=True,default="0", max_length=255)
     deadline_date = models.CharField("Deadline Date", null=True, max_length=255)
     exlusion = models.TextField("Exlusion", null=True, max_length=2550)
