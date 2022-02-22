@@ -617,6 +617,35 @@ class HotelBookingViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+    def update(self, request, pk=None):
+        user_id = request.POST.get("user_id", None)
+        razorpay_id = request.POST.get("razorpay_id", None)
+        status = request.POST.get("status", None)
+
+        if pk is None and user_id is None:
+            return Response(
+                {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = User_Hotel_Booking.objects.get(id=pk)
+            post_inst.razorpay_id = razorpay_id
+            post_inst.booking_status = status
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Hotel has been booked Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Invalid request"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+
     def destroy(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
         book_id = request.GET.get("book_id", None)
@@ -1028,6 +1057,34 @@ class CabBookingViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+    def update(self, request, pk=None):
+        user_id = request.POST.get("user_id", None)
+        razorpay_id = request.POST.get("razorpay_id", None)
+        status = request.POST.get("status", None)
+
+        if pk is None and user_id is None:
+            return Response(
+                {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = User_Cab_Booking.objects.get(id=pk)
+            post_inst.razorpay_id = razorpay_id
+            post_inst.booking_status = status
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Cab has been booked Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Invalid request"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
     def destroy(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
         book_id = request.GET.get("book_id", None)
@@ -1335,6 +1392,35 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
             User_Trip_Booking.objects.filter(id=users_inst.id), many=True
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
+
+    def update(self, request, pk=None):
+        user_id = request.POST.get("user_id", None)
+        razorpay_id = request.POST.get("razorpay_id", None)
+        status = request.POST.get("status", None)
+
+        if pk is None and user_id is None:
+            return Response(
+                {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            post_inst = User_Trip_Booking.objects.get(id=pk)
+            post_inst.razorpay_id = razorpay_id
+            post_inst.trip_cart_status = status
+            post_inst.is_edited = True
+            post_inst.save()
+
+            return Response(
+                {"message": "Trip has been booked Sucessfully"},
+                status=status.HTTP_200_OK,
+            )
+
+        except:
+            return Response(
+                {"message": "Invalid request"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
 
     def destroy(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
