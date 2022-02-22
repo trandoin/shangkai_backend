@@ -167,6 +167,7 @@ class TourPackages(admin.ModelAdmin):
         "id",
         "user",
         "location_ids",
+        "package_name",
         "package_amount",
     ]
 

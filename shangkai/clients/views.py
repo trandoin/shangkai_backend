@@ -1350,6 +1350,7 @@ class TourPackagesViewSet(viewsets.ViewSet):
 
         user_id = request.POST.get("user_id", None)
         location_ids = request.POST.get("location_ids", None)
+        package_name = request.POST.get("package_name", None)
         package_amount = request.POST.get("package_amount", None)
 
         try:
@@ -1363,6 +1364,7 @@ class TourPackagesViewSet(viewsets.ViewSet):
         package_inst = Tour_Packages.objects.create(
             user=user_inst,
             location_ids=location_ids,
+            package_name=package_name,
             package_amount=package_amount,
         )
         package_inst.save()
