@@ -163,6 +163,9 @@ class User_Hotel_Booking(models.Model):
     amount_booking = models.CharField(
         "amount_booking", null=True, default="0", max_length=255
     )
+    razorpay_id = models.CharField(
+        "razorpay_id", null=True, default="0", max_length=255
+    )    
     booking_status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -283,6 +286,9 @@ class User_Cab_Booking(models.Model):
     end_trip = models.CharField("end_trip", null=True, max_length=255)
     distance = models.CharField("distance", null=True, max_length=255)
     amount_booking = models.CharField("amount", null=True, max_length=255)
+    razorpay_id = models.CharField(
+        "razorpay_id", null=True, default="0", max_length=255
+    )
     no_guests = models.CharField("no_guests", null=True, max_length=255)
     booking_status = models.CharField("status", null=True, default="0", max_length=255)
 
@@ -362,6 +368,9 @@ class User_Trip_Booking(models.Model):
     )
     no_guests = models.CharField("no_guests", null=True, max_length=255)
     trip_ammount = models.CharField("trip_ammount", null=True, max_length=255)
+    razorpay_id = models.CharField(
+        "razorpay_id", null=True, default="0", max_length=255
+    )
     trip_cart_status = models.CharField(
         "status", null=True, default="0", max_length=255
     )
