@@ -624,7 +624,7 @@ class HotelBookingViewSet(viewsets.ViewSet):
 
         if pk is None and user_id is None:
             return Response(
-                {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
+                {"message": "Invalid Input"}
             )
 
         try:
@@ -635,14 +635,12 @@ class HotelBookingViewSet(viewsets.ViewSet):
             post_inst.save()
 
             return Response(
-                {"message": "Hotel has been booked Sucessfully"},
-                status=status.HTTP_200_OK,
+                {"message": "Hotel has been booked Sucessfully"}
             )
 
         except:
             return Response(
-                {"message": "Invalid request"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"message": "Invalid request"}
             )
 
 
@@ -1064,7 +1062,7 @@ class CabBookingViewSet(viewsets.ViewSet):
 
         if pk is None and user_id is None:
             return Response(
-                {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
+                {"message": "Invalid Input"}
             )
 
         try:
@@ -1075,14 +1073,12 @@ class CabBookingViewSet(viewsets.ViewSet):
             post_inst.save()
 
             return Response(
-                {"message": "Cab has been booked Sucessfully"},
-                status=status.HTTP_200_OK,
+                {"message": "Cab has been booked Sucessfully"}
             )
 
         except:
             return Response(
-                {"message": "Invalid request"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"message": "Invalid request"}
             )
 
     def destroy(self, request, pk=None):
@@ -1400,7 +1396,7 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
 
         if pk is None and user_id is None:
             return Response(
-                {"message": "Invalid Input"}, status=status.HTTP_400_BAD_REQUEST
+                {"message": "Invalid Input"}
             )
 
         try:
@@ -1411,8 +1407,7 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
             post_inst.save()
 
             return Response(
-                {"message": "Trip has been booked Sucessfully"},
-                status=status.HTTP_200_OK,
+                {"message": "Trip has been booked Sucessfully"}
             )
 
         except:
