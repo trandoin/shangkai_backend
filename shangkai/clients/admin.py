@@ -179,7 +179,7 @@ class TourGuideReg(admin.ModelAdmin):
     list_display = [
         "id",
         "user",
-        "tour_locations",
+        # "tour_locations",
         "packages",
         "guider_name",
         "about_guider",
