@@ -1477,7 +1477,7 @@ class TourGuiderViewSet(viewsets.ViewSet):
     def create(self, request):
 
         user_id = request.POST.get("user_id", None)
-        tour_locations = request.POST.get("tour_locations", None)
+        # tour_locations = request.POST.get("tour_locations", None)
         packages = request.POST.get("packages", None)
         guider_name = request.POST.get("guider_name", None)
         about_guider = request.POST.get("about_guider", None)
@@ -1501,7 +1501,7 @@ class TourGuiderViewSet(viewsets.ViewSet):
             )
         guide_inst = TourGuide_Reg.objects.create(
             user=user_inst,
-            tour_locations=tour_locations,
+            # tour_locations=tour_locations,
             packages=packages_inst,
             guider_name=guider_name,
             about_guider=about_guider,
