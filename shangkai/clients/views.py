@@ -1491,7 +1491,7 @@ class TourGuiderViewSet(viewsets.ViewSet):
 
         try:
             user_inst = User_Register.objects.get(id=user_id)
-            location_inst = Tour_locations.objects.get(id=tour_locations)
+            # location_inst = Tour_locations.objects.get(id=tour_locations)
             packages_inst = Tour_Packages.objects.get(id=packages)
         except:
 
@@ -1501,7 +1501,7 @@ class TourGuiderViewSet(viewsets.ViewSet):
             )
         guide_inst = TourGuide_Reg.objects.create(
             user=user_inst,
-            tour_locations=location_inst,
+            tour_locations=tour_locations,
             packages=packages_inst,
             guider_name=guider_name,
             about_guider=about_guider,
