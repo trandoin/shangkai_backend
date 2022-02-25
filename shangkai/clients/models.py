@@ -283,12 +283,12 @@ class TourGuide_Reg(models.Model):
         default=None,
         db_constraint=False,
     )
-    tour_locations = models.ForeignKey(
-        "clients.Tour_locations",
-        on_delete=models.CASCADE,
-        default=None,
-        db_constraint=False,
-    )
+    # tour_locations = models.ForeignKey(
+    #     "clients.Tour_locations",
+    #     on_delete=models.CASCADE,
+    #     default=None,
+    #     db_constraint=False,
+    # )
     packages = models.ForeignKey(
         "clients.Tour_Packages",
         on_delete=models.CASCADE,
