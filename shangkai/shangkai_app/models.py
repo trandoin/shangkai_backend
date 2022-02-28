@@ -34,6 +34,20 @@ class Footer_Copyright(models.Model):
             "Footer",
         )
 
+class Contact_Us(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    name = models.CharField("Name", null=True, max_length=255)
+    email = models.EmailField("Email", null=True, max_length=255)
+    mobile_num = models.CharField("Mobile No", null=True, max_length=255)
+    message = models.TextField("Message", null=True, max_length=1000)
+    status = models.CharField("Status", null=True, default="0", max_length=255)
+
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Contact Us",
+            "Contact Us",
+        )
+
 
 class Hotspot_Category(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)

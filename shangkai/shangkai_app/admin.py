@@ -19,6 +19,7 @@ from .models import (
     Blog_Post,
     BlogPost_Comments,
     Admin_Notification,
+    Contact_Us,
 )
 
 # Register your models here.
@@ -36,6 +37,12 @@ class FooterCopyright(admin.ModelAdmin):
 
 
 admin.site.register(Footer_Copyright, FooterCopyright)
+
+class ContactUs(admin.ModelAdmin):
+    list_display = ["id", "name","email","mobile_num","message","status"]
+
+
+admin.site.register(Contact_Us, ContactUs)
 
 class Notification(admin.ModelAdmin):
     list_display = ["id", "title","message","status"]
