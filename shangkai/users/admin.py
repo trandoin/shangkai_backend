@@ -50,7 +50,7 @@ class UserRatings(admin.ModelAdmin):
         "location",
         "aesthetic",
         "value",
-        "scenic",
+        "scenic_beauty",
         "surrounding",
         "safety_security",
         "item_id",
