@@ -7,6 +7,7 @@ router = DefaultRouter()
 
 router.register("about_us", views.AboutUsViewSet, basename="AboutUs")
 router.register("footer", views.FooterViewSet, basename="Footer")
+router.register("contact_us", views.ContactUsViewSet, basename="ContactUs")
 router.register("notification", views.NotificationViewSet, basename="Notification")
 
 router.register(

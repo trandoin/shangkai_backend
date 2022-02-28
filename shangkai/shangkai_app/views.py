@@ -21,6 +21,7 @@ from .models import (
     My_Trips,
     My_Trips_Days,
     Admin_Notification,
+    Contact_Us,
 )
 
 """Model Package """
@@ -55,6 +56,40 @@ class FooterViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(footer_data_dic.data, status=status.HTTP_200_OK)
+
+class ContactUsViewSet(viewsets.ViewSet):
+    def list(self, request):
+
+        try:
+            sm_contact = Contact_Us.objects.all()
+            contact_data_dic = serializers.ContactUsSerializer(sm_contact, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(contact_data_dic.data, status=status.HTTP_200_OK)        
+
+    def create(self, request):
+        datetime = request.POST.get("datetime", None)
+        name = request.POST.get("name", None)
+        email = request.POST.get("email", None)
+        mobile = request.POST.get("mobile", None)
+        message = request.POST.get("message", None)
+
+        contact_inst = Contact_Us.objects.create(
+            datetime=datetime,
+            name=name,
+            email=email,
+            mobile_num=mobile,
+            message=message,
+        )
+        contact_inst.save()
+
+        contact_data = serializers.ContactUsSerializer(
+            Contact_Us.objects.filter(id=contact_inst.id), many=True
+        )
+        return Response(contact_data.data[0], status=status.HTTP_200_OK)  
 
 class NotificationViewSet(viewsets.ViewSet):
     def list(self, request):

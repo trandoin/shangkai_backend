@@ -10,6 +10,7 @@ from .models import (
     My_Trips,
     My_Trips_Days,
     Admin_Notification,
+    Contact_Us,
 )
 
 
@@ -22,6 +23,11 @@ class AboutUsSerializer(ModelSerializer):
 class FooterSerializer(ModelSerializer):
     class Meta:
         model = Footer_Copyright
+        fields = "__all__"
+
+class ContactUsSerializer(ModelSerializer):
+    class Meta:
+        model = Contact_Us
         fields = "__all__"
 
 class NotificationSerializer(ModelSerializer):
