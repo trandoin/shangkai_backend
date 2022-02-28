@@ -29,6 +29,7 @@ from .models import (
     User_Cab_Payment,
     User_Trip_Booking,
     User_Trips_Payment,
+    User_Ratings,
 )
 
 from clients.models import (
@@ -325,6 +326,82 @@ class AccounDetailsBookingViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+
+class UserRationsViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+        try:
+            sm_user = User_Ratings.objects.filter(user=user_id)
+            user_data_dic = serializers.UserRatingsSerializer(
+                sm_user, many=True
+            )
+        except:
+            return Response(
+                {"message": "Invalid Request !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        for i in range(0, len(user_data_dic.data)):
+            created_user_id = user_data_dic.data[i].get("user")
+            try:
+                user_inst = Normal_UserReg.objects.get(id=created_user_id)
+
+                user_data_dic.data[i].update(
+                    {
+                        "user": {
+                            "id": user_inst.id,
+                            "user_id": user_inst.user_id,
+                            "user_name": user_inst.name,
+                        }
+                    }
+                )
+            except:
+                user_data_dic.data[i].update(
+                    {"user": {"id": created_user_id, "message": "Deleted user"}}
+                )
+
+        return Response(user_data_dic.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+
+        user_id = request.POST.get("user_id", None)
+        cleaness = request.POST.get("cleaness", None)
+        hospitility = request.POST.get("hospitility", None)
+        location = request.POST.get("location", None)
+        aesthetic = request.POST.get("aesthetic", None)
+        value = request.POST.get("value", None)
+        scenic_beauty = request.POST.get("scenic_beauty", None)
+        surrounding = request.POST.get("surrounding", None)
+        safety_security = request.POST.get("safety_security", None)
+        item_id = request.POST.get("item_id", None)
+
+        try:
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+        except:
+
+            return Response(
+                {"message": "No user found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        users_inst = User_Ratings.objects.create(
+            user_id=user_id,
+            cleaness=cleaness,
+            hospitility=hospitility,
+            location=location,
+            aesthetic=aesthetic,
+            value=value,
+            scenic_beauty=scenic_beauty,
+            surrounding=surrounding,
+            safety_security=safety_security,
+            item_id=item_id,
+        )
+        users_inst.save()
+
+        users_data = serializers.UserRatingsSerializer(
+            User_Ratings.objects.filter(id=users_inst.id), many=True
+        )
+        return Response(users_data.data[0], status=status.HTTP_200_OK)
 
 ########### """"""""" HOTELS """""""""""" #############
 

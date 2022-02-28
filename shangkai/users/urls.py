@@ -19,6 +19,11 @@ router.register(
     basename="AccounDetailsBooking",
 )
 router.register(
+    "user_ratings",
+    views.UserRationsViewSet,
+    basename="UserRations",
+)
+router.register(
     "user_password_update",
     views.UserUpdatePasswordViewSet,
     basename="UsersPasswordUpdate",
