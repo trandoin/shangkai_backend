@@ -18,6 +18,7 @@ from .models import (
     User_Trips_Payment,
     User_Guide_Booking,
     User_Hotspots_Cart,
+    User_Ratings,
 )
 
 
@@ -39,6 +40,25 @@ class NormalUserReg(admin.ModelAdmin):
 
 
 admin.site.register(Normal_UserReg, NormalUserReg)
+
+class UserRatings(admin.ModelAdmin):
+    list_display = [
+        "id",
+        "user",
+        "cleaness",
+        "hospitility",
+        "location",
+        "aesthetic",
+        "value",
+        "scenic",
+        "surrounding",
+        "safety_security",
+        "item_id",
+        "status",
+    ]
+
+
+admin.site.register(User_Ratings, UserRatings)
 
 
 class AccountDetails(admin.ModelAdmin):

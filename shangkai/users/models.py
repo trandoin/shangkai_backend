@@ -500,3 +500,29 @@ class User_Hotspots_Bookings(models.Model):
             "Hotspots Bookings",
             "Hotspots Bookings",
         )
+
+
+class User_Ratings(models.Model):
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user = models.ForeignKey(
+        "users.Normal_UserReg",
+        on_delete=models.CASCADE,
+        default=None,
+        db_constraint=False,
+    )
+    cleaness = models.CharField("Cleaness", null=True, max_length=255)
+    hospitility = models.CharField("Hospitility", null=True, max_length=255)
+    location = models.CharField("Location", null=True, max_length=255)
+    aesthetic = models.CharField("Aesthetic", null=True, max_length=255)
+    value = models.CharField("Value", null=True, max_length=255)
+    scenic_beauty = models.CharField("Scenic Beauty", null=True, max_length=255)
+    surrounding = models.CharField("Surrounding", null=True, max_length=255)
+    safety_security = models.CharField("Safety & Security", null=True, max_length=255)
+    item_id = models.CharField("Item Id", null=True, max_length=255)
+    status = models.CharField("status", null=True, default="0", max_length=255)
+
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "User Ratings",
+            "User Ratings",
+        )
