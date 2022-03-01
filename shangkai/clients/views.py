@@ -1748,7 +1748,6 @@ class GetRoomALLViewSet(viewsets.ViewSet):
                             "hotel_name": hotel_inst.hotel_name,
                             "hotel_city": hotel_inst.hotel_city,
                             "room_rates": hotel_inst.room_rates,
-                            "hotel_cat": hotel_inst.hotel_cat,
                         }
                     }
                 )
