@@ -54,6 +54,8 @@ class UserRatings(admin.ModelAdmin):
         "surrounding",
         "safety_security",
         "item_id",
+        "item_type",
+        "message",
         "status",
     ]
 

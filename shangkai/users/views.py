@@ -330,8 +330,9 @@ class AccounDetailsBookingViewSet(viewsets.ViewSet):
 class UserRationsViewSet(viewsets.ViewSet):
     def list(self, request):
         item_id = request.GET.get("item_id", None)
+        item_type = request.GET.get("item_type", None)
         try:
-            sm_user = User_Ratings.objects.filter(item_id=item_id)
+            sm_user = User_Ratings.objects.filter(item_id=item_id,item_type=item_type)
             user_data_dic = serializers.UserRatingsSerializer(
                 sm_user, many=True
             )
@@ -374,6 +375,8 @@ class UserRationsViewSet(viewsets.ViewSet):
         surrounding = request.POST.get("surrounding", None)
         safety_security = request.POST.get("safety_security", None)
         item_id = request.POST.get("item_id", None)
+        item_type = request.POST.get("item_type", None)
+        message = request.POST.get("message", None)
 
         try:
             user_inst = Normal_UserReg.objects.get(id=user_id)
@@ -395,6 +398,8 @@ class UserRationsViewSet(viewsets.ViewSet):
             surrounding=surrounding,
             safety_security=safety_security,
             item_id=item_id,
+            item_type=item_type,
+            message=message,
         )
         users_inst.save()
 
