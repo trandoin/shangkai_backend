@@ -519,6 +519,8 @@ class User_Ratings(models.Model):
     surrounding = models.CharField("Surrounding", null=True, max_length=255)
     safety_security = models.CharField("Safety & Security", null=True, max_length=255)
     item_id = models.CharField("Item Id", null=True, max_length=255)
+    item_type = models.CharField("Item Type", null=True, max_length=255)
+    message = models.TextField("Message", null=True, max_length=500)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:

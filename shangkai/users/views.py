@@ -329,9 +329,9 @@ class AccounDetailsBookingViewSet(viewsets.ViewSet):
 
 class UserRationsViewSet(viewsets.ViewSet):
     def list(self, request):
-        user_id = request.GET.get("user_id", None)
+        item_id = request.GET.get("item_id", None)
         try:
-            sm_user = User_Ratings.objects.filter(user=user_id)
+            sm_user = User_Ratings.objects.filter(item_id=item_id)
             user_data_dic = serializers.UserRatingsSerializer(
                 sm_user, many=True
             )
