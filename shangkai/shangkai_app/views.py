@@ -90,7 +90,7 @@ class BlogPostCommentsViewSet(viewsets.ViewSet):
     def list(self, request):
         post_id = request.GET.get("post_id", None)
         try:
-            sm_comments = BlogPost_Comments.objects.filter()
+            sm_comments = BlogPost_Comments.objects.filter(post=post_id)
             comments_data_dic = serializers.BlogPostCommentsSerializer(sm_comments, many=True)
         except:
             return Response(
