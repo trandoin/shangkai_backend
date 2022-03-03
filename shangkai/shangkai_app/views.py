@@ -72,6 +72,28 @@ class BlogCategoryViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(category_data_dic.data, status=status.HTTP_200_OK)
+    def create(self, request):
+        user_id = request.POST.get("user_id", None)
+        title = request.POST.get("title", None)
+        try:
+            user_inst = User_Register.objects.get(id=user_id)
+
+        except:
+
+            return Response(
+                {"message": "No user found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        cat_inst = Blog_Category.objects.create(
+            title=title,
+            user=user_inst,
+        )
+        cat_inst.save()
+
+        cat_data = serializers.BlogCategorySerializer(
+            Blog_Category.objects.filter(id=cat_inst.id), many=True
+        )
+        return Response(cat_data.data[0], status=status.HTTP_200_OK) 
 
 class BlogPostViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -85,6 +107,36 @@ class BlogPostViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(posts_data_dic.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+        user_id = request.POST.get("user_id", None)
+        category = request.POST.get("category", None)
+        title = request.POST.get("title", None)
+        text = request.POST.get("text", None)
+        feature_image = request.POST.get("feature_image", None)
+        try:
+            user_inst = User_Register.objects.get(id=user_id)
+            cate_inst = Blog_Category.objects.get(id=category)
+
+        except:
+
+            return Response(
+                {"message": "No user found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        cat_inst = Blog_Category.objects.create(
+            user=user_inst,
+            category=cate_inst,
+            title=title,
+            text=text,
+            feature_image=feature_image,
+        )
+        cat_inst.save()
+
+        cat_data = serializers.BlogCategorySerializer(
+            Blog_Category.objects.filter(id=cat_inst.id), many=True
+        )
+        return Response(cat_data.data[0], status=status.HTTP_200_OK) 
 
 class BlogPostCommentsViewSet(viewsets.ViewSet):
     def list(self, request):
