@@ -65,7 +65,7 @@ class BlogCategoryViewSet(viewsets.ViewSet):
     def list(self, request):
 
         try:
-            sm_category = Blog_Category.objects.all()
+            sm_category = Blog_Category.objects.filter(status='1')
             category_data_dic = serializers.BlogCategorySerializer(
                 sm_category, many=True
             )
@@ -102,7 +102,7 @@ class BlogPostViewSet(viewsets.ViewSet):
     def list(self, request):
 
         try:
-            sm_posts = Blog_Post.objects.all()
+            sm_posts = Blog_Post.objects.filter(status='1')
             posts_data_dic = serializers.BlogPostSerializer(sm_posts, many=True)
         except:
             return Response(
