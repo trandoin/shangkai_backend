@@ -236,7 +236,9 @@ class BlogPost_Comments(models.Model):
         "shangkai_app.Blog_Post", on_delete=models.CASCADE, default=None
     )
     user_ip = models.CharField("User IP", null=True, max_length=255)
-    comments = models.TextField("Comments", null=True, max_length=2000)
+    name = models.CharField("Name", null=True, max_length=255)
+    email = models.EmailField("Email", null=True, max_length=255)
+    comments = models.TextField("Comment", null=True, max_length=2000)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:

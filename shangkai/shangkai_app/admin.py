@@ -145,7 +145,7 @@ admin.site.register(Blog_Post, BlogPosts)
 
 
 class BlogPostComments(admin.ModelAdmin):
-    list_display = ["id", "post", "user_ip", "comments"]
+    list_display = ["id", "post", "name","email", "comments"]
 
 
 admin.site.register(BlogPost_Comments, BlogPostComments)
