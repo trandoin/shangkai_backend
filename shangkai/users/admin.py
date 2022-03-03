@@ -41,6 +41,7 @@ class NormalUserReg(admin.ModelAdmin):
 
 admin.site.register(Normal_UserReg, NormalUserReg)
 
+
 class UserRatings(admin.ModelAdmin):
     list_display = [
         "id",

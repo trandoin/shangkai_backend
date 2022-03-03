@@ -28,30 +28,36 @@ class FooterSerializer(ModelSerializer):
         model = Footer_Copyright
         fields = "__all__"
 
+
 class ContactUsSerializer(ModelSerializer):
     class Meta:
         model = Contact_Us
         fields = "__all__"
+
 
 class NotificationSerializer(ModelSerializer):
     class Meta:
         model = Admin_Notification
         fields = "__all__"
 
+
 class BlogCategorySerializer(ModelSerializer):
     class Meta:
         model = Blog_Category
         fields = "__all__"
+
 
 class BlogPostSerializer(ModelSerializer):
     class Meta:
         model = Blog_Post
         fields = "__all__"
 
+
 class BlogPostCommentsSerializer(ModelSerializer):
     class Meta:
         model = BlogPost_Comments
         fields = "__all__"
+
 
 class HotspotCategorySerializer(ModelSerializer):
     class Meta:

@@ -332,10 +332,8 @@ class UserRationsViewSet(viewsets.ViewSet):
         item_id = request.GET.get("item_id", None)
         item_type = request.GET.get("item_type", None)
         try:
-            sm_user = User_Ratings.objects.filter(item_id=item_id,item_type=item_type)
-            user_data_dic = serializers.UserRatingsSerializer(
-                sm_user, many=True
-            )
+            sm_user = User_Ratings.objects.filter(item_id=item_id, item_type=item_type)
+            user_data_dic = serializers.UserRatingsSerializer(sm_user, many=True)
         except:
             return Response(
                 {"message": "Invalid Request !"},
@@ -407,6 +405,7 @@ class UserRationsViewSet(viewsets.ViewSet):
             User_Ratings.objects.filter(id=users_inst.id), many=True
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
+
 
 ########### """"""""" HOTELS """""""""""" #############
 
@@ -705,9 +704,7 @@ class HotelBookingViewSet(viewsets.ViewSet):
         status = request.POST.get("status", None)
 
         if pk is None and user_id is None:
-            return Response(
-                {"message": "Invalid Input"}
-            )
+            return Response({"message": "Invalid Input"})
 
         try:
             post_inst = User_Hotel_Booking.objects.get(id=pk)
@@ -716,15 +713,10 @@ class HotelBookingViewSet(viewsets.ViewSet):
             post_inst.is_edited = True
             post_inst.save()
 
-            return Response(
-                {"message": "Hotel has been booked Sucessfully"}
-            )
+            return Response({"message": "Hotel has been booked Sucessfully"})
 
         except:
-            return Response(
-                {"message": "Invalid request"}
-            )
-
+            return Response({"message": "Invalid request"})
 
     def destroy(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
@@ -1143,9 +1135,7 @@ class CabBookingViewSet(viewsets.ViewSet):
         status = request.POST.get("status", None)
 
         if pk is None and user_id is None:
-            return Response(
-                {"message": "Invalid Input"}
-            )
+            return Response({"message": "Invalid Input"})
 
         try:
             post_inst = User_Cab_Booking.objects.get(id=pk)
@@ -1154,14 +1144,10 @@ class CabBookingViewSet(viewsets.ViewSet):
             post_inst.is_edited = True
             post_inst.save()
 
-            return Response(
-                {"message": "Cab has been booked Sucessfully"}
-            )
+            return Response({"message": "Cab has been booked Sucessfully"})
 
         except:
-            return Response(
-                {"message": "Invalid request"}
-            )
+            return Response({"message": "Invalid request"})
 
     def destroy(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
@@ -1477,9 +1463,7 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
         status = request.POST.get("status", None)
 
         if pk is None and user_id is None:
-            return Response(
-                {"message": "Invalid Input"}
-            )
+            return Response({"message": "Invalid Input"})
 
         try:
             post_inst = User_Trip_Booking.objects.get(id=pk)
@@ -1488,16 +1472,13 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
             post_inst.is_edited = True
             post_inst.save()
 
-            return Response(
-                {"message": "Trip has been booked Sucessfully"}
-            )
+            return Response({"message": "Trip has been booked Sucessfully"})
 
         except:
             return Response(
                 {"message": "Invalid request"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
 
     def destroy(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
@@ -3098,4 +3079,3 @@ class MyUserGuideBookingViewSet(viewsets.ViewSet):
                     {"guide_id": {"id": created_user_id, "message": "Deleted Guide"}}
                 )
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
-

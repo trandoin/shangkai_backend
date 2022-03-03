@@ -60,18 +60,22 @@ class FooterViewSet(viewsets.ViewSet):
 
 ####### BLOG SECTION #########
 
+
 class BlogCategoryViewSet(viewsets.ViewSet):
     def list(self, request):
 
         try:
             sm_category = Blog_Category.objects.all()
-            category_data_dic = serializers.BlogCategorySerializer(sm_category, many=True)
+            category_data_dic = serializers.BlogCategorySerializer(
+                sm_category, many=True
+            )
         except:
             return Response(
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(category_data_dic.data, status=status.HTTP_200_OK)
+
     def create(self, request):
         user_id = request.POST.get("user_id", None)
         title = request.POST.get("title", None)
@@ -91,7 +95,8 @@ class BlogCategoryViewSet(viewsets.ViewSet):
         cat_data = serializers.BlogCategorySerializer(
             Blog_Category.objects.filter(id=cat_inst.id), many=True
         )
-        return Response(cat_data.data[0], status=status.HTTP_200_OK) 
+        return Response(cat_data.data[0], status=status.HTTP_200_OK)
+
 
 class BlogPostViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -134,14 +139,17 @@ class BlogPostViewSet(viewsets.ViewSet):
         cat_data = serializers.BlogCategorySerializer(
             Blog_Category.objects.filter(id=cat_inst.id), many=True
         )
-        return Response(cat_data.data[0], status=status.HTTP_200_OK) 
+        return Response(cat_data.data[0], status=status.HTTP_200_OK)
+
 
 class BlogPostCommentsViewSet(viewsets.ViewSet):
     def list(self, request):
         post_id = request.GET.get("post_id", None)
         try:
             sm_comments = BlogPost_Comments.objects.filter(post=post_id)
-            comments_data_dic = serializers.BlogPostCommentsSerializer(sm_comments, many=True)
+            comments_data_dic = serializers.BlogPostCommentsSerializer(
+                sm_comments, many=True
+            )
         except:
             return Response(
                 {"message": "Sorry No data found !"},
@@ -176,7 +184,8 @@ class BlogPostCommentsViewSet(viewsets.ViewSet):
         cat_data = serializers.BlogPostCommentsSerializer(
             BlogPost_Comments.objects.filter(id=cat_inst.id), many=True
         )
-        return Response(cat_data.data[0], status=status.HTTP_200_OK) 
+        return Response(cat_data.data[0], status=status.HTTP_200_OK)
+
 
 class ContactUsViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -189,7 +198,7 @@ class ContactUsViewSet(viewsets.ViewSet):
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        return Response(contact_data_dic.data, status=status.HTTP_200_OK)        
+        return Response(contact_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
         datetime = request.POST.get("datetime", None)
@@ -210,14 +219,17 @@ class ContactUsViewSet(viewsets.ViewSet):
         contact_data = serializers.ContactUsSerializer(
             Contact_Us.objects.filter(id=contact_inst.id), many=True
         )
-        return Response(contact_data.data[0], status=status.HTTP_200_OK)  
+        return Response(contact_data.data[0], status=status.HTTP_200_OK)
+
 
 class NotificationViewSet(viewsets.ViewSet):
     def list(self, request):
 
         try:
             sm_notification = Admin_Notification.objects.all()
-            notification_data_dic = serializers.NotificationSerializer(sm_notification, many=True)
+            notification_data_dic = serializers.NotificationSerializer(
+                sm_notification, many=True
+            )
         except:
             return Response(
                 {"message": "Sorry No data found !"},
@@ -240,7 +252,7 @@ class NotificationViewSet(viewsets.ViewSet):
         notification_data = serializers.NotificationSerializer(
             Admin_Notification.objects.filter(id=notification_inst.id), many=True
         )
-        return Response(notification_data.data[0], status=status.HTTP_200_OK)  
+        return Response(notification_data.data[0], status=status.HTTP_200_OK)
 
     def destroy(self, request, pk=None):
         notification_id = request.GET.get("notification_id", None)
@@ -254,10 +266,12 @@ class NotificationViewSet(viewsets.ViewSet):
             scm_notifi_inst = Admin_Notification.objects.filter(id=pk)
             scm_notifi_inst.delete()
             return Response(
-                {"message": "Notification Deleted Successfully"}, status=status.HTTP_200_OK
+                {"message": "Notification Deleted Successfully"},
+                status=status.HTTP_200_OK,
             )
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
+
 
 class HotelCategoryViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -288,7 +302,6 @@ class HotelCategoryViewSet(viewsets.ViewSet):
         )
         return Response(hotels_data.data[0], status=status.HTTP_200_OK)
 
-       
 
 class HotspotCategoryViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -323,7 +336,7 @@ class HotspotCategoryViewSet(viewsets.ViewSet):
         hotspots_cat_data = serializers.HotspotCategorySerializer(
             Hotspot_Category.objects.filter(id=hotspots_cat_inst.id), many=True
         )
-        return Response(hotspots_cat_data.data[0], status=status.HTTP_200_OK)        
+        return Response(hotspots_cat_data.data[0], status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
         status = request.GET.get("status", None)
@@ -341,7 +354,7 @@ class HotspotCategoryViewSet(viewsets.ViewSet):
             return Response({"message": "HotSpots Category Status Updated Sucessfully"})
 
         except:
-            return Response({"message": "Something went to wrong ! Try again !"}) 
+            return Response({"message": "Something went to wrong ! Try again !"})
 
 
 class HotSpotsViewSet(viewsets.ViewSet):
@@ -456,7 +469,8 @@ class HotSpotsViewSet(viewsets.ViewSet):
             return Response({"message": "HotSpots Status Updated Sucessfully"})
 
         except:
-            return Response({"message": "Something went to wrong ! Try again !"}) 
+            return Response({"message": "Something went to wrong ! Try again !"})
+
 
 ####  """""""" MY TRIPS """"""""######
 
@@ -556,7 +570,8 @@ class MyTripsViewSet(viewsets.ViewSet):
             return Response({"message": "Trip Status Updated Sucessfully"})
 
         except:
-            return Response({"message": "Something went to wrong ! Try again !"}) 
+            return Response({"message": "Something went to wrong ! Try again !"})
+
 
 class MyTripsDaysViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -616,7 +631,7 @@ class MyTripsDaysViewSet(viewsets.ViewSet):
 
         except:
             return Response({"message": "Something went to wrong ! Try again !"})
-            
+
 
 class AllMyTripsDaysViewSet(viewsets.ViewSet):
     def list(self, request):

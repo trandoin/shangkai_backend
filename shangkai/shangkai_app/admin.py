@@ -38,14 +38,16 @@ class FooterCopyright(admin.ModelAdmin):
 
 admin.site.register(Footer_Copyright, FooterCopyright)
 
+
 class ContactUs(admin.ModelAdmin):
-    list_display = ["id", "name","email","mobile_num","message","status"]
+    list_display = ["id", "name", "email", "mobile_num", "message", "status"]
 
 
 admin.site.register(Contact_Us, ContactUs)
 
+
 class Notification(admin.ModelAdmin):
-    list_display = ["id", "title","message","status"]
+    list_display = ["id", "title", "message", "status"]
 
 
 admin.site.register(Admin_Notification, Notification)
@@ -145,7 +147,7 @@ admin.site.register(Blog_Post, BlogPosts)
 
 
 class BlogPostComments(admin.ModelAdmin):
-    list_display = ["id", "post", "name","email", "comments"]
+    list_display = ["id", "post", "name", "email", "comments"]
 
 
 admin.site.register(BlogPost_Comments, BlogPostComments)

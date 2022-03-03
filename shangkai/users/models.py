@@ -165,7 +165,7 @@ class User_Hotel_Booking(models.Model):
     )
     razorpay_id = models.CharField(
         "razorpay_id", null=True, default="0", max_length=255
-    )    
+    )
     booking_status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:

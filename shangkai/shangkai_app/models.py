@@ -34,6 +34,7 @@ class Footer_Copyright(models.Model):
             "Footer",
         )
 
+
 class Contact_Us(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     name = models.CharField("Name", null=True, max_length=255)
@@ -135,7 +136,9 @@ class My_Trips(models.Model):
     )
     price = models.CharField("Price", null=True, max_length=255)
     offer_price = models.CharField("Offer Price", null=True, max_length=255)
-    special_offer = models.CharField("Special Offer", null=True,default="0", max_length=255)
+    special_offer = models.CharField(
+        "Special Offer", null=True, default="0", max_length=255
+    )
     deadline_date = models.CharField("Deadline Date", null=True, max_length=255)
     exlusion = models.TextField("Exlusion", null=True, max_length=2550)
     description = models.TextField("description", null=True, max_length=255)
@@ -173,6 +176,8 @@ class My_Trips_Days(models.Model):
             "My Trips days",
             "My Trips Days",
         )
+
+
 class Admin_Notification(models.Model):
     datetime = models.CharField("Created At", null=True, max_length=255)
     title = models.CharField("Title", null=True, max_length=255)
@@ -183,7 +188,7 @@ class Admin_Notification(models.Model):
         verbose_name, verbose_name_plural = (
             "Admin_Notification",
             "Admin_Notification",
-        )        
+        )
 
 
 class Blog_Category(models.Model):
