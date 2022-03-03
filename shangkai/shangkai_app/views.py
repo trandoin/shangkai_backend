@@ -57,6 +57,48 @@ class FooterViewSet(viewsets.ViewSet):
             )
         return Response(footer_data_dic.data, status=status.HTTP_200_OK)
 
+
+####### BLOG SECTION #########
+
+class BlogCategoryViewSet(viewsets.ViewSet):
+    def list(self, request):
+
+        try:
+            sm_category = Blog_Category.objects.all()
+            category_data_dic = serializers.BlogCategorySerializer(sm_category, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(category_data_dic.data, status=status.HTTP_200_OK)
+
+class BlogPostViewSet(viewsets.ViewSet):
+    def list(self, request):
+
+        try:
+            sm_posts = Blog_Post.objects.all()
+            posts_data_dic = serializers.BlogPostSerializer(sm_posts, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(posts_data_dic.data, status=status.HTTP_200_OK)
+
+class BlogPostCommentsViewSet(viewsets.ViewSet):
+    def list(self, request):
+        post_id = request.GET.get("post_id", None)
+        try:
+            sm_comments = BlogPost_Comments.objects.filter()
+            comments_data_dic = serializers.BlogPostCommentsSerializer(sm_comments, many=True)
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(comments_data_dic.data, status=status.HTTP_200_OK)
+
 class ContactUsViewSet(viewsets.ViewSet):
     def list(self, request):
 

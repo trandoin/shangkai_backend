@@ -11,6 +11,9 @@ from .models import (
     My_Trips_Days,
     Admin_Notification,
     Contact_Us,
+    Blog_Category,
+    Blog_Post,
+    BlogPost_Comments,
 )
 
 
@@ -35,6 +38,20 @@ class NotificationSerializer(ModelSerializer):
         model = Admin_Notification
         fields = "__all__"
 
+class BlogCategorySerializer(ModelSerializer):
+    class Meta:
+        model = Blog_Category
+        fields = "__all__"
+
+class BlogPostSerializer(ModelSerializer):
+    class Meta:
+        model = Blog_Post
+        fields = "__all__"
+
+class BlogPostCommentsSerializer(ModelSerializer):
+    class Meta:
+        model = BlogPost_Comments
+        fields = "__all__"
 
 class HotspotCategorySerializer(ModelSerializer):
     class Meta:
