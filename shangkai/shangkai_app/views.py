@@ -77,9 +77,7 @@ class BlogCategoryViewSet(viewsets.ViewSet):
         title = request.POST.get("title", None)
         try:
             user_inst = User_Register.objects.get(id=user_id)
-
         except:
-
             return Response(
                 {"message": "No user found !"},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -150,6 +148,35 @@ class BlogPostCommentsViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(comments_data_dic.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+        post = request.POST.get("post_id", None)
+        user_ip = request.POST.get("user_ip", None)
+        name = request.POST.get("name", None)
+        email = request.POST.get("email", None)
+        comments = request.POST.get("comments", None)
+        try:
+            post_inst = Blog_Post.objects.get(id=post)
+
+        except:
+
+            return Response(
+                {"message": "No Post found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        cat_inst = BlogPost_Comments.objects.create(
+            post=post_inst,
+            user_ip=user_ip,
+            name=name,
+            email=email,
+            comments=comments,
+        )
+        cat_inst.save()
+
+        cat_data = serializers.BlogPostCommentsSerializer(
+            BlogPost_Comments.objects.filter(id=cat_inst.id), many=True
+        )
+        return Response(cat_data.data[0], status=status.HTTP_200_OK) 
 
 class ContactUsViewSet(viewsets.ViewSet):
     def list(self, request):
