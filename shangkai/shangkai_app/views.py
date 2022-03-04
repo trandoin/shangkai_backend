@@ -133,7 +133,28 @@ class BlogPostViewSet(viewsets.ViewSet):
             except:
                 posts_data_dic.data[i].update(
                     {"user": {"id": created_user_id, "message": "Deleted Account"}}
-                )                           
+                ) 
+            created_cat_id = posts_data_dic.data[i].get("category")
+            try:
+                cat_inst = Blog_Category.objects.get(id=created_cat_id)
+
+                posts_data_dic.data[i].update(
+                    {
+                        "category": {
+                            "id": cat_inst.id,
+                            "cat_name": cat_inst.title,
+                        }
+                    }
+                )
+            except:
+                posts_data_dic.data[i].update(
+                    {
+                        "category": {
+                            "id": created_cat_id,
+                            "message": "Deleted Category",
+                        }
+                    }
+                )                                          
         return Response(posts_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
