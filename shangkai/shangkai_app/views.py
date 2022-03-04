@@ -65,16 +65,14 @@ class BlogCategoryViewSet(viewsets.ViewSet):
     def list(self, request):
 
         try:
-            sm_category = Blog_Category.objects.filter(status='1')
-            category_data_dic = serializers.BlogCategorySerializer(
-                sm_category, many=True
-            )
+            sm_cat = Blog_Category.objects.all()
+            cat_data_dic = serializers.BlogCategorySerializer(sm_cat, many=True)
         except:
             return Response(
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        return Response(category_data_dic.data, status=status.HTTP_200_OK)
+        return Response(cat_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
         user_id = request.POST.get("user_id", None)
