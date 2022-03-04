@@ -133,24 +133,7 @@ class BlogPostViewSet(viewsets.ViewSet):
             except:
                 posts_data_dic.data[i].update(
                     {"user": {"id": created_user_id, "message": "Deleted Account"}}
-                )
-        for i in range(0, len(posts_data_dic.data)):
-            created_cate_id = posts_data_dic.data[i].get("category")
-            try:
-                cate_inst = User_Register.objects.get(id=created_cate_id)
-
-                posts_data_dic.data[i].update(
-                    {
-                        "category": {
-                            "id": cate_inst.id,
-                            "cat_title": cate_inst.title,
-                        }
-                    }
-                )
-            except:
-                posts_data_dic.data[i].update(
-                    {"user": {"id": created_cate_id, "message": "Deleted Category"}}
-                )                            
+                )                           
         return Response(posts_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
@@ -196,7 +179,7 @@ class BlogPostCommentsViewSet(viewsets.ViewSet):
             return Response(
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
-            )
+            )            
         return Response(comments_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
