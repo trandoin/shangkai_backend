@@ -71,7 +71,7 @@ class BlogCategoryViewSet(viewsets.ViewSet):
     def list(self, request):
 
         try:
-            sm_category = Blog_Category.objects.filter(status='1')
+            sm_category = Blog_Category.objects.all()
             category_data_dic = serializers.BlogCategorySerializer(
                 sm_category, many=True
             )
@@ -108,7 +108,7 @@ class BlogPostViewSet(viewsets.ViewSet):
     def list(self, request):
 
         try:
-            sm_posts = Blog_Post.objects.filter(status='1')
+            sm_posts = Blog_Post.objects.all()
             posts_data_dic = serializers.BlogPostSerializer(
                 sm_posts, many=True)
         except:
@@ -134,7 +134,7 @@ class BlogPostViewSet(viewsets.ViewSet):
                 {"message": "No user found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        cat_inst = Blog_Category.objects.create(
+        cat_inst = Blog_Post.objects.create(
             user=user_inst,
             category=cate_inst,
             title=title,
@@ -143,8 +143,8 @@ class BlogPostViewSet(viewsets.ViewSet):
         )
         cat_inst.save()
 
-        cat_data = serializers.BlogCategorySerializer(
-            Blog_Category.objects.filter(id=cat_inst.id), many=True
+        cat_data = serializers.BlogPostSerializer(
+            Blog_Post.objects.filter(id=cat_inst.id), many=True
         )
         return Response(cat_data.data[0], status=status.HTTP_200_OK)
 
