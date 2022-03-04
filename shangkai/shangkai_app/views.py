@@ -24,6 +24,12 @@ from .models import (
     Contact_Us,
 )
 
+from clients.models import (
+    Blog_Category,
+    Blog_Post,
+    BlogPost_Comments,
+)
+
 """Model Package """
 from users.models import (
     Normal_UserReg,

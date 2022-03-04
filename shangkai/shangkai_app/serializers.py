@@ -11,12 +11,12 @@ from .models import (
     My_Trips_Days,
     Admin_Notification,
     Contact_Us,
+)
+from clients.models import (
     Blog_Category,
     Blog_Post,
     BlogPost_Comments,
 )
-
-
 class AboutUsSerializer(ModelSerializer):
     class Meta:
         model = About_Us
