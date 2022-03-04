@@ -232,25 +232,25 @@ class Blog_Post(models.Model):
         return self.title
 
 
-class BlogPost_Comments(models.Model):
-    datetime = models.DateTimeField("Created At", auto_now_add=True)
-    user = models.ForeignKey(
-        "clients.User_Register", on_delete=models.CASCADE, default=None
-    )
-    post = models.ForeignKey(
-        "shangkai_app.Blog_Post", on_delete=models.CASCADE, default=None
-    )
-    user_ip = models.CharField("User IP", null=True, max_length=255)
-    name = models.CharField("Name", null=True, max_length=255)
-    email = models.EmailField("Email", null=True, max_length=255)
-    comments = models.TextField("Comment", null=True, max_length=2000)
-    status = models.CharField("status", null=True, default="0", max_length=255)
+# class BlogPost_Comments(models.Model):
+#     datetime = models.DateTimeField("Created At", auto_now_add=True)
+#     user = models.ForeignKey(
+#         "clients.User_Register", on_delete=models.CASCADE, default=None
+#     )
+#     post = models.ForeignKey(
+#         "shangkai_app.Blog_Post", on_delete=models.CASCADE, default=None
+#     )
+#     user_ip = models.CharField("User IP", null=True, max_length=255)
+#     name = models.CharField("Name", null=True, max_length=255)
+#     email = models.EmailField("Email", null=True, max_length=255)
+#     comments = models.TextField("Comment", null=True, max_length=2000)
+#     status = models.CharField("status", null=True, default="0", max_length=255)
 
-    class Meta:
-        verbose_name, verbose_name_plural = (
-            "Blog Post Comments",
-            "Blog Post Comments",
-        )
+#     class Meta:
+#         verbose_name, verbose_name_plural = (
+#             "Blog Post Comments",
+#             "Blog Post Comments",
+#         )
 
 
 class Comments_All(models.Model):

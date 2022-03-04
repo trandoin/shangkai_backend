@@ -13,7 +13,7 @@ from .models import (
     Contact_Us,
     Blog_Category,
     Blog_Post,
-    BlogPost_Comments,
+    # BlogPost_Comments,
 )
 
 
@@ -53,10 +53,10 @@ class BlogPostSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class BlogPostCommentsSerializer(ModelSerializer):
-    class Meta:
-        model = BlogPost_Comments
-        fields = "__all__"
+# class BlogPostCommentsSerializer(ModelSerializer):
+#     class Meta:
+#         model = BlogPost_Comments
+#         fields = "__all__"
 
 
 class HotspotCategorySerializer(ModelSerializer):

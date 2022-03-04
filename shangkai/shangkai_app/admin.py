@@ -17,7 +17,7 @@ from .models import (
     My_Trips_Days,
     Blog_Category,
     Blog_Post,
-    BlogPost_Comments,
+    # BlogPost_Comments,
     Admin_Notification,
     Contact_Us,
 )
@@ -146,8 +146,8 @@ class BlogPosts(admin.ModelAdmin):
 admin.site.register(Blog_Post, BlogPosts)
 
 
-class BlogPostComments(admin.ModelAdmin):
-    list_display = ["id", "post", "name", "email", "comments"]
+# class BlogPostComments(admin.ModelAdmin):
+#     list_display = ["id", "post", "name", "email", "comments"]
 
 
-admin.site.register(BlogPost_Comments, BlogPostComments)
+# admin.site.register(BlogPost_Comments, BlogPostComments)

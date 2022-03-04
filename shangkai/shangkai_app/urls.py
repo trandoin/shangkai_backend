@@ -11,7 +11,7 @@ router.register("contact_us", views.ContactUsViewSet, basename="ContactUs")
 router.register("notification", views.NotificationViewSet, basename="Notification")
 router.register("blog_category", views.BlogCategoryViewSet, basename="BlogCategory")
 router.register("blog_post", views.BlogPostViewSet, basename="BlogPosts")
-router.register("blog_comments", views.BlogPostCommentsViewSet, basename="BlogComments")
+# router.register("blog_comments", views.BlogPostCommentsViewSet, basename="BlogComments")
 
 router.register(
     "category_hotspots", views.HotspotCategoryViewSet, basename="HotspotCategory"
