@@ -1,4 +1,8 @@
+from users.models import (
+    Normal_UserReg,
+)
 from django.shortcuts import render
+from clients.models import User_Register
 
 # Create your views here.
 from rest_framework import serializers, viewsets
@@ -12,6 +16,9 @@ from . import serializers
 """Model Package """
 from .models import (
     About_Us,
+    Blog_Category,
+    Blog_Post,
+    BlogPost_Comments,
     Footer_Copyright,
     Hotspot_Category,
     Hot_Spots,
@@ -24,16 +31,7 @@ from .models import (
     Contact_Us,
 )
 
-from clients.models import (
-    Blog_Category,
-    Blog_Post,
-    BlogPost_Comments,
-)
-
 """Model Package """
-from users.models import (
-    Normal_UserReg,
-)
 
 
 class AboutUsViewSet(viewsets.ViewSet):
@@ -41,7 +39,8 @@ class AboutUsViewSet(viewsets.ViewSet):
 
         try:
             sm_about_us = About_Us.objects.filter(status="1")
-            about_us_data_dic = serializers.AboutUsSerializer(sm_about_us, many=True)
+            about_us_data_dic = serializers.AboutUsSerializer(
+                sm_about_us, many=True)
         except:
             return Response(
                 {"message": "Sorry No data found !"},
@@ -55,7 +54,8 @@ class FooterViewSet(viewsets.ViewSet):
 
         try:
             sm_footer = Footer_Copyright.objects.filter(status="1")
-            footer_data_dic = serializers.FooterSerializer(sm_footer, many=True)
+            footer_data_dic = serializers.FooterSerializer(
+                sm_footer, many=True)
         except:
             return Response(
                 {"message": "Sorry No data found !"},
@@ -71,14 +71,16 @@ class BlogCategoryViewSet(viewsets.ViewSet):
     def list(self, request):
 
         try:
-            sm_cat = Blog_Category.objects.all()
-            cat_data_dic = serializers.BlogCategorySerializer(sm_cat, many=True)
+            sm_category = Blog_Category.objects.filter(status='1')
+            category_data_dic = serializers.BlogCategorySerializer(
+                sm_category, many=True
+            )
         except:
             return Response(
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        return Response(cat_data_dic.data, status=status.HTTP_200_OK)
+        return Response(category_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
         user_id = request.POST.get("user_id", None)
@@ -107,7 +109,8 @@ class BlogPostViewSet(viewsets.ViewSet):
 
         try:
             sm_posts = Blog_Post.objects.filter(status='1')
-            posts_data_dic = serializers.BlogPostSerializer(sm_posts, many=True)
+            posts_data_dic = serializers.BlogPostSerializer(
+                sm_posts, many=True)
         except:
             return Response(
                 {"message": "Sorry No data found !"},
@@ -196,7 +199,8 @@ class ContactUsViewSet(viewsets.ViewSet):
 
         try:
             sm_contact = Contact_Us.objects.all()
-            contact_data_dic = serializers.ContactUsSerializer(sm_contact, many=True)
+            contact_data_dic = serializers.ContactUsSerializer(
+                sm_contact, many=True)
         except:
             return Response(
                 {"message": "Sorry No data found !"},
@@ -375,34 +379,42 @@ class HotSpotsViewSet(viewsets.ViewSet):
             sm_hotspots = Hot_Spots.objects.filter(
                 category=hotspot_cat, city=hotspot_city, entry_fee=hotspot_price
             )
-            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
+            hotspots_data_dic = serializers.HotSpotsSerializer(
+                sm_hotspots, many=True)
         elif hotspot_cat is not None and hotspot_city is not None:
             sm_hotspots = Hot_Spots.objects.filter(
                 category=hotspot_cat, city=hotspot_city
             )
-            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
+            hotspots_data_dic = serializers.HotSpotsSerializer(
+                sm_hotspots, many=True)
         elif hotspot_city is not None and hotspot_price is not None:
             sm_hotspots = Hot_Spots.objects.filter(
                 city=hotspot_city, entry_fee=hotspot_price
             )
-            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
+            hotspots_data_dic = serializers.HotSpotsSerializer(
+                sm_hotspots, many=True)
         elif hotspot_cat is not None and hotspot_price is not None:
             sm_hotspots = Hot_Spots.objects.filter(
                 category=hotspot_cat, entry_fee=hotspot_price
             )
-            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
+            hotspots_data_dic = serializers.HotSpotsSerializer(
+                sm_hotspots, many=True)
         elif hotspot_cat is not None:
             sm_hotspots = Hot_Spots.objects.filter(category=hotspot_cat)
-            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
+            hotspots_data_dic = serializers.HotSpotsSerializer(
+                sm_hotspots, many=True)
         elif hotspot_city is not None:
             sm_hotspots = Hot_Spots.objects.filter(city=hotspot_city)
-            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
+            hotspots_data_dic = serializers.HotSpotsSerializer(
+                sm_hotspots, many=True)
         elif hotspot_price is not None:
             sm_hotspots = Hot_Spots.objects.filter(entry_fee=hotspot_price)
-            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
+            hotspots_data_dic = serializers.HotSpotsSerializer(
+                sm_hotspots, many=True)
         else:
             sm_hotspots = Hot_Spots.objects.all()
-            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
+            hotspots_data_dic = serializers.HotSpotsSerializer(
+                sm_hotspots, many=True)
 
         return Response(hotspots_data_dic.data, status=status.HTTP_200_OK)
 
@@ -758,13 +770,16 @@ class HotSpotSearchViewSet(viewsets.ViewSet):
 
         if title is not None:
             sm_hotspots = Hot_Spots.objects.filter(title=title)
-            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
+            hotspots_data_dic = serializers.HotSpotsSerializer(
+                sm_hotspots, many=True)
         elif hotspot_id is not None:
             sm_hotspots = Hot_Spots.objects.filter(id=hotspot_id)
-            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
+            hotspots_data_dic = serializers.HotSpotsSerializer(
+                sm_hotspots, many=True)
         else:
             sm_hotspots = Hot_Spots.objects.all()
-            hotspots_data_dic = serializers.HotSpotsSerializer(sm_hotspots, many=True)
+            hotspots_data_dic = serializers.HotSpotsSerializer(
+                sm_hotspots, many=True)
 
         return Response(hotspots_data_dic.data, status=status.HTTP_200_OK)
 
