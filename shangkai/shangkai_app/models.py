@@ -234,6 +234,9 @@ class Blog_Post(models.Model):
 
 class BlogPost_Comments(models.Model):
     datetime = models.DateTimeField("Created At", auto_now_add=True)
+    user = models.ForeignKey(
+        "clients.User_Register", on_delete=models.CASCADE, default=None
+    )
     post = models.ForeignKey(
         "shangkai_app.Blog_Post", on_delete=models.CASCADE, default=None
     )
