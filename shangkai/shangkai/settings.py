@@ -219,15 +219,15 @@ REFRESH_TOKEN_SECRET = "4l7$d1av+8vl1s9175svaazrf8f%$no1*810pz262(k7mnzi9k"
 
 """ END Token Authentication """
 
-CORS_ORIGIN_ALLOW_ALL = True
-# CORS_ORIGIN_WHITELIST = (
-#     "http://localhost:3000",
-#     "http://localhost:3001",
-#     "https://shangkai.in",
-#     "http://shangkai.in",
-#     "http://partner.shangkai.in",
-# )
 
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "https://shangkai.in",
+    "http://shangkai.in",
+    "http://partner.shangkai.in",
+    "https://partner.shangkai.in",
+]
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
