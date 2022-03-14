@@ -115,6 +115,8 @@ class BookingHotel(admin.ModelAdmin):
         "guest_no",
         "rooms",
         "amount_booking",
+        "razorpay_id",
+        "booking_status",
     ]
 
 
@@ -168,6 +170,8 @@ class CabBooking(admin.ModelAdmin):
         "distance",
         "amount_booking",
         "no_guests",
+        "razorpay_id",
+        "booking_status",
     ]
 
 
@@ -192,7 +196,7 @@ admin.site.register(User_Trip_Cart, UserTripCart)
 
 
 class UserTripBooking(admin.ModelAdmin):
-    list_display = ["id", "user", "trip_id", "trip_ammount", "no_guests"]
+    list_display = ["id", "user", "trip_id", "trip_ammount", "no_guests","trip_ammount","razorpay_id","trip_cart_status"]
 
 
 admin.site.register(User_Trip_Booking, UserTripBooking)
@@ -215,6 +219,7 @@ class UserGuideBooking(admin.ModelAdmin):
         "booking_date",
         "guide_amount",
         "razorpay_id",
+        "status",
     ]
 
 
