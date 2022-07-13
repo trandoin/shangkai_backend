@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.db import models
 from django.utils import timezone
-
+import uuid
 
 # from shangkai_app.models import (
 #     Hotel_Category,
@@ -9,6 +9,7 @@ from django.utils import timezone
 
 
 class User_Register(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user_id = models.CharField("user_id", null=True, max_length=255)
     user_ip = models.CharField("user_ip", null=True, max_length=255)
@@ -45,7 +46,7 @@ class User_Register(models.Model):
         )
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 class client_token_authentication(models.Model):
@@ -87,6 +88,7 @@ class Client_login(models.Model):
 
 
 class Reg_Hotel(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "clients.User_Register",
@@ -120,10 +122,11 @@ class Reg_Hotel(models.Model):
         )
 
     def __str__(self):
-        return self.hotel_name
+        return str(self.hotel_name)
 
 
 class Room_Register(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "clients.User_Register",
@@ -158,6 +161,7 @@ class Room_Register(models.Model):
 
 
 class Driver_Reg(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "clients.User_Register",
@@ -187,10 +191,11 @@ class Driver_Reg(models.Model):
         )
 
     def __str__(self):
-        return self.driver_name
+        return str(self.driver_name)
 
 
 class Cabs_Reg(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "clients.User_Register",
@@ -231,6 +236,7 @@ class Cabs_Reg(models.Model):
 
 
 class Tour_locations(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "clients.User_Register",
@@ -249,10 +255,11 @@ class Tour_locations(models.Model):
         )
 
     def __str__(self):
-        return self.locations
+        return str(self.locations)
 
 
 class Tour_Packages(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "clients.User_Register",
@@ -272,10 +279,11 @@ class Tour_Packages(models.Model):
         )
 
     def __str__(self):
-        return self.package_amount
+        return str(self.package_amount)
 
 
 class TourGuide_Reg(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "clients.User_Register",
@@ -316,10 +324,11 @@ class TourGuide_Reg(models.Model):
         )
 
     def __str__(self):
-        return self.guider_name
+        return str(self.guider_name)
 
 
 class Account_Details(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "clients.User_Register",
