@@ -11,6 +11,11 @@ from django.core.mail import send_mail
 import random
 import string
 
+import jwt
+import datetime
+from json import JSONEncoder
+from uuid import UUID
+
 from . import serializers
 
 # Create your views here.
@@ -30,6 +35,18 @@ from .models import (
 from shangkai_app.models import (
     Hotel_Category,
 )
+
+
+old_default = JSONEncoder.default
+
+
+def new_default(self, obj):
+    if isinstance(obj, UUID):
+        return str(obj)
+    return old_default(self, obj)
+
+
+JSONEncoder.default = new_default
 
 
 class UserRegisterViewSet(viewsets.ViewSet):
@@ -217,27 +234,81 @@ class ClientVerifyEmailViewSet(viewsets.ViewSet):
 
 
 class ClientloginViewSet(viewsets.ViewSet):
+    # def create(self, request):
+
+    #     email = request.POST.get("email", None)
+    #     password = request.POST.get("password", None)
+
+    #     if email is None and password is None:
+
+    #         return Response(
+    #             {"message": "Enter username & password !"},
+    #             status=status.HTTP_400_BAD_REQUEST,
+    #         )
+
+    #     try:
+    #         users_inst = User_Register.objects.filter(email=email, password=password)
+    #         users_data_dic = serializers.UserRegisterSerializer(users_inst, many=True)
+    #     except:
+    #         return Response(
+    #             {"message": "Invalid username & password !"},
+    #             status=status.HTTP_400_BAD_REQUEST,
+    #         )
+
+    #     access_payload = {
+    #         "id": user_inst.id,
+    #         "exp": datetime.datetime.utcnow() + datetime.timedelta(days=14),
+    #         "iat": datetime.datetime.utcnow(),
+    #     }
+    #     access_token = jwt.encode(
+    #         access_payload, settings.SECRET_KEY, algorithm="HS256"
+    #     )
+
+    #     refresh_payload = {
+    #         "user": user_inst.id,
+    #         "exp": datetime.datetime.utcnow() + datetime.timedelta(days=14),
+    #         "iat": datetime.datetime.utcnow(),
+    #     }
+    #     refresh_token = jwt.encode(
+    #         refresh_payload, settings.REFRESH_TOKEN_SECRET, algorithm="HS256"
+    #     )
+
+    #     return Response(users_data_dic.data, status=status.HTTP_200_OK)
+
     def create(self, request):
 
         email = request.POST.get("email", None)
         password = request.POST.get("password", None)
 
-        if email is None and password is None:
+        user_inst = User_Register.objects.filter(email=email, password=password).first()
 
+        if user_inst is None:
             return Response(
-                {"message": "Enter username & password !"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"message": "Invalid Username or password !"}, status=status.HTTP_400_BAD_REQUEST
             )
 
-        try:
-            users_inst = User_Register.objects.filter(email=email, password=password)
-            users_data_dic = serializers.UserRegisterSerializer(users_inst, many=True)
-        except:
-            return Response(
-                {"message": "Invalid username & password !"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-        return Response(users_data_dic.data, status=status.HTTP_200_OK)
+        access_payload = {
+            "id": user_inst.id,
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(days=14),
+            "iat": datetime.datetime.utcnow(),
+        }
+        access_token = jwt.encode(
+            access_payload, settings.SECRET_KEY, algorithm="HS256"
+        )
+
+        refresh_payload = {
+            "user": user_inst.id,
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(days=14),
+            "iat": datetime.datetime.utcnow(),
+        }
+        refresh_token = jwt.encode(
+            refresh_payload, settings.REFRESH_TOKEN_SECRET, algorithm="HS256"
+        )
+
+        return Response(
+            {"access_token": access_token, "refresh_token": refresh_token},
+            status=status.HTTP_200_OK,
+        )
 
 
 class HotelRegistrationViewSet(viewsets.ViewSet):
