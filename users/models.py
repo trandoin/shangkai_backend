@@ -2,6 +2,7 @@ from datetime import datetime
 from django.db import models
 from django.utils import timezone
 import random
+import uuid
 
 # def post_upload_path(instance,filename):
 #     return "media/".format(instance.id,filename)
@@ -28,6 +29,7 @@ from clients.models import (
 
 
 class Normal_UserReg(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user_id = models.CharField("user_id", null=True, max_length=255)
     user_ip = models.CharField("user_ip", null=True, max_length=255)
@@ -46,10 +48,11 @@ class Normal_UserReg(models.Model):
         )
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 class User_Account_Details(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "users.Normal_UserReg",
@@ -77,6 +80,7 @@ class User_Account_Details(models.Model):
 
 
 class User_Hotel_Cart(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "users.Normal_UserReg",
@@ -123,6 +127,7 @@ class User_Hotel_Cart(models.Model):
 
 
 class User_Hotel_Booking(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "users.Normal_UserReg",
@@ -176,6 +181,7 @@ class User_Hotel_Booking(models.Model):
 
 
 class User_Hotel_Payment(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "users.Normal_UserReg",
@@ -203,6 +209,7 @@ class User_Hotel_Payment(models.Model):
 
 
 class User_Cab_Cart(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "users.Normal_UserReg",
@@ -249,6 +256,7 @@ class User_Cab_Cart(models.Model):
 
 
 class User_Cab_Booking(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "users.Normal_UserReg",
@@ -300,6 +308,7 @@ class User_Cab_Booking(models.Model):
 
 
 class User_Cab_Payment(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "users.Normal_UserReg",
@@ -327,6 +336,7 @@ class User_Cab_Payment(models.Model):
 
 
 class User_Trip_Cart(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "users.Normal_UserReg",
@@ -353,6 +363,7 @@ class User_Trip_Cart(models.Model):
 
 
 class User_Trip_Booking(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "users.Normal_UserReg",
@@ -383,6 +394,7 @@ class User_Trip_Booking(models.Model):
 
 
 class User_Trips_Payment(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "users.Normal_UserReg",
@@ -407,6 +419,7 @@ class User_Trips_Payment(models.Model):
 
 
 class User_Guide_Booking(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "users.Normal_UserReg",
@@ -444,6 +457,7 @@ class User_Guide_Booking(models.Model):
 
 
 class User_Hotspots_Cart(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "users.Normal_UserReg",
@@ -472,6 +486,7 @@ class User_Hotspots_Cart(models.Model):
 
 
 class User_Hotspots_Bookings(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "users.Normal_UserReg",
@@ -503,6 +518,7 @@ class User_Hotspots_Bookings(models.Model):
 
 
 class User_Ratings(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "users.Normal_UserReg",

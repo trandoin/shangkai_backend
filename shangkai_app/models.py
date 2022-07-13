@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.db import models
 from django.utils import timezone
+import uuid
 
 from users.models import (
     Normal_UserReg,
@@ -12,6 +13,7 @@ from clients.models import (
 
 
 class About_Us(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     about_us = models.TextField("about_us", null=True, max_length=1000)
     status = models.CharField("status", null=True, default="0", max_length=255)
@@ -24,6 +26,7 @@ class About_Us(models.Model):
 
 
 class Footer_Copyright(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     footer = models.TextField("footer", null=True, max_length=1000)
     status = models.CharField("status", null=True, default="0", max_length=255)
@@ -36,6 +39,7 @@ class Footer_Copyright(models.Model):
 
 
 class Contact_Us(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     name = models.CharField("Name", null=True, max_length=255)
     email = models.EmailField("Email", null=True, max_length=255)
@@ -51,6 +55,7 @@ class Contact_Us(models.Model):
 
 
 class Hotspot_Category(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     title = models.CharField("title", null=True, max_length=1000)
     sub_title = models.CharField("sub_title", null=True, max_length=1000)
@@ -67,10 +72,11 @@ class Hotspot_Category(models.Model):
         )
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
 
 class Hotel_Category(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     title = models.CharField("title", null=True, max_length=1000)
     status = models.CharField("status", null=True, default="0", max_length=255)
@@ -82,10 +88,11 @@ class Hotel_Category(models.Model):
         )
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
 
 class Hot_Spots(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     title = models.CharField("title", null=True, max_length=255)
     sub_title = models.CharField("sub_title", null=True, max_length=255)
@@ -114,10 +121,11 @@ class Hot_Spots(models.Model):
         )
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
 
 class My_Trips(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     title = models.CharField("title", null=True, max_length=255)
     sub_title = models.CharField("sub_title", null=True, max_length=255)
@@ -160,10 +168,11 @@ class My_Trips(models.Model):
         )
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
 
 class My_Trips_Days(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     my_trip = models.ForeignKey(
         "shangkai_app.My_Trips", on_delete=models.CASCADE, default=None
@@ -179,6 +188,7 @@ class My_Trips_Days(models.Model):
 
 
 class Admin_Notification(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.CharField("Created At", null=True, max_length=255)
     title = models.CharField("Title", null=True, max_length=255)
     message = models.TextField("Message", null=True, max_length=255)
@@ -192,6 +202,7 @@ class Admin_Notification(models.Model):
 
 
 class Blog_Category(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "clients.User_Register", on_delete=models.CASCADE, default=None
@@ -206,10 +217,11 @@ class Blog_Category(models.Model):
         )
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
 
 class Blog_Post(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "clients.User_Register", on_delete=models.CASCADE, default=None
@@ -229,10 +241,11 @@ class Blog_Post(models.Model):
         )
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
 
 class BlogPost_Comments(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     post = models.ForeignKey(
         "shangkai_app.Blog_Post", on_delete=models.CASCADE, default=None
@@ -251,6 +264,7 @@ class BlogPost_Comments(models.Model):
 
 
 class Comments_All(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "users.Normal_UserReg", on_delete=models.CASCADE, default=None
@@ -271,6 +285,7 @@ class Comments_All(models.Model):
 
 
 class Payment_Transaction(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user_id = models.CharField("user_id", null=True, max_length=255)
     transaction_id = models.CharField("transaction_id", null=True, max_length=255)
