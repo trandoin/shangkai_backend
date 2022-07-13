@@ -324,7 +324,7 @@ class HotelCategoryViewSet(viewsets.ViewSet):
     def list(self, request):
 
         try:
-            sm_hotspots_cat = Hotel_Category.objects.filter(status='0')
+            sm_hotspots_cat = Hotel_Category.objects.filter(status='1')
             hotspots_cat_data_dic = serializers.HotelCategorySerializer(
                 sm_hotspots_cat, many=True
             )
