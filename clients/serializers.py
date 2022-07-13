@@ -16,7 +16,11 @@ from .models import (
 class UserRegisterSerializer(ModelSerializer):
     class Meta:
         model = User_Register
-        fields = "__all__"
+        fields = ["id","user_ip","name","email","mobile","password","user_type"]
+
+        extra_kwargs = {
+            "password": {"write_only": True},
+        }        
 
 
 class ClientloginSerializer(ModelSerializer):
