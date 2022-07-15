@@ -229,5 +229,14 @@ CORS_ORIGIN_WHITELIST = [
     "https://partner.shangkai.in",
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "https://shangkai.in",
+    "http://shangkai.in",
+    "http://partner.shangkai.in",
+    "https://partner.shangkai.in",
+]
+
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
