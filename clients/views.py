@@ -64,7 +64,7 @@ class UserRegisterViewSet(viewsets.ViewSet):
 
     def create(self, request):
 
-        user_id = request.POST.get("user_id", None)
+        user_id = random.randint(111111, 999999)
         user_ip = request.POST.get("user_ip", None)
         name = request.POST.get("name", None)
         email = request.POST.get("email", None)
@@ -74,6 +74,16 @@ class UserRegisterViewSet(viewsets.ViewSet):
         role = request.POST.get("user_role", None)
         otp = random.randint(1111, 9999)
         token = "".join(random.choices(string.ascii_uppercase + string.digits, k=80))
+
+        if email is not None:
+            user_already_email_exists = User_Register.objects.filter(
+                email=email
+            ).exists()
+            if user_already_email_exists:
+                return Response(
+                    {"message": "Email Already Exists !"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
         users_inst = User_Register.objects.create(
             user_id=user_id,
