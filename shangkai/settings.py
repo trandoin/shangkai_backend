@@ -71,12 +71,12 @@ WSGI_APPLICATION = "shangkai.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 # DATABASES = {
 #     "default": {
@@ -89,16 +89,16 @@ DATABASES = {
 #     }
 # }
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.mysql",
-#         "NAME": "shangkai_shangkai_db",
-#         "USER": "shangkai_shangkaiUser466",
-#         "PASSWORD": "sZrGWzBPpU2t@pA",
-#         "HOST": "212.1.210.139",
-#         "PORT": "",
-#     }
-# }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "shangkai_shangkai_db",
+        "USER": "shangkai_shangkaiUser466",
+        "PASSWORD": "sZrGWzBPpU2t@pA",
+        "HOST": "212.1.210.139",
+        "PORT": "",
+    }
+}
 
 
 # Password validation
