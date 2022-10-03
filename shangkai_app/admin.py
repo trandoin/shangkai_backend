@@ -10,6 +10,7 @@ from .models import (
     Comments_All,
     Footer_Copyright,
     Hot_Spots,
+    HotSpot_Images,
     Hotspot_Category,
     Payment_Transaction,
     Hotel_Category,
@@ -89,6 +90,7 @@ class HotSpots(admin.ModelAdmin):
 
 
 admin.site.register(Hot_Spots, HotSpots)
+admin.site.register(HotSpot_Images)
 
 
 class MyTrips(admin.ModelAdmin):

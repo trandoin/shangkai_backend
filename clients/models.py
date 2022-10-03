@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.db import models
 from django.utils import timezone
 import uuid
@@ -350,3 +350,13 @@ class Account_Details(models.Model):
             "Bank Details",
             "Bank Details",
         )
+
+class UserOTP(models.Model):
+    otp = models.CharField(max_length=6)
+    mobile = models.CharField(max_length=10)
+    session_id = models.CharField("session_id", max_length=255)
+    CATEGORY_CHOICES = (
+        ("login", "login"),
+        ("forgot", "forgot"),
+    )
+    used_for = models.CharField("used_for", max_length=255,choices=CATEGORY_CHOICES)

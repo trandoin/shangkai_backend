@@ -103,6 +103,11 @@ class Hot_Spots(models.Model):
     amenites = models.CharField("amenites", null=True, max_length=255)
     history = models.CharField("history", null=True, max_length=255)
     about = models.TextField("about", null=True, max_length=2000)
+    para1 = models.TextField("para1", null=True, max_length=2000)
+    para2 = models.TextField("para2", null=True, max_length=2000)
+    para3 = models.TextField("para3", null=True, max_length=2000)
+    transport = models.CharField("transport", null=True, max_length=255)
+    title_image = models.ImageField("title_image", upload_to="hotspot_images",null=True)
     images = models.CharField("images", default="0", max_length=25500)
     entry_fee = models.CharField("entry_fee", null=True, max_length=2000)
     parking_fee = models.CharField("parking_fee", null=True, max_length=2000)
@@ -123,6 +128,30 @@ class Hot_Spots(models.Model):
     def __str__(self):
         return str(self.title)
 
+class HotSpot_Images(models.Model):
+    image = models.ImageField("image", upload_to="hotspot_images", null=True, blank=True)
+    hotspot = models.ForeignKey(
+        "shangkai_app.Hot_Spots", on_delete=models.CASCADE, default=None
+    )
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Hotspot Images",
+            "Hotspot Images",
+        )
+
+class Tracking(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField("title", null=True, max_length=255)
+    datetime = models.DateTimeField("Starting on")
+    seats = models.IntegerField()
+    payment_id = models.CharField("payment_id", null=True, max_length=255)
+    status = models.CharField("status", null=True, default="0", max_length=255)
+
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Tracking",
+            "Tracking",
+        )
 
 class My_Trips(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

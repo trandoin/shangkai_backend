@@ -1,4 +1,6 @@
+from datetime import timedelta
 from django.shortcuts import render
+import requests
 from rest_framework import serializers, viewsets
 from django.http import response
 from rest_framework.decorators import api_view
@@ -663,7 +665,7 @@ class HotelBookingViewSet(viewsets.ViewSet):
     def create(self, request):
 
         user_id = request.POST.get("user_id", None)
-        user_ip = request.POST.get("client_id", None)
+        user_ip = request.POST.get("user_ip", None)
         hotel_id = request.POST.get("hotel_id", None)
         room_id = request.POST.get("room_id", None)
         hotel_bookid = request.POST.get("hotel_bookid", None)
@@ -685,27 +687,91 @@ class HotelBookingViewSet(viewsets.ViewSet):
                 {"message": "No user found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+        users_inst = serializers.HotelBookingSerializer(
+            data={            
+            "user":user_id,
+            "user_ip":user_ip,
+            "hotel_id":hotel_id,
+            "room_id":room_id,
+            "hotel_bookid":hotel_bookid,
+            "check_in_date":check_in_date,
+            "check_in_time":check_in_time,
+            "check_out_date":check_out_date,
+            "check_out_time":check_out_time,
+            "guest_no":guest_no,
+            "rooms":rooms,
+            "amount_booking":amount_booking,
+        })
+        if users_inst.is_valid(raise_exception=True):
+            new_booking = users_inst.save()
+            cin = new_booking.check_in_date
+            cout = new_booking.check_out_date
+            new_booking.delete()
+            # check if room is available or not
+            hotel_booking = User_Hotel_Booking.objects.filter(
+                hotel_id=hotel_inst,
+                room_id=room_inst,
+                check_in_date__gte=cin,
+                check_in_date__lte=cout,
+            )
+            hotel_booking2 = User_Hotel_Booking.objects.filter(
+                hotel_id=hotel_inst,
+                room_id=room_inst,
+                check_out_date__gte=cin,
+                check_out_date__lte=cout,
+            )
+            hotel_booking3 = User_Hotel_Booking.objects.filter(
+                hotel_id=hotel_inst,
+                room_id=room_inst,
+                check_in_date__lte=cin,
+                check_out_date__gte=cout,
+            )
+            hotel_booking4 = User_Hotel_Booking.objects.filter(
+                hotel_id=hotel_inst,
+                room_id=room_inst,
+                check_in_date__gte=cin,
+                check_out_date__lte=cout,
+            )
+            hotel_booking = hotel_booking.union(hotel_booking2)
+            hotel_booking = hotel_booking.union(hotel_booking3)
+            hotel_booking = hotel_booking.union(hotel_booking4)            
+            if len(hotel_booking) > 0:
+                day_count = (cout - cin).days + 1
+                for single_date in (cin + timedelta(n) for n in range(day_count)):
+                    count=0
+                    for i in range(0, len(hotel_booking)):
+                        if single_date >= hotel_booking[i].check_in_date and single_date <= hotel_booking[i].check_out_date:
+                            count+=hotel_booking[i].rooms
+                    if int(room_inst.no_rooms) < int(count) + int(rooms):
+                        return Response(
+                            {"message": f"Only {int(room_inst.no_rooms) - int(count)} rooms available !"},
+                            status=status.HTTP_400_BAD_REQUEST,
+                        )
+            new_booking = users_inst.save()
+            #   send sms to user as a transactional message
+            res = requests.post(
+                f"http://2factor.in/API/V1/293832-67745-11e5-88de-5600000c6b13/ADDON_SERVICES/SEND/TSMS",
+                data = {
+                    "From": "Hotel",
+                    "To": user_inst.phone,
+                    "TemplateName": "HotelBooking",
+                    "VAR1": hotel_inst.hotel_name,
+                    "VAR2": hotel_inst.hotel_address,
+                    "VAR3": hotel_inst.hotel_city,
+                    "VAR4": hotel_inst.hotel_state,
+                    "VAR5": hotel_inst.hotel_country,
+                    "VAR6": hotel_inst.hotel_pincode,
+                }
+            )
+            return Response(
+                serializers.HotelBookingSerializer(new_booking).data,
+                status=status.HTTP_201_CREATED,
+            )
 
-        users_inst = User_Hotel_Booking.objects.create(
-            user=user_inst,
-            user_ip=user_ip,
-            hotel_id=hotel_inst,
-            room_id=room_inst,
-            hotel_bookid=hotel_bookid,
-            check_in_date=check_in_date,
-            check_in_time=check_in_time,
-            check_out_date=check_out_date,
-            check_out_time=check_out_time,
-            guest_no=guest_no,
-            rooms=rooms,
-            amount_booking=amount_booking,
+        return Response(
+            {"message": "Invalid data !"},
+            status=status.HTTP_400_BAD_REQUEST,
         )
-        users_inst.save()
-
-        users_data = serializers.HotelBookingSerializer(
-            User_Hotel_Booking.objects.filter(id=users_inst.id), many=True
-        )
-        return Response(users_data.data[0], status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)

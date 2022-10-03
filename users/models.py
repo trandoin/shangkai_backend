@@ -151,20 +151,20 @@ class User_Hotel_Booking(models.Model):
     hotel_bookid = models.CharField(
         "hotel_bookid", null=True, default="0", max_length=255
     )
-    check_in_date = models.CharField(
-        "check_in_date", null=True, default="0", max_length=255
+    check_in_date = models.DateField(
+        "check_in_date", null=True, max_length=255
     )
-    check_in_time = models.CharField(
-        "check_in_time", null=True, default="0", max_length=255
+    check_in_time = models.TimeField(
+        "check_in_time", null=True, max_length=255
     )
-    check_out_date = models.CharField(
-        "check_out_date", null=True, default="0", max_length=255
+    check_out_date = models.DateField(
+        "check_out_date", null=True, max_length=255
     )
-    check_out_time = models.CharField(
+    check_out_time = models.TimeField(
         "check_out_time", null=True, default="0", max_length=255
     )
-    guest_no = models.CharField("guests", null=True, default="0", max_length=255)
-    rooms = models.CharField("rooms", null=True, default="0", max_length=255)
+    guest_no = models.IntegerField("guests", null=True, default=1)
+    rooms = models.IntegerField("rooms", null=True, default=1)
     amount_booking = models.CharField(
         "amount_booking", null=True, default="0", max_length=255
     )

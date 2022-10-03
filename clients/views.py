@@ -1,4 +1,5 @@
 from django.shortcuts import render
+import requests
 
 # Create your views here.
 from rest_framework import serializers, viewsets
@@ -30,6 +31,7 @@ from .models import (
     Driver_Reg,
     Cabs_Reg,
     Client_login,
+    UserOTP,
 )
 
 from shangkai_app.models import (
@@ -258,30 +260,64 @@ class ClientloginViewSet(viewsets.ViewSet):
             return Response(
                 {"message": "Invalid Username or password !"}, status=status.HTTP_400_BAD_REQUEST
             )
-
-        access_payload = {
-            "id": user_inst.id,
-            "exp": datetime.datetime.utcnow() + datetime.timedelta(days=14),
-            "iat": datetime.datetime.utcnow(),
-        }
-        access_token = jwt.encode(
-            access_payload, settings.SECRET_KEY, algorithm="HS256"
-        )
-
-        refresh_payload = {
-            "user": user_inst.id,
-            "exp": datetime.datetime.utcnow() + datetime.timedelta(days=14),
-            "iat": datetime.datetime.utcnow(),
-        }
-        refresh_token = jwt.encode(
-            refresh_payload, settings.REFRESH_TOKEN_SECRET, algorithm="HS256"
-        )
-
+        
+        otp=""
+        for i in range(6):
+            otp+=str(random.randint(1,9))
+        res = requests.get(f"https://2factor.in/API/V1/6b9b1b0e-8b1f-11eb-8089-0200cd936042/SMS/{user_inst.mobile}/{otp}/SHANGKAI")
+        if(res.status_code == 200 and res.json()["Status"] == "Success"):
+            session_id = res.json()["Details"]
+            UserOTP.objects.create(session_id=session_id,used_for="login",otp=otp,mobile=user_inst.mobile)
+            return Response(
+                {"message": "OTP has been sent to your mobile number !"}, status=status.HTTP_200_OK
+            )
         return Response(
-            {"access_token": access_token, "refresh_token": refresh_token},
-            status=status.HTTP_200_OK,
+            {"message": "Some error occured"}, status=status.HTTP_400_BAD_REQUEST
         )
 
+class ClientOTPViewSet(viewsets.ViewSet):
+
+    def create(self, request):
+
+        otp = request.POST.get("otp", None)
+        mobile = request.POST.get("mobile", None)
+        email = request.POST.get("email", None)
+
+        user_inst = UserOTP.objects.filter(mobile=mobile,otp=otp,used_for="login").first()
+
+        if user_inst is None:
+            return Response(
+                {"message": "Invalid OTP !"}, status=status.HTTP_400_BAD_REQUEST
+        )
+        res = requests.get(f"https://2factor.in/API/V1/6b9b1b0e-8b1f-11eb-8089-0200cd936042/SMS/VERIFY/{user_inst.session_id}/{otp}")
+        if(res.status_code == 200 and res.json()["Status"] == "Success"):
+            user_inst.delete()
+            user_inst = User_Register.objects.filter(email=email).first()
+            access_payload = {
+                "id": user_inst.id,
+                "exp": datetime.datetime.utcnow() + datetime.timedelta(days=14),
+                "iat": datetime.datetime.utcnow(),
+            }
+            access_token = jwt.encode(
+                access_payload, settings.SECRET_KEY, algorithm="HS256"
+            )
+
+            refresh_payload = {
+                "user": user_inst.id,
+                "exp": datetime.datetime.utcnow() + datetime.timedelta(days=14),
+                "iat": datetime.datetime.utcnow(),
+            }
+            refresh_token = jwt.encode(
+                refresh_payload, settings.REFRESH_TOKEN_SECRET, algorithm="HS256"
+            )
+
+            return Response(
+                {"access_token": access_token, "refresh_token": refresh_token},
+                status=status.HTTP_200_OK,
+            )
+        return Response(
+            {"message": "Invalid OTP !"}, status=status.HTTP_400_BAD_REQUEST
+        )
 
 class HotelRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):

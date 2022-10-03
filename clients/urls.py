@@ -10,6 +10,7 @@ router.register(
     "client_register", views.UserRegisterViewSet, basename="ClientsRegister"
 )
 router.register("client_login", views.ClientloginViewSet, basename="ClientsLogin")
+router.register("client_login_otp", views.ClientOTPViewSet, basename="ClientsLoginOtp")
 
 router.register(
     "client_update_password",

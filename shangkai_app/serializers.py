@@ -2,6 +2,7 @@ from rest_framework.serializers import ModelSerializer
 from .models import (
     About_Us,
     Footer_Copyright,
+    HotSpot_Images,
     Hotspot_Category,
     Hot_Spots,
     Comments_All,
@@ -69,11 +70,16 @@ class HotelCategorySerializer(ModelSerializer):
         model = Hotel_Category
         fields = "__all__"
 
+class HotSpotImageSerializer(ModelSerializer):
+    class Meta:
+        model = HotSpot_Images
+        fields = "__all__"
 
 class HotSpotsSerializer(ModelSerializer):
+    gallery_images = HotSpotImageSerializer(many=True,read_only=True)
     class Meta:
         model = Hot_Spots
-        fields = "__all__"
+        fields = ("__all__","gallery_images")
 
 
 class MyTripsSerializer(ModelSerializer):
