@@ -127,6 +127,7 @@ class Reg_Hotel(models.Model):
 
 class Room_Register(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    about = models.TextField("about", null=True, max_length=5000)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "clients.User_Register",

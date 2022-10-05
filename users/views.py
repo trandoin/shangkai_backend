@@ -506,7 +506,9 @@ class HotelCartViewSet(viewsets.ViewSet):
         hotel_id = request.POST.get("hotel_id", None)
         room_id = request.POST.get("room_id", None)
         check_in_date = request.POST.get("check_in_date", None)
+        check_in_time = request.POST.get("check_in_time", None)
         check_out_date = request.POST.get("check_out_date", None)
+        check_out_time = request.POST.get("check_out_time", None)
         guest_no = request.POST.get("guest_no", None)
         rooms = request.POST.get("rooms", None)
         amount_booking = request.POST.get("amount_booking", None)
@@ -526,7 +528,9 @@ class HotelCartViewSet(viewsets.ViewSet):
             hotel_id=hotel_inst,
             room_id=room_inst,
             check_in_date=check_in_date,
+            check_in_time=check_in_time,
             check_out_date=check_out_date,
+            check_out_time=check_out_time,
             guest_no=guest_no,
             rooms=rooms,
             amount_booking=amount_booking,
@@ -540,7 +544,6 @@ class HotelCartViewSet(viewsets.ViewSet):
 
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)
-        cart_id = request.POST.get("cart_id", None)
         cart_status = request.POST.get("cart_status", None)
 
         if pk is None and user_id is None:
@@ -549,13 +552,12 @@ class HotelCartViewSet(viewsets.ViewSet):
             )
 
         try:
-            post_inst = User_Hotel_Cart.objects.get(id=pk)
+            post_inst = User_Hotel_Cart.objects.filter(id=pk, user=user_id).first()
             post_inst.booking_status = cart_status
-            post_inst.is_edited = True
             post_inst.save()
 
             return Response(
-                {"message": "Hotel Cart Updated Sucessfully"},
+                {"message": "Hotel Cart Updated Sucessfully","data": serializers.HotelCartSerializer(post_inst).data},
                 status=status.HTTP_200_OK,
             )
 
@@ -567,7 +569,6 @@ class HotelCartViewSet(viewsets.ViewSet):
 
     def destroy(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
-        cart_id = request.GET.get("cart_id", None)
 
         if user_id is None:
             return Response(
@@ -575,13 +576,13 @@ class HotelCartViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         try:
-            scm_post_inst = User_Hotel_Cart.objects.filter(id=pk)
+            scm_post_inst = User_Hotel_Cart.objects.filter(id=pk,user=user_id).first()
             scm_post_inst.delete()
             return Response(
-                {"message": "Successfully Cart Removed"}, status=status.HTTP_200_OK
+                {"message": "Successfully Cart Removed"}, status=status.HTTP_204_NO_CONTENT
             )
         except:
-            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
+            return Response({"message": "Details not found"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class HotelBookingViewSet(viewsets.ViewSet):
@@ -749,20 +750,20 @@ class HotelBookingViewSet(viewsets.ViewSet):
                         )
             new_booking = users_inst.save()
             #   send sms to user as a transactional message
-            res = requests.post(
-                f"http://2factor.in/API/V1/293832-67745-11e5-88de-5600000c6b13/ADDON_SERVICES/SEND/TSMS",
-                data = {
-                    "From": "Hotel",
-                    "To": user_inst.phone,
-                    "TemplateName": "HotelBooking",
-                    "VAR1": hotel_inst.hotel_name,
-                    "VAR2": hotel_inst.hotel_address,
-                    "VAR3": hotel_inst.hotel_city,
-                    "VAR4": hotel_inst.hotel_state,
-                    "VAR5": hotel_inst.hotel_country,
-                    "VAR6": hotel_inst.hotel_pincode,
-                }
-            )
+            # res = requests.post(
+            #     f"http://2factor.in/API/V1/293832-67745-11e5-88de-5600000c6b13/ADDON_SERVICES/SEND/TSMS",
+            #     data = {
+            #         "From": "Hotel",
+            #         "To": user_inst.mobile,
+            #         "TemplateName": "HotelBooking",
+            #         "VAR1": hotel_inst.hotel_name,
+            #         "VAR2": hotel_inst.hotel_address,
+            #         "VAR3": hotel_inst.hotel_city,
+            #         "VAR4": hotel_inst.hotel_state,
+            #         "VAR5": hotel_inst.hotel_country,
+            #         "VAR6": hotel_inst.hotel_pincode,
+            #     }
+            # )
             return Response(
                 serializers.HotelBookingSerializer(new_booking).data,
                 status=status.HTTP_201_CREATED,
@@ -776,7 +777,7 @@ class HotelBookingViewSet(viewsets.ViewSet):
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)
         razorpay_id = request.POST.get("razorpay_id", None)
-        status = request.POST.get("status", None)
+        sttus = request.POST.get("status", None)
 
         if pk is None and user_id is None:
             return Response({"message": "Invalid Input"})
@@ -784,8 +785,7 @@ class HotelBookingViewSet(viewsets.ViewSet):
         try:
             post_inst = User_Hotel_Booking.objects.get(id=pk)
             post_inst.razorpay_id = razorpay_id
-            post_inst.booking_status = status
-            post_inst.is_edited = True
+            post_inst.booking_status = sttus
             post_inst.save()
 
             return Response({"message": "Hotel has been booked Sucessfully"})
@@ -795,19 +795,18 @@ class HotelBookingViewSet(viewsets.ViewSet):
 
     def destroy(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
-        book_id = request.GET.get("book_id", None)
 
-        if user_id is None:
+        if user_id is None and pk is None:
             return Response(
                 {"message": "Please provide user_id"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         try:
-            scm_post_inst = User_Hotel_Booking.objects.filter(id=pk)
+            scm_post_inst = User_Hotel_Booking.objects.filter(id=pk,user=user_id).first()
             scm_post_inst.delete()
             return Response(
                 {"message": "Hotel Booking Removed Successfully"},
-                status=status.HTTP_200_OK,
+                status=status.HTTP_204_NO_CONTENT,
             )
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
@@ -878,27 +877,129 @@ class HotelPaymentViewSet(viewsets.ViewSet):
     def create(self, request):
 
         user_id = request.POST.get("user_id", None)
-        hotel_booking_id = request.POST.get("hotel_booking_id", None)
+        user_ip = request.POST.get("user_ip", None)
+        cart_item_id = request.POST.get("cart_item_id", None)
         payment_id = request.POST.get("payment_id", None)
         try:
             user_inst = Normal_UserReg.objects.get(id=user_id)
-            hotel_booking_inst = User_Hotel_Booking.objects.get(id=hotel_booking_id)
+            cart_item_inst = User_Hotel_Cart.objects.filter(id=cart_item_id,user=user_id).first()
+            hotel_inst = cart_item_inst.hotel_id
+            room_inst = cart_item_inst.room_id
         except:
 
             return Response(
                 {"message": "Invalid Request !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+        users_inst = serializers.HotelBookingSerializer(
+            data={            
+            "user":user_id,
+            "user_ip":user_ip,
+            "hotel_id":cart_item_inst.hotel_id.id,
+            "room_id":cart_item_inst.room_id.id,
+            "hotel_bookid":"123456",
+            "check_in_date":cart_item_inst.check_in_date,
+            "check_in_time":cart_item_inst.check_in_time,
+            "check_out_date":cart_item_inst.check_out_date,
+            "check_out_time":cart_item_inst.check_out_time,
+            "guest_no":cart_item_inst.guest_no,
+            "rooms":cart_item_inst.rooms,
+            "amount_booking":cart_item_inst.amount_booking,
+        })
+        if users_inst.is_valid(raise_exception=True):
+            new_booking = users_inst.save()
+            cin = new_booking.check_in_date
+            cout = new_booking.check_out_date
+            new_booking.delete()
+            # check if room is available or not
+            hotel_booking = User_Hotel_Booking.objects.filter(
+                hotel_id=hotel_inst,
+                room_id=room_inst,
+                check_in_date__gte=cin,
+                check_in_date__lte=cout,
+            )
+            hotel_booking2 = User_Hotel_Booking.objects.filter(
+                hotel_id=hotel_inst,
+                room_id=room_inst,
+                check_out_date__gte=cin,
+                check_out_date__lte=cout,
+            )
+            hotel_booking3 = User_Hotel_Booking.objects.filter(
+                hotel_id=hotel_inst,
+                room_id=room_inst,
+                check_in_date__lte=cin,
+                check_out_date__gte=cout,
+            )
+            hotel_booking4 = User_Hotel_Booking.objects.filter(
+                hotel_id=hotel_inst,
+                room_id=room_inst,
+                check_in_date__gte=cin,
+                check_out_date__lte=cout,
+            )
+            hotel_booking = hotel_booking.union(hotel_booking2)
+            hotel_booking = hotel_booking.union(hotel_booking3)
+            hotel_booking = hotel_booking.union(hotel_booking4)            
+            if len(hotel_booking) > 0:
+                day_count = (cout - cin).days + 1
+                for single_date in (cin + timedelta(n) for n in range(day_count)):
+                    count=0
+                    for i in range(0, len(hotel_booking)):
+                        if single_date >= hotel_booking[i].check_in_date and single_date <= hotel_booking[i].check_out_date:
+                            count+=hotel_booking[i].rooms
+                    if int(room_inst.no_rooms) < int(count) + int(cart_item_inst.rooms):
+                        return Response(
+                            {"message": f"Only {int(room_inst.no_rooms) - int(count)} rooms available !"},
+                            status=status.HTTP_400_BAD_REQUEST,
+                        )
+            """
+            accept payment by razorpay
+            """
+            payment_status = True
+            transaction_id  = "sfgsd"
+            if payment_status:
+                new_booking = users_inst.save()
+                new_booking.razorpay_id = transaction_id
+                new_booking.save()
+                cart_item_inst.delete()
+                users_inst = User_Hotel_Payment.objects.create(
+                    user=user_inst,
+                    hotel_booking=new_booking,
+                    payment_id=transaction_id,
+                )
+                users_inst.save()
 
-        users_inst = User_Hotel_Payment.objects.create(
-            user=user_inst,
-            hotel_booking=hotel_booking_inst,
-            payment_id=payment_id,
-        )
-        users_inst.save()
-
-        users_data = serializers.UserHotelPaymentSerializer(
-            User_Hotel_Payment.objects.filter(id=users_inst.id), many=True
+                users_data = serializers.UserHotelPaymentSerializer(
+                    User_Hotel_Payment.objects.filter(id=users_inst.id), many=True
+                )
+                #   send sms to user as a transactional message
+                # res = requests.post(
+                #     f"http://2factor.in/API/V1/293832-67745-11e5-88de-5600000c6b13/ADDON_SERVICES/SEND/TSMS",
+                #     data = {
+                #         "From": "Hotel",
+                #         "To": user_inst.mobile,
+                #         "TemplateName": "HotelBooking",
+                #         "VAR1": hotel_inst.hotel_name,
+                #         "VAR2": hotel_inst.hotel_address,
+                #         "VAR3": hotel_inst.hotel_city,
+                #         "VAR4": hotel_inst.hotel_state,
+                #         "VAR5": hotel_inst.hotel_country,
+                #         "VAR6": hotel_inst.hotel_pincode,
+                #     }
+                # )
+                return Response(
+                    {
+                        "booking":serializers.HotelBookingSerializer(new_booking).data,
+                        "payment":users_data.data,
+                        },
+                    status=status.HTTP_201_CREATED,
+                )
+            return Response(
+                {"message": "Sorry payment failed !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(
+            {"message": "Invalid data !"},
+            status=status.HTTP_400_BAD_REQUEST,
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 

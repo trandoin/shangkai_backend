@@ -143,6 +143,7 @@ class Tracking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField("title", null=True, max_length=255)
     datetime = models.DateTimeField("Starting on")
+    booking_upto = models.DateTimeField("Booking upto")
     seats = models.IntegerField()
     payment_id = models.CharField("payment_id", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
@@ -152,6 +153,9 @@ class Tracking(models.Model):
             "Tracking",
             "Tracking",
         )
+    def __str__(self):
+        return self.title
+    
 
 class My_Trips(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
