@@ -10,6 +10,7 @@ from .models import (
     Comments_All,
     Footer_Copyright,
     Hot_Spots,
+    HotSpot_Images,
     Hotspot_Category,
     Payment_Transaction,
     Hotel_Category,
@@ -20,6 +21,7 @@ from .models import (
     BlogPost_Comments,
     Admin_Notification,
     Contact_Us,
+    Tracking,
 )
 
 # Register your models here.
@@ -89,6 +91,8 @@ class HotSpots(admin.ModelAdmin):
 
 
 admin.site.register(Hot_Spots, HotSpots)
+admin.site.register(HotSpot_Images)
+admin.site.register(Tracking)
 
 
 class MyTrips(admin.ModelAdmin):

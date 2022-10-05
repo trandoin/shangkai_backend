@@ -1,3 +1,4 @@
+from datetime import datetime
 from users.models import (
     Normal_UserReg,
 )
@@ -29,6 +30,7 @@ from .models import (
     My_Trips_Days,
     Admin_Notification,
     Contact_Us,
+    Tracking,
 )
 
 """Model Package """
@@ -526,6 +528,19 @@ class HotSpotsViewSet(viewsets.ViewSet):
         except:
             return Response({"message": "Something went to wrong ! Try again !"})
 
+class TrackingViewSet(viewsets.ViewSet):
+    def list(self, request):
+        sm_tracking = Tracking.objects.filter(booking_upto__gte=datetime.now())
+        tracking_data_dic = serializers.TrackingSerializer(
+            sm_tracking, many=True)
+        # else:
+        #     sm_tracking = Tracking.objects.all()
+        #     tracking_data_dic = serializers.TrackingSerializer(
+        #         sm_tracking, many=True)
+
+        return Response(tracking_data_dic.data, status=status.HTTP_200_OK)
+
+    
 
 ####  """""""" MY TRIPS """"""""######
 

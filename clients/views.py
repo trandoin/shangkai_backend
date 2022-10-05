@@ -1,4 +1,5 @@
 from django.shortcuts import render
+import requests
 
 # Create your views here.
 from rest_framework import serializers, viewsets
@@ -16,6 +17,8 @@ import datetime
 from json import JSONEncoder
 from uuid import UUID
 
+from uritemplate import partial
+
 from . import serializers
 
 # Create your views here.
@@ -30,6 +33,7 @@ from .models import (
     Driver_Reg,
     Cabs_Reg,
     Client_login,
+    UserOTP,
 )
 
 from shangkai_app.models import (
@@ -258,30 +262,64 @@ class ClientloginViewSet(viewsets.ViewSet):
             return Response(
                 {"message": "Invalid Username or password !"}, status=status.HTTP_400_BAD_REQUEST
             )
-
-        access_payload = {
-            "id": user_inst.id,
-            "exp": datetime.datetime.utcnow() + datetime.timedelta(days=14),
-            "iat": datetime.datetime.utcnow(),
-        }
-        access_token = jwt.encode(
-            access_payload, settings.SECRET_KEY, algorithm="HS256"
-        )
-
-        refresh_payload = {
-            "user": user_inst.id,
-            "exp": datetime.datetime.utcnow() + datetime.timedelta(days=14),
-            "iat": datetime.datetime.utcnow(),
-        }
-        refresh_token = jwt.encode(
-            refresh_payload, settings.REFRESH_TOKEN_SECRET, algorithm="HS256"
-        )
-
+        
+        otp=""
+        for i in range(6):
+            otp+=str(random.randint(1,9))
+        res = requests.get(f"https://2factor.in/API/V1/6b9b1b0e-8b1f-11eb-8089-0200cd936042/SMS/{user_inst.mobile}/{otp}/SHANGKAI")
+        if(res.status_code == 200 and res.json()["Status"] == "Success"):
+            session_id = res.json()["Details"]
+            UserOTP.objects.create(session_id=session_id,used_for="login",otp=otp,mobile=user_inst.mobile)
+            return Response(
+                {"message": "OTP has been sent to your mobile number !"}, status=status.HTTP_200_OK
+            )
         return Response(
-            {"access_token": access_token, "refresh_token": refresh_token},
-            status=status.HTTP_200_OK,
+            {"message": "Some error occured"}, status=status.HTTP_400_BAD_REQUEST
         )
 
+class ClientOTPViewSet(viewsets.ViewSet):
+
+    def create(self, request):
+
+        otp = request.POST.get("otp", None)
+        mobile = request.POST.get("mobile", None)
+        email = request.POST.get("email", None)
+
+        user_inst = UserOTP.objects.filter(mobile=mobile,otp=otp,used_for="login").first()
+
+        if user_inst is None:
+            return Response(
+                {"message": "Invalid OTP !"}, status=status.HTTP_400_BAD_REQUEST
+        )
+        res = requests.get(f"https://2factor.in/API/V1/6b9b1b0e-8b1f-11eb-8089-0200cd936042/SMS/VERIFY/{user_inst.session_id}/{otp}")
+        if(res.status_code == 200 and res.json()["Status"] == "Success"):
+            user_inst.delete()
+            user_inst = User_Register.objects.filter(email=email).first()
+            access_payload = {
+                "id": user_inst.id,
+                "exp": datetime.datetime.utcnow() + datetime.timedelta(days=14),
+                "iat": datetime.datetime.utcnow(),
+            }
+            access_token = jwt.encode(
+                access_payload, settings.SECRET_KEY, algorithm="HS256"
+            )
+
+            refresh_payload = {
+                "user": user_inst.id,
+                "exp": datetime.datetime.utcnow() + datetime.timedelta(days=14),
+                "iat": datetime.datetime.utcnow(),
+            }
+            refresh_token = jwt.encode(
+                refresh_payload, settings.REFRESH_TOKEN_SECRET, algorithm="HS256"
+            )
+
+            return Response(
+                {"access_token": access_token, "refresh_token": refresh_token},
+                status=status.HTTP_200_OK,
+            )
+        return Response(
+            {"message": "Invalid OTP !"}, status=status.HTTP_400_BAD_REQUEST
+        )
 
 class HotelRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -364,16 +402,6 @@ class HotelRegistrationViewSet(viewsets.ViewSet):
 
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)
-        hotel_name = request.POST.get("hotel_name", None)
-        hotel_address = request.POST.get("hotel_address", None)
-        hotel_city = request.POST.get("hotel_city", None)
-        hotel_state = request.POST.get("hotel_state", None)
-        geo_location = request.POST.get("geo_location", None)
-        pin_code = request.POST.get("pin_code", None)
-        room_rates = request.POST.get("room_rates", None)
-        hotel_facilites = request.POST.get("hotel_facilites", None)
-        max_guests_limit = request.POST.get("max_guests_limit", None)
-        hotel_images = request.POST.get("hotel_images", None)
 
         if user_id is None:
             return Response(
@@ -381,25 +409,13 @@ class HotelRegistrationViewSet(viewsets.ViewSet):
             )
 
         try:
-            post_inst = Reg_Hotel.objects.get(id=pk)
-            post_inst.hotel_name = hotel_name
-            post_inst.hotel_address = hotel_address
-            post_inst.hotel_city = hotel_city
-            post_inst.hotel_state = hotel_state
-            post_inst.geo_location = geo_location
-            post_inst.pin_code = pin_code
-            post_inst.room_rates = room_rates
-            post_inst.hotel_facilites = hotel_facilites
-            post_inst.max_guests_limit = max_guests_limit
-            post_inst.hotel_images = hotel_images
-            post_inst.is_edited = True
-            post_inst.save()
-
-            return Response(
-                {"message": "Hotel Updated Sucessfully"},
-                status=status.HTTP_200_OK,
-            )
-
+            post_inst = Reg_Hotel.objects.filter(id=pk,user=user_id).first()
+            serializer = serializers.HotelRegisterSerializer(post_inst, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response(
                 {"message": "Something went to wrong ! Try again !"},
@@ -416,13 +432,13 @@ class HotelRegistrationViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         try:
-            scm_post_inst = Reg_Hotel.objects.filter(id=pk)
+            scm_post_inst = Reg_Hotel.objects.filter(id=pk,user=user_id).first()
             scm_post_inst.delete()
             return Response(
-                {"message": "Hotel Deleted Successfully"}, status=status.HTTP_200_OK
+                {"message": "Hotel Deleted Successfully"}, status=status.HTTP_204_NO_CONTENT
             )
         except:
-            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
+            return Response({"message": "Details not found"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class RoomRegistrationViewSet(viewsets.ViewSet):
@@ -485,6 +501,15 @@ class RoomRegistrationViewSet(viewsets.ViewSet):
 
         user_id = request.POST.get("user_id", None)
         hotel_id = request.POST.get("hotel_id", None)
+        about = request.POST.get("about", None)
+        try:
+            user_inst = User_Register.objects.get(id=user_id)
+            hotel_inst = Reg_Hotel.objects.get(id=hotel_id)
+        except:
+            return Response(
+                {"message": "No user/hotel found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         room_id = request.POST.get("room_id", None)
         room_type = request.POST.get("room_type", None)
         bed_type = request.POST.get("bed_type", None)
@@ -498,17 +523,9 @@ class RoomRegistrationViewSet(viewsets.ViewSet):
         extra_services = request.POST.get("extra_services", None)
         room_images = request.POST.get("room_images", None)
 
-        try:
-            user_inst = User_Register.objects.get(id=user_id)
-            hotel_inst = Reg_Hotel.objects.get(id=hotel_id)
-        except:
-
-            return Response(
-                {"message": "No user found !"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
         users_inst = Room_Register.objects.create(
             user=user_inst,
+            about=about,
             hotel_id=hotel_inst,
             room_id=room_id,
             room_type=room_type,
@@ -532,43 +549,19 @@ class RoomRegistrationViewSet(viewsets.ViewSet):
 
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)
-        room_type = request.POST.get("room_type", None)
-        bed_type = request.POST.get("bed_type", None)
-        totel_beds = request.POST.get("totel_beds", None)
-        room_rates = request.POST.get("room_rates", None)
-        room_facilites = request.POST.get("room_facilites", None)
-        max_guests_limit = request.POST.get("max_guests_limit", None)
-        no_rooms = request.POST.get("no_rooms", None)
-        rating = request.POST.get("rating", None)
-        tags = request.POST.get("tags", None)
-        extra_services = request.POST.get("extra_services", None)
-        room_images = request.POST.get("room_images", None)
-
         if user_id is None:
             return Response(
-                {"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
+                {"message": "Please provide a user_id"}, status=status.HTTP_400_BAD_REQUEST
             )
 
         try:
-            post_inst = Room_Register.objects.get(id=pk)
-            post_inst.room_type = room_type
-            post_inst.bed_type = bed_type
-            post_inst.totel_beds = totel_beds
-            post_inst.room_rates = room_rates
-            post_inst.room_facilites = room_facilites
-            post_inst.max_guests_limit = max_guests_limit
-            post_inst.no_rooms = no_rooms
-            post_inst.tags = tags
-            post_inst.extra_services = extra_services
-            post_inst.room_images = room_images
-            post_inst.is_edited = True
-            post_inst.save()
-
-            return Response(
-                {"message": "Room details Updated Sucessfully"},
-                status=status.HTTP_200_OK,
-            )
-
+            post_inst = Room_Register.objects.filter(id=pk, user=user_id).first()
+            serializer = serializers.RoomRegisterSerializer(post_inst, data=request.data,partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response(
                 {"message": "Something went to wrong ! Try again !"},
@@ -577,7 +570,6 @@ class RoomRegistrationViewSet(viewsets.ViewSet):
 
     def destroy(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
-        room_id = request.GET.get("room_id", None)
 
         if user_id is None:
             return Response(
@@ -585,10 +577,10 @@ class RoomRegistrationViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         try:
-            scm_post_inst = Room_Register.objects.filter(id=pk)
+            scm_post_inst = Room_Register.objects.filter(id=pk, user=user_id).first()
             scm_post_inst.delete()
             return Response(
-                {"message": "Room Deleted Successfully"}, status=status.HTTP_200_OK
+                {"message": "Room Deleted Successfully"}, status=status.HTTP_204_NO_CONTENT
             )
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
@@ -926,22 +918,22 @@ class HotelUpdateStatusViewSet(viewsets.ViewSet):
 
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)
-        status = request.POST.get("status", None)
+        sttus = request.POST.get("status", None)
 
         if user_id is None:
             return Response({"message": "Invalid Request"})
 
         try:
-            post_inst = Reg_Hotel.objects.get(id=pk)
-            post_inst.status = status
+            post_inst = Reg_Hotel.objects.filter(user=user_id,id=pk).first()
+            post_inst.status = sttus
 
-            post_inst.is_edited = True
+            # post_inst.is_edited = True
             post_inst.save()
 
-            return Response({"message": "Hotel Status Updated Sucessfully"})
+            return Response({"message": "Hotel Status Updated Sucessfully","data":serializers.HotelRegisterSerializer(post_inst).data},status=status.HTTP_200_OK)
 
         except:
-            return Response({"message": "Something went to wrong ! Try again !"})
+            return Response({"message": "Something went to wrong ! Try again !"}, status=status.HTTP_400_BAD_REQUEST,)
 
 
 ###### ROOMS
@@ -961,21 +953,20 @@ class RoomsUpdateStatusViewSet(viewsets.ViewSet):
 
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)
-        status = request.POST.get("status", None)
+        sttus = request.POST.get("status", None)
 
         if user_id is None:
-            return Response({"message": "Invalid Request"})
+            return Response({"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            post_inst = Room_Register.objects.get(id=pk)
-            post_inst.states = status
-            post_inst.is_edited = True
+            post_inst = Room_Register.objects.filter(id=pk, user=user_id).first()
+            post_inst.states = sttus
             post_inst.save()
 
-            return Response({"message": "Room Status Updated Sucessfully"})
+            return Response({"message": "Room Status Updated Sucessfully","data":serializers.RoomRegisterSerializer(post_inst).data},status=status.HTTP_200_OK)
 
         except:
-            return Response({"message": "Something went to wrong ! Try again !"})
+            return Response({"message": "Something went to wrong ! Try again !"}, status=status.HTTP_400_BAD_REQUEST,)
 
 
 ###### CABS

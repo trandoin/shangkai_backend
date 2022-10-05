@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.db import models
 from django.utils import timezone
 import uuid
@@ -127,6 +127,7 @@ class Reg_Hotel(models.Model):
 
 class Room_Register(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    about = models.TextField("about", null=True, max_length=5000)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     user = models.ForeignKey(
         "clients.User_Register",
@@ -350,3 +351,13 @@ class Account_Details(models.Model):
             "Bank Details",
             "Bank Details",
         )
+
+class UserOTP(models.Model):
+    otp = models.CharField(max_length=6)
+    mobile = models.CharField(max_length=10)
+    session_id = models.CharField("session_id", max_length=255)
+    CATEGORY_CHOICES = (
+        ("login", "login"),
+        ("forgot", "forgot"),
+    )
+    used_for = models.CharField("used_for", max_length=255,choices=CATEGORY_CHOICES)
