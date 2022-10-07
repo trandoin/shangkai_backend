@@ -1,4 +1,6 @@
 from datetime import datetime
+
+from uritemplate import partial
 from users.models import (
     Normal_UserReg,
 )
@@ -31,6 +33,7 @@ from .models import (
     Admin_Notification,
     Contact_Us,
     Tracking,
+    Tracking_Bookings,
 )
 
 """Model Package """
@@ -530,17 +533,85 @@ class HotSpotsViewSet(viewsets.ViewSet):
 
 class TrackingViewSet(viewsets.ViewSet):
     def list(self, request):
-        sm_tracking = Tracking.objects.filter(booking_upto__gte=datetime.now())
+        sm_tracking = Tracking.objects.filter(booking_upto__gte=datetime.now(),booking_start__lte=datetime.now())
         tracking_data_dic = serializers.TrackingSerializer(
             sm_tracking, many=True)
-        # else:
-        #     sm_tracking = Tracking.objects.all()
-        #     tracking_data_dic = serializers.TrackingSerializer(
-        #         sm_tracking, many=True)
 
         return Response(tracking_data_dic.data, status=status.HTTP_200_OK)
+    def create(self, request):
+        tracking_serializer = serializers.TrackingSerializer(data=request.data)
+        if tracking_serializer.is_valid():
+            tracking_serializer.save()
+            return Response(tracking_serializer.data, status=status.HTTP_201_CREATED)
+        return Response(tracking_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def update(self, request, pk=None):
+        tracking_inst = Tracking.objects.get(id=pk)
+        tracking_serializer = serializers.TrackingSerializer(tracking_inst, data=request.data,partial=True)
+        if tracking_serializer.is_valid():
+            tracking_serializer.save()
+            return Response(tracking_serializer.data, status=status.HTTP_200_OK)
+        return Response(tracking_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def destroy(self, request, pk=None):
+        tracking_inst = Tracking.objects.get(id=pk)
+        tracking_inst.delete()
+        return Response({"message": "Tracking Deleted Sucessfully"},status=status.HTTP_204_NO_CONTENT)
 
-    
+class TrackingBookingViewSet(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.POST.get("user_id", None)
+        sm_tracking_booking = Tracking_Bookings.objects.filter(user=user_id)
+        tracking_booking_data_dic = serializers.TrackingBookingSerializer(
+            sm_tracking_booking, many=True)
+        return Response(tracking_booking_data_dic.data, status=status.HTTP_200_OK)
+    def create(self, request):
+        transaction_id = request.POST.get("transaction_id", None)
+        user_id = request.POST.get("user_id", None)
+        tracking_id = request.POST.get("tracking_id", None)
+        seats = request.POST.get("seats", None)
+        amount = request.POST.get("amount", None)
+        try:
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+            tracking_inst = Tracking.objects.get(id=tracking_id)
+        except:
+            return Response({"message": "No User/Tracking found !"},status=status.HTTP_400_BAD_REQUEST,)
+        """
+        check if transaction id is valid
+        """
+        if tracking_inst.seats - tracking_inst.booked >= int(seats):
+            tracking_inst.booked = tracking_inst.booked + int(seats)
+            tracking_inst.save()
+            tracking_booking_inst = Tracking_Bookings.objects.create(
+                transaction_id=transaction_id,
+                user=user_inst,
+                tracking=tracking_inst,
+                seats=seats,
+                amount=amount,
+            )
+            tracking_booking_data = serializers.TrackingBookingSerializer(
+                tracking_booking_inst
+            )
+            return Response(tracking_booking_data.data, status=status.HTTP_200_OK)
+        return Response("not enough seats availaible", status=status.HTTP_400_BAD_REQUEST)
+    def update(self, request, pk=None):
+        user_id = request.POST.get("user_id", None)
+        stats = request.POST.get("status", None)
+        try:
+            tracking_booking_inst = Tracking_Bookings.objects.filter(id=pk,user=user_id).first()
+        except:
+            return Response({"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST)
+        tracking_booking_serializer = serializers.TrackingBookingSerializer(tracking_booking_inst, data={"status":stats},partial=True)
+        if tracking_booking_serializer.is_valid():
+            tracking_booking_serializer.save()
+            return Response(tracking_booking_serializer.data, status=status.HTTP_200_OK)
+        return Response(tracking_booking_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def destroy(self, request, pk=None):
+        user_id = request.POST.get("user_id", None)
+        try:
+            tracking_booking_inst = Tracking_Bookings.objects.filter(id=pk,user=user_id).first()
+        except:
+            return Response({"message": "Invalid Request"},status=status.HTTP_400_BAD_REQUEST)
+        tracking_booking_inst.delete()
+        return Response({"message": "Tracking Booking Deleted Sucessfully"},status=status.HTTP_204_NO_CONTENT)
 
 ####  """""""" MY TRIPS """"""""######
 

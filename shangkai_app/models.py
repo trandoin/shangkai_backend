@@ -1,4 +1,5 @@
 from datetime import datetime
+from email.policy import default
 from django.db import models
 from django.utils import timezone
 import uuid
@@ -142,10 +143,12 @@ class HotSpot_Images(models.Model):
 class Tracking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField("title", null=True, max_length=255)
-    datetime = models.DateTimeField("Starting on")
+    start_date = models.DateTimeField("Starting on")
+    booking_start = models.DateTimeField("Booking on")
     booking_upto = models.DateTimeField("Booking upto")
-    seats = models.IntegerField()
-    payment_id = models.CharField("payment_id", null=True, max_length=255)
+    seats = models.IntegerField("seats",)
+    booked = models.IntegerField("booked", default=0)
+    amount = models.CharField("amount", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -155,7 +158,28 @@ class Tracking(models.Model):
         )
     def __str__(self):
         return self.title
-    
+
+class Tracking_Bookings(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    tracking = models.ForeignKey(
+        "shangkai_app.Tracking", on_delete=models.CASCADE, default=None
+    )
+    user = models.ForeignKey(
+        "users.Normal_UserReg", on_delete=models.CASCADE, default=None
+    )
+    transaction_id = models.CharField("transaction_id", null=True, max_length=255)
+    datetime = models.DateTimeField("Created At", auto_now_add=True)
+    seats = models.IntegerField()
+    amount = models.CharField("amount", null=True, max_length=255)
+    status = models.CharField("status", null=True, default="0", max_length=255)
+
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Tracking Bookings",
+            "Tracking Bookings",
+        )
+    def __str__(self):
+        return self.id
 
 class My_Trips(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

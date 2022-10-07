@@ -22,6 +22,7 @@ from .models import (
     Admin_Notification,
     Contact_Us,
     Tracking,
+    Tracking_Bookings,
 )
 
 # Register your models here.
@@ -93,6 +94,7 @@ class HotSpots(admin.ModelAdmin):
 admin.site.register(Hot_Spots, HotSpots)
 admin.site.register(HotSpot_Images)
 admin.site.register(Tracking)
+admin.site.register(Tracking_Bookings)
 
 
 class MyTrips(admin.ModelAdmin):
