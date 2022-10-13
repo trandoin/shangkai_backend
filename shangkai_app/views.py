@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from uritemplate import partial
+from shangkai_app.helpers import html_to_pdf
 from users.models import (
     Normal_UserReg,
 )
@@ -9,7 +10,7 @@ from clients.models import User_Register
 
 # Create your views here.
 from rest_framework import serializers, viewsets
-from django.http import response
+from django.http import HttpResponse, response
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -922,3 +923,19 @@ class HotSpotSearchByCatIdViewSet(viewsets.ViewSet):
             )
 
         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
+
+class TrackingInvoiceGenerateViewSet(viewsets.ViewSet):
+    def list(self, request):
+        pdf = html_to_pdf('tracking_invoice.html', {'pagesize': 'A4'})
+
+        return HttpResponse(pdf, content_type='application/pdf')
+
+    def retrieve(self, request, pk=None):
+        tb = Tracking_Bookings.objects.get(id=pk)
+        pdf = html_to_pdf('tracking_invoice.html', {
+            'pagesize': 'A4',
+            'invoice_id': pk,
+            'tb': tb,
+            })
+
+        return HttpResponse(pdf, content_type='application/pdf')

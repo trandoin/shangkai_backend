@@ -77,10 +77,12 @@ class HotSpotImageSerializer(ModelSerializer):
         fields = "__all__"
 
 class HotSpotsSerializer(ModelSerializer):
-    gallery_images = HotSpotImageSerializer(many=True,read_only=True)
+    hotspot_images = HotSpotImageSerializer(many=True,read_only=True)
     class Meta:
         model = Hot_Spots
-        fields = ("__all__","gallery_images")
+        depth = 1
+        fields = ["id","datetime","title","sub_title","city","state","pin_code","geo_location","amenites","history","about","para1","para2","para3","transport","title_image","images","entry_fee","parking_fee","category","rating","tags","status","hotspot_images"]
+        read_only_fields = ['id']
 
 class TrackingSerializer(ModelSerializer):
     class Meta:

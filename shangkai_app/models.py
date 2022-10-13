@@ -132,7 +132,7 @@ class Hot_Spots(models.Model):
 class HotSpot_Images(models.Model):
     image = models.ImageField("image", upload_to="hotspot_images", null=True, blank=True)
     hotspot = models.ForeignKey(
-        "shangkai_app.Hot_Spots", on_delete=models.CASCADE, default=None
+        "shangkai_app.Hot_Spots", on_delete=models.CASCADE, related_name="hotspot_images"
     )
     class Meta:
         verbose_name, verbose_name_plural = (
@@ -179,7 +179,7 @@ class Tracking_Bookings(models.Model):
             "Tracking Bookings",
         )
     def __str__(self):
-        return self.id
+        return str(self.id)
 
 class My_Trips(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
