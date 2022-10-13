@@ -16,6 +16,7 @@ from .models import (
     Blog_Post,
     BlogPost_Comments,
     Tracking,
+    Tracking_Bookings,
 )
 
 class AboutUsSerializer(ModelSerializer):
@@ -87,6 +88,11 @@ class HotSpotsSerializer(ModelSerializer):
 class TrackingSerializer(ModelSerializer):
     class Meta:
         model = Tracking
+        fields = "__all__"
+
+class TrackingBookingSerializer(ModelSerializer):
+    class Meta:
+        model = Tracking_Bookings
         fields = "__all__"
 
 class MyTripsSerializer(ModelSerializer):

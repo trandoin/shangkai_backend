@@ -553,8 +553,11 @@ class TrackingViewSet(viewsets.ViewSet):
             return Response(tracking_serializer.data, status=status.HTTP_200_OK)
         return Response(tracking_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def destroy(self, request, pk=None):
-        tracking_inst = Tracking.objects.get(id=pk)
-        tracking_inst.delete()
+        try:
+            tracking_inst = Tracking.objects.get(id=pk)
+            tracking_inst.delete()
+        except:
+            return Response({"message": "Something went to wrong ! Try again !"})
         return Response({"message": "Tracking Deleted Sucessfully"},status=status.HTTP_204_NO_CONTENT)
 
 class TrackingBookingViewSet(viewsets.ViewSet):
@@ -609,9 +612,9 @@ class TrackingBookingViewSet(viewsets.ViewSet):
         user_id = request.POST.get("user_id", None)
         try:
             tracking_booking_inst = Tracking_Bookings.objects.filter(id=pk,user=user_id).first()
+            tracking_booking_inst.delete()
         except:
             return Response({"message": "Invalid Request"},status=status.HTTP_400_BAD_REQUEST)
-        tracking_booking_inst.delete()
         return Response({"message": "Tracking Booking Deleted Sucessfully"},status=status.HTTP_204_NO_CONTENT)
 
 ####  """""""" MY TRIPS """"""""######
@@ -925,11 +928,6 @@ class HotSpotSearchByCatIdViewSet(viewsets.ViewSet):
         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
 
 class TrackingInvoiceGenerateViewSet(viewsets.ViewSet):
-    def list(self, request):
-        pdf = html_to_pdf('tracking_invoice.html', {'pagesize': 'A4'})
-
-        return HttpResponse(pdf, content_type='application/pdf')
-
     def retrieve(self, request, pk=None):
         tb = Tracking_Bookings.objects.get(id=pk)
         pdf = html_to_pdf('tracking_invoice.html', {
