@@ -148,7 +148,8 @@ class Tracking(models.Model):
     booking_upto = models.DateTimeField("Booking upto")
     seats = models.IntegerField("seats",)
     booked = models.IntegerField("booked", default=0)
-    amount = models.CharField("amount", null=True, max_length=255)
+    amount = models.CharField("amount a", null=True, max_length=255)
+    amount2 = models.CharField("amount b", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -158,7 +159,16 @@ class Tracking(models.Model):
         )
     def __str__(self):
         return self.title
-
+class Tracking_Order(models.Model):
+    id = models.CharField("id", primary_key=True, max_length=255)
+    seats = models.CharField("seats",max_length=255)
+    is_stay = models.BooleanField("is_stay", default=False)
+    currency = models.CharField("currency", max_length=3)
+    amount = models.CharField("amount", max_length=255)
+    tracking = models.ForeignKey(
+        "shangkai_app.Tracking", on_delete=models.CASCADE, default=None
+    )
+    
 class Tracking_Bookings(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     tracking = models.ForeignKey(
@@ -167,7 +177,9 @@ class Tracking_Bookings(models.Model):
     user = models.ForeignKey(
         "users.Normal_UserReg", on_delete=models.CASCADE, default=None
     )
-    transaction_id = models.CharField("transaction_id", null=True, max_length=255)
+    payment_id = models.CharField("payment_id", null=True, max_length=255)
+    order_id = models.CharField("payment_id", null=True, max_length=255)
+    signature = models.CharField("payment_id", null=True, max_length=255)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     seats = models.IntegerField()
     amount = models.CharField("amount", null=True, max_length=255)

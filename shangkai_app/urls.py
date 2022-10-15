@@ -1,9 +1,12 @@
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
 from . import views
+from . import razorpay
 
 
 router = DefaultRouter()
+
+router.register('trecking_order', views.TreckingOrder, basename='razorpayOrder')
 
 router.register("about_us", views.AboutUsViewSet, basename="AboutUs")
 router.register("footer", views.FooterViewSet, basename="Footer")

@@ -1,7 +1,9 @@
 from datetime import datetime
+import uuid
 
 from uritemplate import partial
 from shangkai_app.helpers import html_to_pdf
+from shangkai_app.razorpay import verify_payment
 from users.models import (
     Normal_UserReg,
 )
@@ -15,7 +17,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from . import serializers
-
+from .razorpay import client, demo
 
 """Model Package """
 from .models import (
@@ -35,6 +37,7 @@ from .models import (
     Contact_Us,
     Tracking,
     Tracking_Bookings,
+    Tracking_Order,
 )
 
 """Model Package """
@@ -568,34 +571,38 @@ class TrackingBookingViewSet(viewsets.ViewSet):
             sm_tracking_booking, many=True)
         return Response(tracking_booking_data_dic.data, status=status.HTTP_200_OK)
     def create(self, request):
-        transaction_id = request.POST.get("transaction_id", None)
+        payment_id = request.POST.get("payment_id", "")
+        order_id = request.POST.get("order_id", "")
+        signature = request.POST.get("signature", "")
         user_id = request.POST.get("user_id", None)
-        tracking_id = request.POST.get("tracking_id", None)
-        seats = request.POST.get("seats", None)
-        amount = request.POST.get("amount", None)
         try:
+            tracking_order_inst = Tracking_Order.objects.get(id=order_id)
             user_inst = Normal_UserReg.objects.get(id=user_id)
-            tracking_inst = Tracking.objects.get(id=tracking_id)
+            tracking_inst = tracking_order_inst.tracking
         except:
             return Response({"message": "No User/Tracking found !"},status=status.HTTP_400_BAD_REQUEST,)
         """
         check if transaction id is valid
         """
-        if tracking_inst.seats - tracking_inst.booked >= int(seats):
-            tracking_inst.booked = tracking_inst.booked + int(seats)
-            tracking_inst.save()
-            tracking_booking_inst = Tracking_Bookings.objects.create(
-                transaction_id=transaction_id,
-                user=user_inst,
-                tracking=tracking_inst,
-                seats=seats,
-                amount=amount,
-            )
-            tracking_booking_data = serializers.TrackingBookingSerializer(
-                tracking_booking_inst
-            )
-            return Response(tracking_booking_data.data, status=status.HTTP_200_OK)
-        return Response("not enough seats availaible", status=status.HTTP_400_BAD_REQUEST)
+        if verify_payment(payment_id, order_id, signature):
+            if tracking_inst.seats - tracking_inst.booked >= int(tracking_order_inst.seats):
+                tracking_inst.booked = tracking_inst.booked + int(tracking_order_inst.seats)
+                tracking_inst.save()
+                tracking_booking_inst = Tracking_Bookings.objects.create(
+                    payment_id=payment_id,
+                    order_id=order_id,
+                    signature=signature,
+                    user=user_inst,
+                    tracking=tracking_inst,
+                    seats=tracking_order_inst.seats,
+                    amount=tracking_order_inst.amount,
+                )
+                tracking_booking_data = serializers.TrackingBookingSerializer(
+                    tracking_booking_inst
+                )
+                return Response(tracking_booking_data.data, status=status.HTTP_200_OK)
+            return Response("not enough seats availaible", status=status.HTTP_400_BAD_REQUEST)
+        return Response("not a valid payment", status=status.HTTP_400_BAD_REQUEST)
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)
         stats = request.POST.get("status", None)
@@ -617,6 +624,33 @@ class TrackingBookingViewSet(viewsets.ViewSet):
             return Response({"message": "Invalid Request"},status=status.HTTP_400_BAD_REQUEST)
         return Response({"message": "Tracking Booking Deleted Sucessfully"},status=status.HTTP_204_NO_CONTENT)
 
+class TreckingOrder(viewsets.ViewSet):
+    def create(self,request):
+        trecking_id = request.POST.get('trecking_id',None)
+        try:
+            trecking_inst = Tracking.objects.get(id=trecking_id)
+        except:
+            return Response({'status':False,'message':'Trecking not found'},status=400)
+        seats = request.POST.get('seats',None)
+        if trecking_inst.seats - trecking_inst.booked < int(seats):
+            return Response("not enough seats availaible", status=status.HTTP_400_BAD_REQUEST)
+        is_stay = request.POST.get('is_stay',0)
+        currency = request.POST.get('currency', 'INR')
+        if int(is_stay) == 1:
+            amount = int(trecking_inst.amount2) * int(seats)
+        else:
+            amount = int(trecking_inst.amount) * int(seats)
+        receipt = str(uuid.uuid4())
+        data = dict(amount=int(amount) * 100, currency=currency, receipt=receipt)
+        demo()
+        try:
+            order = client.order.create(data=data)
+            return Response(order, status=200)
+        except Exception as e:
+            print(e)
+            return Response('error', status=500)
+
+            
 ####  """""""" MY TRIPS """"""""######
 
 
