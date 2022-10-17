@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>{{invoice_id}}</title>
+        <style type="text/css">
+            @page {
+                size: {{ pagesize }};
+                margin: 1cm;
+                @frame footer {
+                    -pdf-frame-content: footerContent;
+                    bottom: 0cm;
+                    margin-left: 9cm;
+                    margin-right: 9cm;
+                    height: 1cm;
+                }
+            }
+        </style>
+    </head>
+<body>
+    <center><u style="font-size: 50px;color: cornflowerblue;"> Shangkai.in </u></center>
+    <br>
+    <center><u style="font-size: 30px;color: gray;"> Invoice </u></center>
+    <br>
+    <pre style="font-size: 15px;"> Invoice No. :         {{tb.id}} </pre>
+    <pre style="font-size: 15px;"> Booked at   :         {{tb.datetime}} </pre>
+    <br><br>
+    <div style="font-size: 20px;">Booking done by</div>
+    <pre style="font-size: 15px;"> Name        :         {{tb.user.name}} </pre>
+    <pre style="font-size: 15px;"> Email       :         {{tb.user.email}} </pre>
+    <pre style="font-size: 15px;"> Mobile      :         {{tb.user.mobile}} </pre>
+    <br><br>
+    <div style="font-size: 20px;">Booking Details</div>
+    <pre style="font-size: 15px;"> Trip Name            :         {{tb.trip_id.title}} </pre>
+    <pre style="font-size: 15px;"> Starting on          :         {{tb.trip_id.start_trip}} </pre>
+    <pre style="font-size: 15px;"> Seats Booked         :         {{tb.no_guests}} </pre>
+    <hr>
+    <pre style="font-size: 18px;font-weight: 700;"> Amount               :         Rs.{{tb.trip_ammount}} </pre>
+    <footer><center>&#169; 2022, shangkai.in, All Rights Reserved</center></footer>
+</body>
+</html>

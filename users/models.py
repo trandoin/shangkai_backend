@@ -360,7 +360,15 @@ class User_Trip_Cart(models.Model):
             "Trip Carts",
             "Trip Carts",
         )
-
+class User_Trip_Order(models.Model):
+    id = models.CharField("id", primary_key=True, max_length=255)
+    currency = models.CharField("currency", max_length=3)
+    amount = models.CharField("amount", max_length=255)
+    cart_item = models.ForeignKey(
+        "users.User_Trip_Cart"
+        ,on_delete=models.CASCADE
+        , default=None
+    )
 
 class User_Trip_Booking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -377,6 +385,9 @@ class User_Trip_Booking(models.Model):
         default=None,
         db_constraint=False,
     )
+    payment_id = models.CharField("payment_id", null=True, max_length=255)
+    order_id = models.CharField("order_id", null=True, max_length=255)
+    signature = models.CharField("signature", null=True, max_length=255)
     no_guests = models.CharField("no_guests", null=True, max_length=255)
     trip_ammount = models.CharField("trip_ammount", null=True, max_length=255)
     razorpay_id = models.CharField(

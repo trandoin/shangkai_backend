@@ -642,9 +642,16 @@ class TreckingOrder(viewsets.ViewSet):
             amount = int(trecking_inst.amount) * int(seats)
         receipt = str(uuid.uuid4())
         data = dict(amount=int(amount) * 100, currency=currency, receipt=receipt)
-        demo()
         try:
             order = client.order.create(data=data)
+            Tracking_Order.objects.create(
+                id = order['id'],
+                seats = seats,
+                is_stay = bool(int(is_stay)),
+                currency = currency,
+                amount = str(amount * 100),
+                tracking = trecking_inst
+                )
             return Response(order, status=200)
         except Exception as e:
             print(e)
@@ -656,40 +663,37 @@ class TreckingOrder(viewsets.ViewSet):
 
 class MyTripsViewSet(viewsets.ViewSet):
     def list(self, request):
-
         try:
             sm_mytrips_all = My_Trips.objects.all()
-            mytrips_all_data_dic = serializers.MyTripsSerializer(
-                sm_mytrips_all, many=True
-            )
         except:
             return Response(
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
-        # for i in range(0, len(mytrips_all_data_dic.data)):
-        #     created_hotspots_id = mytrips_all_data_dic.data[i].get("hotspots_id")
-        #     try:
-        #         hotspots_inst = Hot_Spots.objects.get(id=created_hotspots_id)
-
-        #         mytrips_all_data_dic.data[i].update(
-        #             {
-        #                 "hotspots_id": {
-        #                     "id": hotspots_inst.id,
-        #                 }
-        #             }
-        #         )
-        #     except:
-        #         mytrips_all_data_dic.data[i].update(
-        #             {
-        #                 "hotspots_id": {
-        #                     "id": created_hotspots_id,
-        #                     "message": "No HotSpots Found !",
-        #                 }
-        #             }
-        #         )
-        return Response(mytrips_all_data_dic.data, status=status.HTTP_200_OK)
+        data = []
+        for trip in sm_mytrips_all:
+            created_hotspots_ids = str(trip.hotspots_id)
+            all_hotspots = created_hotspots_ids.split(",")
+            serialized_data = serializers.MyTripsSerializer(trip).data
+            serialized_data["hotspots"] = []
+            for hostpot_id in all_hotspots:
+                try:
+                    hotspots_inst = Hot_Spots.objects.get(id=hostpot_id)
+                    serialized_data["hotspots"].append(
+                        {
+                            "hotspot_id": str(hotspots_inst.id),
+                            "title": hotspots_inst.title,
+                            "sub_title": hotspots_inst.sub_title,
+                            "title_image": hotspots_inst.title_image.url,
+                            "city": hotspots_inst.city,
+                            "state": hotspots_inst.state,
+                            "about": hotspots_inst.about,
+                        }
+                    )
+                except:
+                    pass
+            data.append(serialized_data)
+        return Response(data, status=status.HTTP_200_OK)
 
     def create(self, request):
 
@@ -734,23 +738,30 @@ class MyTripsViewSet(viewsets.ViewSet):
         return Response(trips_data.data, status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
-        status = request.GET.get("status", None)
+        sttus = request.GET.get("status", None)
 
         if pk is None:
             return Response({"message": "Invalid Request"})
 
         try:
             post_inst = My_Trips.objects.get(id=pk)
-            post_inst.status = status
+            post_inst.status = sttus
 
             post_inst.is_edited = True
             post_inst.save()
 
-            return Response({"message": "Trip Status Updated Sucessfully"})
+            return Response({"message": "Trip Status Updated Sucessfully",
+                           "trip":serializers.MyTripsSerializer(post_inst).data}, status=status.HTTP_200_OK)  
 
         except:
-            return Response({"message": "Something went to wrong ! Try again !"})
-
+            return Response({"message": "Something went to wrong ! Try again !"},status=status.HTTP_400_BAD_REQUEST)
+    def destroy(self, request, pk=None):
+        try:
+            post_inst = My_Trips.objects.get(id=pk)
+            post_inst.delete()
+        except:
+            return Response({"message": "Invalid Request"},status=status.HTTP_400_BAD_REQUEST)
+        return Response({"message": "Trip Deleted Sucessfully"},status=status.HTTP_204_NO_CONTENT)
 
 class MyTripsDaysViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -778,7 +789,7 @@ class MyTripsDaysViewSet(viewsets.ViewSet):
         except:
 
             return Response(
-                {"message": "No HotSpots found !"},
+                {"message": "No Trip found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -794,23 +805,29 @@ class MyTripsDaysViewSet(viewsets.ViewSet):
         return Response(mytrips_days_data.data[0], status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
-        status = request.GET.get("status", None)
+        sttus = request.GET.get("status", None)
 
         if pk is None:
-            return Response({"message": "Invalid Request"})
+            return Response({"message": "Invalid Request"},status=status.HTTP_400_BAD_REQUEST)
 
         try:
             post_inst = My_Trips_Days.objects.get(id=pk)
-            post_inst.status = status
+            post_inst.status = sttus
 
             post_inst.is_edited = True
             post_inst.save()
 
-            return Response({"message": "Trip Status Updated Sucessfully"})
+            return Response({"message": "Trip Day Status Updated Sucessfully"},status=status.HTTP_200_OK)
 
         except:
-            return Response({"message": "Something went to wrong ! Try again !"})
-
+            return Response({"message": "Something went to wrong ! Try again !"},status=status.HTTP_400_BAD_REQUEST)
+    def destroy(self, request, pk=None):
+        try:
+            post_inst = My_Trips_Days.objects.get(id=pk)
+            post_inst.delete()
+        except:
+            return Response({"message": "Invalid Request"},status=status.HTTP_400_BAD_REQUEST)
+        return Response({"message": "Trip Day Deleted Sucessfully"},status=status.HTTP_204_NO_CONTENT)
 
 class AllMyTripsDaysViewSet(viewsets.ViewSet):
     def list(self, request):

@@ -95,16 +95,19 @@ class TrackingBookingSerializer(ModelSerializer):
         model = Tracking_Bookings
         fields = "__all__"
 
-class MyTripsSerializer(ModelSerializer):
-    class Meta:
-        model = My_Trips
-        fields = "__all__"
-
-
 class MyTripsDaysSerializer(ModelSerializer):
     class Meta:
         model = My_Trips_Days
         fields = "__all__"
+        
+class MyTripsSerializer(ModelSerializer):
+    trip_days = MyTripsDaysSerializer(many=True,read_only=True)
+    class Meta:
+        depth = 1
+        model = My_Trips
+        fields = ["id","datetime","title","sub_title","category","price","offer_price","special_offer","deadline_date","exlusion","description","services","hotspots_id","includes","rules","days_no","start_trip","images","status","trip_days"]
+
+
 
 
 class CommentsAllSerializer(ModelSerializer):

@@ -1,11 +1,14 @@
 from datetime import timedelta
+import uuid
 from django.shortcuts import render
 import requests
 from rest_framework import serializers, viewsets
-from django.http import response
+from django.http import HttpResponse
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from rest_framework.response import Response 
 from rest_framework import status
+
+from shangkai_app.helpers import html_to_pdf
 from . import serializers
 import random
 import string
@@ -13,6 +16,7 @@ import smtplib
 from django.contrib.auth import login, authenticate, logout
 from django.conf import settings
 from django.core.mail import send_mail
+from shangkai_app.razorpay import client, verify_payment
 
 
 """Model Package """
@@ -30,6 +34,7 @@ from .models import (
     User_Trip_Cart,
     User_Cab_Payment,
     User_Trip_Booking,
+    User_Trip_Order,
     User_Trips_Payment,
     User_Ratings,
 )
@@ -1478,7 +1483,6 @@ class UserTripsCartViewSet(viewsets.ViewSet):
 
     def destroy(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
-        cart_id = request.GET.get("cart_id", None)
 
         if user_id is None:
             return Response(
@@ -1486,7 +1490,7 @@ class UserTripsCartViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         try:
-            scm_post_inst = User_Trip_Cart.objects.filter(id=pk)
+            scm_post_inst = User_Trip_Cart.objects.filter(id=pk,user_id=user_id).first()
             scm_post_inst.delete()
             return Response(
                 {"message": "Successfully Cart Removed"}, status=status.HTTP_200_OK
@@ -1496,7 +1500,6 @@ class UserTripsCartViewSet(viewsets.ViewSet):
 
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)
-        cart_id = request.POST.get("cart_id", None)
         trip_cart_status = request.POST.get("cart_status", None)
 
         if pk is None and user_id is None:
@@ -1505,9 +1508,8 @@ class UserTripsCartViewSet(viewsets.ViewSet):
             )
 
         try:
-            post_inst = User_Trip_Cart.objects.get(id=pk)
+            post_inst = User_Trip_Cart.objects.filter(id=pk,user_id=user_id).first()
             post_inst.trip_cart_status = trip_cart_status
-            post_inst.is_edited = True
             post_inst.save()
 
             return Response(
@@ -1536,7 +1538,7 @@ class UserTripsCartViewSet(viewsets.ViewSet):
                 {"message": "Invalid Request!"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
+        
         users_inst = User_Trip_Cart.objects.create(
             user_id=user_id,
             trip_id=trip_inst,
@@ -1549,6 +1551,34 @@ class UserTripsCartViewSet(viewsets.ViewSet):
         )
         return Response(users_data.data[0], status=status.HTTP_200_OK)
 
+class UserTripsOrderViewset(viewsets.ViewSet):
+    def create(self, request):
+        user_id = request.POST.get("user_id", None)
+        trip_cart = request.POST.get("trip_cart", None)
+        currency = request.POST.get('currency', 'INR')
+        try:
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+            trip_cart_inst = User_Trip_Cart.objects.get(id=trip_cart)
+        except:
+            return Response(
+                {"message": "Invalid Request !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        amount = int(trip_cart_inst.no_guests) * int(trip_cart_inst.trip_id.price)
+        receipt = str(uuid.uuid4())
+        data = dict(amount=int(amount) * 100, currency=currency, receipt=receipt)
+        try:
+            order = client.order.create(data=data)
+            User_Trip_Order.objects.create(
+                id = order['id'],
+                currency = currency,
+                amount = str(amount * 100),
+                cart_item = trip_cart_inst
+                )
+            return Response(order, status=200)
+        except Exception as e:
+            print(e)
+            return Response('error', status=500)
 
 class UserTripsBookingViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -1604,34 +1634,36 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-
         user_id = request.POST.get("user_id", None)
-        trip_id = request.POST.get("trip_id", None)
-        trip_amount = request.POST.get("trip_amount", None)
-        no_guests = request.POST.get("no_guests", None)
+        payment_id = request.POST.get("payment_id", "")
+        order_id = request.POST.get("order_id", "")
+        signature = request.POST.get("signature", "")
 
         try:
             user_inst = Normal_UserReg.objects.get(id=user_id)
-            trip_inst = My_Trips.objects.get(id=trip_id)
+            trip_order_inst = User_Trip_Order.objects.get(id=order_id)
+            trip_cart_inst = User_Trip_Cart.objects.get(id=trip_order_inst.cart_item.id)
+            trip_inst = My_Trips.objects.get(id=trip_cart_inst.trip_id.id)
         except:
-
             return Response(
                 {"message": "Invalid Request!"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
-        users_inst = User_Trip_Booking.objects.create(
-            user_id=user_id,
-            trip_id=trip_inst,
-            trip_ammount=trip_amount,
-            no_guests=no_guests,
-        )
-        users_inst.save()
-
-        users_data = serializers.UserTripBookingSerializer(
-            User_Trip_Booking.objects.filter(id=users_inst.id), many=True
-        )
-        return Response(users_data.data[0], status=status.HTTP_200_OK)
+        if verify_payment(payment_id, order_id, signature):
+            users_inst = User_Trip_Booking.objects.create(
+                user=user_inst,
+                trip_id=trip_inst,
+                no_guests=trip_cart_inst.no_guests,
+                trip_ammount=trip_order_inst.amount,
+                payment_id=payment_id,
+                order_id=order_id,
+                signature=signature,
+            )
+            users_data = serializers.UserTripBookingSerializer(
+                users_inst
+            )
+            return Response(users_data.data, status=status.HTTP_200_OK)
+        return Response("not a valid payment", status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)
@@ -1642,10 +1674,9 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
             return Response({"message": "Invalid Input"})
 
         try:
-            post_inst = User_Trip_Booking.objects.get(id=pk)
+            post_inst = User_Trip_Booking.objects.filter(id=pk, user=user_id).first()
             post_inst.razorpay_id = razorpay_id
             post_inst.trip_cart_status = status
-            post_inst.is_edited = True
             post_inst.save()
 
             return Response({"message": "Trip has been booked Sucessfully"})
@@ -1666,7 +1697,7 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         try:
-            scm_post_inst = User_Trip_Booking.objects.filter(id=pk)
+            scm_post_inst = User_Trip_Booking.objects.filter(id=pk,user=user_id).first()
             scm_post_inst.delete()
             return Response(
                 {"message": "Trip Booking Removed Successfully"},
@@ -1675,6 +1706,16 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
 
+class TripInvoiceGenerateViewSet(viewsets.ViewSet):
+    def retrieve(self, request, pk=None):
+        tb = User_Trip_Booking.objects.get(id=pk)
+        pdf = html_to_pdf('trip_invoice.html', {
+            'pagesize': 'A4',
+            'invoice_id': pk,
+            'tb': tb,
+            })
+
+        return HttpResponse(pdf, content_type='application/pdf')
 
 class TripPaymentViewSet(viewsets.ViewSet):
     def list(self, request):

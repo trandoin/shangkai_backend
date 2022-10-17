@@ -178,8 +178,8 @@ class Tracking_Bookings(models.Model):
         "users.Normal_UserReg", on_delete=models.CASCADE, default=None
     )
     payment_id = models.CharField("payment_id", null=True, max_length=255)
-    order_id = models.CharField("payment_id", null=True, max_length=255)
-    signature = models.CharField("payment_id", null=True, max_length=255)
+    order_id = models.CharField("order_id", null=True, max_length=255)
+    signature = models.CharField("signature", null=True, max_length=255)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     seats = models.IntegerField()
     amount = models.CharField("amount", null=True, max_length=255)
@@ -244,7 +244,7 @@ class My_Trips_Days(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     datetime = models.DateTimeField("Created At", auto_now_add=True)
     my_trip = models.ForeignKey(
-        "shangkai_app.My_Trips", on_delete=models.CASCADE, default=None
+        "shangkai_app.My_Trips", on_delete=models.CASCADE, default=None, related_name="trip_days"
     )
     description = models.TextField("description", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
