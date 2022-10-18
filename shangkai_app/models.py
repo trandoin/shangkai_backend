@@ -150,6 +150,8 @@ class Tracking(models.Model):
     booked = models.IntegerField("booked", default=0)
     amount = models.CharField("amount a", null=True, max_length=255)
     amount2 = models.CharField("amount b", null=True, max_length=255)
+    student_amount = models.CharField("student amount a", null=True, max_length=255)
+    student_amount2 = models.CharField("student amount b", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -163,6 +165,7 @@ class Tracking_Order(models.Model):
     id = models.CharField("id", primary_key=True, max_length=255)
     seats = models.CharField("seats",max_length=255)
     is_stay = models.BooleanField("is_stay", default=False)
+    is_student = models.BooleanField("is_student", default=False)
     currency = models.CharField("currency", max_length=3)
     amount = models.CharField("amount", max_length=255)
     tracking = models.ForeignKey(

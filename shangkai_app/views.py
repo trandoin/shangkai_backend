@@ -578,7 +578,7 @@ class TrackingBookingViewSet(viewsets.ViewSet):
         try:
             tracking_order_inst = Tracking_Order.objects.get(id=order_id)
             user_inst = Normal_UserReg.objects.get(id=user_id)
-            tracking_inst = tracking_order_inst.tracking
+            tracking_inst = Tracking.objects.get(tracking_order_inst.tracking.id)
         except:
             return Response({"message": "No User/Tracking found !"},status=status.HTTP_400_BAD_REQUEST,)
         """
@@ -635,11 +635,18 @@ class TreckingOrder(viewsets.ViewSet):
         if trecking_inst.seats - trecking_inst.booked < int(seats):
             return Response("not enough seats availaible", status=status.HTTP_400_BAD_REQUEST)
         is_stay = request.POST.get('is_stay',0)
+        is_student = request.POST.get('is_student',0)
         currency = request.POST.get('currency', 'INR')
         if int(is_stay) == 1:
-            amount = int(trecking_inst.amount2) * int(seats)
+            if int(is_student) == 1:
+                amount = int(trecking_inst.student_amount2) * int(seats)
+            else:
+                amount = int(trecking_inst.amount2) * int(seats)
         else:
-            amount = int(trecking_inst.amount) * int(seats)
+            if int(is_student) == 1:
+                amount = int(trecking_inst.student_amount) * int(seats)
+            else:
+                amount = int(trecking_inst.amount) * int(seats)
         receipt = str(uuid.uuid4())
         data = dict(amount=int(amount) * 100, currency=currency, receipt=receipt)
         try:
@@ -648,6 +655,7 @@ class TreckingOrder(viewsets.ViewSet):
                 id = order['id'],
                 seats = seats,
                 is_stay = bool(int(is_stay)),
+                is_student = bool(int(is_student)),
                 currency = currency,
                 amount = str(amount * 100),
                 tracking = trecking_inst
