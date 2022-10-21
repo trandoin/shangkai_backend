@@ -371,3 +371,22 @@ class Payment_Transaction(models.Model):
             "Payment Transaction",
             "Payment Transaction",
         )
+from django.core.validators import MaxValueValidator, MinValueValidator
+# coupons
+class Coupon(models.Model):
+    id = models.CharField(primary_key=True, editable=False, max_length=255)
+    coupon = models.CharField(max_length=255, null=True)
+    discount = models.IntegerField("discount",validators=[
+            MaxValueValidator(100),
+            MinValueValidator(1)
+        ])
+    def save(self, *args, **kwargs):
+        self.id = self.coupon
+        super(Coupon, self).save(*args, **kwargs)
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Coupon",
+            "Coupon",
+        )
+    def __str__(self):
+        return str(self.id)

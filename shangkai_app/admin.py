@@ -24,10 +24,11 @@ from .models import (
     Tracking,
     Tracking_Bookings,
     Tracking_Order,
+    Coupon
 )
 
 # Register your models here.
-
+admin.site.register(Coupon)
 
 class AboutUs(admin.ModelAdmin):
     list_display = ["id", "about_us"]

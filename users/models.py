@@ -1,4 +1,5 @@
 from datetime import datetime
+from locale import currency
 from django.db import models
 from django.utils import timezone
 import random
@@ -100,17 +101,17 @@ class User_Hotel_Cart(models.Model):
         default=None,
         db_constraint=False,
     )
-    check_in_date = models.CharField(
-        "check_in_date", null=True, default="0", max_length=255
+    check_in_date = models.DateField(
+        "check_in_date",
     )
-    check_in_time = models.CharField(
-        "check_in_time", null=True, default="0", max_length=255
+    check_in_time = models.TimeField(
+        "check_in_time",
     )
-    check_out_date = models.CharField(
-        "check_out_date", null=True, default="0", max_length=255
+    check_out_date = models.DateField(
+        "check_out_date",
     )
-    check_out_time = models.CharField(
-        "check_out_time", null=True, default="0", max_length=255
+    check_out_time = models.TimeField(
+        "check_out_time",
     )
     guest_no = models.CharField("guests", null=True, default="0", max_length=255)
     rooms = models.CharField("rooms", null=True, default="0", max_length=255)
@@ -124,7 +125,14 @@ class User_Hotel_Cart(models.Model):
             "Hotel Cart",
             "Hotel Cart",
         )
-
+class User_Hotel_Order(models.Model):
+    id = models.CharField("id", primary_key=True, max_length=255)
+    currency = models.CharField("currency", max_length=255)
+    amount = models.CharField("amount", max_length=255)
+    cart_item = models.ForeignKey(
+        "users.User_Hotel_Cart",
+        on_delete=models.CASCADE,
+    )
 
 class User_Hotel_Booking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -163,6 +171,9 @@ class User_Hotel_Booking(models.Model):
     check_out_time = models.TimeField(
         "check_out_time", null=True, default="0", max_length=255
     )
+    payment_id = models.CharField("payment_id", null=True, max_length=255)
+    order_id = models.CharField("order_id", null=True, max_length=255)
+    signature = models.CharField("signature", null=True, max_length=255)
     guest_no = models.IntegerField("guests", null=True, default=1)
     rooms = models.IntegerField("rooms", null=True, default=1)
     amount_booking = models.CharField(

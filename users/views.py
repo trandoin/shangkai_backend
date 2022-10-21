@@ -1,4 +1,5 @@
 from datetime import timedelta
+import datetime
 import uuid
 from django.shortcuts import render
 import requests
@@ -9,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from shangkai_app.helpers import html_to_pdf
+from users.helpers import check_rooms_availaible
 from . import serializers
 import random
 import string
@@ -28,6 +30,7 @@ from .models import (
     Normal_UserReg,
     User_Hotel_Cart,
     User_Cab_Cart,
+    User_Hotel_Order,
     User_Hotel_Payment,
     User_Hotspots_Bookings,
     User_Hotspots_Cart,
@@ -48,6 +51,7 @@ from clients.models import (
     User_Register,
 )
 from shangkai_app.models import (
+    Coupon,
     Hot_Spots,
     My_Trips,
 )
@@ -516,7 +520,6 @@ class HotelCartViewSet(viewsets.ViewSet):
         check_out_time = request.POST.get("check_out_time", None)
         guest_no = request.POST.get("guest_no", None)
         rooms = request.POST.get("rooms", None)
-        amount_booking = request.POST.get("amount_booking", None)
         try:
             user_inst = Normal_UserReg.objects.get(id=user_id)
             hotel_inst = Reg_Hotel.objects.get(id=hotel_id)
@@ -527,7 +530,12 @@ class HotelCartViewSet(viewsets.ViewSet):
                 {"message": "Invalid Request !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
+        check_in_date = datetime.datetime.strptime(check_in_date, "%Y-%m-%d").date()
+        check_out_date = datetime.datetime.strptime(check_out_date, "%Y-%m-%d").date()
+        check_in_time = datetime.datetime.strptime(check_in_time, "%H:%M:%S").time()
+        check_out_time = datetime.datetime.strptime(check_out_time, "%H:%M:%S").time()
+        no_day = (check_out_date - check_in_date).days
+        amount_booking = int(rooms) * int(room_inst.room_rates) * int(no_day)
         hotel_cart_inst = User_Hotel_Cart.objects.create(
             user=user_inst,
             hotel_id=hotel_inst,
@@ -540,12 +548,10 @@ class HotelCartViewSet(viewsets.ViewSet):
             rooms=rooms,
             amount_booking=amount_booking,
         )
-        hotel_cart_inst.save()
-
         hotel_cart_data = serializers.HotelCartSerializer(
-            User_Hotel_Cart.objects.filter(id=hotel_cart_inst.id), many=True
+            hotel_cart_inst
         )
-        return Response(hotel_cart_data.data[0], status=status.HTTP_200_OK)
+        return Response(hotel_cart_data.data, status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)
@@ -588,7 +594,55 @@ class HotelCartViewSet(viewsets.ViewSet):
             )
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_400_BAD_REQUEST)
-
+class HotelOrderViewSet(viewsets.ViewSet):
+    def create(self, request):
+        user_id = request.POST.get("user_id", None)
+        hotel_cart = request.POST.get("hotel_cart", None)
+        currency = request.POST.get('currency', 'INR')
+        coupon_code = request.POST.get('coupon_code',None)
+        try:
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+            hotel_cart_inst = User_Hotel_Cart.objects.get(id=hotel_cart)
+        except:
+            return Response(
+                {"message": "Invalid Request !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        # first check if room is availaible
+        cin = hotel_cart_inst.check_in_date
+        cout = hotel_cart_inst.check_out_date
+        hotel_inst = hotel_cart_inst.hotel_id
+        room_inst = hotel_cart_inst.room_id
+        no_rooms , sttus = check_rooms_availaible(cin,cout,hotel_inst,room_inst,hotel_cart_inst.rooms)
+        if not sttus:
+            return Response(
+                {"message": f"Only {no_rooms} rooms available !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        # then create an order for payment
+        amount = int(hotel_cart_inst.amount_booking)
+        receipt = str(uuid.uuid4())
+        coupon_applied = False
+        if coupon_code:
+            try:
+                Coupon_inst = Coupon.objects.get(id=coupon_code)
+                amount = amount - (Coupon_inst.discount * amount) / 100
+                coupon_applied = True
+            except:
+                pass
+        data = dict(amount=int(amount * 100), currency=currency, receipt=receipt)
+        try:
+            order = client.order.create(data=data)
+            User_Hotel_Order.objects.create(
+                id = order['id'],
+                currency = currency,
+                amount = str(amount * 100),
+                cart_item = hotel_cart_inst
+                )
+            return Response({"order":order,"coupon_applied":coupon_applied}, status=200)
+        except Exception as e:
+            print(e)
+            return Response('error', status=500)
 
 class HotelBookingViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -669,91 +723,47 @@ class HotelBookingViewSet(viewsets.ViewSet):
         return Response(hotel_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-
         user_id = request.POST.get("user_id", None)
         user_ip = request.POST.get("user_ip", None)
-        hotel_id = request.POST.get("hotel_id", None)
-        room_id = request.POST.get("room_id", None)
-        hotel_bookid = request.POST.get("hotel_bookid", None)
-        check_in_date = request.POST.get("check_in_date", None)
-        check_in_time = request.POST.get("check_in_time", None)
-        check_out_date = request.POST.get("check_out_date", None)
-        check_out_time = request.POST.get("check_out_time", None)
-        guest_no = request.POST.get("guest_no", None)
-        rooms = request.POST.get("rooms", None)
-        amount_booking = request.POST.get("amount_booking", None)
-
+        payment_id = request.POST.get("payment_id", "")
+        order_id = request.POST.get("order_id", "")
+        signature = request.POST.get("signature", "")
         try:
             user_inst = Normal_UserReg.objects.get(id=user_id)
-            hotel_inst = Reg_Hotel.objects.get(id=hotel_id)
-            room_inst = Room_Register.objects.get(id=room_id)
+            hotel_order_inst = User_Hotel_Order.objects.get(id=order_id)
+            hotel_cart_inst = hotel_order_inst.cart_item
+            hotel_inst = hotel_cart_inst.hotel_id
+            room_inst = hotel_cart_inst.room_id
         except:
-
             return Response(
                 {"message": "No user found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        users_inst = serializers.HotelBookingSerializer(
-            data={            
-            "user":user_id,
-            "user_ip":user_ip,
-            "hotel_id":hotel_id,
-            "room_id":room_id,
-            "hotel_bookid":hotel_bookid,
-            "check_in_date":check_in_date,
-            "check_in_time":check_in_time,
-            "check_out_date":check_out_date,
-            "check_out_time":check_out_time,
-            "guest_no":guest_no,
-            "rooms":rooms,
-            "amount_booking":amount_booking,
-        })
-        if users_inst.is_valid(raise_exception=True):
-            new_booking = users_inst.save()
-            cin = new_booking.check_in_date
-            cout = new_booking.check_out_date
-            new_booking.delete()
-            # check if room is available or not
-            hotel_booking = User_Hotel_Booking.objects.filter(
+        no_rooms,sttus = check_rooms_availaible(hotel_cart_inst.check_in_date,hotel_cart_inst.check_out_date,hotel_inst,room_inst,hotel_cart_inst.rooms)
+        if not sttus:
+            return Response(
+                {"message": f"Only {no_rooms} rooms available !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        if verify_payment(payment_id, order_id, signature):
+            users_inst = User_Hotel_Booking.objects.create(
+                user=user_id,
+                user_ip=user_ip,
                 hotel_id=hotel_inst,
                 room_id=room_inst,
-                check_in_date__gte=cin,
-                check_in_date__lte=cout,
+                hotel_bookid=order_id,
+                check_in_date=hotel_cart_inst.check_in_date,
+                check_in_time=hotel_cart_inst.check_in_time,
+                check_out_date=hotel_cart_inst.check_out_date,
+                check_out_time=hotel_cart_inst.check_out_time,
+                guest_no=int(hotel_cart_inst.guest_no),
+                rooms=int(hotel_cart_inst.rooms),
+                amount_booking=hotel_order_inst.amount,
+                payment_id=payment_id,
+                order_id=order_id,
+                signature=signature,
             )
-            hotel_booking2 = User_Hotel_Booking.objects.filter(
-                hotel_id=hotel_inst,
-                room_id=room_inst,
-                check_out_date__gte=cin,
-                check_out_date__lte=cout,
-            )
-            hotel_booking3 = User_Hotel_Booking.objects.filter(
-                hotel_id=hotel_inst,
-                room_id=room_inst,
-                check_in_date__lte=cin,
-                check_out_date__gte=cout,
-            )
-            hotel_booking4 = User_Hotel_Booking.objects.filter(
-                hotel_id=hotel_inst,
-                room_id=room_inst,
-                check_in_date__gte=cin,
-                check_out_date__lte=cout,
-            )
-            hotel_booking = hotel_booking.union(hotel_booking2)
-            hotel_booking = hotel_booking.union(hotel_booking3)
-            hotel_booking = hotel_booking.union(hotel_booking4)            
-            if len(hotel_booking) > 0:
-                day_count = (cout - cin).days + 1
-                for single_date in (cin + timedelta(n) for n in range(day_count)):
-                    count=0
-                    for i in range(0, len(hotel_booking)):
-                        if single_date >= hotel_booking[i].check_in_date and single_date <= hotel_booking[i].check_out_date:
-                            count+=hotel_booking[i].rooms
-                    if int(room_inst.no_rooms) < int(count) + int(rooms):
-                        return Response(
-                            {"message": f"Only {int(room_inst.no_rooms) - int(count)} rooms available !"},
-                            status=status.HTTP_400_BAD_REQUEST,
-                        )
-            new_booking = users_inst.save()
+            hotel_cart_inst.delete()
             #   send sms to user as a transactional message
             # res = requests.post(
             #     f"http://2factor.in/API/V1/293832-67745-11e5-88de-5600000c6b13/ADDON_SERVICES/SEND/TSMS",
@@ -770,7 +780,7 @@ class HotelBookingViewSet(viewsets.ViewSet):
             #     }
             # )
             return Response(
-                serializers.HotelBookingSerializer(new_booking).data,
+                serializers.HotelBookingSerializer(users_inst).data,
                 status=status.HTTP_201_CREATED,
             )
 
@@ -1556,6 +1566,7 @@ class UserTripsOrderViewset(viewsets.ViewSet):
         user_id = request.POST.get("user_id", None)
         trip_cart = request.POST.get("trip_cart", None)
         currency = request.POST.get('currency', 'INR')
+        coupon_code = request.POST.get('coupon_code',None)
         try:
             user_inst = Normal_UserReg.objects.get(id=user_id)
             trip_cart_inst = User_Trip_Cart.objects.get(id=trip_cart)
@@ -1566,7 +1577,15 @@ class UserTripsOrderViewset(viewsets.ViewSet):
             )
         amount = int(trip_cart_inst.no_guests) * int(trip_cart_inst.trip_id.price)
         receipt = str(uuid.uuid4())
-        data = dict(amount=int(amount) * 100, currency=currency, receipt=receipt)
+        coupon_applied = False
+        if coupon_code:
+            try:
+                Coupon_inst = Coupon.objects.get(id=coupon_code)
+                amount = amount - (Coupon_inst.discount * amount) / 100
+                coupon_applied = True
+            except:
+                pass
+        data = dict(amount=int(amount * 100), currency=currency, receipt=receipt)
         try:
             order = client.order.create(data=data)
             User_Trip_Order.objects.create(
@@ -1575,7 +1594,7 @@ class UserTripsOrderViewset(viewsets.ViewSet):
                 amount = str(amount * 100),
                 cart_item = trip_cart_inst
                 )
-            return Response(order, status=200)
+            return Response({"order":order,"coupon_applied":coupon_applied}, status=200)
         except Exception as e:
             print(e)
             return Response('error', status=500)
@@ -1662,6 +1681,7 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
             users_data = serializers.UserTripBookingSerializer(
                 users_inst
             )
+            trip_cart_inst.delete()
             return Response(users_data.data, status=status.HTTP_200_OK)
         return Response("not a valid payment", status=status.HTTP_400_BAD_REQUEST)
 

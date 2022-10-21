@@ -56,6 +56,7 @@ router.register(
 
 
 #### """"""""CART """"""""###
+router.register("hotel_order", views.HotelOrderViewSet, basename="HotelOrder")
 router.register("hotel_cart", views.HotelCartViewSet, basename="HotelCart")
 router.register("cab_cart", views.CabCartViewSet, basename="CabCart")
 router.register("trips_cart", views.UserTripsCartViewSet, basename="TripsCart")

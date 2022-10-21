@@ -25,6 +25,7 @@ from .models import (
     Blog_Category,
     Blog_Post,
     BlogPost_Comments,
+    Coupon,
     Footer_Copyright,
     Hotspot_Category,
     Hot_Spots,
@@ -636,6 +637,7 @@ class TreckingOrder(viewsets.ViewSet):
             return Response("not enough seats availaible", status=status.HTTP_400_BAD_REQUEST)
         is_stay = request.POST.get('is_stay',0)
         is_student = request.POST.get('is_student',0)
+        coupon_code = request.POST.get('coupon_code',None)
         currency = request.POST.get('currency', 'INR')
         if int(is_stay) == 1:
             if int(is_student) == 1:
@@ -648,7 +650,15 @@ class TreckingOrder(viewsets.ViewSet):
             else:
                 amount = int(trecking_inst.amount) * int(seats)
         receipt = str(uuid.uuid4())
-        data = dict(amount=int(amount) * 100, currency=currency, receipt=receipt)
+        coupon_applied = False
+        if coupon_code:
+            try:
+                Coupon_inst = Coupon.objects.get(id=coupon_code)
+                amount = amount - (Coupon_inst.discount * amount) / 100
+                coupon_applied = True
+            except:
+                pass
+        data = dict(amount=int(amount * 100), currency=currency, receipt=receipt)
         try:
             order = client.order.create(data=data)
             Tracking_Order.objects.create(
@@ -660,7 +670,7 @@ class TreckingOrder(viewsets.ViewSet):
                 amount = str(amount * 100),
                 tracking = trecking_inst
                 )
-            return Response(order, status=200)
+            return Response({"order":order,"coupon_applied":coupon_applied}, status=200)
         except Exception as e:
             print(e)
             return Response('error', status=500)
