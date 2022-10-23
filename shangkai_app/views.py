@@ -579,7 +579,7 @@ class TrackingBookingViewSet(viewsets.ViewSet):
         try:
             tracking_order_inst = Tracking_Order.objects.get(id=order_id)
             user_inst = Normal_UserReg.objects.get(id=user_id)
-            tracking_inst = Tracking.objects.get(tracking_order_inst.tracking.id)
+            tracking_inst = tracking_order_inst.tracking
         except:
             return Response({"message": "No User/Tracking found !"},status=status.HTTP_400_BAD_REQUEST,)
         """
