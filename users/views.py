@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from shangkai_app.helpers import html_to_pdf
-from users.helpers import check_rooms_availaible
+from users.helpers import check_rooms_availaible, send_hotel_book_email
 from . import serializers
 import random
 import string
@@ -19,6 +19,9 @@ from django.contrib.auth import login, authenticate, logout
 from django.conf import settings
 from django.core.mail import send_mail
 from shangkai_app.razorpay import client, verify_payment
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 
 """Model Package """
@@ -594,6 +597,7 @@ class HotelCartViewSet(viewsets.ViewSet):
             )
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_400_BAD_REQUEST)
+        
 class HotelOrderViewSet(viewsets.ViewSet):
     def create(self, request):
         user_id = request.POST.get("user_id", None)
@@ -746,8 +750,9 @@ class HotelBookingViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         if verify_payment(payment_id, order_id, signature):
+        # if  True:
             users_inst = User_Hotel_Booking.objects.create(
-                user=user_id,
+                user=user_inst,
                 user_ip=user_ip,
                 hotel_id=hotel_inst,
                 room_id=room_inst,
@@ -764,23 +769,38 @@ class HotelBookingViewSet(viewsets.ViewSet):
                 signature=signature,
             )
             hotel_cart_inst.delete()
+            #  send sms and email
+            send_hotel_book_email(
+                name=user_inst.name,
+                booking_id=users_inst.hotel_bookid,
+                hotel=hotel_inst.hotel_name,
+                room=room_inst.room_type,
+                check_in_date=hotel_cart_inst.check_in_date.strftime("%d %b %Y, %I:%M %p"),
+                check_out_date=hotel_cart_inst.check_out_date.strftime("%d %b %Y, %I:%M %p"),
+                rooms=str(hotel_cart_inst.rooms),
+                amount=str(hotel_order_inst.amount)[:-2],
+                to=user_inst.email,
+            )
             #   send sms to user as a transactional message
-            # res = requests.post(
-            #     f"http://2factor.in/API/V1/293832-67745-11e5-88de-5600000c6b13/ADDON_SERVICES/SEND/TSMS",
-            #     data = {
-            #         "From": "Hotel",
-            #         "To": user_inst.mobile,
-            #         "TemplateName": "HotelBooking",
-            #         "VAR1": hotel_inst.hotel_name,
-            #         "VAR2": hotel_inst.hotel_address,
-            #         "VAR3": hotel_inst.hotel_city,
-            #         "VAR4": hotel_inst.hotel_state,
-            #         "VAR5": hotel_inst.hotel_country,
-            #         "VAR6": hotel_inst.hotel_pincode,
-            #     }
-            # )
+            res = requests.post(
+                f"http://2factor.in/API/V1/${os.getenv('TWO_FACTOR_KEY')}/ADDON_SERVICES/SEND/TSMS",
+                data = {
+                    "From": "SNGKAI",
+                    "To": user_inst.mobile,
+                    "TemplateName": "hotel_booking",
+                    "VAR1": user_inst.name,
+                    "VAR2": f"{hotel_inst.hotel_name} - {room_inst.room_type}",
+                    "VAR3": order_id,
+                    "VAR4": hotel_cart_inst.check_in_date.strftime("%d %b %Y, %I:%M %p"),
+                    "VAR5": hotel_cart_inst.check_out_date.strftime("%d %b %Y, %I:%M %p"),
+                    "VAR6": str(hotel_cart_inst.rooms),
+                    "VAR7": str(hotel_order_inst.amount)[:-2],
+                    "VAR8": user_inst.mobile,
+                }
+            )
+            print(res.text)
             return Response(
-                serializers.HotelBookingSerializer(users_inst).data,
+                "serializers.HotelBookingSerializer(users_inst).data",
                 status=status.HTTP_201_CREATED,
             )
 
@@ -1682,6 +1702,7 @@ class UserTripsBookingViewSet(viewsets.ViewSet):
                 users_inst
             )
             trip_cart_inst.delete()
+            #  send sms and email
             return Response(users_data.data, status=status.HTTP_200_OK)
         return Response("not a valid payment", status=status.HTTP_400_BAD_REQUEST)
 

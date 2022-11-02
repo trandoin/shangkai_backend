@@ -1,23 +1,25 @@
 from datetime import datetime
 import uuid
+import requests
 
-from uritemplate import partial
 from shangkai_app.helpers import html_to_pdf
 from shangkai_app.razorpay import verify_payment
+from users.helpers import send_trek_book_email
 from users.models import (
     Normal_UserReg,
 )
-from django.shortcuts import render
+from .razorpay import verify_payment,client
 from clients.models import User_Register
 
 # Create your views here.
 from rest_framework import serializers, viewsets
-from django.http import HttpResponse, response
-from rest_framework.decorators import api_view
+from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework import status
 from . import serializers
-from .razorpay import client, demo
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 """Model Package """
 from .models import (
@@ -597,6 +599,32 @@ class TrackingBookingViewSet(viewsets.ViewSet):
                     tracking=tracking_inst,
                     seats=tracking_order_inst.seats,
                     amount=tracking_order_inst.amount,
+                )
+                #  send sms and email
+                send_trek_book_email(
+                    name=user_inst.name,
+                    booking_id=tracking_booking_inst.id,
+                    trek=tracking_inst.title,
+                    start_date=tracking_inst.start_date.strftime("%d %b %Y, %I:%M %p"),
+                    to=user_inst.mobile,
+                    seats=tracking_order_inst.seats,
+                    amount=str(tracking_order_inst.amount)[:-2],
+                )
+                #   send sms to user as a transactional message
+                res = requests.post(
+                    f"http://2factor.in/API/V1/${os.getenv('TWO_FACTOR_KEY')}/ADDON_SERVICES/SEND/TSMS",
+                    data = {
+                        "From": "SNGKAI",
+                        "To": user_inst.mobile,
+                        "TemplateName": "trek_booking",
+                        "VAR1": user_inst.name,
+                        "VAR2": tracking_inst.title,
+                        "VAR3": order_id,
+                        "VAR4": tracking_inst.start_date.strftime("%d %b %Y, %I:%M %p"),
+                        "VAR5": tracking_order_inst.seats,
+                        "VAR6": str(tracking_order_inst.amount)[:-2],
+                        "VAR7": user_inst.mobile,
+                    }
                 )
                 tracking_booking_data = serializers.TrackingBookingSerializer(
                     tracking_booking_inst
