@@ -19,6 +19,7 @@ from .models import (
     User_Guide_Booking,
     User_Hotspots_Cart,
     User_Ratings,
+    User_Guide_Cart,
 )
 
 
@@ -253,3 +254,4 @@ class UserHotspotsBookings(admin.ModelAdmin):
 
 
 admin.site.register(User_Hotspots_Bookings, UserHotspotsBookings)
+admin.site.register(User_Guide_Cart)

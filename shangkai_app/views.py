@@ -612,7 +612,7 @@ class TrackingBookingViewSet(viewsets.ViewSet):
                 )
                 #   send sms to user as a transactional message
                 res = requests.post(
-                    f"http://2factor.in/API/V1/${os.getenv('TWO_FACTOR_KEY')}/ADDON_SERVICES/SEND/TSMS",
+                    f"http://2factor.in/API/V1/{os.getenv('TWO_FACTOR_KEY')}/ADDON_SERVICES/SEND/TSMS",
                     data = {
                         "From": "SNGKAI",
                         "To": user_inst.mobile,

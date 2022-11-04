@@ -56,18 +56,20 @@ router.register(
 
 
 #### """"""""CART """"""""###
-router.register("hotel_order", views.HotelOrderViewSet, basename="HotelOrder")
 router.register("hotel_cart", views.HotelCartViewSet, basename="HotelCart")
 router.register("cab_cart", views.CabCartViewSet, basename="CabCart")
 router.register("trips_cart", views.UserTripsCartViewSet, basename="TripsCart")
-router.register("trip_order",views.UserTripsOrderViewset,basename="TripsOrder")
 router.register("trip_invoice",views.TripInvoiceGenerateViewSet,basename="TripsInvoice")
 router.register(
     "hotspots_cart", views.UserHotspotsCartViewSet, basename="HotSpotssCart"
 )
+router.register("guide_cart", views.UserGuideCartViewset, basename="GuideCart")
 
 
 ############ """""""""" PAYMENT """"""""######
+router.register("hotel_order", views.HotelOrderViewSet, basename="HotelOrder")
+router.register("trip_order",views.UserTripsOrderViewset,basename="TripsOrder")
+router.register("guide_order", views.UserGuideOrderViewset, basename="GuideOrder")
 router.register("hotel_payment", views.HotelPaymentViewSet, basename="HotelPayemnt")
 router.register("cab_payment", views.CabPaymentViewSet, basename="CabPayemnt")
 router.register("trip_payment", views.TripPaymentViewSet, basename="TripPayemnt")

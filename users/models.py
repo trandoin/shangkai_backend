@@ -438,7 +438,37 @@ class User_Trips_Payment(models.Model):
             "User Trips Payments",
             "User Trips Payments",
         )
-
+class User_Guide_Cart(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(
+        "users.Normal_UserReg",
+        on_delete=models.CASCADE,
+        default=None,
+    )
+    guide = models.ForeignKey(
+        "clients.TourGuide_Reg",
+        on_delete=models.CASCADE,
+        default=None,
+    )
+    no_guests = models.CharField("no_guests", max_length=255)
+    booking_date = models.DateField(
+        "booking_date", max_length=255
+    )
+    class Meta:
+        verbose_name, verbose_name_plural = (
+            "Guide Carts",
+            "Guide Carts",
+        )
+        
+class User_Guide_Order(models.Model):
+    id = models.CharField("id", primary_key=True, max_length=255)
+    currency = models.CharField("currency", max_length=3)
+    amount = models.CharField("amount", max_length=255)
+    cart_item = models.ForeignKey(
+        "users.User_Guide_Cart"
+        ,on_delete=models.CASCADE
+        , default=None
+    )
 
 class User_Guide_Booking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -470,6 +500,9 @@ class User_Guide_Booking(models.Model):
         "razorpay_id", null=True, default="0", max_length=255
     )
     status = models.CharField("status", null=True, default="0", max_length=255)
+    order_id = models.CharField("order_id", null=True, max_length=255)
+    payment_id = models.CharField("payment_id", null=True, max_length=255)
+    signature = models.CharField("signature", null=True, max_length=255)
 
     class Meta:
         verbose_name, verbose_name_plural = (

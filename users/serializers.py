@@ -3,6 +3,7 @@ from rest_framework.serializers import ModelSerializer
 from .models import (
     User_Account_Details,
     User_Cab_Booking,
+    User_Guide_Cart,
     User_Hotel_Booking,
     Normal_UserReg,
     User_Hotel_Cart,
@@ -108,6 +109,12 @@ class UserTripsPaymentSerializer(ModelSerializer):
 class UserGuideBookingSerializer(ModelSerializer):
     class Meta:
         model = User_Guide_Booking
+        fields = "__all__"
+        
+class UserGuideCartSerializer(ModelSerializer):
+    class Meta:
+        model = User_Guide_Cart
+        # depth = 1
         fields = "__all__"
 
 

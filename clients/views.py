@@ -1431,7 +1431,8 @@ class TourGuiderViewSet(viewsets.ViewSet):
     def list(self, request):
         user_id = request.GET.get("user_id", None)
         try:
-            sm_rooms = TourGuide_Reg.objects.filter(user=user_id)
+            client = User_Register.objects.get(id=user_id)
+            sm_rooms = TourGuide_Reg.objects.filter(user=client)
             tourguide_data_dic = serializers.TourGuideRegSerializer(sm_rooms, many=True)
         except:
             return Response(
@@ -1553,7 +1554,29 @@ class TourGuiderViewSet(viewsets.ViewSet):
             TourGuide_Reg.objects.filter(id=guide_inst.id), many=True
         )
         return Response(guide_data.data[0], status=status.HTTP_200_OK)
+    def update(self,request,pk=None):
+        user_id = request.GET.get("user_id", None)
 
+        if user_id is None:
+            return Response(
+                {"message": "Please provide user_id"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        try:
+            scm_tourguide_inst = TourGuide_Reg.objects.filter(id=pk,user=user_id).first()
+            tour_guide_serializer = serializers.TourGuideRegSerializer(scm_tourguide_inst, data=request.data,partial=True)
+            if tour_guide_serializer.is_valid():
+                tour_guide_serializer.save()
+                return Response(
+                    tour_guide_serializer.data,
+                    status=status.HTTP_200_OK,
+                )
+            return Response(
+                {"message": "Invalid Request !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        except:
+            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
     def destroy(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
 
@@ -1563,7 +1586,7 @@ class TourGuiderViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         try:
-            scm_tourguide_inst = TourGuide_Reg.objects.filter(id=pk)
+            scm_tourguide_inst = TourGuide_Reg.objects.filter(id=pk,user=user_id).first()
             scm_tourguide_inst.delete()
             return Response(
                 {"message": "Tour tour guider deleted successfully"},

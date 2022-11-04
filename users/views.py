@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from shangkai_app.helpers import html_to_pdf
-from users.helpers import check_rooms_availaible, send_hotel_book_email
+from users.helpers import check_rooms_availaible, send_guide_book_email, send_hotel_book_email
 from . import serializers
 import random
 import string
@@ -29,6 +29,8 @@ from .models import (
     User_Account_Details,
     User_Cab_Booking,
     User_Guide_Booking,
+    User_Guide_Cart,
+    User_Guide_Order,
     User_Hotel_Booking,
     Normal_UserReg,
     User_Hotel_Cart,
@@ -783,7 +785,7 @@ class HotelBookingViewSet(viewsets.ViewSet):
             )
             #   send sms to user as a transactional message
             res = requests.post(
-                f"http://2factor.in/API/V1/${os.getenv('TWO_FACTOR_KEY')}/ADDON_SERVICES/SEND/TSMS",
+                f"http://2factor.in/API/V1/{os.getenv('TWO_FACTOR_KEY')}/ADDON_SERVICES/SEND/TSMS",
                 data = {
                     "From": "SNGKAI",
                     "To": user_inst.mobile,
@@ -800,7 +802,7 @@ class HotelBookingViewSet(viewsets.ViewSet):
             )
             print(res.text)
             return Response(
-                "serializers.HotelBookingSerializer(users_inst).data",
+                serializers.HotelBookingSerializer(users_inst).data,
                 status=status.HTTP_201_CREATED,
             )
 
@@ -1848,6 +1850,111 @@ class TripPaymentViewSet(viewsets.ViewSet):
 
 ###########"""" TOUR GUIDE """"""#######
 
+class UserGuideCartViewset(viewsets.ViewSet):
+    def list(self, request):
+        user_id = request.GET.get("user_id", None)
+        try:
+            scm_post = User_Guide_Cart.objects.filter(user=user_id)
+            scm_post_data_dic = serializers.UserGuideCartSerializer(
+                scm_post, many=True
+            )
+        except:
+            return Response(
+                {"message": "Sorry No data found !"},
+                status=status.HTTP_400_BAD_REQUEST,
+        )
+        
+
+        return Response(scm_post_data_dic.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+        user_id = request.POST.get("user_id", None)
+        guide = request.POST.get("guide", None)
+        no_guests = request.POST.get("no_guests", None)
+        booking_date = request.POST.get("booking_date", None)
+        try:
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+            guide_inst = TourGuide_Reg.objects.get(id=guide)
+        except:
+            return Response(
+                {"message": "Invalid Request !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        booking_date = datetime.datetime.strptime(booking_date, "%Y-%m-%d").date()
+        qs = User_Guide_Booking.objects.filter(booking_date=booking_date, guide_id=guide_inst)
+        if qs.exists():
+            return Response(
+                {"message": "Guide already booked for this date !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        guide_cart_serializer = serializers.UserGuideCartSerializer(
+            data={
+                "user": user_id,
+                "guide": guide,
+                "no_guests": no_guests,
+                "booking_date": booking_date,
+            }
+        )
+        if guide_cart_serializer.is_valid():
+            guide_cart_serializer.save()
+            return Response(guide_cart_serializer.data, status=status.HTTP_200_OK)
+        return Response(
+            guide_cart_serializer.errors, status=status.HTTP_400_BAD_REQUEST
+        )
+        
+    def destroy(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+        try:
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+            guide_cart_inst = User_Guide_Cart.objects.filter(id=pk, user=user_inst).first()
+        except:
+            return Response(
+                {"message": "Invalid Request !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        guide_cart_inst.delete()
+        return Response(
+            {"message": "Guide Cart Deleted !"},
+            status=status.HTTP_204_NO_CONTENT,
+        )
+            
+class UserGuideOrderViewset(viewsets.ViewSet):
+    def create(self, request):
+        user_id = request.POST.get("user_id", None)
+        currency = request.POST.get('currency', 'INR')
+        guide_cart = request.POST.get("guide_cart", None)
+        try:
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+            guide_cart_inst = User_Guide_Cart.objects.get(id=guide_cart)
+        except:
+            return Response(
+                {"message": "Invalid Request !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        booking_date = guide_cart_inst.booking_date
+        qs = User_Guide_Booking.objects.filter(booking_date=booking_date, guide_id=guide_cart_inst.guide)
+        if qs.exists():
+            return Response(
+                {"message": "Guide already booked for this date !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        no_guests = int(guide_cart_inst.no_guests)
+        per_price = int(guide_cart_inst.guide.packages.package_amount)
+        amount = no_guests * per_price
+        receipt = str(uuid.uuid4())
+        data = dict(amount=int(amount * 100), currency=currency, receipt=receipt)
+        try:
+            order = client.order.create(data=data)
+            User_Guide_Order.objects.create(
+                id = order['id'],
+                currency = currency,
+                amount = str(amount * 100),
+                cart_item = guide_cart_inst,
+                )
+            return Response({"order":order}, status=200)
+        except Exception as e:
+            print(e)
+            return Response('error', status=500)
 
 class UserGuideBookingViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -1919,38 +2026,95 @@ class UserGuideBookingViewSet(viewsets.ViewSet):
         return Response(account_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-
         user_id = request.POST.get("user_id", None)
-        client_id = request.POST.get("client_id", None)
-        guide_id = request.POST.get("guide_id", None)
-        no_guests = request.POST.get("no_guests", None)
-        booking_date = request.POST.get("booking_date", None)
-        guide_amount = request.POST.get("guide_amount", None)
+        user_ip = request.POST.get("user_ip", None)
+        payment_id = request.POST.get("payment_id", "")
+        order_id = request.POST.get("order_id", "")
+        signature = request.POST.get("signature", "")
+        
         try:
             user_inst = Normal_UserReg.objects.get(id=user_id)
-            clients_inst = User_Register.objects.get(id=client_id)
-            guide_inst = TourGuide_Reg.objects.get(id=guide_id)
+            guide_order_inst = User_Guide_Order.objects.get(id=order_id)
+            guide_cart_inst = guide_order_inst.cart_item
+            guide_inst = guide_cart_inst.guide
         except:
-
             return Response(
                 {"message": "Invalid Request !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+        booking_date = guide_cart_inst.booking_date
+        qs = User_Guide_Booking.objects.filter(booking_date=booking_date, guide_id=guide_cart_inst.guide)
+        if qs.exists():
+            return Response(
+                {"message": "Guide already booked for this date !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        if verify_payment(payment_id, order_id, signature):
+            inst = User_Guide_Booking.objects.create(
+                user=user_inst,
+                client_id=guide_inst.user,
+                guide_id=guide_inst,
+                no_guests=guide_cart_inst.no_guests,
+                booking_date=booking_date,
+                guide_amount=guide_order_inst.amount,
+                order_id=order_id,
+                payment_id=payment_id,
+                signature=signature,
+                )
+            guide_cart_inst.delete()
+            # send sms and email
+            send_guide_book_email(
+                name=user_inst.name,
+                booking_date=booking_date.strftime("%d-%m-%Y"),
+                booking_id=order_id,
+                amount=guide_order_inst.amount[:-2],
+                guide=guide_inst.guider_name,
+                no_guests=guide_cart_inst.no_guests,
+                package_name=guide_cart_inst.guide.packages.package_name,
+                to=user_inst.email,
+            )
+            #   send sms to user as a transactional message
+            """
+            Hello #VAR1#,
 
-        users_inst = User_Guide_Booking.objects.create(
-            user=user_inst,
-            client_id=clients_inst,
-            guide_id=guide_inst,
-            no_guests=no_guests,
-            booking_date=booking_date,
-            guide_amount=guide_amount,
-        )
-        users_inst.save()
+            Your booking for Guide is confirmed.
+            Guide Name: #VAR2#
+            Booking ID: #VAR3#.
+            Package Name: #VAR4#.
+            Booked for: #VAR5#.
+            Number of Guests: #VAR6#.
+            Amount: #VAR7#.
+            Mobile No: #VAR8#.
 
-        users_data = serializers.UserGuideBookingSerializer(
-            User_Guide_Booking.objects.filter(id=users_inst.id), many=True
+            Thank you for booking with us.
+
+            """
+            res = requests.post(
+                f"http://2factor.in/API/V1/{os.getenv('TWO_FACTOR_KEY')}/ADDON_SERVICES/SEND/TSMS",
+                data = {
+                    "From": "SNGKAI",
+                    "To": user_inst.mobile,
+                    "TemplateName": "guide_booking",
+                    "VAR1": user_inst.name,
+                    "VAR2": guide_inst.guider_name,
+                    "VAR3": order_id,
+                    "VAR4": guide_cart_inst.guide.packages.package_name,
+                    "VAR5": booking_date.strftime("%d-%m-%Y"),
+                    "VAR6": guide_cart_inst.no_guests,
+                    "VAR7": guide_order_inst.amount[:-2],
+                    "VAR8": user_inst.mobile,
+                }
+            )
+            print(res.text)
+            return Response(
+                {"message": "Guide Booked !","data":serializers.User_Guide_BookingSerializer(inst).data},
+                status=status.HTTP_200_OK,
+            )
+        
+        return Response(
+            {"message": "Invalid Payment !"},
+            status=status.HTTP_400_BAD_REQUEST,
         )
-        return Response(users_data.data[0], status=status.HTTP_200_OK)
 
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)

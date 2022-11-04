@@ -55,3 +55,10 @@ def send_trek_book_email(name,booking_id,trek,start_date,seats,amount,to):
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [to]
     send_mail(subject, message, email_from, recipient_list)
+    
+def send_guide_book_email(name,booking_id,guide,package_name,booking_date,no_guests,amount,to):
+    subject = "Guide Booking Confirmation"
+    message = f"Dear {name},\n\nYour Guide Booking has been confirmed.\n\nGuide Name: {guide}\nPackage Name: {package_name}\nBooking id: {booking_id}\nBooked For: {booking_date}\nNumber of guest: {no_guests}.\nAmount: Rs {amount}\n\nThank You,\nTeam Shangkai"
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = [to]
+    send_mail(subject, message, email_from, recipient_list)
