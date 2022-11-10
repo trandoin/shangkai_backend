@@ -29,6 +29,7 @@ from .models import (
     BlogPost_Comments,
     Coupon,
     Footer_Copyright,
+    HotSpot_Images,
     Hotspot_Category,
     Hot_Spots,
     Comments_All,
@@ -470,55 +471,11 @@ class HotSpotsViewSet(viewsets.ViewSet):
         return Response(hotspots_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-
-        title = request.POST.get("title", None)
-        sub_title = request.POST.get("sub_title", None)
-        city = request.POST.get("city", None)
-        state = request.POST.get("state", None)
-        pin_code = request.POST.get("pin_code", None)
-        geo_location = request.POST.get("geo_location", None)
-        amenites = request.POST.get("amenites", None)
-        history = request.POST.get("history", None)
-        about = request.POST.get("about", None)
-        images = request.POST.get("images", None)
-        entry_fee = request.POST.get("entry_fee", None)
-        parking_fee = request.POST.get("parking_fee", None)
-        category = request.POST.get("category_id", None)
-        rating = request.POST.get("rating", None)
-        tags = request.POST.get("tags", None)
-
-        try:
-            cat_inst = Hotspot_Category.objects.get(id=category)
-        except:
-
-            return Response(
-                {"message": "No Category found !"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        users_inst = Hot_Spots.objects.create(
-            title=title,
-            sub_title=sub_title,
-            city=city,
-            state=state,
-            pin_code=pin_code,
-            geo_location=geo_location,
-            amenites=amenites,
-            history=history,
-            about=about,
-            images=images,
-            entry_fee=entry_fee,
-            parking_fee=parking_fee,
-            category=cat_inst,
-            rating=rating,
-            tags=tags,
-        )
-        users_inst.save()
-
-        users_data = serializers.HotSpotsSerializer(
-            Hot_Spots.objects.filter(id=users_inst.id), many=True
-        )
-        return Response(users_data.data[0], status=status.HTTP_200_OK)
+        serializer = serializers.HotSpotsCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
         status = request.GET.get("status", None)
@@ -537,7 +494,21 @@ class HotSpotsViewSet(viewsets.ViewSet):
 
         except:
             return Response({"message": "Something went to wrong ! Try again !"})
-
+class HotSpotsImageViewset(viewsets.ViewSet):
+    def create(self, request):
+        serializer = serializers.HotSpotImageSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def destroy(self, request, pk=None):
+        try:
+            image = HotSpot_Images.objects.get(id=pk)
+            image.delete()
+            return Response({"message": "Image Deleted Successfully"},status=status.HTTP_204_NO_CONTENT)
+        except:
+            return Response({"message": "Something went to wrong ! Try again !"},status=status.HTTP_400_BAD_REQUEST)
+        
 class TrackingViewSet(viewsets.ViewSet):
     def list(self, request):
         sm_tracking = Tracking.objects.filter(booking_upto__gte=datetime.now(),booking_start__lte=datetime.now())

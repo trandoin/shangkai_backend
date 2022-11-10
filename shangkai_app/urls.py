@@ -20,6 +20,7 @@ router.register(
     "category_hotspots", views.HotspotCategoryViewSet, basename="HotspotCategory"
 )
 router.register("hot_spots", views.HotSpotsViewSet, basename="HotSpots")
+router.register("hotspot_images", views.HotSpotsImageViewset, basename="HotSpotImages")
 router.register("tracking", views.TrackingViewSet, basename="Tracking")
 router.register("tracking_book", views.TrackingBookingViewSet, basename="TrackingBook")
 router.register("tracking_invoice",views.TrackingInvoiceGenerateViewSet, basename="TrackingInvoice")

@@ -84,7 +84,10 @@ class HotSpotsSerializer(ModelSerializer):
         depth = 1
         fields = ["id","datetime","title","sub_title","city","state","pin_code","geo_location","amenites","history","about","para1","para2","para3","transport","title_image","images","entry_fee","parking_fee","category","rating","tags","status","hotspot_images"]
         read_only_fields = ['id']
-
+class HotSpotsCreateSerializer(ModelSerializer):
+    class Meta:
+        model = Hot_Spots
+        fields = "__all__"
 class TrackingSerializer(ModelSerializer):
     class Meta:
         model = Tracking
