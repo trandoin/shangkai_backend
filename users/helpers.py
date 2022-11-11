@@ -1,4 +1,5 @@
 from datetime import timedelta
+import datetime
 from shangkai import settings
 from users.models import User_Hotel_Booking
 from django.core.mail import send_mail
@@ -62,3 +63,8 @@ def send_guide_book_email(name,booking_id,guide,package_name,booking_date,no_gue
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [to]
     send_mail(subject, message, email_from, recipient_list)
+    
+def calculate_checkout_date(check_in_date, no_of_days=1):
+    check_in_date = datetime.datetime.strptime(check_in_date, "%Y-%m-%d")
+    check_out_date =  check_in_date + timedelta(days=no_of_days)
+    return check_out_date.strftime("%Y-%m-%d")

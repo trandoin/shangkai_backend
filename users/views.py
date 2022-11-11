@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from shangkai_app.helpers import html_to_pdf
-from users.helpers import check_rooms_availaible, send_guide_book_email, send_hotel_book_email
+from users.helpers import calculate_checkout_date, check_rooms_availaible, send_guide_book_email, send_hotel_book_email
 from . import serializers
 import random
 import string
@@ -520,9 +520,9 @@ class HotelCartViewSet(viewsets.ViewSet):
         hotel_id = request.POST.get("hotel_id", None)
         room_id = request.POST.get("room_id", None)
         check_in_date = request.POST.get("check_in_date", None)
-        check_in_time = request.POST.get("check_in_time", None)
-        check_out_date = request.POST.get("check_out_date", None)
-        check_out_time = request.POST.get("check_out_time", None)
+        check_in_time = request.POST.get("check_in_time", '11:00:00')
+        check_out_date = request.POST.get("check_out_date", calculate_checkout_date(check_in_date))
+        check_out_time = request.POST.get("check_out_time", '09:00:00')
         guest_no = request.POST.get("guest_no", None)
         rooms = request.POST.get("rooms", None)
         try:
