@@ -9,8 +9,10 @@ from .models import (
     Account_Details,
     Cabs_Reg,
     Driver_Reg,
+    HotelImages,
     Reg_Hotel,
     Room_Register,
+    RoomImages,
     User_Register,
     client_token_authentication,
     Tour_locations,
@@ -96,11 +98,13 @@ class RoomRegister(admin.ModelAdmin):
         "tags",
         "extra_services",
         "room_images",
-        "states",
+        "status",
     ]
 
 
 admin.site.register(Room_Register, RoomRegister)
+admin.site.register(HotelImages)
+admin.site.register(RoomImages)
 
 
 class DriverRegistration(admin.ModelAdmin):

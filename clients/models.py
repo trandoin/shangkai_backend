@@ -113,6 +113,7 @@ class Reg_Hotel(models.Model):
     hotel_facilites = models.TextField("facilites", null=True, max_length=5000)
     max_guests_limit = models.CharField("limits", null=True, max_length=255)
     hotel_images = models.CharField("images", null=True, max_length=25500)
+    title_image = models.ImageField("title_image",upload_to="hotel_images", null=True)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -152,7 +153,8 @@ class Room_Register(models.Model):
     tags = models.TextField("tags", null=True, max_length=255)
     extra_services = models.TextField("extra_services", null=True, max_length=255)
     room_images = models.CharField("images", null=True, max_length=25500)
-    states = models.CharField("status", null=True, default="0", max_length=255)
+    title_image = models.ImageField("title_image",upload_to="room_images", null=True)
+    status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
         verbose_name, verbose_name_plural = (
@@ -160,6 +162,17 @@ class Room_Register(models.Model):
             "Room Registration",
         )
 
+class HotelImages(models.Model):
+    hotel = models.ForeignKey(
+        'clients.Reg_Hotel', on_delete=models.CASCADE,related_name="gallery_images", default=None, db_constraint=False
+    )
+    image = models.ImageField("image",upload_to="hotel_images")
+    
+class RoomImages(models.Model):
+    room = models.ForeignKey(
+        'clients.Room_Register', on_delete=models.CASCADE,related_name="gallery_images", default=None, db_constraint=False
+    )
+    image = models.ImageField("image",upload_to="room_images")
 
 class Driver_Reg(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

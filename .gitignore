@@ -9,3 +9,4 @@ venv.bak/
 __pycache__
 .pyc
 hotspot_images
+media

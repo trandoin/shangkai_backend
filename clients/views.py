@@ -24,7 +24,9 @@ from . import serializers
 # Create your views here.
 """Model Package """
 from .models import (
+    HotelImages,
     Reg_Hotel,
+    RoomImages,
     Tour_Packages,
     Tour_locations,
     TourGuide_Reg,
@@ -326,79 +328,23 @@ class HotelRegistrationViewSet(viewsets.ViewSet):
         user_id = request.GET.get("user_id", None)
         try:
             sm_users = Reg_Hotel.objects.filter(user=user_id)
-            users_data_dic = serializers.HotelRegisterSerializer(sm_users, many=True)
+            users_data_dic = serializers.HotelViewSerializer(sm_users, many=True)
         except:
             return Response(
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        for i in range(0, len(users_data_dic.data)):
-            created_user_id = users_data_dic.data[i].get("user")
-            try:
-                user_inst = User_Register.objects.get(id=created_user_id)
-
-                users_data_dic.data[i].update(
-                    {
-                        "user": {
-                            "id": user_inst.id,
-                            "user_id": user_inst.user_id,
-                            "user_name": user_inst.name,
-                        }
-                    }
-                )
-            except:
-                users_data_dic.data[i].update(
-                    {"user": {"id": created_user_id, "message": "Deleted Account"}}
-                )
         return Response(users_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-
-        user_id = request.POST.get("user_id", None)
-        hotel_code = request.POST.get("hotel_code", None)
-        hotel_cat = request.POST.get("hotel_cat", None)
-        hotel_name = request.POST.get("hotel_name", None)
-        hotel_address = request.POST.get("hotel_address", None)
-        hotel_city = request.POST.get("hotel_city", None)
-        hotel_state = request.POST.get("hotel_state", None)
-        geo_location = request.POST.get("geo_location", None)
-        pin_code = request.POST.get("pin_code", None)
-        room_rates = request.POST.get("room_rates", None)
-        hotel_facilites = request.POST.get("hotel_facilites", None)
-        max_guests_limit = request.POST.get("max_guests_limit", None)
-        hotel_images = request.POST.get("hotel_images", None)
-
-        try:
-            user_inst = User_Register.objects.get(id=user_id)
-            hotel_cat_inst = Hotel_Category.objects.get(id=hotel_cat)
-
-        except:
-
+        serializer = serializers.HotelRegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
             return Response(
-                {"message": "No user found !"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"message": "Hotel Registered Successfully !"},
+                status=status.HTTP_201_CREATED,
             )
-        users_inst = Reg_Hotel.objects.create(
-            user=user_inst,
-            hotel_cat=hotel_cat_inst,
-            hotel_code=hotel_code,
-            hotel_name=hotel_name,
-            hotel_address=hotel_address,
-            hotel_city=hotel_city,
-            hotel_state=hotel_state,
-            geo_location=geo_location,
-            pin_code=pin_code,
-            room_rates=room_rates,
-            hotel_facilites=hotel_facilites,
-            max_guests_limit=max_guests_limit,
-            hotel_images=hotel_images,
-        )
-        users_inst.save()
-
-        users_data = serializers.HotelRegisterSerializer(
-            Reg_Hotel.objects.filter(id=users_inst.id), many=True
-        )
-        return Response(users_data.data[0], status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)
@@ -448,104 +394,23 @@ class RoomRegistrationViewSet(viewsets.ViewSet):
 
         try:
             sm_users = Room_Register.objects.filter(user=user_id)
-            users_data_dic = serializers.RoomRegisterSerializer(sm_users, many=True)
+            users_data_dic = serializers.RoomViewSerializer(sm_users, many=True)
         except:
             return Response(
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        for i in range(0, len(users_data_dic.data)):
-            created_user_id = users_data_dic.data[i].get("user")
-            try:
-                user_inst = User_Register.objects.get(id=created_user_id)
-
-                users_data_dic.data[i].update(
-                    {
-                        "user": {
-                            "id": user_inst.id,
-                            "user_id": user_inst.user_id,
-                            "user_name": user_inst.name,
-                        }
-                    }
-                )
-            except:
-                users_data_dic.data[i].update(
-                    {"user": {"id": created_user_id, "message": "Deleted Account"}}
-                )
-            created_hotel_id = users_data_dic.data[i].get("hotel_id")
-            try:
-                hotel_inst = Reg_Hotel.objects.get(id=created_hotel_id)
-
-                users_data_dic.data[i].update(
-                    {
-                        "hotel_id": {
-                            "id": hotel_inst.id,
-                            "hotel_code": hotel_inst.hotel_code,
-                            "hotel_name": hotel_inst.hotel_name,
-                            "geo_location": hotel_inst.geo_location,
-                        }
-                    }
-                )
-            except:
-                users_data_dic.data[i].update(
-                    {
-                        "hotel_id": {
-                            "id": created_hotel_id,
-                            "message": "Deleted Hotel",
-                        }
-                    }
-                )
         return Response(users_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-
-        user_id = request.POST.get("user_id", None)
-        hotel_id = request.POST.get("hotel_id", None)
-        about = request.POST.get("about", None)
-        try:
-            user_inst = User_Register.objects.get(id=user_id)
-            hotel_inst = Reg_Hotel.objects.get(id=hotel_id)
-        except:
+        serializer = serializers.RoomRegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
             return Response(
-                {"message": "No user/hotel found !"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"message": "Room Registered Successfully !"},
+                status=status.HTTP_201_CREATED,
             )
-        room_id = request.POST.get("room_id", None)
-        room_type = request.POST.get("room_type", None)
-        bed_type = request.POST.get("bed_type", None)
-        totel_beds = request.POST.get("totel_beds", None)
-        room_rates = request.POST.get("room_rates", None)
-        room_facilites = request.POST.get("room_facilites", None)
-        max_guests_limit = request.POST.get("max_guests_limit", None)
-        no_rooms = request.POST.get("no_rooms", None)
-        rating = request.POST.get("rating", None)
-        tags = request.POST.get("tags", None)
-        extra_services = request.POST.get("extra_services", None)
-        room_images = request.POST.get("room_images", None)
-
-        users_inst = Room_Register.objects.create(
-            user=user_inst,
-            about=about,
-            hotel_id=hotel_inst,
-            room_id=room_id,
-            room_type=room_type,
-            bed_type=bed_type,
-            totel_beds=totel_beds,
-            room_rates=room_rates,
-            room_facilites=room_facilites,
-            max_guests_limit=max_guests_limit,
-            no_rooms=no_rooms,
-            tags=tags,
-            rating=rating,
-            extra_services=extra_services,
-            room_images=room_images,
-        )
-        users_inst.save()
-
-        users_data = serializers.RoomRegisterSerializer(
-            Room_Register.objects.filter(id=users_inst.id), many=True
-        )
-        return Response(users_data.data[0], status=status.HTTP_200_OK)
+        return  Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)
@@ -585,6 +450,49 @@ class RoomRegistrationViewSet(viewsets.ViewSet):
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
 
+class HotelImagesViewSet(viewsets.ViewSet):
+    def create(self, request):
+        serializer = serializers.HotelImageSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED,
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def destroy(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+        hotel_id = request.GET.get("hotel_id", None)
+        try:
+            scm_post_inst = HotelImages.objects.filter(id=pk, user=user_id, hotel_id=hotel_id).first()
+            scm_post_inst.delete()
+            return Response(
+                {"message": "Hotel Images Deleted Successfully"}, status=status.HTTP_204_NO_CONTENT
+            )
+        except:
+            return Response({"message": "Please provide correct user, hotel and hotelimage id"}, status=status.HTTP_400_BAD_REQUEST)
+        
+class RoomImagesViewSet(viewsets.ViewSet):
+    def create(self, request):
+        serializer = serializers.RoomImageSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED,
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def destroy(self, request, pk=None):
+        user_id = request.GET.get("user_id", None)
+        room_id = request.GET.get("room_id", None)
+        try:
+            scm_post_inst = RoomImages.objects.filter(id=pk, user=user_id, room_id=room_id).first()
+            scm_post_inst.delete()
+            return Response(
+                {"message": "Room Images Deleted Successfully"}, status=status.HTTP_204_NO_CONTENT
+            )
+        except:
+            return Response({"message": "Please provide correct user, room and roomimage id"}, status=status.HTTP_400_BAD_REQUEST)
 
 class DriverRegistrationViewSet(viewsets.ViewSet):
     def list(self, request):

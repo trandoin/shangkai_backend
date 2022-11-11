@@ -33,6 +33,8 @@ router.register(
 router.register(
     "room_registration", views.RoomRegistrationViewSet, basename="RoomRegistration"
 )
+router.register("hotel_images", views.HotelImagesViewSet, basename="HotelImages")
+router.register("room_images", views.RoomImagesViewSet, basename="RoomImages")
 router.register("room_search", views.RoomSearchViewSet, basename="RoomSearch")
 router.register("room_get_byId", views.RoomGetByIdViewSet, basename="RoomGetById")
 router.register(

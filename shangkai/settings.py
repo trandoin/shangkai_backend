@@ -147,6 +147,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
+MEDIA_URL = "/media/"
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'smtp.gmail.com'
@@ -183,6 +184,7 @@ EMAIL_HOST_PASSWORD = "Learn#46#$(*"
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_DIR, "static")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # STATIC_URL = "/root/shangkai_env/shangkai_backend/shangkai/static/"
 # STATIC_URL = "/home/ubuntu/travel-env/shangkai_backend/shangkai/static/"
 
