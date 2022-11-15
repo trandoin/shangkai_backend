@@ -1,5 +1,6 @@
 from datetime import timedelta
 import datetime
+from urllib.parse import urlencode
 import uuid
 from django.shortcuts import render
 import requests
@@ -10,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from shangkai_app.helpers import html_to_pdf
-from users.helpers import calculate_checkout_date, check_rooms_availaible, send_guide_book_email, send_hotel_book_email
+from users.helpers import calculate_checkout_date, check_cab_avaliability, check_rooms_availaible, send_guide_book_email, send_hotel_book_email
 from . import serializers
 import random
 import string
@@ -28,6 +29,7 @@ load_dotenv()
 from .models import (
     User_Account_Details,
     User_Cab_Booking,
+    User_Cab_Order,
     User_Guide_Booking,
     User_Guide_Cart,
     User_Guide_Order,
@@ -1122,7 +1124,6 @@ class CabCartViewSet(viewsets.ViewSet):
         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-
         user_id = request.POST.get("user_id", None)
         car_id = request.POST.get("car_id", None)
         driver_id = request.POST.get("driver_id", None)
@@ -1132,8 +1133,8 @@ class CabCartViewSet(viewsets.ViewSet):
         check_out_time = request.POST.get("check_out_time", None)
         start_from = request.POST.get("start_from", None)
         end_trip = request.POST.get("end_trip", None)
-        distance = request.POST.get("distance", None)
-        amount_booking = request.POST.get("amount_booking", None)
+        # distance = request.POST.get("distance", None)
+        # amount_booking = request.POST.get("amount_booking", None)
         no_guests = request.POST.get("no_guests", None)
 
         try:
@@ -1146,7 +1147,22 @@ class CabCartViewSet(viewsets.ViewSet):
                 {"message": "No user found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
+        data = {
+            'origins': start_from,
+            'destinations': end_trip,
+            'key': os.getenv("GOOGLE_API_KEY"),
+        }
+        urlenc = urlencode(data)
+        url = "https://maps.googleapis.com/maps/api/distancematrix/json?" + urlenc
+        response = requests.request("GET", url)
+        res = response.text
+        if res.status != "OK":
+            return Response(
+                "Sorry, something went wrong. Please try again later.",
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        # continue to calculate distance
+        
         users_inst = User_Cab_Cart.objects.create(
             user=user_inst,
             car_id=car_inst,
@@ -1213,6 +1229,40 @@ class CabCartViewSet(viewsets.ViewSet):
         except:
             return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
 
+class CabOrderViewset(viewsets.ModelViewSet):
+    def create(self,request):
+        user_id = request.POST.get("user_id", None)
+        cab_cart = request.POST.get("cab_cart", None)
+        currency = request.POST.get("currency", 'INR')
+        try:
+            user_inst = Normal_UserReg.objects.get(id=user_id)
+            cab_cart_inst = User_Cab_Cart.objects.filter(id=cab_cart,user=user_inst).first()
+        except:
+            return Response(
+                {"message": "Invalid Request !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        # first check if booking is already done
+        if not check_cab_avaliability(cab_cart_inst.check_in_date,cab_cart_inst.check_in_time,cab_cart_inst.check_out_date,cab_cart_inst.check_out_time,cab_cart_inst.car_id):
+            return Response(
+                {"message": "Cab is not available between provided date and time !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        amount = int(cab_cart_inst.amount_booking)
+        receipt = str(uuid.uuid4())
+        data = dict(amount=int(amount * 100), currency=currency, receipt=receipt)
+        try:
+            order = client.order.create(data=data)
+            User_Cab_Order.objects.create(
+                id = order['id'],
+                currency = currency,
+                amount = str(amount * 100),
+                cart_item = cab_cart_inst,
+                )
+            return Response({"order":order,"coupon_applied":False}, status=200)
+        except Exception as e:
+            print(e)
+            return Response('error', status=500)
 
 class CabBookingViewSet(viewsets.ViewSet):
     def list(self, request):
@@ -1292,55 +1342,54 @@ class CabBookingViewSet(viewsets.ViewSet):
         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-
         user_id = request.POST.get("user_id", None)
-        user_ip = request.POST.get("client_id", None)
-        car_id = request.POST.get("car_id", None)
-        driver_id = request.POST.get("driver_id", None)
-        cab_bookid = request.POST.get("cab_bookid", None)
-        check_in_date = request.POST.get("check_in_date", None)
-        check_in_time = request.POST.get("check_in_time", None)
-        check_out_date = request.POST.get("check_out_date", None)
-        check_out_time = request.POST.get("check_out_time", None)
-        start_from = request.POST.get("start_from", None)
-        end_trip = request.POST.get("end_trip", None)
-        distance = request.POST.get("distance", None)
-        amount_booking = request.POST.get("amount_booking", None)
-        no_guests = request.POST.get("no_guests", None)
+        user_ip = request.POST.get("user_ip", None)
+        payment_id = request.POST.get("payment_id", "")
+        order_id = request.POST.get("order_id", "")
+        signature = request.POST.get("signature", "")
 
         try:
             user_inst = Normal_UserReg.objects.get(id=user_id)
-            car_inst = Cabs_Reg.objects.get(id=car_id)
-            driver_inst = Driver_Reg.objects.get(id=driver_id)
+            cab_order_inst = User_Cab_Order.objects.get(id=order_id)
+            cab_cart_inst = cab_order_inst.cart_item
+            cab = cab_cart_inst.car_id
+            driver = cab.driver_id
         except:
-
             return Response(
-                {"message": "No user found !"},
+                {"message": "No user/cab order found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
-        users_inst = User_Cab_Booking.objects.create(
+        if not check_cab_avaliability(cab_cart_inst.check_in_date,cab_cart_inst.check_in_time,cab_cart_inst.check_out_date,cab_cart_inst.check_out_time,cab_cart_inst.car_id):
+            return Response(
+                {"message": "Cab is not available between provided date and time !"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        
+        book_inst = User_Cab_Booking.objects.create(
             user=user_inst,
             user_ip=user_ip,
-            car_id=car_inst,
-            driver_id=driver_inst,
-            cab_bookid=cab_bookid,
-            check_in_date=check_in_date,
-            check_in_time=check_in_time,
-            check_out_date=check_out_date,
-            check_out_time=check_out_time,
-            start_from=start_from,
-            end_trip=end_trip,
-            distance=distance,
-            amount_booking=amount_booking,
-            no_guests=no_guests,
+            car_id=cab,
+            driver_id=driver,
+            cab_bookid=order_id,
+            check_in_date=cab_cart_inst.check_in_date,
+            check_in_time=cab_cart_inst.check_in_time,
+            check_out_date=cab_cart_inst.check_out_date,
+            check_out_time=cab_cart_inst.check_out_time,
+            start_from=cab_cart_inst.start_from,
+            end_trip=cab_cart_inst.end_trip,
+            distance=cab_cart_inst.distance,
+            amount_booking=cab_order_inst.amount,
+            no_guests=cab_cart_inst.no_guests,
+            order_id=order_id,
+            payment_id=payment_id,
+            signature=signature,
         )
-        users_inst.save()
+        cab_cart_inst.delete()
+        # send email and sms to user
+        
 
-        users_data = serializers.CabBookingSerializer(
-            User_Cab_Booking.objects.filter(id=users_inst.id), many=True
-        )
-        return Response(users_data.data[0], status=status.HTTP_200_OK)
+        users_data = serializers.CabBookingSerializer(book_inst)
+        return Response(users_data.data, status=status.HTTP_201_CREATED)
 
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)

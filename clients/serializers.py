@@ -95,9 +95,21 @@ class TourPackagesSerializer(ModelSerializer):
     class Meta:
         model = Tour_Packages
         fields = "__all__"
+        
+class TourPackagesViewSerializer(ModelSerializer):
+    class Meta:
+        model = Tour_Packages
+        depth = 1
+        fields = "__all__"
 
 
 class TourGuideRegSerializer(ModelSerializer):
     class Meta:
         model = TourGuide_Reg
+        fields = "__all__"
+        
+class TourGuideRegViewSerializer(ModelSerializer):
+    class Meta:
+        model = TourGuide_Reg
+        depth = 2
         fields = "__all__"

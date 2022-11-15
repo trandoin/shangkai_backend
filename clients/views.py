@@ -19,6 +19,8 @@ from uuid import UUID
 
 from uritemplate import partial
 
+from users.models import User_Guide_Booking
+
 from . import serializers
 
 # Create your views here.
@@ -527,87 +529,29 @@ class DriverRegistrationViewSet(viewsets.ViewSet):
         return Response(driver_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-
-        user_id = request.POST.get("user_id", None)
-        driver_id = request.POST.get("driver_id", None)
-        driver_name = request.POST.get("driver_name", None)
-        driver_address = request.POST.get("driver_address", None)
-        driver_mobile = request.POST.get("driver_mobile", None)
-        driver_email = request.POST.get("driver_email", None)
-        languages = request.POST.get("languages", None)
-        working_hours = request.POST.get("room_facilites", None)
-        licence_no = request.POST.get("licence_no", None)
-        adhar_card = request.POST.get("adhar_card", None)
-        licence_doc = request.POST.get("licence_doc", None)
-        picture = request.POST.get("picture", None)
-
-        try:
-            user_inst = User_Register.objects.get(id=user_id)
-        except:
-
+        serializer = serializers.DriverRegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
             return Response(
-                {"message": "No user found !"},
-                status=status.HTTP_400_BAD_REQUEST,
+                serializer.data,
+                status=status.HTTP_201_CREATED,
             )
-        users_inst = Driver_Reg.objects.create(
-            user=user_inst,
-            driver_id=driver_id,
-            driver_name=driver_name,
-            driver_address=driver_address,
-            driver_mobile=driver_mobile,
-            driver_email=driver_email,
-            languages=languages,
-            working_hours=working_hours,
-            licence_no=licence_no,
-            adhar_card=adhar_card,
-            licence_doc=licence_doc,
-            picture=picture,
-        )
-        users_inst.save()
-
-        users_data = serializers.DriverRegisterSerializer(
-            Driver_Reg.objects.filter(id=users_inst.id), many=True
-        )
-        return Response(users_data.data[0], status=status.HTTP_200_OK)
-
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)
-        driver_name = request.POST.get("driver_name", None)
-        driver_address = request.POST.get("driver_address", None)
-        driver_mobile = request.POST.get("driver_mobile", None)
-        driver_email = request.POST.get("driver_email", None)
-        languages = request.POST.get("languages", None)
-        working_hours = request.POST.get("room_facilites", None)
-        licence_no = request.POST.get("licence_no", None)
-        adhar_card = request.POST.get("adhar_card", None)
-        licence_doc = request.POST.get("licence_doc", None)
-        picture = request.POST.get("picture", None)
-
         if user_id is None:
             return Response(
-                {"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
+                {"message": "Please provide a user_id"}, status=status.HTTP_400_BAD_REQUEST
             )
 
         try:
-            post_inst = Driver_Reg.objects.get(id=pk)
-            post_inst.driver_name = driver_name
-            post_inst.driver_address = driver_address
-            post_inst.driver_mobile = driver_mobile
-            post_inst.driver_email = driver_email
-            post_inst.languages = languages
-            post_inst.working_hours = working_hours
-            post_inst.licence_no = licence_no
-            post_inst.adhar_card = adhar_card
-            post_inst.licence_doc = licence_doc
-            post_inst.picture = picture
-            post_inst.is_edited = True
-            post_inst.save()
-
-            return Response(
-                {"message": "Driver details Updated Sucessfully"},
-                status=status.HTTP_200_OK,
-            )
-
+            post_inst = Driver_Reg.objects.filter(id=pk, user=user_id).first()
+            serializer = serializers.DriverRegisterSerializer(post_inst, data=request.data,partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response(
                 {"message": "Something went to wrong ! Try again !"},
@@ -624,13 +568,13 @@ class DriverRegistrationViewSet(viewsets.ViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         try:
-            scm_post_inst = Driver_Reg.objects.filter(id=pk)
+            scm_post_inst = Driver_Reg.objects.filter(id=pk, user=user_id).first()
             scm_post_inst.delete()
             return Response(
-                {"message": "Driver Deleted Successfully"}, status=status.HTTP_200_OK
+                {"message": "Driver Deleted Successfully"}, status=status.HTTP_204_NO_CONTENT
             )
         except:
-            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
+            return Response({"message": "Details not found"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CabRegistrationViewSet(viewsets.ViewSet):
@@ -688,104 +632,30 @@ class CabRegistrationViewSet(viewsets.ViewSet):
         return Response(cabs_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-
-        user_id = request.POST.get("user_id", None)
-        driver_id = request.POST.get("driver_id", None)
-        car_code = request.POST.get("car_code", None)
-        car_name = request.POST.get("car_name", None)
-        car_type = request.POST.get("car_type", None)
-        capacity = request.POST.get("capacity", None)
-        vehicle_no = request.POST.get("vehicle_no", None)
-        car_mou = request.POST.get("room_facilites", None)
-        car_fee = request.POST.get("car_fee", None)
-        pickup_point = request.POST.get("pickup_point", None)
-        destination = request.POST.get("destination", None)
-        checkin_date = request.POST.get("checkin_date", None)
-        checkout_date = request.POST.get("checkout_date", None)
-        car_rating = request.POST.get("car_rating", None)
-        car_rc = request.POST.get("car_rc", None)
-        car_insurance = request.POST.get("car_insurance", None)
-        car_images = request.POST.get("car_images", None)
-
-        try:
-            user_inst = User_Register.objects.get(id=user_id)
-            driver_inst = Driver_Reg.objects.get(id=driver_id)
-        except:
-
+        serializer = serializers.CabRegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
             return Response(
-                {"message": "No user found !"},
-                status=status.HTTP_400_BAD_REQUEST,
+                serializer.data,
+                status=status.HTTP_201_CREATED,
             )
-        users_inst = Cabs_Reg.objects.create(
-            user=user_inst,
-            driver=driver_inst,
-            car_code=car_code,
-            car_name=car_name,
-            car_type=car_type,
-            capacity=capacity,
-            vehicle_no=vehicle_no,
-            car_mou=car_mou,
-            car_fee=car_fee,
-            pickup_point=pickup_point,
-            destination=destination,
-            checkin_date=checkin_date,
-            checkout_date=checkout_date,
-            car_rating=car_rating,
-            car_rc=car_rc,
-            car_insurance=car_insurance,
-            car_images=car_images,
-        )
-        users_inst.save()
-
-        users_data = serializers.CabRegisterSerializer(
-            Cabs_Reg.objects.filter(id=users_inst.id), many=True
-        )
-        return Response(users_data.data[0], status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
         user_id = request.POST.get("user_id", None)
-        car_name = request.POST.get("car_name", None)
-        car_type = request.POST.get("car_type", None)
-        capacity = request.POST.get("capacity", None)
-        vehicle_no = request.POST.get("vehicle_no", None)
-        car_mou = request.POST.get("room_facilites", None)
-        car_fee = request.POST.get("car_fee", None)
-        pickup_point = request.POST.get("pickup_point", None)
-        destination = request.POST.get("destination", None)
-        checkin_date = request.POST.get("checkin_date", None)
-        checkout_date = request.POST.get("checkout_date", None)
-        car_rc = request.POST.get("car_rc", None)
-        car_insurance = request.POST.get("car_insurance", None)
-        car_images = request.POST.get("car_images", None)
-
         if user_id is None:
             return Response(
-                {"message": "Invalid Request"}, status=status.HTTP_400_BAD_REQUEST
+                {"message": "Please provide a user_id"}, status=status.HTTP_400_BAD_REQUEST
             )
 
         try:
-            post_inst = Cabs_Reg.objects.get(id=pk)
-            post_inst.car_name = car_name
-            post_inst.car_type = car_type
-            post_inst.capacity = capacity
-            post_inst.vehicle_no = vehicle_no
-            post_inst.car_mou = car_mou
-            post_inst.car_fee = car_fee
-            post_inst.pickup_point = pickup_point
-            post_inst.destination = destination
-            post_inst.checkin_date = checkin_date
-            post_inst.checkout_date = checkout_date
-            post_inst.car_rc = car_rc
-            post_inst.car_insurance = car_insurance
-            post_inst.car_images = car_images
-            post_inst.is_edited = True
-            post_inst.save()
-
-            return Response(
-                {"message": "Cab Details Updated Sucessfully"},
-                status=status.HTTP_200_OK,
-            )
-
+            post_inst = Cabs_Reg.objects.filter(id=pk, user=user_id).first()
+            serializer = serializers.CabRegisterSerializer(post_inst, data=request.data,partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response(
                 {"message": "Something went to wrong ! Try again !"},
@@ -805,10 +675,10 @@ class CabRegistrationViewSet(viewsets.ViewSet):
             scm_post_inst = Cabs_Reg.objects.filter(id=pk)
             scm_post_inst.delete()
             return Response(
-                {"message": "Cab Deleted Successfully"}, status=status.HTTP_200_OK
+                {"message": "Cab Deleted Successfully"}, status=status.HTTP_204_NO_CONTENT
             )
         except:
-            return Response({"message": "Details not found"}, status=status.HTTP_200_OK)
+            return Response({"message": "Details not found"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 ########### STATUS UPDATE ######################
@@ -1289,33 +1159,23 @@ class TourPackagesViewSet(viewsets.ViewSet):
         return Response(room_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-
-        user_id = request.POST.get("user_id", None)
-        location_ids = request.POST.get("location_ids", None)
-        package_name = request.POST.get("package_name", None)
-        package_amount = request.POST.get("package_amount", None)
-
+        serializer = serializers.TourPackagesSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def update(self, request, pk=None):
         try:
-            user_inst = User_Register.objects.get(id=user_id)
+            item = Tour_Packages.objects.get(id=pk)
         except:
-
             return Response(
-                {"message": "Invalid Request !"},
-                status=status.HTTP_400_BAD_REQUEST,
+                "Sorry No data found !", status=status.HTTP_400_BAD_REQUEST
             )
-        package_inst = Tour_Packages.objects.create(
-            user=user_inst,
-            location_ids=location_ids,
-            package_name=package_name,
-            package_amount=package_amount,
-        )
-        package_inst.save()
-
-        package_data = serializers.TourPackagesSerializer(
-            Tour_Packages.objects.filter(id=package_inst.id), many=True
-        )
-        return Response(package_data.data[0], status=status.HTTP_200_OK)
-
+        serializer = serializers.TourPackagesSerializer(item,data=request.data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def destroy(self, request, pk=None):
         user_id = request.GET.get("user_id", None)
 
@@ -1341,127 +1201,20 @@ class TourGuiderViewSet(viewsets.ViewSet):
         try:
             client = User_Register.objects.get(id=user_id)
             sm_rooms = TourGuide_Reg.objects.filter(user=client)
-            tourguide_data_dic = serializers.TourGuideRegSerializer(sm_rooms, many=True)
+            tourguide_data_dic = serializers.TourGuideRegViewSerializer(sm_rooms, many=True)
         except:
             return Response(
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        for i in range(0, len(tourguide_data_dic.data)):
-            created_user = tourguide_data_dic.data[i].get("user")
-            try:
-                package_inst = User_Register.objects.get(id=created_user)
-
-                tourguide_data_dic.data[i].update(
-                    {
-                        "user": {
-                            "id": package_inst.id,
-                            "name": package_inst.name,
-                            "mobile": package_inst.mobile,
-                        }
-                    }
-                )
-            except:
-                tourguide_data_dic.data[i].update(
-                    {
-                        "user": {
-                            "id": created_user,
-                            "message": "Deleted user",
-                        }
-                    }
-                )
-            created_tour_locations = tourguide_data_dic.data[i].get("tour_locations")
-            try:
-                package_inst = Tour_locations.objects.get(id=created_tour_locations)
-
-                tourguide_data_dic.data[i].update(
-                    {
-                        "tour_locations": {
-                            "id": package_inst.id,
-                            "locations": package_inst.locations,
-                            "status": package_inst.status,
-                        }
-                    }
-                )
-            except:
-                tourguide_data_dic.data[i].update(
-                    {
-                        "tour_locations": {
-                            "id": created_tour_locations,
-                            "message": "Deleted tour_locations",
-                        }
-                    }
-                )
-            created_packages = tourguide_data_dic.data[i].get("packages")
-            try:
-                package_inst = Tour_Packages.objects.get(id=created_packages)
-
-                tourguide_data_dic.data[i].update(
-                    {
-                        "packages": {
-                            "id": package_inst.id,
-                            "location_ids": package_inst.location_ids,
-                            "package_amount": package_inst.package_amount,
-                        }
-                    }
-                )
-            except:
-                tourguide_data_dic.data[i].update(
-                    {
-                        "packages": {
-                            "id": created_packages,
-                            "message": "Deleted Packages",
-                        }
-                    }
-                )
-
         return Response(tourguide_data_dic.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-
-        user_id = request.POST.get("user_id", None)
-        # tour_locations = request.POST.get("tour_locations", None)
-        packages = request.POST.get("packages", None)
-        guider_name = request.POST.get("guider_name", None)
-        about_guider = request.POST.get("about_guider", None)
-        guider_address = request.POST.get("guider_address", None)
-        guider_mobile = request.POST.get("guider_mobile", None)
-        guider_email = request.POST.get("guider_email", None)
-        languages = request.POST.get("languages", None)
-        adhar_card = request.POST.get("adhar_card", None)
-        licence_doc = request.POST.get("licence_doc", None)
-        picture = request.POST.get("picture", None)
-
-        try:
-            user_inst = User_Register.objects.get(id=user_id)
-            # location_inst = Tour_locations.objects.get(id=tour_locations)
-            packages_inst = Tour_Packages.objects.get(id=packages)
-        except:
-
-            return Response(
-                {"message": "Invalid Request !"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-        guide_inst = TourGuide_Reg.objects.create(
-            user=user_inst,
-            # tour_locations=tour_locations,
-            packages=packages_inst,
-            guider_name=guider_name,
-            about_guider=about_guider,
-            guider_address=guider_address,
-            guider_mobile=guider_mobile,
-            guider_email=guider_email,
-            languages=languages,
-            adhar_card=adhar_card,
-            licence_doc=licence_doc,
-            picture=picture,
-        )
-        guide_inst.save()
-
-        guide_data = serializers.TourGuideRegSerializer(
-            TourGuide_Reg.objects.filter(id=guide_inst.id), many=True
-        )
-        return Response(guide_data.data[0], status=status.HTTP_200_OK)
+        serializer = serializers.TourGuideRegSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def update(self,request,pk=None):
         user_id = request.GET.get("user_id", None)
 
@@ -1585,83 +1338,27 @@ class GetAllTourPackagesViewSet(viewsets.ViewSet):
 
 class GetAllTourGuiderViewSet(viewsets.ViewSet):
     def list(self, request):
+        date = request.GET.get("date", None)
         try:
             sm_rooms = TourGuide_Reg.objects.all()
-            tourguide_data_dic = serializers.TourGuideRegSerializer(sm_rooms, many=True)
         except:
             return Response(
                 {"message": "Sorry No data found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        for i in range(0, len(tourguide_data_dic.data)):
-            created_user = tourguide_data_dic.data[i].get("user")
-            try:
-                package_inst = User_Register.objects.get(id=created_user)
-
-                tourguide_data_dic.data[i].update(
-                    {
-                        "user": {
-                            "id": package_inst.id,
-                            "name": package_inst.name,
-                            "mobile": package_inst.mobile,
-                        }
-                    }
-                )
-            except:
-                tourguide_data_dic.data[i].update(
-                    {
-                        "user": {
-                            "id": created_user,
-                            "message": "Deleted user",
-                        }
-                    }
-                )
-            created_tour_locations = tourguide_data_dic.data[i].get("tour_locations")
-            try:
-                package_inst = Tour_locations.objects.get(id=created_tour_locations)
-
-                tourguide_data_dic.data[i].update(
-                    {
-                        "tour_locations": {
-                            "id": package_inst.id,
-                            "locations": package_inst.locations,
-                            "status": package_inst.status,
-                        }
-                    }
-                )
-            except:
-                tourguide_data_dic.data[i].update(
-                    {
-                        "tour_locations": {
-                            "id": created_tour_locations,
-                            "message": "Deleted tour_locations",
-                        }
-                    }
-                )
-            created_packages = tourguide_data_dic.data[i].get("packages")
-            try:
-                package_inst = Tour_Packages.objects.get(id=created_packages)
-
-                tourguide_data_dic.data[i].update(
-                    {
-                        "packages": {
-                            "id": package_inst.id,
-                            "location_ids": package_inst.location_ids,
-                            "package_amount": package_inst.package_amount,
-                        }
-                    }
-                )
-            except:
-                tourguide_data_dic.data[i].update(
-                    {
-                        "packages": {
-                            "id": created_packages,
-                            "message": "Deleted Packages",
-                        }
-                    }
-                )
-
-        return Response(tourguide_data_dic.data, status=status.HTTP_200_OK)
+        date = datetime.datetime.strptime(date, "%Y-%m-%d")
+        qs = User_Guide_Booking.objects.filter(booking_date=date)
+        l = []
+        data = []
+        for i in qs:
+            l.append(str(i.id))
+        for item in sm_rooms:
+            if str(item.id) in l:
+                continue
+            else:
+                d = serializers.TourGuideRegViewSerializer(item).data
+                data.append(d)
+        return Response(data, status=status.HTTP_200_OK)
 
 
 class GetClientslAllViewSet(viewsets.ViewSet):

@@ -191,11 +191,11 @@ class Driver_Reg(models.Model):
     languages = models.CharField("languages", null=True, max_length=255)
     working_hours = models.CharField("working_hours", null=True, max_length=255)
     licence_no = models.CharField("licence_no", null=True, max_length=255)
-    adhar_card = models.FileField("addhar_card", default="0", null=True, max_length=255)
+    adhar_card = models.FileField("addhar_card", default="0", null=True, upload_to="driver_aadhar_cards")
     licence_doc = models.FileField(
-        "licence_doc", default="0", null=True, max_length=255
+        "licence_doc", default="0", null=True, upload_to="driver_licence_files"
     )
-    picture = models.FileField("picture", default="0", null=True, max_length=255)
+    picture = models.FileField("picture", default="0", null=True, upload_to="driver_images")
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -237,9 +237,9 @@ class Cabs_Reg(models.Model):
     car_rating = models.CharField("car_rating", null=True, max_length=255)
     car_rc = models.FileField("car_rc", default="0", null=True, max_length=255)
     car_insurance = models.FileField(
-        "car_insurance", default="0", null=True, max_length=255
+        "car_insurance", default="0", null=True, upload_to="car_insurance_files"
     )
-    car_images = models.CharField("car_images", null=True, max_length=25500)
+    car_images = models.ImageField("car_images", null=True, upload_to="car_images")
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -281,7 +281,7 @@ class Tour_Packages(models.Model):
         default=None,
         db_constraint=False,
     )
-    location_ids = models.CharField("location_ids", null=True, max_length=255)
+    location_ids = models.ManyToManyField("clients.Tour_locations", related_name="packages", blank=True)
     package_name = models.CharField("Package Name", null=True, max_length=255)
     package_amount = models.CharField("Package Amount", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
@@ -293,7 +293,7 @@ class Tour_Packages(models.Model):
         )
 
     def __str__(self):
-        return str(self.package_amount)
+        return str(self.package_name)
 
 
 class TourGuide_Reg(models.Model):
@@ -305,17 +305,10 @@ class TourGuide_Reg(models.Model):
         default=None,
         db_constraint=False,
     )
-    # tour_locations = models.ForeignKey(
-    #     "clients.Tour_locations",
-    #     on_delete=models.CASCADE,
-    #     default=None,
-    #     db_constraint=False,
-    # )
-    packages = models.ForeignKey(
+    packages = models.ManyToManyField(
         "clients.Tour_Packages",
-        on_delete=models.CASCADE,
-        default=None,
-        db_constraint=False,
+        blank=True,
+        related_name="guides",
     )
     guider_name = models.CharField("guider_name", null=True, max_length=255)
     about_guider = models.TextField("about_guider", null=True, max_length=255)

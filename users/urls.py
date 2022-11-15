@@ -70,8 +70,9 @@ router.register("guide_cart", views.UserGuideCartViewset, basename="GuideCart")
 router.register("hotel_order", views.HotelOrderViewSet, basename="HotelOrder")
 router.register("trip_order",views.UserTripsOrderViewset,basename="TripsOrder")
 router.register("guide_order", views.UserGuideOrderViewset, basename="GuideOrder")
-router.register("hotel_payment", views.HotelPaymentViewSet, basename="HotelPayemnt")
-router.register("cab_payment", views.CabPaymentViewSet, basename="CabPayemnt")
+router.register("cab_order", views.CabOrderViewset, basename="CabOrder")
+# router.register("hotel_payment", views.HotelPaymentViewSet, basename="HotelPayemnt")
+# router.register("cab_payment", views.CabPaymentViewSet, basename="CabPayemnt")
 router.register("trip_payment", views.TripPaymentViewSet, basename="TripPayemnt")
 
 

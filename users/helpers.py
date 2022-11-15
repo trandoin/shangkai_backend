@@ -1,7 +1,7 @@
 from datetime import timedelta
 import datetime
 from shangkai import settings
-from users.models import User_Hotel_Booking
+from users.models import User_Cab_Booking, User_Hotel_Booking
 from django.core.mail import send_mail
 
 def check_rooms_availaible(cin,cout,hotel_inst,room_inst,rooms):
@@ -68,3 +68,19 @@ def calculate_checkout_date(check_in_date, no_of_days=1):
     check_in_date = datetime.datetime.strptime(check_in_date, "%Y-%m-%d")
     check_out_date =  check_in_date + timedelta(days=no_of_days)
     return check_out_date.strftime("%Y-%m-%d")
+
+def check_cab_avaliability(cin,tin,cout,tout,car_inst):
+    cin = datetime.datetime.strptime(cin, "%Y-%m-%d")
+    tin = datetime.datetime.strptime(tin, "%H:%M:%S")
+    cout = datetime.datetime.strptime(cout, "%Y-%m-%d")
+    tout = datetime.datetime.strptime(tout, "%H:%M:%S")
+    qs = User_Cab_Booking.objects.filter(
+        car_id = car_inst,
+        check_in_date__gte=cin,
+        check_out_date__lte=cout,
+        chech_in_time__gte=tin,
+        check_out_time__lte=tout,
+    )
+    if qs.exists():
+        return False
+    return True

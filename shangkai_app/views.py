@@ -711,7 +711,35 @@ class MyTripsViewSet(viewsets.ViewSet):
                     pass
             data.append(serialized_data)
         return Response(data, status=status.HTTP_200_OK)
-
+    def retrieve(self, request, pk=None):
+        try:
+            trip = My_Trips.objects.get(id=pk)
+        except:
+            return Response(
+                "Sorry No data found !",
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        created_hotspots_ids = str(trip.hotspots_id)
+        all_hotspots = created_hotspots_ids.split(",")
+        serialized_data = serializers.MyTripsSerializer(trip).data
+        serialized_data["hotspots"] = []
+        for hostpot_id in all_hotspots:
+            try:
+                hotspots_inst = Hot_Spots.objects.get(id=hostpot_id)
+                serialized_data["hotspots"].append(
+                    {
+                        "hotspot_id": str(hotspots_inst.id),
+                        "title": hotspots_inst.title,
+                        "sub_title": hotspots_inst.sub_title,
+                        "title_image": hotspots_inst.title_image.url,
+                        "city": hotspots_inst.city,
+                        "state": hotspots_inst.state,
+                        "about": hotspots_inst.about,
+                    }
+                )
+            except:
+                pass
+        return Response(serialized_data, status=status.HTTP_200_OK)
     def create(self, request):
 
         title = request.POST.get("title", None)

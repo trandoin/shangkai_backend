@@ -170,7 +170,7 @@ class TourPackages(admin.ModelAdmin):
     list_display = [
         "id",
         "user",
-        "location_ids",
+        # "location_ids",
         "package_name",
         "package_amount",
     ]
@@ -184,7 +184,7 @@ class TourGuideReg(admin.ModelAdmin):
         "id",
         "user",
         # "tour_locations",
-        "packages",
+        # "packages",
         "guider_name",
         "about_guider",
         "guider_address",

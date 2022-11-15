@@ -232,6 +232,7 @@ class My_Trips(models.Model):
     )
     images = models.CharField("images", null=True, default="0", max_length=25500)
     status = models.CharField("status", null=True, default="0", max_length=255)
+    rating = models.FloatField("rating", null=True, default=4)
 
     class Meta:
         verbose_name, verbose_name_plural = (
