@@ -70,15 +70,11 @@ def calculate_checkout_date(check_in_date, no_of_days=1):
     return check_out_date.strftime("%Y-%m-%d")
 
 def check_cab_avaliability(cin,tin,cout,tout,car_inst):
-    cin = datetime.datetime.strptime(cin, "%Y-%m-%d")
-    tin = datetime.datetime.strptime(tin, "%H:%M:%S")
-    cout = datetime.datetime.strptime(cout, "%Y-%m-%d")
-    tout = datetime.datetime.strptime(tout, "%H:%M:%S")
     qs = User_Cab_Booking.objects.filter(
         car_id = car_inst,
         check_in_date__gte=cin,
         check_out_date__lte=cout,
-        chech_in_time__gte=tin,
+        check_in_time__gte=tin,
         check_out_time__lte=tout,
     )
     if qs.exists():

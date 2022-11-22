@@ -1,5 +1,6 @@
 from datetime import timedelta
 import datetime
+import json
 from urllib.parse import urlencode
 import uuid
 from django.shortcuts import render
@@ -1147,22 +1148,25 @@ class CabCartViewSet(viewsets.ViewSet):
                 {"message": "No user found !"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        data = {
-            'origins': start_from,
-            'destinations': end_trip,
-            'key': os.getenv("GOOGLE_API_KEY"),
-        }
-        urlenc = urlencode(data)
-        url = "https://maps.googleapis.com/maps/api/distancematrix/json?" + urlenc
+        key = os.getenv("MAP_API_KEY")
+        print(key)
+        url = f"https://maps.googleapis.com/maps/api/distancematrix/json?destinations={end_trip}&origins={start_from}&key={key}"
         response = requests.request("GET", url)
         res = response.text
-        if res.status != "OK":
+        res = json.loads(res)
+        if res['status'] != "OK":
             return Response(
                 "Sorry, something went wrong. Please try again later.",
                 status=status.HTTP_400_BAD_REQUEST,
             )
         # continue to calculate distance
-        
+        d = 0
+        for i in res['rows']:
+            for item in i['elements']:
+                if d == 0:
+                    d = item['distance']['value']
+                else:
+                    d = min(d, item['distance']['value'])
         users_inst = User_Cab_Cart.objects.create(
             user=user_inst,
             car_id=car_inst,
@@ -1173,12 +1177,11 @@ class CabCartViewSet(viewsets.ViewSet):
             check_out_time=check_out_time,
             start_from=start_from,
             end_trip=end_trip,
-            distance=distance,
-            amount_booking=amount_booking,
+            distance=str(d / 1000),
+            amount_booking=str(int((d / 1000) * float(car_inst.car_fee))),
             no_guests=no_guests,
         )
         users_inst.save()
-
         users_data = serializers.CabCartSerializer(
             User_Cab_Cart.objects.filter(id=users_inst.id), many=True
         )
