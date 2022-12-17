@@ -88,7 +88,17 @@ WSGI_APPLICATION = "shangkai.wsgi.application"
 #         "PORT": "3306",
 #     }
 # }
-#DATABASES = {
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "shangkai",
+        "USER": "admin",
+        "PASSWORD": "admin123",
+        "HOST": "shangkai1.cwrnumalbmvb.ap-south-1.rds.amazonaws.com",
+        "PORT": "3306",
+    }
+}
+# DATABASES = {
 #    "default": {
 #        "ENGINE": "django.db.backends.mysql",
 #        "NAME": "shangkai_shangkai_db",
@@ -97,17 +107,17 @@ WSGI_APPLICATION = "shangkai.wsgi.application"
 #        "HOST": "212.1.210.139",
 #        "PORT": "",
 #    }
-#}
-DATABASES = {
-    "default": {
-	"ENGINE": "django.db.backends.postgresql",
-        "NAME": "shangkai",
-        "USER": "shangkai",
-        "PASSWORD": "shangkai",
-	"HOST": "localhost",
-        "PORT": "",
-    }
-}
+# }
+# DATABASES = {
+#     "default": {
+# 	      "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "shangkai",
+#         "USER": "shangkai",
+#         "PASSWORD": "shangkai",
+# 	      "HOST": "localhost",
+#         "PORT": "",
+#     }
+# }
 
 
 # Password validation
