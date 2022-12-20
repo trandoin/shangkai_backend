@@ -89,24 +89,13 @@ WSGI_APPLICATION = "shangkai.wsgi.application"
 #     }
 # }
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.mysql",
-#         "NAME": "shangkai_shangkai_db",
-#         "USER": "shangkai_shangkaiUser466",
-#         "PASSWORD": "sZrGWzBPpU2t@pA",
-#         "HOST": "212.1.210.139",
-#         "PORT": "",
-#     }
-# }
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "epiz_33233827_test_db",
-        "USER": "epiz_33233827",
-        "PASSWORD": "Aj_arix7",
-        "HOST": "sql106.epizy.com",
+        "NAME": "shangkai_shangkai_db",
+        "USER": "shangkai_shangkaiUser466",
+        "PASSWORD": "sZrGWzBPpU2t@pA",
+        "HOST": "212.1.210.139",
         "PORT": "",
     }
 }
