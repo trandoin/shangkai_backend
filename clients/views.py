@@ -22,6 +22,9 @@ from uritemplate import partial
 from users.models import User_Guide_Booking
 
 from . import serializers
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # Create your views here.
 """Model Package """
@@ -261,24 +264,47 @@ class ClientloginViewSet(viewsets.ViewSet):
         password = request.POST.get("password", None)
 
         user_inst = User_Register.objects.filter(email=email, password=password).first()
-
+        print(user_inst)
         if user_inst is None:
             return Response(
                 {"message": "Invalid Username or password !"}, status=status.HTTP_400_BAD_REQUEST
             )
-        
-        otp=""
-        for i in range(6):
-            otp+=str(random.randint(1,9))
-        res = requests.get(f"https://2factor.in/API/V1/6b9b1b0e-8b1f-11eb-8089-0200cd936042/SMS/{user_inst.mobile}/{otp}/SHANGKAI")
-        if(res.status_code == 200 and res.json()["Status"] == "Success"):
-            session_id = res.json()["Details"]
-            UserOTP.objects.create(session_id=session_id,used_for="login",otp=otp,mobile=user_inst.mobile)
-            return Response(
-                {"message": "OTP has been sent to your mobile number !"}, status=status.HTTP_200_OK
-            )
+        # otp=""
+        # for i in range(6):
+        #     otp+=str(random.randint(1,9))
+        # api_key = os.getenv("TWO_FACTOR_KEY", "")
+        # res = requests.get(f"https://2factor.in/API/V1/{api_key}/SMS/+91{user_inst.mobile}/{otp}/KGMGAME")
+        # print(res.json(),res.status_code)
+        # if(res.status_code == 200 and res.json()["Status"] == "Success"):
+        #     session_id = res.json()["Details"]
+        #     UserOTP.objects.create(session_id=session_id,used_for="login",otp=otp,mobile=user_inst.mobile)
+        #     return Response(
+        #         {"message": "OTP has been sent to your mobile number !"}, status=status.HTTP_200_OK
+        #     )
+        # return Response(
+        #     {"message": "Some error occured"}, status=status.HTTP_400_BAD_REQUEST
+        # )
+        access_payload = {
+            "id": user_inst.id,
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(days=14),
+            "iat": datetime.datetime.utcnow(),
+        }
+        access_token = jwt.encode(
+            access_payload, settings.SECRET_KEY, algorithm="HS256"
+        )
+
+        refresh_payload = {
+            "user": user_inst.id,
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(days=14),
+            "iat": datetime.datetime.utcnow(),
+        }
+        refresh_token = jwt.encode(
+            refresh_payload, settings.REFRESH_TOKEN_SECRET, algorithm="HS256"
+        )
+
         return Response(
-            {"message": "Some error occured"}, status=status.HTTP_400_BAD_REQUEST
+            {"access_token": access_token, "refresh_token": refresh_token},
+            status=status.HTTP_200_OK,
         )
 
 class ClientOTPViewSet(viewsets.ViewSet):
