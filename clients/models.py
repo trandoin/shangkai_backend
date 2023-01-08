@@ -36,7 +36,7 @@ class User_Register(models.Model):
     account_no = models.CharField("account_no", null=True, default="0", max_length=255)
     ifsc_code = models.CharField("ifsc_code", null=True, default="0", max_length=255)
     otp = models.CharField("otp", null=True, max_length=255)
-    image = models.FileField("image", default="0", null=True, max_length=255)
+    image = models.CharField("image", default="0", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -113,7 +113,7 @@ class Reg_Hotel(models.Model):
     hotel_facilites = models.TextField("facilites", null=True, max_length=5000)
     max_guests_limit = models.CharField("limits", null=True, max_length=255)
     hotel_images = models.CharField("images", null=True, max_length=25500)
-    title_image = models.ImageField("title_image",upload_to="hotel_images", null=True)
+    title_image = models.CharField("title_image", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -153,7 +153,7 @@ class Room_Register(models.Model):
     tags = models.TextField("tags", null=True, max_length=255)
     extra_services = models.TextField("extra_services", null=True, max_length=255)
     room_images = models.CharField("images", null=True, max_length=25500)
-    title_image = models.ImageField("title_image",upload_to="room_images", null=True)
+    title_image = models.CharField("title_image", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -166,13 +166,13 @@ class HotelImages(models.Model):
     hotel = models.ForeignKey(
         'clients.Reg_Hotel', on_delete=models.CASCADE,related_name="gallery_images", default=None, db_constraint=False
     )
-    image = models.ImageField("image",upload_to="hotel_images")
+    image = models.CharField("image", max_length=255)
     
 class RoomImages(models.Model):
     room = models.ForeignKey(
         'clients.Room_Register', on_delete=models.CASCADE,related_name="gallery_images", default=None, db_constraint=False
     )
-    image = models.ImageField("image",upload_to="room_images")
+    image = models.CharField("image", max_length=255)
 
 class Driver_Reg(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -191,11 +191,9 @@ class Driver_Reg(models.Model):
     languages = models.CharField("languages", null=True, max_length=255)
     working_hours = models.CharField("working_hours", null=True, max_length=255)
     licence_no = models.CharField("licence_no", null=True, max_length=255)
-    adhar_card = models.FileField("addhar_card", default="0", null=True, upload_to="driver_aadhar_cards")
-    licence_doc = models.FileField(
-        "licence_doc", default="0", null=True, upload_to="driver_licence_files"
-    )
-    picture = models.FileField("picture", default="0", null=True, upload_to="driver_images")
+    adhar_card = models.CharField("addhar_card", default="0", null=True, max_length=255)
+    licence_doc = models.CharField("licence_doc", default="0", null=True, max_length=255)
+    picture = models.CharField("picture", default="0", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -235,11 +233,11 @@ class Cabs_Reg(models.Model):
     checkin_date = models.CharField("checkin_date", null=True, max_length=255)
     checkout_date = models.CharField("checkout_date", null=True, max_length=255)
     car_rating = models.CharField("car_rating", null=True, max_length=255)
-    car_rc = models.FileField("car_rc", default="0", null=True, max_length=255)
-    car_insurance = models.FileField(
-        "car_insurance", default="0", null=True, upload_to="car_insurance_files"
+    car_rc = models.CharField("car_rc", default="0", null=True, max_length=255)
+    car_insurance = models.CharField(
+        "car_insurance", default="0", null=True, max_length=255
     )
-    car_images = models.ImageField("car_images", null=True, upload_to="car_images")
+    car_images = models.CharField("car_images", null=True, max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
     class Meta:
@@ -316,11 +314,11 @@ class TourGuide_Reg(models.Model):
     guider_mobile = models.CharField("guider_mobile", null=True, max_length=255)
     guider_email = models.CharField("guider_email", null=True, max_length=255)
     languages = models.CharField("languages", null=True, max_length=255)
-    adhar_card = models.FileField("addhar_card", null=True, default="0", max_length=255)
-    licence_doc = models.FileField(
+    adhar_card = models.CharField("addhar_card", null=True, default="0", max_length=255)
+    licence_doc = models.CharField(
         "licence_doc", null=True, default="0", max_length=255
     )
-    picture = models.FileField("picture", null=True, default="0", max_length=255)
+    picture = models.CharField("picture", null=True, default="0", max_length=255)
     rating = models.CharField("rating", null=True, default="0", max_length=255)
     status = models.CharField("status", null=True, default="0", max_length=255)
 
